@@ -23,7 +23,7 @@ class _index extends State<index> {
       textStyle: const TextStyle(
         fontSize: 10,
       ),
-      backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
+      primary: const Color.fromRGBO(244, 251, 251, 1),
       shadowColor: Colors.grey,
       elevation: 2,
       shape: RoundedRectangleBorder(

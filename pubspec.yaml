@@ -46,6 +46,7 @@ dependencies:
   uuid: ^3.0.5
   multi_select_flutter: ^4.0.0
   dropdown_search: ^3.0.1
+  file_picker: ^5.2.1
 
 
 

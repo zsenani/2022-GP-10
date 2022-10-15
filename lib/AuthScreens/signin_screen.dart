@@ -1,5 +1,7 @@
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
+
+import 'package:medcore/LabScreens/lab_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
@@ -283,8 +285,13 @@ class SignInScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 40),
-                            commonButton(() {}, "Sign In",
-                                ColorResources.green009, ColorResources.white),
+                            commonButton(() {
+                              if (RolelocationController.selectedValue ==
+                                  'Lab specialist') {
+                                Get.to(LabHomePage1());
+                              }
+                            }, "Sign In", ColorResources.green009,
+                                ColorResources.white),
                             const SizedBox(height: 15),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

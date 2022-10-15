@@ -6,5 +6,6 @@ class Images {
   static const visibilityOnIcon = "assets/images/visibilityOnIcon.svg";
   static const visibilityOffIcon = "assets/images/visibilityOffIcon.svg";
   static const doctors = 'assets/images/doctor.png';
+  static const doctor1 = 'assets/images/doctor1.png';
   static const user = 'assets/images/user.png';
 }

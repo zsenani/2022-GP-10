@@ -4,6 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:medcore/index.dart';
 import 'package:get/get.dart';
 
+romanText(text, color, double size, [align]) => Text(
+      text,
+      textAlign: align,
+      style: TextStyle(
+          fontFamily: TextFontFamily.AVENIR_LT_PRO_ROMAN,
+          fontSize: size,
+          color: color),
+    );
+
 heavyText(text, color, double size, [align]) => Text(
       text,
       textAlign: align,
