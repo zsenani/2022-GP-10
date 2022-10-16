@@ -68,251 +68,63 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: heavyText(
-                  role == 'UPphysician' ? "Patient Files" : "Your Files",
-                  ColorResources.grey777,
-                  18),
+              child: heavyText("Patient Files", ColorResources.grey777, 18),
             ),
             const SizedBox(height: 10),
-            role == 'UPphysician'
-                ? SizedBox(
-                    height: 150,
+            SizedBox(
+              height: 150,
+              width: Get.width,
+              child: Specialist(),
+            ),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(height: 38),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: heavyText("Services", ColorResources.grey777, 18),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(TestRequest());
+                  },
+                  child: Container(
+                    height: 50,
                     width: Get.width,
-                    child: Specialist(),
-                  )
-                : Container(),
-            role == 'UPphysician'
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        const SizedBox(height: 38),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child:
-                              heavyText("Services", ColorResources.grey777, 18),
-                        ),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(TestRequest());
-                            },
-                            child: Container(
-                              height: 50,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                color: ColorResources.green,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Center(
-                                child: heavyText("Request a Lab Test",
-                                    ColorResources.white, 18),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(writeDiagnose());
-                            },
-                            child: Container(
-                              height: 50,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                color: ColorResources.green,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Center(
-                                child: heavyText("Write a Diagnosis",
-                                    ColorResources.white, 18),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ])
-                : Container(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 40,
-                        ),
-                        child: Column(children: [
-                          Row(children: [
-                            InkWell(
-                              onTap: () {
-                                Get.to(MedicalHistory(), arguments: "patient");
-                              },
-                              child: Container(
-                                height: 170,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.whiteF6F,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: ColorResources.grey9AA
-                                        .withOpacity(0.25),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          specialistList[0]["image"],
-                                        ),
-                                        width: 65,
-                                        height: 65,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      heavyText(
-                                          specialistList[0]["text1"],
-                                          ColorResources.blue0C1,
-                                          15,
-                                          TextAlign.center),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            InkWell(
-                              onTap: () {
-                                Get.to(MedicalReports(), arguments: "patient");
-                              },
-                              child: Container(
-                                height: 170,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.whiteF6F,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: ColorResources.grey9AA
-                                        .withOpacity(0.25),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          specialistList[1]["image"],
-                                        ),
-                                        width: 65,
-                                        height: 65,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      heavyText(
-                                          specialistList[1]["text1"],
-                                          ColorResources.blue0C1,
-                                          15,
-                                          TextAlign.center),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          const SizedBox(height: 8),
-                          Row(children: [
-                            InkWell(
-                              onTap: () {
-                                Get.to(labTests(), arguments: "patient");
-                              },
-                              child: Container(
-                                height: 170,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.whiteF6F,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: ColorResources.grey9AA
-                                        .withOpacity(0.25),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          specialistList[2]["image"],
-                                        ),
-                                        width: 65,
-                                        height: 65,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      heavyText(
-                                          specialistList[2]["text1"],
-                                          ColorResources.blue0C1,
-                                          15,
-                                          TextAlign.center),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            InkWell(
-                              onTap: () {
-                                Get.to(MedicationList(), arguments: "patient");
-                              },
-                              child: Container(
-                                height: 170,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.whiteF6F,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: ColorResources.grey9AA
-                                        .withOpacity(0.25),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                          specialistList[3]["image"],
-                                        ),
-                                        width: 65,
-                                        height: 65,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      heavyText(
-                                          specialistList[3]["text1"],
-                                          ColorResources.blue0C1,
-                                          15,
-                                          TextAlign.center),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                        ])),
-                  )
+                    decoration: BoxDecoration(
+                      color: ColorResources.green,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                      child: heavyText(
+                          "Request a Lab Test", ColorResources.white, 18),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(writeDiagnose());
+                  },
+                  child: Container(
+                    height: 50,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      color: ColorResources.green,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                      child: heavyText(
+                          "Write a Diagnosis", ColorResources.white, 18),
+                    ),
+                  ),
+                ),
+              ),
+            ])
           ]),
         ),
       ),
@@ -325,7 +137,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: role == 'UPphysician' ? 320 : 300,
+          height: 320,
           width: Get.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -342,64 +154,39 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: role == 'UPphysician'
-                ? ListTile(
-                    title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                        InkWell(
-                          onTap: () {
-                            Get.to(HomeScreen());
-                          },
-                          child: Container(
-                            child: const Icon(Icons.arrow_back,
-                                color: ColorResources.grey777),
-                          ),
-                        ),
-                        Row(children: [
-                          const SizedBox(width: 55),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                heavyText("King Faisal Specialist Hospital",
-                                    ColorResources.green, 20, TextAlign.center),
-                                const SizedBox(height: 0.5),
-                                bookText(
-                                    "Visit date: 1-Oct-2022",
-                                    ColorResources.grey777,
-                                    20,
-                                    TextAlign.center),
-                                const SizedBox(height: 0.5),
-                                bookText(
-                                    "Today- 10:45 AM",
-                                    ColorResources.orange,
-                                    20,
-                                    TextAlign.center),
-                              ]),
-                        ])
-                      ]))
-                : ListTile(
-                    title: Row(
+              padding: const EdgeInsets.only(top: 60),
+              child: ListTile(
+                  title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(width: 44),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10),
-                              heavyText(greeting() + ", Abdullah Alsaleh",
-                                  ColorResources.green, 20, TextAlign.left),
-                              const SizedBox(height: 8),
-                              heavyText("ID: 1120772892",
-                                  ColorResources.grey777, 18, TextAlign.left),
-                            ]),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        child: const Icon(Icons.arrow_back,
+                            color: ColorResources.grey777),
+                      ),
                     ),
-                  ),
-          ),
+                    Row(children: [
+                      const SizedBox(width: 55),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            heavyText("King Faisal Specialist Hospital",
+                                ColorResources.green, 20, TextAlign.center),
+                            const SizedBox(height: 0.5),
+                            bookText("Visit date: 1-Oct-2022",
+                                ColorResources.grey777, 20, TextAlign.center),
+                            const SizedBox(height: 0.5),
+                            bookText("Today- 10:45 AM", ColorResources.orange,
+                                20, TextAlign.center),
+                          ]),
+                    ])
+                  ]))),
         ),
         Positioned(
-            bottom: role == 'UPphysician' ? -40 : -25,
+            bottom: -40,
             left: 0.5,
             right: 0.5,
             child: Container(
@@ -407,7 +194,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Container(
-                  height: role == 'UPphysician' ? 180 : 150,
+                  height: 180,
                   width: 380,
                   decoration: BoxDecoration(
                     color: ColorResources.whiteF6F,
@@ -421,50 +208,30 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 13),
-                      role == 'UPphysician'
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13),
-                                    child: heavyText(
-                                        "Patient Name: Ahmad Alsaleh",
-                                        ColorResources.grey777,
-                                        16),
-                                  ),
-                                  const SizedBox(height: 1.5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13),
-                                    child: heavyText("Patient ID: 1126147832",
-                                        ColorResources.grey777, 16),
-                                  ),
-                                  const SizedBox(height: 1.5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13),
-                                    child: heavyText("MobileNo: 0505832613",
-                                        ColorResources.grey777, 16),
-                                  ),
-                                ])
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13),
-                                    child: heavyText("MobileNo: 0505832613",
-                                        ColorResources.grey777, 16),
-                                  ),
-                                  const SizedBox(height: 1.5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13),
-                                    child: heavyText("DoB: 13-Oct-2000",
-                                        ColorResources.grey777, 16),
-                                  ),
-                                ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13),
+                              child: heavyText("Patient Name: Ahmad Alsaleh",
+                                  ColorResources.grey777, 16),
+                            ),
+                            const SizedBox(height: 1.5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13),
+                              child: heavyText("Patient ID: 1126147832",
+                                  ColorResources.grey777, 16),
+                            ),
+                            const SizedBox(height: 1.5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13),
+                              child: heavyText("MobileNo: 0505832613",
+                                  ColorResources.grey777, 16),
+                            ),
+                          ]),
                       const SizedBox(height: 1.5),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
@@ -483,29 +250,19 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               width: 24,
                               height: 24),
                           mediumText("Hieght:", ColorResources.grey777, 13.5),
-                          role == 'UPphysician'
-                              ? const SizedBox(
-                                  width: 28,
-                                  child: TextField(
-                                    style: TextStyle(fontSize: 13),
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintText: '170',
-                                      isDense: true,
-                                    ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 28,
-                                  child: romanText(
-                                      '170',
-                                      ColorResources.grey777,
-                                      13.5,
-                                      TextAlign.center),
-                                ),
+                          const SizedBox(
+                            width: 28,
+                            child: TextField(
+                              style: TextStyle(fontSize: 13),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: '170',
+                                isDense: true,
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
+                            ),
+                          ),
                           const SizedBox(width: 10),
                           const Image(
                             image: AssetImage(Images.weight),
@@ -514,26 +271,19 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           const SizedBox(width: 1),
                           mediumText("Weight:", ColorResources.grey777, 13.5),
-                          role == 'UPphysician'
-                              ? const SizedBox(
-                                  width: 28,
-                                  child: TextField(
-                                    style: TextStyle(fontSize: 13),
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintText: '55',
-                                      isDense: true,
-                                    ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 28,
-                                  child: romanText('55', ColorResources.grey777,
-                                      13.5, TextAlign.center),
-                                ),
+                          const SizedBox(
+                            width: 28,
+                            child: TextField(
+                              style: TextStyle(fontSize: 13),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: '55',
+                                isDense: true,
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
+                            ),
+                          ),
                           const SizedBox(width: 8),
                           const Image(
                             image: AssetImage(Images.pressurIcon),
@@ -542,26 +292,19 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           mediumText(
                               "Blood pressure:", ColorResources.grey777, 13.5),
-                          role == 'UPphysician'
-                              ? const SizedBox(
-                                  width: 31,
-                                  child: TextField(
-                                    style: TextStyle(fontSize: 13),
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintText: '90',
-                                      isDense: true,
-                                    ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 28,
-                                  child: romanText('90', ColorResources.grey777,
-                                      13.5, TextAlign.center),
-                                ),
+                          const SizedBox(
+                            width: 31,
+                            child: TextField(
+                              style: TextStyle(fontSize: 13),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: '90',
+                                isDense: true,
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -588,39 +331,37 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 Get.to(specialistList[index]["caller"],
                     arguments: "UPphysician");
               },
-              child: role == 'UPphysician'
-                  ? Container(
-                      height: 145,
-                      width: 135,
-                      decoration: BoxDecoration(
-                        color: ColorResources.whiteF6F,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: ColorResources.grey9AA.withOpacity(0.25),
-                          width: 1,
+              child: Container(
+                height: 145,
+                width: 135,
+                decoration: BoxDecoration(
+                  color: ColorResources.whiteF6F,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: ColorResources.grey9AA.withOpacity(0.25),
+                    width: 1,
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage(
+                          specialistList[index]["image"],
                         ),
+                        width: 60,
+                        height: 60,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                specialistList[index]["image"],
-                              ),
-                              width: 60,
-                              height: 60,
-                            ),
-                            const SizedBox(height: 10),
-                            heavyText(specialistList[index]["text1"],
-                                ColorResources.blue0C1, 15, TextAlign.center),
-                          ],
-                        ),
-                      ),
-                    )
-                  : Container()),
+                      const SizedBox(height: 10),
+                      heavyText(specialistList[index]["text1"],
+                          ColorResources.blue0C1, 15, TextAlign.center),
+                    ],
+                  ),
+                ),
+              )),
         ),
       ),
     );

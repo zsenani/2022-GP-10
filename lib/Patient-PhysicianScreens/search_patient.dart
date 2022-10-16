@@ -32,7 +32,7 @@ class SearchPatient extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 16),
               child: InkWell(
                 onTap: () {
-                  Get.to(UpCommingVisitScreen());
+                  Get.to(UpCommingVisitScreen(), arguments: 'UPphysician');
                 },
                 child: Container(
                   decoration: BoxDecoration(
