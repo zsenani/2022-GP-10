@@ -60,7 +60,7 @@ class ActiveVisit extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 16),
                   child: InkWell(
                     onTap: () {
-                      Get.to(UpCommingVisitScreen(), arguments: 'physician');
+                      Get.to(UpCommingVisitScreen(), arguments: 'UPphysician');
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -136,7 +136,7 @@ class ActiveVisit extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 16),
                   child: InkWell(
                     onTap: () {
-                      Get.to(UpCommingVisitScreen(), arguments: 'physician');
+                      Get.to(UpCommingVisitScreen(), arguments: 'UPphysician');
                     },
                     child: Container(
                       decoration: BoxDecoration(

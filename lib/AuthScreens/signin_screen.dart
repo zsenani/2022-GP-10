@@ -3,6 +3,7 @@ import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Patient-PhysicianScreens/Upcomming_Visit_Screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/LabScreens/lab_home_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
@@ -293,7 +294,7 @@ class SignInScreen extends StatelessWidget {
                                   'Physician') {
                                 Get.to(HomeScreen());
                               } else {
-                                Get.to(UpCommingVisitScreen(),
+                                Get.to(PatientHomeScreen(),
                                     arguments: 'patient');
                               }
                             }, "Sign In", ColorResources.green009,

@@ -1,3 +1,5 @@
+import 'package:medcore/Patient-PhysicianScreens/medicalHistory/medical_history.dart';
+import 'package:medcore/Patient-PhysicianScreens/singleMedicalReport.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
@@ -5,6 +7,10 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
+
+import 'Lab/lab_tests.dart';
+import 'Medication/medication_list.dart';
+import 'medical_reports.dart';
 
 class PreviousVisitScreen extends StatefulWidget {
   // HomeScreen({Key? key}) : super(key: key);
@@ -17,18 +23,22 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
     {
       "image": Images.history,
       "text1": "Medical History",
+      "caller": MedicalHistory(),
     },
     {
       "image": Images.report,
       "text1": "Medical Report",
+      "caller": MedicalReports(),
     },
     {
       "image": Images.labTest,
       "text1": "Lab Results",
+      "caller": labTests(),
     },
     {
       "image": Images.list,
       "text1": "Medication List",
+      "caller": MedicationList(),
     },
   ];
 
@@ -64,7 +74,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(PreviousVisitScreen());
+                    Get.to(singleMedicalReport());
                   },
                   child: Container(
                     height: 50,
@@ -239,7 +249,8 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
           padding: EdgeInsets.only(right: 16),
           child: InkWell(
             onTap: () {
-              Get.to(PreviousVisitScreen());
+              Get.to(specialistList[index]["caller"],
+                  arguments: "PREphysician");
             },
             child: Container(
               height: 145,

@@ -29,10 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {"screen": labHomePage()},
     {"screen": SearchPatient()},
     {"screen": labHomePage()},
-    /*{"screen": UpCommingVisitScreen()},
-    {"screen": PreviousVisitScreen()},
-    {"screen": SearchResults()},
-    {"screen": DiagnosisDetails()},*/
   ];
 
   void _selectScreen(int index) {
