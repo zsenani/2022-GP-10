@@ -1,6 +1,7 @@
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
-
+import 'package:medcore/Patient-PhysicianScreens/Upcomming_Visit_Screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/LabScreens/lab_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -33,7 +34,6 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
-        // backgroundColor: Color.fromRGBO(244, 251, 251, 1),
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(7),
@@ -289,6 +289,12 @@ class SignInScreen extends StatelessWidget {
                               if (RolelocationController.selectedValue ==
                                   'Lab specialist') {
                                 Get.to(LabHomePage1());
+                              } else if (RolelocationController.selectedValue ==
+                                  'Physician') {
+                                Get.to(HomeScreen());
+                              } else {
+                                Get.to(UpCommingVisitScreen(),
+                                    arguments: 'patient');
                               }
                             }, "Sign In", ColorResources.green009,
                                 ColorResources.white),
