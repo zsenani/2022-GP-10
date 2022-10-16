@@ -399,7 +399,7 @@ ScrollConfiguration SecondStep(context, role) {
                         ],
                       ),
                       const Divider(color: Colors.black),
-                      const SizedBox(height: 30),
+                      // const SizedBox(height: 30),
                       Row(
                         children: [
                           const Icon(
@@ -410,60 +410,46 @@ ScrollConfiguration SecondStep(context, role) {
                           mediumText("Gender", ColorResources.grey777, 16),
                         ],
                       ),
-                      FormField(
-                        builder: (FormFieldState<String> state) =>
-                            InputDecorator(
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 10, 20, 20),
-                            border: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: ColorResources.greyA0A, width: 2),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: ColorResources.greyA0A, width: 2),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: ColorResources.greyA0A, width: 2),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          child: GetBuilder<GenderLocationController>(
-                            init: GenderLocationController(),
-                            builder: (controller) {
-                              return DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: GenderlocationController.selectedValue,
-                                  items: GenderlocationController.gender
-                                      .map((element) {
-                                    return DropdownMenuItem<String>(
-                                      child: Text(element),
-                                      value: element,
-                                    );
-                                  }).toList(),
-                                  hint: const Text("Male"),
-                                  style: TextStyle(
-                                    color: ColorResources.greyA0A,
-                                    fontSize: 16,
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_BOOK,
-                                  ),
-                                  isExpanded: true,
-                                  isDense: true,
-                                  onChanged: (newValue) {
-                                    GenderlocationController.setSelected(
-                                        newValue.toString());
-                                  },
-                                ),
-                              );
-                            },
-                          ),
+                      DropdownSearch<String>(
+                        mode: Mode.MENU,
+                        showSelectedItems: true,
+                        items: const [
+                          "Female",
+                          'Male',
+                        ],
+                        maxHeight: 120,
+                        dropdownSearchDecoration: const InputDecoration(
+                          hintText: 'select your gender',
                         ),
                       ),
+                      if (role == 'patient') const SizedBox(height: 30),
+                      if (role == 'patient')
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.person_outline,
+                              color: ColorResources.orange,
+                            ),
+                            const SizedBox(width: 15),
+                            mediumText(
+                                "Marital status", ColorResources.grey777, 16),
+                          ],
+                        ),
+                      if (role == 'patient')
+                        DropdownSearch<String>(
+                          mode: Mode.MENU,
+                          showSelectedItems: true,
+                          items: const [
+                            "Single",
+                            'Married',
+                            'Divorced',
+                            'Separated',
+                            'Widow(er)'
+                          ],
+                          dropdownSearchDecoration: const InputDecoration(
+                            hintText: 'select your marital status',
+                          ),
+                        ),
                       const SizedBox(height: 30),
                       if (role != 'patient' &&
                           RolelocationController.selectedValue == 'Physician')

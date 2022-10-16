@@ -1,22 +1,21 @@
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
-import 'package:medcore/LabScreens/edit_profile_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
-import 'package:medcore/AuthScreens/reset_password_screen';
 import 'package:get/get.dart';
+import 'package:medcore/AuthScreens/reset_password_screen';
+import 'edit_patient_profile.dart';
 
-class LabProfilePage extends StatefulWidget {
+class patientProfilePage extends StatefulWidget {
   // SettingScreen({Key? key}) : super(key: key);
-  static const routeName = '/lab-profile-screen';
 
   @override
-  State<LabProfilePage> createState() => _LabProfilePageState();
+  State<patientProfilePage> createState() => _patientProfilePage();
 }
 
-class _LabProfilePageState extends State<LabProfilePage> {
+class _patientProfilePage extends State<patientProfilePage> {
   final VariableController variableController = Get.put(VariableController());
 
   String selectedValue = "";
@@ -73,11 +72,12 @@ class _LabProfilePageState extends State<LabProfilePage> {
                 title: heavyText("Name: John Doe",
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
-                    onTap: () {
-                      Get.to(EditProfileScreen());
-                    },
-                    child: Image.asset('assets/images/edit.png',
-                        height: 25, width: 25)),
+                  onTap: () {
+                    Get.to(EditPatientProfile());
+                  },
+                  child: Image.asset('assets/images/edit.png',
+                      height: 25, width: 25),
+                ),
               ),
             ),
           ),
@@ -99,25 +99,25 @@ class _LabProfilePageState extends State<LabProfilePage> {
                   contentPadding: EdgeInsets.zero,
                   leading: Image.asset('assets/images/employee.png',
                       height: 30, width: 30),
-                  title: romanText("Lab ID:", ColorResources.grey777, 20),
+                  title: romanText("ID:", ColorResources.grey777, 20),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("23826", ColorResources.grey777, 20),
+                      romanText("1111122222", ColorResources.grey777, 20),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/location-pin.png',
-                      height: 30, width: 30),
-                  title: romanText("Adress: ", ColorResources.grey777, 20),
+                  leading: const Icon(Icons.phone,
+                      color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
+                  title:
+                      romanText("Phone Number: ", ColorResources.grey777, 20),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText(
-                          "Saudi Arabia,Riyadh", ColorResources.grey777, 16),
+                      romanText("0559876543", ColorResources.grey777, 16),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -138,22 +138,12 @@ class _LabProfilePageState extends State<LabProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-
-                const SizedBox(height: 10),
-                // ListTile(
-                //   contentPadding: EdgeInsets.zero,
-                //   leading: Image.asset(Images.help, height: 50, width: 50),
-                //   title: romanText("Help", ColorResources.grey777, 16),
-                //   trailing: Icon(Icons.arrow_forward_ios,
-                //       color: ColorResources.grey777.withOpacity(0.3),
-                //       size: 16),
-                // ),
                 TextButton(
                   child: const Text(
                     'Reset Password',
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Get.to(ResetPasswordScreen());
                   },
                 ),
@@ -209,7 +199,14 @@ showAlertDialog2(BuildContext context) {
       ),
     ),
     onPressed: () {
-      Get.to(SignInScreen());
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignInScreen(
+            role: 'patient',
+          ),
+        ),
+      );
     },
   );
 

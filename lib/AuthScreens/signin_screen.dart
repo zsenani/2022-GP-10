@@ -1,7 +1,8 @@
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
-
+import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/LabScreens/lab_home_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
@@ -17,15 +18,11 @@ import 'package:medcore/index.dart';
 class SignInScreen extends StatelessWidget {
   String role;
   SignInScreen({Key key, @required this.role}) : super(key: key);
+
   static const routeName = '/signin-screen';
-
   final TextEditingController idController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-  final RoleLocationController RolelocationController =
-      Get.put(RoleLocationController());
   final formKey = GlobalKey<FormState>();
-
   final VariableController variableController = Get.put(VariableController());
 
   @override
@@ -33,7 +30,6 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
-        // backgroundColor: Color.fromRGBO(244, 251, 251, 1),
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(7),
@@ -286,9 +282,13 @@ class SignInScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 40),
                             commonButton(() {
-                              if (RolelocationController.selectedValue ==
-                                  'Lab specialist') {
+                              if (role == 'Lab specialist') {
                                 Get.to(LabHomePage1());
+                              } else if (role == 'Physician') {
+                                Get.to(HomeScreen());
+                              } else {
+                                Get.to(PatientHomeScreen(),
+                                    arguments: 'patient');
                               }
                             }, "Sign In", ColorResources.green009,
                                 ColorResources.white),
