@@ -44,28 +44,13 @@ commonButton(onTap, text, buttonColor, textColor) => InkWell(
       onTap: onTap,
       child: Container(
         height: 60,
-        width: Get.width - 10,
+        width: Get.width,
         decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Center(
           child: heavyText(text, textColor, 18),
-        ),
-      ),
-    );
-Button(onTap, text, buttonColor, textColor) => InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 40,
-        width: 70,
-        alignment: Alignment.centerRight,
-        decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: heavyText(text, textColor, 10),
         ),
       ),
     );

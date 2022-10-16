@@ -12,8 +12,4 @@ class ColorResources {
   static const Color black = Color(0xff000000);
   static const Color orange = Color.fromRGBO(241, 94, 34, 1);
   static const Color lightBlue = Color.fromRGBO(244, 251, 251, 1);
-  static const Color grey9AA = Color(0xff9AA0B8);
-  static const Color blue0C1 = Color(0xff0C174B);
-  static const Color green = Color(0xff139c8c);
-  static const Color lightBlue2 = Color(0xffb2e0de);
 }
