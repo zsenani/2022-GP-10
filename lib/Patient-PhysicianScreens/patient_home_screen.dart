@@ -22,8 +22,12 @@ import 'medical_reports.dart';
 import 'pateint_profile_screen.dart';
 import 'write_diagnose.dart';
 
+String Id;
+
 class PatientHomeScreen extends StatefulWidget {
-  PatientHomeScreen({Key key}) : super(key: key);
+  PatientHomeScreen({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
 
   @override
   State<PatientHomeScreen> createState() => _PatientHomeScreenState();
@@ -33,7 +37,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
   int _selectedScreenIndex = 0;
   final List _screens = [
     {"screen": PatientVisitScreen()},
-    {"screen": patientProfilePage()},
+    {"screen": patientProfilePage(id: Id)},
   ];
 
   void _selectScreen(int index) {

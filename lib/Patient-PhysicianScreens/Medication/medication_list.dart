@@ -18,7 +18,7 @@ class MedicationList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 40),
+            padding: const EdgeInsets.only(top: 60),
             child: Row(
               children: [
                 SizedBox(
@@ -33,14 +33,6 @@ class MedicationList extends StatelessWidget {
                     child: Container(
                       height: 40,
                       width: 40,
-                      decoration: BoxDecoration(
-                        color: ColorResources.whiteF6F,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: ColorResources.white.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
                       child: Center(
                         child: Icon(Icons.arrow_back,
                             color: ColorResources.grey777),

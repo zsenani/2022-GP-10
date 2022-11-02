@@ -70,7 +70,8 @@ Button(onTap, text, buttonColor, textColor) => InkWell(
       ),
     );
 
-textField1(hintText, controller, keyBoardType) => TextFormField(
+textField1(hintText, controller, keyBoardType, {error = false}) =>
+    TextFormField(
       cursorColor: ColorResources.black,
       controller: controller,
       keyboardType: keyBoardType,
@@ -87,16 +88,21 @@ textField1(hintText, controller, keyBoardType) => TextFormField(
           fontSize: 16,
           fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
         ),
-        filled: true,
-        fillColor: ColorResources.whiteF6F,
-        border: const UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        filled: false,
+        border: UnderlineInputBorder(
+          borderSide: error == false
+              ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+              : const BorderSide(color: Colors.red, width: 1),
         ),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: error == false
+              ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+              : const BorderSide(color: Colors.red, width: 1),
         ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: error == false
+              ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+              : const BorderSide(color: Colors.red, width: 1),
         ),
       ),
     );
@@ -134,6 +140,38 @@ textField2(hintText, controller, keyBoardType) => TextFormField(
           borderSide: BorderSide(
               color: ColorResources.greyA0A.withOpacity(0.4), width: 1),
           borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+
+textField3(hintText, controller, keyBoardType, validator) => TextFormField(
+      validator: validator,
+      cursorColor: ColorResources.black,
+      controller: controller,
+      keyboardType: keyBoardType,
+      style: TextStyle(
+        color: ColorResources.black,
+        fontSize: 16,
+        fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+      ),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: ColorResources.grey777,
+          fontSize: 16,
+          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+        ),
+        filled: true,
+        fillColor: ColorResources.whiteF6F,
+        border: const UnderlineInputBorder(
+          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
         ),
       ),
     );

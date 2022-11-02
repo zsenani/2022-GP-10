@@ -1,9 +1,13 @@
+import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:medcore/index.dart';
+import 'change_password_screen.dart';
+import 'otp.dart';
+import 'package:get/get.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   String role;
@@ -11,40 +15,36 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   static const routeName = '/forgot-password-screen';
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: ColorResources.whiteF6F,
+      backgroundColor: ColorResources.white,
       appBar: AppBar(
-        backgroundColor: ColorResources.whiteF6F,
+        backgroundColor: ColorResources.white,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(7),
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SignInScreen(
-                    role: role,
-                  ),
-                ),
-              );
+              Get.back();
             },
-            child: Container(
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorResources.white,
+                  borderRadius: BorderRadius.circular(10),
+                  // border: Border.all(
+                  //     color: ColorResources.greyA0A.withOpacity(0.2),
+                  //     ),
                 ),
+                child:
+                    const Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
-              child:
-                  const Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
           ),
         ),
@@ -59,11 +59,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: ColorResources.whiteF6F,
+                  color: ColorResources.white,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                  ),
+                  // border: Border.all(
+                  //        color: ColorResources.greyA0A.withOpacity(0.2),
+                  //     ),
                 ),
                 child: const Icon(Icons.home_outlined,
                     color: ColorResources.grey777),
@@ -73,45 +73,26 @@ class ForgotPasswordScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 60),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 40),
-              heavyText("Forgot password", ColorResources.green009, 24),
-              const SizedBox(height: 15),
-              bookText(
-                  "Please enter your email below to receive your OTP number.",
-                  ColorResources.greyA0A,
-                  16),
-              const SizedBox(height: 50),
-              Row(
-                children: [
-                  const Icon(Icons.email_outlined,
-                      color: ColorResources.orange),
-                  const SizedBox(width: 15),
-                  mediumText("Email", ColorResources.grey777, 16),
-                ],
-              ),
-              textField1(
-                  "Enter email", emailController, TextInputType.emailAddress),
-              const SizedBox(height: 30),
-              const Spacer(),
-              commonButton(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VerificationScreen(
-                      role: role,
-                    ),
-                  ),
-                );
-              }, "Send OTP", ColorResources.green009, ColorResources.white),
-            ],
-          ),
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 40,
+          top: 20,
+        ),
+        child: Column(
+          children: [
+            otpMail(
+              role2: role,
+            ),
+
+            const Spacer(),
+            // Padding(padding: EdgeInsets.only(bottom: 30)),
+            commonButton(() {
+              controller.restart();
+              verifyOtp(mail, context);
+              Get.to(ChangePasswordScreen(role: role));
+            }, "Next", ColorResources.green009, ColorResources.white),
+          ],
         ),
       ),
     );

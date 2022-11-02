@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import './lab_tests.dart';
 
 import '/../Utiils/colors.dart';
@@ -53,7 +55,7 @@ class PreviousReq extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.only(top: 3),
-                height: 455,
+                height: 600,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +142,7 @@ class PreviousReq extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 340, bottom: 0, right: 0),
+                padding: EdgeInsets.only(left: 320, bottom: 0, right: 0),
                 child: InkWell(
                   onTap: () {
                     _startAdd2(context);

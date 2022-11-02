@@ -1,3 +1,4 @@
+import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
@@ -15,14 +16,28 @@ import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/Controller/role_location_controller.dart';
 import 'package:medcore/index.dart';
 
-class SignInScreen extends StatelessWidget {
+import '../database/mongoDB.dart';
+
+bool errorRoleSelect = false;
+
+class SignInScreen extends StatefulWidget {
   String role;
   SignInScreen({Key key, @required this.role}) : super(key: key);
 
   static const routeName = '/signin-screen';
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  String role;
   final TextEditingController idController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
   final VariableController variableController = Get.put(VariableController());
 
   @override
@@ -109,7 +124,7 @@ class SignInScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (role != 'patient')
+                            if (widget.role != 'patient')
                               Row(
                                 children: [
                                   const Icon(
@@ -121,7 +136,7 @@ class SignInScreen extends StatelessWidget {
                                       "Role", ColorResources.grey777, 16),
                                 ],
                               ),
-                            if (role != 'patient')
+                            if (widget.role != 'patient')
                               FormField(
                                 builder: (FormFieldState<String> state) =>
                                     InputDecorator(
@@ -129,21 +144,30 @@ class SignInScreen extends StatelessWidget {
                                     contentPadding: const EdgeInsets.fromLTRB(
                                         12, 10, 20, 20),
                                     border: UnderlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 2),
+                                      borderSide: errorRoleSelect == false
+                                          ? const BorderSide(
+                                              color: ColorResources.greyA0A,
+                                              width: 1)
+                                          : const BorderSide(
+                                              color: Colors.red, width: 1),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 2),
+                                      borderSide: errorRoleSelect == false
+                                          ? const BorderSide(
+                                              color: ColorResources.greyA0A,
+                                              width: 1)
+                                          : const BorderSide(
+                                              color: Colors.red, width: 1),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     enabledBorder: UnderlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 2),
+                                      borderSide: errorRoleSelect == false
+                                          ? const BorderSide(
+                                              color: ColorResources.greyA0A,
+                                              width: 1)
+                                          : const BorderSide(
+                                              color: Colors.red, width: 1),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
@@ -173,8 +197,8 @@ class SignInScreen extends StatelessWidget {
                                           onChanged: (newValue) {
                                             RolelocationController.setSelected(
                                                 newValue.toString());
-                                            role = newValue.toString();
-                                            print(role);
+                                            widget.role = newValue.toString();
+                                            print(widget.role);
                                           },
                                         ),
                                       );
@@ -182,6 +206,11 @@ class SignInScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                            const SizedBox(height: 5),
+                            if (errorRoleSelect == true &&
+                                widget.role != "patient")
+                              mediumText("  please select your role first",
+                                  Colors.red, 16),
                             const SizedBox(height: 30),
                             Row(
                               children: [
@@ -266,15 +295,17 @@ class SignInScreen extends StatelessWidget {
                               alignment: Alignment.topRight,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ForgotPasswordScreen(
-                                        role: role,
-                                      ),
-                                    ),
-                                  );
+                                  print(widget.role);
+                                  if (widget.role == "hospital") {
+                                    setState(() {
+                                      errorRoleSelect = true;
+                                    });
+                                  } else {
+                                    Get.to(ForgetEmail(
+                                      role: widget.role,
+                                    ));
+                                    errorRoleSelect = false;
+                                  }
                                 },
                                 child: heavyText("Forgot password?",
                                     ColorResources.greyA0A, 14),
@@ -282,12 +313,12 @@ class SignInScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 40),
                             commonButton(() {
-                              if (role == 'Lab specialist') {
-                                Get.to(LabHomePage1());
-                              } else if (role == 'Physician') {
-                                Get.to(HomeScreen());
+                              if (widget.role == 'Lab specialist') {
+                                Get.to(LabHomePage1(id: idController.text));
+                              } else if (widget.role == 'Physician') {
+                                Get.to(HomeScreen(id: idController.text));
                               } else {
-                                Get.to(PatientHomeScreen(),
+                                Get.to(PatientHomeScreen(id: idController.text),
                                     arguments: 'patient');
                               }
                             }, "Sign In", ColorResources.green009,
@@ -300,12 +331,12 @@ class SignInScreen extends StatelessWidget {
                                     ColorResources.grey777, 14),
                                 InkWell(
                                   onTap: () {
-                                    if (role == 'hospital') {
+                                    if (widget.role == 'hospital') {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => SignUpScreen(
-                                              role: role,
+                                              role: widget.role,
                                             ),
                                           ));
                                     } else {
@@ -313,7 +344,7 @@ class SignInScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => SignUpScreen(
-                                              role: role,
+                                              role: widget.role,
                                             ),
                                           ));
                                     }

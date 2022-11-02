@@ -37,32 +37,17 @@ class _EditHistory extends State<EditHistory> {
         behavior: MyBehavior(),
         child: SingleChildScrollView(
           child: Container(
-            height: Get.height, //670,
+            height: 800, //670,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: 110,
+                  height: 130,
                   width: Get.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    gradient: RadialGradient(
-                      colors: [
-                        Color.fromARGB(255, 154, 194, 183),
-                        Color.fromRGBO(19, 156, 140, 1)
-                      ],
-                      radius: 0.75,
-                      focal: Alignment(0.3, -0.2),
-                      tileMode: TileMode.clamp,
-                    ),
-                  ),
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 50),
+                        padding: const EdgeInsets.only(top: 90),
                         child: Row(
                           children: [
                             InkWell(
@@ -79,7 +64,7 @@ class _EditHistory extends State<EditHistory> {
                                   width: 40,
                                   child: Center(
                                     child: Icon(Icons.arrow_back,
-                                        color: ColorResources.white),
+                                        color: ColorResources.grey777),
                                   ),
                                 ),
                               ),
@@ -88,17 +73,17 @@ class _EditHistory extends State<EditHistory> {
                               children: [
                                 Container(
                                   padding: EdgeInsets.only(
-                                    left: 30,
-                                    right: 40,
+                                    left: 20,
+                                    right: 20,
                                   ),
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
                                       ' Edit Medical History',
                                       style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 28,
                                         fontWeight: FontWeight.w900,
-                                        color: Colors.white,
+                                        color: ColorResources.green009,
                                       ),
                                     ),
                                   ),
@@ -119,7 +104,7 @@ class _EditHistory extends State<EditHistory> {
                                   width: 40,
                                   child: Center(
                                     child: Icon(Icons.home_outlined,
-                                        color: ColorResources.white),
+                                        color: ColorResources.grey777),
                                   ),
                                 ),
                               ),

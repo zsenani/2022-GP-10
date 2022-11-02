@@ -23,85 +23,59 @@ class _writeDiagnoseState extends State<writeDiagnose> {
         behavior: MyBehavior(),
         child: SingleChildScrollView(
           child: Column(
-            // Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 130,
+                height: 145,
                 width: Get.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                  gradient: RadialGradient(
-                    colors: [
-                      Color.fromARGB(255, 154, 194, 183),
-                      Color.fromRGBO(19, 156, 140, 1)
-                    ],
-                    radius: 0.75,
-                    focal: Alignment(0.3, -0.2),
-                    tileMode: TileMode.clamp,
-                  ),
-                ),
                 child: Stack(
                   children: [
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(top: 0, left: 10, bottom: 10),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: ColorResources.whiteF6F,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: ColorResources.white.withOpacity(0.2),
-                                  width: 1,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 45, left: 10, bottom: 10),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                child: Center(
+                                  child: Icon(Icons.arrow_back,
+                                      color: ColorResources.grey777),
                                 ),
-                              ),
-                              child: Center(
-                                child: Icon(Icons.arrow_back,
-                                    color: ColorResources.grey777),
                               ),
                             ),
                           ),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: 80, top: 50, right: 20, bottom: 0),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  ' Diagnosis',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white,
+                          Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 60, top: 60, right: 20, bottom: 0),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    ' Diagnosis',
+                                    style: TextStyle(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w900,
+                                      color: ColorResources.green009,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              // ScrollConfiguration(
-              //   behavior: MyBehavior(),
-              //   child: SingleChildScrollView(
-              //     child: Column(
-              //     children: [
               Container(
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: Column(
@@ -140,7 +114,6 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                   ],
                 ),
               ),
-              //  nav(),
             ],
           ),
         ),

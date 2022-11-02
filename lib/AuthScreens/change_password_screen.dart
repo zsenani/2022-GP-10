@@ -1,3 +1,5 @@
+import 'package:dbcrypt/dbcrypt.dart';
+import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
@@ -8,6 +10,7 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medcore/database/mongoDB.dart';
 import 'package:medcore/index.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
@@ -33,14 +36,7 @@ class ChangePasswordScreen extends StatelessWidget {
           padding: const EdgeInsets.all(7),
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VerificationScreen(
-                    role: role,
-                  ),
-                ),
-              );
+              Get.back();
             },
             child: Container(
               decoration: BoxDecoration(
@@ -216,14 +212,16 @@ class ChangePasswordScreen extends StatelessWidget {
               ),
               const Spacer(),
               commonButton(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignInScreen(
+                if (passwordController.text != null &&
+                    confirmPasswordController.text != null) {
+                  if (validateMyPass(passwordController.text)) {
+                    print(role);
+                    updatePass();
+                    Get.to(SignInScreen(
                       role: role,
-                    ),
-                  ),
-                );
+                    ));
+                  }
+                }
               }, "Reset Password", ColorResources.green009,
                   ColorResources.white),
             ],
@@ -231,5 +229,25 @@ class ChangePasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool validateMyPass(String value) {
+    Pattern pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$";
+
+    RegExp regex = new RegExp(pattern);
+    if (regex.hasMatch(value) &&
+        passwordController.text == confirmPasswordController.text) {
+      print('Valid password');
+      return true;
+    } else {
+      print("Enter Valid password");
+      return false;
+    }
+  }
+
+  void updatePass() async {
+    var passHash = new DBCrypt()
+        .hashpw(confirmPasswordController.text, new DBCrypt().gensalt());
+    DBConnection.update(role, emailController.text, passHash);
   }
 }
