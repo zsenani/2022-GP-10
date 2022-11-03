@@ -133,6 +133,10 @@ class _ForgetEmailState extends State<ForgetEmail> {
         await DBConnection.checkEmailExsist(role2, emailController.text);
 
     if (emailC == null) {
+<<<<<<< HEAD
+=======
+      //already exisit
+>>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
       showAlertDialog(context);
     } else {
       Get.to(ForgotPasswordScreen(

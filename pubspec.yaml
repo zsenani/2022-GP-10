@@ -55,7 +55,12 @@ dependencies:
   dbcrypt: ^2.0.0
   email_auth: 
   timer_count_down: ^2.2.1
+<<<<<<< HEAD
 
+=======
+  objectid: ^2.1.0
+objectid: ^2.1.0
+>>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 
 
 

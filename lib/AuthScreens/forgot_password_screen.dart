@@ -38,6 +38,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorResources.white,
                   borderRadius: BorderRadius.circular(10),
+<<<<<<< HEAD
+=======
+                  // border: Border.all(
+                  //     color: ColorResources.greyA0A.withOpacity(0.2),
+                  //     ),
+>>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                 ),
                 child:
                     const Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -87,7 +93,10 @@ class ForgotPasswordScreen extends StatelessWidget {
             commonButton(() {
               controller.restart();
               verifyOtp(mail, context);
+<<<<<<< HEAD
               pinPutController.clear();
+=======
+>>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
               Get.to(ChangePasswordScreen(role: role));
             }, "Next", ColorResources.green009, ColorResources.white),
           ],
