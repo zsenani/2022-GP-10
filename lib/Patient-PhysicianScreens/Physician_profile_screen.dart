@@ -1,15 +1,20 @@
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
-import 'package:medcore/AuthScreens/reset_password_screen';
+import 'package:medcore/AuthScreens/reset_password_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Patient-PhysicianScreens/edit_physician_profile_screen.dart';
+import 'package:medcore/mongoDBModel2.dart';
+
+String Id;
 
 class PhysicianProfilePage extends StatefulWidget {
-  // SettingScreen({Key? key}) : super(key: key);
+  PhysicianProfilePage({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
   static const routeName = '/lab-profile-screen';
 
   @override
@@ -183,7 +188,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                   onPressed: () {
-                    Get.to(ResetPasswordScreen());
+                    Get.to(ResetPasswordScreen(id: Id, role: "Physician"));
                   },
                 ),
                 const SizedBox(height: 10),

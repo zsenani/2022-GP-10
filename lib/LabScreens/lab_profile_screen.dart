@@ -5,11 +5,15 @@ import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
-import 'package:medcore/AuthScreens/reset_password_screen';
+import 'package:medcore/AuthScreens/reset_password_screen.dart';
 import 'package:get/get.dart';
 
+String Id;
+
 class LabProfilePage extends StatefulWidget {
-  // SettingScreen({Key? key}) : super(key: key);
+  LabProfilePage({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
   static const routeName = '/lab-profile-screen';
 
   @override
@@ -154,7 +158,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                   onPressed: () {
-                    Get.to(ResetPasswordScreen());
+                    Get.to(ResetPasswordScreen(id: Id, role: "Lab specialist"));
                   },
                 ),
                 const SizedBox(height: 80),

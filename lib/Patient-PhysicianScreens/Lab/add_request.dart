@@ -70,14 +70,6 @@ class _TestRequestState extends State<TestRequest> {
                           child: Container(
                             height: 40,
                             width: 40,
-                            decoration: BoxDecoration(
-                              color: ColorResources.whiteF6F,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: ColorResources.white.withOpacity(0.2),
-                                width: 1,
-                              ),
-                            ),
                             child: Center(
                               child: Icon(Icons.arrow_back,
                                   color: ColorResources.grey777),
@@ -149,10 +141,15 @@ class _TestRequestState extends State<TestRequest> {
             ),
           ),
           Spacer(),
-          commonButton(() {
-            showAlertDialog(context);
-          }, "SEND", ColorResources.green009, ColorResources.white),
-          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 6),
+              commonButton(() {
+                showAlertDialog(context);
+              }, "SEND", ColorResources.green009, ColorResources.white),
+            ],
+          ),
+          SizedBox(height: 30),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:dbcrypt/dbcrypt.dart';
+import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
@@ -8,17 +10,26 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medcore/database/mongoDB.dart';
 import 'package:medcore/index.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
+class ChangePasswordScreen extends StatefulWidget {
   String role;
   ChangePasswordScreen({Key key, @required this.role}) : super(key: key);
   static const routeName = '/change-password-screen';
 
+  @override
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
+}
+
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
   final VariableController variableController = Get.put(VariableController());
 
   @override
@@ -33,14 +44,7 @@ class ChangePasswordScreen extends StatelessWidget {
           padding: const EdgeInsets.all(7),
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VerificationScreen(
-                    role: role,
-                  ),
-                ),
-              );
+              Get.back();
             },
             child: Container(
               decoration: BoxDecoration(
@@ -137,23 +141,19 @@ class ChangePasswordScreen extends StatelessWidget {
                       fontSize: 16,
                       fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
                     ),
-                    filled: true,
-                    fillColor: ColorResources.whiteF6F,
-                    border: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
+                    filled: false,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: errorPass == false
+                          ? const BorderSide(
+                              color: ColorResources.greyA0A, width: 1)
+                          : const BorderSide(color: Colors.red, width: 1),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 5),
+              if (errorPass == true)
+                mediumText("Enter a valid password", Colors.red, 16),
               const SizedBox(height: 30),
               Row(
                 children: [
@@ -197,33 +197,32 @@ class ChangePasswordScreen extends StatelessWidget {
                       fontSize: 16,
                       fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
                     ),
-                    filled: true,
-                    fillColor: ColorResources.whiteF6F,
-                    border: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: ColorResources.greyA0A, width: 1),
+                    filled: false,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: passwordController.text ==
+                              confirmPasswordController.text
+                          ? const BorderSide(
+                              color: ColorResources.greyA0A, width: 1)
+                          : const BorderSide(color: Colors.red, width: 1),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 5),
+              if (passwordController.text != confirmPasswordController.text)
+                mediumText("Password did not match", Colors.red, 16),
               const Spacer(),
               commonButton(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignInScreen(
-                      role: role,
-                    ),
-                  ),
-                );
+                if (passwordController.text != null &&
+                    confirmPasswordController.text != null) {
+                  if (validateMyPass(passwordController.text)) {
+                    print(widget.role);
+                    updatePass();
+                    Get.to(SignInScreen(
+                      role: widget.role,
+                    ));
+                  }
+                }
               }, "Reset Password", ColorResources.green009,
                   ColorResources.white),
             ],
@@ -231,5 +230,33 @@ class ChangePasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool errorPass = false;
+
+  bool validateMyPass(String value) {
+    Pattern pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$";
+
+    RegExp regex = new RegExp(pattern);
+    if (regex.hasMatch(value) &&
+        passwordController.text == confirmPasswordController.text) {
+      print('Valid password');
+      setState(() {
+        errorPass = false;
+      });
+      return true;
+    } else {
+      print("Enter Valid password");
+      setState(() {
+        errorPass = true;
+      });
+      return false;
+    }
+  }
+
+  void updatePass() async {
+    var passHash = new DBCrypt()
+        .hashpw(confirmPasswordController.text, new DBCrypt().gensalt());
+    DBConnection.update(widget.role, emailController.text, passHash);
   }
 }

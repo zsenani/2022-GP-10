@@ -10,8 +10,12 @@ import 'package:medcore/LabScreens/active_test_request.dart';
 import 'package:medcore/LabScreens/previouse_test_request.dart';
 import 'package:medcore/LabScreens/lab_profile_screen.dart';
 
+String Id;
+
 class LabHomePage1 extends StatefulWidget {
-  LabHomePage1({Key key}) : super(key: key);
+  LabHomePage1({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
 
   @override
   State<LabHomePage1> createState() => _LabHomePage1State();
@@ -20,8 +24,8 @@ class LabHomePage1 extends StatefulWidget {
 class _LabHomePage1State extends State<LabHomePage1> {
   int _selectedScreenIndex = 0;
   final List _screens = [
-    {"screen": LabHomePage2()},
-    {"screen": LabProfilePage()}
+    {"screen": LabHomePage2(id: Id)},
+    {"screen": LabProfilePage(id: Id)}
   ];
 
   void selectScreen(int index) {
@@ -58,8 +62,12 @@ class _LabHomePage1State extends State<LabHomePage1> {
   }
 }
 
+String ID;
+
 class LabHomePage2 extends StatelessWidget {
-  //const labHomePage({Key key}) : super(key: key);
+  LabHomePage2({Key key, String id}) : super(key: key) {
+    ID = id;
+  }
   final TabBarController tabBarController = Get.put(TabBarController());
 
   String greeting() {
