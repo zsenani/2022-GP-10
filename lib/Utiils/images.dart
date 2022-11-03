@@ -17,8 +17,6 @@ class Images {
   static const history = "assets/images/history.png";
   static const labTest = "assets/images/labTest.png";
   static const search = "assets/images/search.png";
-  static const noVisit = "assets/images/novisitPatient.jpg";
-  static const Visit = "assets/images/visitPatient.jpg";
 
   //
   static const pills = "assets/images/pills.png";

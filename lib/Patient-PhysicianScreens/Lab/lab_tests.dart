@@ -30,7 +30,7 @@ class _labTestsState extends State<labTests> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 40,
+            height: 30,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,6 +47,14 @@ class _labTestsState extends State<labTests> {
                   child: Container(
                     height: 40,
                     width: 40,
+                    decoration: BoxDecoration(
+                      color: ColorResources.whiteF6F,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: ColorResources.white.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
                     child: Center(
                       child:
                           Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -70,7 +78,7 @@ class _labTestsState extends State<labTests> {
                             right: 20,
                           ),
                           child: Container(
-                            padding: EdgeInsets.only(right: 38, left: 5),
+                            padding: EdgeInsets.only(right: 24, left: 7),
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(

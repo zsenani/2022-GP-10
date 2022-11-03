@@ -16,13 +16,13 @@ class MedicalHistory extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 40,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 8,
+                  width: 10,
                 ),
                 InkWell(
                   onTap: () {
@@ -200,7 +200,7 @@ class MedicalHistory extends StatelessWidget {
                               SizedBox(height: 10),
                             ],
                           ),
-                          SizedBox(width: 50),
+                          SizedBox(width: 65),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -235,7 +235,7 @@ class MedicalHistory extends StatelessWidget {
                             width: 25,
                             height: 25,
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -252,7 +252,7 @@ class MedicalHistory extends StatelessWidget {
                               SizedBox(height: 10),
                             ],
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 25),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -261,7 +261,7 @@ class MedicalHistory extends StatelessWidget {
                                 width: 25,
                                 height: 25,
                               ),
-                              SizedBox(width: 8),
+                              SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

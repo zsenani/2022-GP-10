@@ -18,8 +18,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.11.0 <3.0.0" 
- 
+  sdk: ">=2.11.0 <3.0.0"
+
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -29,7 +29,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
 
 
@@ -47,15 +46,10 @@ dependencies:
   multiselect: ^0.0.4
   uuid: ^3.0.5
   multi_select_flutter: ^4.0.0
-  dropdown_search: ^5.0.3
+  dropdown_search: ^3.0.1
   file_picker: ^5.2.1
   flutter_platform_alert: ^0.3.0
   syncfusion_flutter_datepicker: ^20.3.49
-  mongo_dart: ^0.7.3
-  dbcrypt: ^2.0.0
-  email_auth: 
-  timer_count_down: ^2.2.1
-
 
 
 

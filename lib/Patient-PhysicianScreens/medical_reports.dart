@@ -28,12 +28,12 @@ class _MedicalReports extends State<MedicalReports> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 60,
+                height: 45,
               ),
               Row(
                 children: [
                   SizedBox(
-                    width: 20,
+                    width: 10,
                   ),
                   InkWell(
                     onTap: () {
@@ -42,7 +42,7 @@ class _MedicalReports extends State<MedicalReports> {
                     },
                     child: Container(
                       height: 40,
-                      width: 20,
+                      width: 40,
                       decoration: BoxDecoration(
                         color: ColorResources.whiteF6F,
                         borderRadius: BorderRadius.circular(10),
@@ -60,7 +60,7 @@ class _MedicalReports extends State<MedicalReports> {
                   HeaderWidget(),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               SizedBox(
                 child: ScrollConfiguration(
                   behavior: MyBehavior(),
@@ -161,7 +161,7 @@ class _MedicalReports extends State<MedicalReports> {
       children: [
         Container(
           height: 50,
-          width: 350,
+          width: Get.width,
           padding: EdgeInsets.only(top: 8, left: 40),
           child: heavyText("Medical Reports", ColorResources.green009, 30),
         ),

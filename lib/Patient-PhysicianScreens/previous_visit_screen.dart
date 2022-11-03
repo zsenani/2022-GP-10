@@ -53,7 +53,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderWidget(),
-              SizedBox(height: 15),
+              SizedBox(height: 40),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: heavyText("Patient Files", ColorResources.grey777, 18),
@@ -64,7 +64,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                 width: Get.width,
                 child: Specialist(),
               ),
-              SizedBox(height: 35),
+              SizedBox(height: 40),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: heavyText("Services", ColorResources.grey777, 18),
@@ -120,7 +120,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: EdgeInsets.only(top: 35),
+              padding: EdgeInsets.only(top: 40),
               child: ListTile(
                   title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +134,8 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                             color: ColorResources.grey777),
                       ),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Row(children: [
+                      SizedBox(width: 44),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -151,15 +152,15 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                   ]))),
         ),
         Positioned(
-            bottom: 25,
+            bottom: -20,
             left: 0.5,
             right: 0.5,
             child: Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Container(
-                  height: 140,
-                  width: Get.width,
+                  height: 180,
+                  width: 380,
                   decoration: BoxDecoration(
                     color: ColorResources.whiteF6F,
                     borderRadius: BorderRadius.circular(10),
@@ -177,42 +178,54 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                         child: heavyText("Patient Name: Ahmad Alsaleh",
                             ColorResources.grey777, 16),
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 1.5),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 13),
                         child: heavyText("Patient ID: 1126147832",
                             ColorResources.grey777, 16),
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 1.5),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText(
+                            "MobileNo: 0505832613", ColorResources.grey777, 16),
+                      ),
+                      SizedBox(height: 1.5),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 13),
                           child: heavyText(
-                              "Male, 35 y", ColorResources.grey777, 16)),
+                              "Gender: Male", ColorResources.grey777, 16)),
+                      SizedBox(height: 1.5),
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 13),
+                          child:
+                              heavyText("Age: 35", ColorResources.grey777, 16)),
                       SizedBox(height: 14),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image(
                               image: AssetImage(Images.height),
-                              width: 20,
-                              height: 20),
-                          mediumText("Hieght: 170", ColorResources.grey777, 12),
-                          SizedBox(width: 12),
+                              width: 24,
+                              height: 24),
+                          mediumText(
+                              "Hieght: 170", ColorResources.grey777, 13.5),
+                          SizedBox(width: 10),
                           Image(
                             image: AssetImage(Images.weight),
-                            width: 17,
-                            height: 17,
+                            width: 21,
+                            height: 21,
                           ),
                           SizedBox(width: 1),
-                          mediumText("Weight: 55", ColorResources.grey777, 12),
-                          SizedBox(width: 12),
+                          mediumText(
+                              "Weight: 55", ColorResources.grey777, 13.5),
+                          SizedBox(width: 8),
                           Image(
                             image: AssetImage(Images.pressurIcon),
-                            width: 20,
-                            height: 20,
+                            width: 24,
+                            height: 24,
                           ),
-                          mediumText(
-                              "Blood pressure: 90", ColorResources.grey777, 12),
+                          mediumText("Blood pressure: 90",
+                              ColorResources.grey777, 13.5),
                         ],
                       ),
                     ],

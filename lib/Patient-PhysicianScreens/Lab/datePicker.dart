@@ -75,7 +75,7 @@ class _DatePicker extends State<DatePicker> {
               left: 0,
               top: 10,
               right: 0,
-              bottom: 20,
+              bottom: 40,
               child: SfDateRangePicker(
                 onSelectionChanged: _onSelectionChanged,
                 selectionMode: DateRangePickerSelectionMode.multiRange,

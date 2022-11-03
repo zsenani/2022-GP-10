@@ -1,9 +1,4 @@
-import 'dart:developer';
-import 'package:dbcrypt/dbcrypt.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
-import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/LabScreens/lab_home_screen.dart';
@@ -19,35 +14,15 @@ import 'package:get/get.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/Controller/role_location_controller.dart';
 import 'package:medcore/index.dart';
-import 'package:mongo_dart/mongo_dart.dart' hide State;
 
-import '../database/mongoDB.dart';
-import 'otpLogIn.dart';
-
-bool errorRoleSelect = false;
-
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   String role;
-
   SignInScreen({Key key, @required this.role}) : super(key: key);
 
   static const routeName = '/signin-screen';
-
-  @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  String role;
-  bool error = false;
-  bool errorPassword = false;
-  bool errorID = false;
   final TextEditingController idController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
-
   final VariableController variableController = Get.put(VariableController());
 
   @override
@@ -134,13 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (widget.role != 'patient')
-                              if (error)
-                                mediumText("Username or Password incorrect!",
-                                    Colors.red, 16),
-                            if (widget.role != 'patient')
-                              const SizedBox(height: 10),
-                            if (widget.role != 'patient')
+                            if (role != 'patient')
                               Row(
                                 children: [
                                   const Icon(
@@ -152,7 +121,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       "Role", ColorResources.grey777, 16),
                                 ],
                               ),
-                            if (widget.role != 'patient')
+                            if (role != 'patient')
                               FormField(
                                 builder: (FormFieldState<String> state) =>
                                     InputDecorator(
@@ -160,30 +129,21 @@ class _SignInScreenState extends State<SignInScreen> {
                                     contentPadding: const EdgeInsets.fromLTRB(
                                         12, 10, 20, 20),
                                     border: UnderlineInputBorder(
-                                      borderSide: errorRoleSelect == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 1)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 1),
+                                      borderSide: const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 2),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
-                                      borderSide: errorRoleSelect == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 1)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 1),
+                                      borderSide: const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 2),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     enabledBorder: UnderlineInputBorder(
-                                      borderSide: errorRoleSelect == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 1)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 1),
+                                      borderSide: const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 2),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
@@ -213,8 +173,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                           onChanged: (newValue) {
                                             RolelocationController.setSelected(
                                                 newValue.toString());
-                                            widget.role = newValue.toString();
-                                            print(widget.role);
+                                            role = newValue.toString();
+                                            print(role);
                                           },
                                         ),
                                       );
@@ -222,19 +182,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                               ),
-                            const SizedBox(height: 5),
-                            if (errorRoleSelect == true &&
-                                widget.role != "patient")
-                              mediumText(
-                                  "  please select your role ", Colors.red, 16),
                             const SizedBox(height: 30),
-
-                            if (widget.role == 'patient')
-                              if (error)
-                                mediumText("Username or Password incorrect!",
-                                    Colors.red, 16),
-                            if (widget.role == 'patient')
-                              const SizedBox(height: 10),
                             Row(
                               children: [
                                 const Icon(Icons.perm_identity,
@@ -244,53 +192,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                     ColorResources.grey777, 16),
                               ],
                             ),
-                            // textField1(
-                            //     "Enter ID", idController, TextInputType.number),
-                            TextFormField(
-                              controller: idController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "Enter ID",
-                                hintStyle: TextStyle(
-                                  color: ColorResources.grey777,
-                                  fontSize: 16,
-                                  fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                                ),
-                                filled: true,
-                                fillColor: ColorResources.whiteF6F,
-                                border: UnderlineInputBorder(
-                                  borderSide: errorID == false
-                                      ? const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: errorID == false
-                                      ? const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: errorID == false
-                                      ? const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            if (errorID)
-                              mediumText(" Username is Empty!", Colors.red, 16),
-
+                            textField1(
+                                "Enter ID", idController, TextInputType.number),
                             const SizedBox(height: 30),
                             Row(
                               children: [
@@ -340,155 +243,52 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                   filled: true,
                                   fillColor: ColorResources.whiteF6F,
-                                  border: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
+                                  border: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorResources.greyA0A,
+                                        width: 1),
                                   ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorResources.greyA0A,
+                                        width: 1),
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: ColorResources.greyA0A,
+                                        width: 1),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 3),
-                            if (errorPassword)
-                              mediumText(" Password is Empty!", Colors.red, 16),
-
                             const SizedBox(height: 10),
                             Align(
                               alignment: Alignment.topRight,
                               child: InkWell(
                                 onTap: () {
-                                  print(widget.role);
-                                  if (widget.role == "hospital") {
-                                    setState(() {
-                                      errorRoleSelect = true;
-                                    });
-                                  } else {
-                                    Get.to(ForgetEmail(
-                                      role: widget.role,
-                                    ));
-                                    errorRoleSelect = false;
-                                  }
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordScreen(
+                                        role: role,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: heavyText("Forgot password?",
                                     ColorResources.greyA0A, 14),
                               ),
                             ),
-
                             const SizedBox(height: 40),
                             commonButton(() {
-                              if (passwordController.text != '' &&
-                                  idController.text != '' &&
-                                  widget.role != "hospital")
-                                setState(() {
-                                  errorRoleSelect = false;
-                                  errorPassword = false;
-                                  errorID = false;
-                                });
-
-                              if (passwordController.text == '' &&
-                                  idController.text == '' &&
-                                  widget.role == "hospital")
-                                setState(() {
-                                  errorRoleSelect = true;
-                                  errorPassword = true;
-                                  errorID = true;
-                                });
-                              else if (passwordController.text == '' &&
-                                  idController.text == '' &&
-                                  widget.role != "hospital")
-                                setState(() {
-                                  errorRoleSelect = false;
-                                  errorPassword = true;
-                                  errorID = true;
-                                });
-                              else if (passwordController.text != '' &&
-                                  idController.text == '' &&
-                                  widget.role != "hospital")
-                                setState(() {
-                                  errorRoleSelect = false;
-                                  errorPassword = false;
-                                  errorID = true;
-                                });
-                              else if (passwordController.text == '' &&
-                                  idController.text != '' &&
-                                  widget.role != "hospital")
-                                setState(() {
-                                  errorRoleSelect = false;
-                                  errorPassword = true;
-                                  errorID = false;
-                                });
-                              else if (passwordController.text == '' &&
-                                  idController.text == '' &&
-                                  widget.role == "hospital")
-                                setState(() {
-                                  errorRoleSelect = true;
-                                  errorPassword = true;
-                                  errorID = true;
-                                });
-                              else if (passwordController.text != '' &&
-                                  idController.text == '' &&
-                                  widget.role == "hospital")
-                                setState(() {
-                                  errorRoleSelect = true;
-                                  errorPassword = false;
-                                  errorID = true;
-                                });
-                              else if (passwordController.text == '' &&
-                                  idController.text != '' &&
-                                  widget.role == "hospital")
-                                setState(() {
-                                  errorRoleSelect = true;
-                                  errorPassword = true;
-                                  errorID = false;
-                                });
-                              else if (passwordController.text != '' &&
-                                  idController.text != '' &&
-                                  widget.role == "hospital")
-                                setState(() {
-                                  errorRoleSelect = true;
-                                  errorPassword = false;
-                                  errorID = false;
-                                });
-                              else
-                              // if (widget.role == 'Lab specialist') {
-                              //   Get.to(LabHomePage1(id: idController.text));
-                              // } else if (widget.role == 'Physician') {
-                              //   Get.to(HomeScreen(id: idController.text));
-                              // } else {
-                              //   Get.to(PatientHomeScreen(id: idController.text),
-                              //       arguments: 'patient');
-                              // }
-                              if (widget.role == 'Lab specialist') {
-                                AuthlogIn1("Lab specialist", idController,
-                                    passwordController);
-                              } else if (widget.role == 'Physician') {
-                                AuthlogIn1("Physician", idController,
-                                    passwordController);
+                              if (role == 'Lab specialist') {
+                                Get.to(LabHomePage1());
+                              } else if (role == 'Physician') {
+                                Get.to(HomeScreen());
                               } else {
-                                AuthlogIn1("patient", idController,
-                                    passwordController);
+                                Get.to(PatientHomeScreen(),
+                                    arguments: 'patient');
                               }
                             }, "Sign In", ColorResources.green009,
                                 ColorResources.white),
@@ -500,12 +300,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                     ColorResources.grey777, 14),
                                 InkWell(
                                   onTap: () {
-                                    if (widget.role == 'hospital') {
+                                    if (role == 'hospital') {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => SignUpScreen(
-                                              role: widget.role,
+                                              role: role,
                                             ),
                                           ));
                                     } else {
@@ -513,7 +313,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => SignUpScreen(
-                                              role: widget.role,
+                                              role: role,
                                             ),
                                           ));
                                     }
@@ -551,28 +351,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  // ignore: non_constant_identifier_names
-  Future<State> AuthlogIn1(String role, TextEditingController idController,
-      TextEditingController passwordController) async {
-    //connect with table
-    bool errorAuth = await DBConnection.AuthlogIn(
-        role, idController.text, passwordController.text);
-    if (!errorAuth) {
-      setState(() {
-        error = false;
-      });
-      var email = await DBConnection.getEmail(role, idController.text);
-      print(email);
-      sendOtp(email);
-      Get.to(
-          otpLogInScreen(role: role, email: email, idController: idController));
-    } else {
-      setState(() {
-        error = true;
-      });
-      print('Sorry user name or password not correct!!!');
-    }
   }
 }

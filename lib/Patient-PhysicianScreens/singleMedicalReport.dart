@@ -80,7 +80,7 @@ class singleMedicalReport extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(
                       left: 20,
-                      top: 70,
+                      top: 60,
                     ),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -149,9 +149,9 @@ class singleMedicalReport extends StatelessWidget {
 
   Widget DoctorDetailsContainer() {
     return Padding(
-      padding: EdgeInsets.only(top: 210),
+      padding: EdgeInsets.only(top: 180),
       child: Container(
-        height: 950,
+        height: Get.height,
         width: Get.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -177,7 +177,7 @@ class singleMedicalReport extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: 10),
               child: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: SingleChildScrollView(
@@ -197,7 +197,7 @@ class singleMedicalReport extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
-                              "Pt. reports not feeling well today, 'I'm very tired'",
+                              "Dr. Jane Cooper is the top most Cardiologist specialist in Dhaka Medical College Hospital at Accra. SHe achived several awards for her wonderful contribution in her own field. SHe is avaliable for private consultation.",
                               ColorResources.greyA0A,
                               16),
                         ),
@@ -211,8 +211,7 @@ class singleMedicalReport extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
-                              "Auscultation findings: scattered rhonchi all lung fields.Chest PT was performed in sitting \(ant. and post.\). Techniques included percussion, vibration, and shaking. Pt. performed a weak combined abdominal and upper costal cough that was nonbronchospastic, congested, and non-productive. The cough/huff was performed with VC."
-                              "Pectoral stretch/thoracic cage mobilizations performed in seated position.Pt. given towel roll placed in back of seat to open up ant. chest wall.Strengthening exercises in standing - pt. performed hip flexion, extension, and abduction; knee flexion 10 reps x 1 set B. Pt. performs HEP with supervision (in evenings with wife). Pt. instructed to hold tissue over trach when speaking to prevent infection and explained importance of drinking enough water.",
+                              "Dr. Jane Cooper is the top most Cardiologist specialist in Dhaka Medical College Hospital at Accra. SHe achived several awards for her wonderful contribution in her own field. SHe is avaliable for private consultation.",
                               ColorResources.greyA0A,
                               16),
                         ),
@@ -226,7 +225,7 @@ class singleMedicalReport extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
-                              "Pt. continues to present with congestion and limitations in coughing productivity. Pt. has been compliant with evening exercise program, which has results in increased tol to therapeutic exercise regime and an increase in LE strength. Amb. not attempted to 20 to pt. report of fatigue. Pt. should be able to tolerate short distance ambulation within the next few days.",
+                              "Dr. Jane Cooper is the top most Cardiologist specialist in Dhaka Medical College Hospital at Accra. SHe achived several awards for her wonderful contribution in her own field. SHe is avaliable for private consultation.",
                               ColorResources.greyA0A,
                               16),
                         ),
@@ -240,7 +239,7 @@ class singleMedicalReport extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
-                              "Cont. current exercise plan including CPT; emphasize productive coughing techniques; increase strengthening exer reps to 15; attempt amb, again tomorrow,",
+                              "Dr. Jane Cooper is the top most Cardiologist specialist in Dhaka Medical College Hospital at Accra. SHe achived several awards for her wonderful contribution in her own field. SHe is avaliable for private consultation.",
                               ColorResources.greyA0A,
                               16),
                         ),
