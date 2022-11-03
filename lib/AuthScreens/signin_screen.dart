@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import 'dart:developer';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/AuthScreens/otp.dart';
@@ -25,10 +22,7 @@ import 'package:medcore/index.dart';
 import 'package:mongo_dart/mongo_dart.dart' hide State;
 
 import '../database/mongoDB.dart';
-<<<<<<< HEAD
 import 'otpLogIn.dart';
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 
 bool errorRoleSelect = false;
 
@@ -45,12 +39,9 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   String role;
-<<<<<<< HEAD
   bool error = false;
   bool errorPassword = false;
   bool errorID = false;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   final TextEditingController idController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -144,15 +135,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (widget.role != 'patient')
-<<<<<<< HEAD
                               if (error)
                                 mediumText("Username or Password incorrect!",
                                     Colors.red, 16),
                             if (widget.role != 'patient')
                               const SizedBox(height: 10),
                             if (widget.role != 'patient')
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                               Row(
                                 children: [
                                   const Icon(
@@ -237,13 +225,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             const SizedBox(height: 5),
                             if (errorRoleSelect == true &&
                                 widget.role != "patient")
-<<<<<<< HEAD
                               mediumText(
                                   "  please select your role ", Colors.red, 16),
-=======
-                              mediumText("  please select your role first",
-                                  Colors.red, 16),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                             const SizedBox(height: 30),
 
                             if (widget.role == 'patient')
@@ -415,7 +398,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
                             const SizedBox(height: 40),
                             commonButton(() {
-<<<<<<< HEAD
                               if (passwordController.text != '' &&
                                   idController.text != '' &&
                                   widget.role != "hospital")
@@ -507,15 +489,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               } else {
                                 AuthlogIn1("patient", idController,
                                     passwordController);
-=======
-                              if (widget.role == 'Lab specialist') {
-                                Get.to(LabHomePage1(id: idController.text));
-                              } else if (widget.role == 'Physician') {
-                                Get.to(HomeScreen(id: idController.text));
-                              } else {
-                                Get.to(PatientHomeScreen(id: idController.text),
-                                    arguments: 'patient');
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                               }
                             }, "Sign In", ColorResources.green009,
                                 ColorResources.white),

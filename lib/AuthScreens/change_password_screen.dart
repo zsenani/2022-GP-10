@@ -216,17 +216,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 if (passwordController.text != null &&
                     confirmPasswordController.text != null) {
                   if (validateMyPass(passwordController.text)) {
-<<<<<<< HEAD
                     print(widget.role);
                     updatePass();
                     Get.to(SignInScreen(
                       role: widget.role,
-=======
-                    print(role);
-                    updatePass();
-                    Get.to(SignInScreen(
-                      role: role,
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                     ));
                   }
                 }
@@ -239,11 +232,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-<<<<<<< HEAD
   bool errorPass = false;
 
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   bool validateMyPass(String value) {
     Pattern pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$";
 
@@ -251,7 +241,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (regex.hasMatch(value) &&
         passwordController.text == confirmPasswordController.text) {
       print('Valid password');
-<<<<<<< HEAD
       setState(() {
         errorPass = false;
       });
@@ -261,11 +250,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       setState(() {
         errorPass = true;
       });
-=======
-      return true;
-    } else {
-      print("Enter Valid password");
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
       return false;
     }
   }
@@ -273,10 +257,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void updatePass() async {
     var passHash = new DBCrypt()
         .hashpw(confirmPasswordController.text, new DBCrypt().gensalt());
-<<<<<<< HEAD
     DBConnection.update(widget.role, emailController.text, passHash);
-=======
-    DBConnection.update(role, emailController.text, passHash);
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   }
 }
