@@ -17,8 +17,12 @@ import 'SearchSymptoms/diagnosis_details.dart';
 import 'active_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
 
+String Id;
+
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -29,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List _screens = [
     {"screen": labHomePage()},
     {"screen": SearchPatient()},
-    {"screen": PhysicianProfilePage()},
+    {"screen": PhysicianProfilePage(id: Id)},
   ];
 
   void _selectScreen(int index) {

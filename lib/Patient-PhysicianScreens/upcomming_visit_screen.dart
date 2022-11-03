@@ -65,7 +65,6 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             HeaderWidget(),
-            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: heavyText("Patient Files", ColorResources.grey777, 18),
@@ -77,12 +76,12 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
               child: Specialist(),
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 38),
+              const SizedBox(height: 35),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: heavyText("Services", ColorResources.grey777, 18),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 13),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
@@ -154,7 +153,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 35),
               child: ListTile(
                   title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,8 +167,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             color: ColorResources.grey777),
                       ),
                     ),
-                    Row(children: [
-                      const SizedBox(width: 55),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -186,7 +184,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                   ]))),
         ),
         Positioned(
-            bottom: -40,
+            bottom: 20,
             left: 0.5,
             right: 0.5,
             child: Container(
@@ -194,8 +192,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Container(
-                  height: 180,
-                  width: 380,
+                  height: 150,
+                  width: Get.width,
                   decoration: BoxDecoration(
                     color: ColorResources.whiteF6F,
                     borderRadius: BorderRadius.circular(10),
@@ -207,53 +205,36 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 13),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 13),
-                              child: heavyText("Patient Name: Ahmad Alsaleh",
-                                  ColorResources.grey777, 16),
-                            ),
-                            const SizedBox(height: 1.5),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 13),
-                              child: heavyText("Patient ID: 1126147832",
-                                  ColorResources.grey777, 16),
-                            ),
-                            const SizedBox(height: 1.5),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 13),
-                              child: heavyText("MobileNo: 0505832613",
-                                  ColorResources.grey777, 16),
-                            ),
-                          ]),
-                      const SizedBox(height: 1.5),
+                      const SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("Patient Name: Ahmad Alsaleh",
+                            ColorResources.grey777, 16),
+                      ),
+                      const SizedBox(height: 2),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("Patient ID: 1126147832",
+                            ColorResources.grey777, 16),
+                      ),
+                      const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
                           child: heavyText(
-                              "Gender: Male", ColorResources.grey777, 16)),
-                      const SizedBox(height: 1.5),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child:
-                              heavyText("Age: 23", ColorResources.grey777, 16)),
-                      const SizedBox(height: 14),
+                              "Male, 23 y", ColorResources.grey777, 16)),
+                      const SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Image(
                               image: AssetImage(Images.height),
-                              width: 24,
-                              height: 24),
-                          mediumText("Hieght:", ColorResources.grey777, 13.5),
+                              width: 20,
+                              height: 20),
+                          mediumText("Hieght:", ColorResources.grey777, 12),
                           const SizedBox(
                             width: 28,
                             child: TextField(
-                              style: TextStyle(fontSize: 13),
+                              style: TextStyle(fontSize: 12),
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
                                 hintText: '170',
@@ -263,18 +244,18 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   decimal: true),
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 12),
                           const Image(
                             image: AssetImage(Images.weight),
-                            width: 21,
-                            height: 21,
+                            width: 17,
+                            height: 17,
                           ),
                           const SizedBox(width: 1),
-                          mediumText("Weight:", ColorResources.grey777, 13.5),
+                          mediumText("Weight:", ColorResources.grey777, 12),
                           const SizedBox(
                             width: 28,
                             child: TextField(
-                              style: TextStyle(fontSize: 13),
+                              style: TextStyle(fontSize: 12),
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
                                 hintText: '55',
@@ -284,18 +265,18 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   decimal: true),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 12),
                           const Image(
                             image: AssetImage(Images.pressurIcon),
-                            width: 24,
-                            height: 24,
+                            width: 20,
+                            height: 20,
                           ),
                           mediumText(
-                              "Blood pressure:", ColorResources.grey777, 13.5),
+                              "Blood pressure:", ColorResources.grey777, 12),
                           const SizedBox(
                             width: 31,
                             child: TextField(
-                              style: TextStyle(fontSize: 13),
+                              style: TextStyle(fontSize: 12),
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
                                 hintText: '90',

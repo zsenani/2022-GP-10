@@ -5,11 +5,15 @@ import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/AuthScreens/reset_password_screen';
+import 'package:medcore/AuthScreens/reset_password_screen.dart';
 import 'edit_patient_profile.dart';
 
+String Id;
+
 class patientProfilePage extends StatefulWidget {
-  // SettingScreen({Key? key}) : super(key: key);
+  patientProfilePage({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
 
   @override
   State<patientProfilePage> createState() => _patientProfilePage();
@@ -144,7 +148,7 @@ class _patientProfilePage extends State<patientProfilePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                   onPressed: () async {
-                    Get.to(ResetPasswordScreen());
+                    Get.to(ResetPasswordScreen(id: Id, role: "patient"));
                   },
                 ),
                 const SizedBox(height: 80),
