@@ -1,3 +1,4 @@
+import '../../Controller/patient_visit_tab_controller.dart';
 import '../../Controller/tab_controller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
@@ -10,7 +11,8 @@ import 'previous.dart';
 import 'upComming.dart';
 
 class PatientVisit extends StatelessWidget {
-  final TabBarController tabBarController = Get.put(TabBarController());
+  final PatientTabBarController tabBarController =
+      Get.put(PatientTabBarController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +93,6 @@ class PatientVisit extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 70),
         ],
       ),
     );

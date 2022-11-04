@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
@@ -68,12 +69,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (role == 'patient' && picked != null && picked != pselectedDate) {
       setState(() {
         selectedDate = picked;
+        pselectedDate = picked;
       });
     } else if (role != 'patient' &&
         picked != null &&
         picked != plselectedDate) {
       setState(() {
         selectedDate = picked;
+        plselectedDate = picked;
       });
     }
   }
@@ -556,6 +559,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool errorHospitals = false;
   bool errorID2 = false;
   bool errorEmail2 = false;
+  bool _isVisiblePassword = false;
+  bool _isVisiblleConfirmPassword = false;
+
+  void updatePasswordStatus(who) {
+    if (who == 'password') {
+      setState(() {
+        _isVisiblePassword = !_isVisiblePassword;
+      });
+    } else if (who == 'confirmPassword') {
+      setState(() {
+        _isVisiblleConfirmPassword = !_isVisiblleConfirmPassword;
+      });
+    }
+  }
 
   bool validateMyPhone(String value) {
     Pattern pattern = r'^[0-9]{9}$';
@@ -813,7 +830,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey1 = GlobalKey<FormState>();
 
   ScrollConfiguration SecondStep(context) {
-    Hospitals();
+    if (ArrayOfHospitals.isEmpty == true) Hospitals();
     if (role == 'hospital') {
       if (RolelocationController.selectedValue == "Physician")
         role = "Physician";
@@ -1258,59 +1275,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "Confirm password", ColorResources.grey777, 16),
                           ],
                         ),
-                        Obx(
-                          () => TextFormField(
-                            cursorColor: ColorResources.black,
-                            obscureText:
-                                variableController.isOpenConfirmPassword.value,
-                            controller: confirmPasswordController,
-                            keyboardType: TextInputType.text,
-                            style: TextStyle(
-                              color: ColorResources.black,
-                              fontSize: 16,
-                              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: confirmPasswordController,
+                          obscureText:
+                              _isVisiblleConfirmPassword ? false : true,
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: passwordController.text ==
+                                      confirmPasswordController.text
+                                  ? const BorderSide(
+                                      color: ColorResources.greyA0A, width: 1)
+                                  : const BorderSide(
+                                      color: Colors.red, width: 1),
                             ),
-                            decoration: InputDecoration(
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: InkWell(
-                                  onTap: () {
-                                    variableController
-                                            .isOpenConfirmPassword.value =
-                                        !variableController
-                                            .isOpenConfirmPassword.value;
-                                  },
-                                  child: SvgPicture.asset(
-                                    variableController
-                                            .isOpenConfirmPassword.isFalse
-                                        ? Images.visibilityOnIcon
-                                        : Images.visibilityOffIcon,
-                                  ),
-                                ),
-                              ),
-                              hintText: "Enter confirm password",
-                              hintStyle: TextStyle(
-                                color: ColorResources.grey777,
-                                fontSize: 16,
-                                fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                              ),
-                              filled: false,
-                              border: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorResources.greyA0A, width: 1),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: passwordController.text ==
-                                          confirmPasswordController.text
-                                      ? BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : BorderSide(
-                                          color: Colors.red, width: 1)),
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorResources.greyA0A, width: 1),
-                              ),
+                            hintText: "Enter your password again",
+                            suffixIcon: IconButton(
+                              onPressed: () =>
+                                  updatePasswordStatus("confirmPassword"),
+                              icon: Icon(_isVisiblleConfirmPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                             ),
                           ),
                         ),
@@ -1436,51 +1421,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String number = "966";
   passValidator() => TextFormField(
-        cursorColor: ColorResources.black,
-        obscureText: variableController.isOpenPassword.value,
-        controller: passwordController,
         keyboardType: TextInputType.text,
-        style: TextStyle(
-          color: ColorResources.black,
-          fontSize: 16,
-          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-        ),
+        controller: passwordController,
+        obscureText: _isVisiblePassword ? false : true,
         decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(15),
-            child: InkWell(
-              onTap: () {
-                variableController.isOpenPassword.value =
-                    !variableController.isOpenPassword.value;
-              },
-              child: SvgPicture.asset(
-                variableController.isOpenPassword.isFalse
-                    ? Images.visibilityOnIcon
-                    : Images.visibilityOffIcon,
-              ),
-            ),
-          ),
-          hintText: "Enter password",
-          hintStyle: TextStyle(
-            color: ColorResources.grey777,
-            fontSize: 16,
-            fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-          ),
-          filled: false,
-          border: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
-          ),
           enabledBorder: UnderlineInputBorder(
             borderSide: errorPass == false
                 ? const BorderSide(color: ColorResources.greyA0A, width: 1)
                 : const BorderSide(color: Colors.red, width: 1),
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
+          hintText: "Enter password",
+          suffixIcon: IconButton(
+            onPressed: () => updatePasswordStatus("password"),
+            icon: Icon(
+                _isVisiblePassword ? Icons.visibility : Icons.visibility_off),
           ),
         ),
       );

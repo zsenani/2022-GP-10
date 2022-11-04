@@ -42,6 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
   bool error = false;
   bool errorPassword = false;
   bool errorID = false;
+  bool _isVisiblePassword = false;
+
   final TextEditingController idController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -49,6 +51,11 @@ class _SignInScreenState extends State<SignInScreen> {
   final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
+  updatePasswordStatus() {
+    setState(() {
+      _isVisiblePassword = !_isVisiblePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,19 +64,12 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.all(7),
+          padding: const EdgeInsets.all(10),
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(index.routeName);
             },
             child: Container(
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
-                ),
-              ),
               child:
                   const Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
@@ -77,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 15),
+            padding: const EdgeInsets.only(right: 10, top: 10),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(index.routeName);
@@ -85,13 +85,6 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Container(
                 height: 40,
                 width: 40,
-                decoration: BoxDecoration(
-                  color: ColorResources.whiteF6F,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                  ),
-                ),
                 child: const Icon(Icons.home_outlined,
                     color: ColorResources.grey777),
               ),
@@ -231,7 +224,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                             if (widget.role == 'patient')
                               if (error)
-                                mediumText("Username or Password incorrect!",
+                                mediumText("Username or Password incorrect",
                                     Colors.red, 16),
                             if (widget.role == 'patient')
                               const SizedBox(height: 10),
@@ -289,7 +282,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             const SizedBox(height: 3),
                             if (errorID)
-                              mediumText(" Username is Empty!", Colors.red, 16),
+                              mediumText(
+                                  "  Please enter your ID", Colors.red, 16),
 
                             const SizedBox(height: 30),
                             Row(
@@ -303,76 +297,52 @@ class _SignInScreenState extends State<SignInScreen> {
                                     "Password", ColorResources.grey777, 16),
                               ],
                             ),
-                            Obx(
-                              () => TextFormField(
-                                cursorColor: ColorResources.black,
-                                obscureText:
-                                    variableController.isOpenLogIn.value,
-                                controller: passwordController,
-                                keyboardType: TextInputType.text,
-                                style: TextStyle(
-                                  color: ColorResources.black,
-                                  fontSize: 16,
-                                  fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                            TextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: passwordController,
+                              obscureText: _isVisiblePassword ? false : true,
+                              decoration: InputDecoration(
+                                hintText: " Enter password",
+                                suffixIcon: IconButton(
+                                  onPressed: () => updatePasswordStatus(),
+                                  icon: Icon(_isVisiblePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  color: ColorResources.grey9AA,
                                 ),
-                                decoration: InputDecoration(
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: InkWell(
-                                      onTap: () {
-                                        variableController.isOpenLogIn.value =
-                                            !variableController
-                                                .isOpenLogIn.value;
-                                      },
-                                      child: SvgPicture.asset(
-                                        variableController.isOpenLogIn.isFalse
-                                            ? Images.visibilityOnIcon
-                                            : Images.visibilityOffIcon,
-                                      ),
-                                    ),
-                                  ),
-                                  hintText: "Enter password",
-                                  hintStyle: TextStyle(
-                                    color: ColorResources.grey777,
-                                    fontSize: 16,
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_BOOK,
-                                  ),
-                                  filled: true,
-                                  fillColor: ColorResources.whiteF6F,
-                                  border: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                                border: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 3),
                             if (errorPassword)
-                              mediumText(" Password is Empty!", Colors.red, 16),
+                              mediumText("  Please enter your Password",
+                                  Colors.red, 16),
 
                             const SizedBox(height: 10),
                             Align(
