@@ -57,19 +57,12 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.all(7),
+          padding: const EdgeInsets.all(10),
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(index.routeName);
             },
             child: Container(
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
-                ),
-              ),
               child:
                   const Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
@@ -77,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 15),
+            padding: const EdgeInsets.only(right: 10, top: 10),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(index.routeName);
@@ -85,13 +78,6 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Container(
                 height: 40,
                 width: 40,
-                decoration: BoxDecoration(
-                  color: ColorResources.whiteF6F,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                  ),
-                ),
                 child: const Icon(Icons.home_outlined,
                     color: ColorResources.grey777),
               ),
@@ -231,7 +217,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                             if (widget.role == 'patient')
                               if (error)
-                                mediumText("Username or Password incorrect!",
+                                mediumText("Username or Password incorrect",
                                     Colors.red, 16),
                             if (widget.role == 'patient')
                               const SizedBox(height: 10),
@@ -289,7 +275,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             const SizedBox(height: 3),
                             if (errorID)
-                              mediumText(" Username is Empty!", Colors.red, 16),
+                              mediumText(
+                                  "  Please enter your ID", Colors.red, 16),
 
                             const SizedBox(height: 30),
                             Row(
@@ -372,7 +359,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             const SizedBox(height: 3),
                             if (errorPassword)
-                              mediumText(" Password is Empty!", Colors.red, 16),
+                              mediumText("  Please enter your Password",
+                                  Colors.red, 16),
 
                             const SizedBox(height: 10),
                             Align(
