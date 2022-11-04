@@ -218,11 +218,6 @@ class DBConnection {
       print(isCorrect);
       if (isCorrect) {
         return false;
-        // if (role.compareTo('Patient') == 0)
-        //   Get.to(PatientHomeScreen(), arguments: 'patient');
-        // else if (role.compareTo('Physician') == 0)
-        //   Get.to(HomeScreen());
-        // else if (role.compareTo('Lab specialist') == 0) Get.to(LabHomePage1());
       } else
         print('Sorry user name or password not correct');
       return true;
