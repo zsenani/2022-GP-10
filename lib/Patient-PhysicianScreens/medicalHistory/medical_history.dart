@@ -174,153 +174,144 @@ class MedicalHistory extends StatelessWidget {
                         thickness: 1,
                       ),
                       SizedBox(height: 30),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.allergy2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Allergies",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText("Balsam of Peru",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("Sulfonamides",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                                SizedBox(width: 50),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.group,
-                                        color: Color.fromRGBO(241, 94, 34, 0.7),
-                                        size: 30),
-                                    SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 6),
-                                          child: mediumText("Social History",
-                                              ColorResources.grey777, 18),
-                                        ),
-                                        SizedBox(height: 10),
-                                        romanText("Tobacco use",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.family2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Family History",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText(
-                                        "Diabetes", ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("High Blood Pressure",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                                SizedBox(width: 8),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      Images.surgery2,
-                                      width: 25,
-                                      height: 25,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 6),
-                                          child: mediumText("Surgical History",
-                                              ColorResources.grey777, 18),
-                                        ),
-                                        SizedBox(height: 10),
-                                        romanText("Heart Surgery",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                        romanText("Appendectomy",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.illness2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Medical Illnesses",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText("Coronavirus",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("Bone Cancer",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ]),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            Images.allergy2,
+                            width: 25,
+                            height: 25,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 6),
+                                child: mediumText(
+                                    "Allergies", ColorResources.grey777, 18),
+                              ),
+                              SizedBox(height: 10),
+                              romanText(
+                                  "Balsam of Peru", ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                              romanText(
+                                  "Sulfonamides", ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                          SizedBox(width: 50),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.group,
+                                  color: Color.fromRGBO(241, 94, 34, 0.7),
+                                  size: 30),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 6),
+                                    child: mediumText("Social History",
+                                        ColorResources.grey777, 18),
+                                  ),
+                                  SizedBox(height: 10),
+                                  romanText("Tobacco use",
+                                      ColorResources.grey777, 16),
+                                  SizedBox(height: 10),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            Images.family2,
+                            width: 25,
+                            height: 25,
+                          ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 6),
+                                child: mediumText("Family History",
+                                    ColorResources.grey777, 18),
+                              ),
+                              SizedBox(height: 10),
+                              romanText("Diabetes", ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                              romanText("High Blood Pressure",
+                                  ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                          SizedBox(width: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                Images.surgery2,
+                                width: 25,
+                                height: 25,
+                              ),
+                              SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 6),
+                                    child: mediumText("Surgical History",
+                                        ColorResources.grey777, 18),
+                                  ),
+                                  SizedBox(height: 10),
+                                  romanText("Heart Surgery",
+                                      ColorResources.grey777, 16),
+                                  SizedBox(height: 10),
+                                  romanText("Appendectomy",
+                                      ColorResources.grey777, 16),
+                                  SizedBox(height: 10),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            Images.illness2,
+                            width: 25,
+                            height: 25,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 6),
+                                child: mediumText("Medical Illnesses",
+                                    ColorResources.grey777, 18),
+                              ),
+                              SizedBox(height: 10),
+                              romanText(
+                                  "Coronavirus", ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                              romanText(
+                                  "Bone Cancer", ColorResources.grey777, 16),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 30),
                       role == "UPphysician"
                           ? Column(

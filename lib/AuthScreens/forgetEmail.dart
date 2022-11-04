@@ -91,7 +91,8 @@ class _ForgetEmailState extends State<ForgetEmail> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 60),
+        padding:
+            const EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 60),
         child: Form(
           key: formKey,
           child: Column(
