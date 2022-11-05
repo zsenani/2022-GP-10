@@ -9,3 +9,5 @@
 # It is an iOS application developed using Flutter & Dart.
 
 # To launch the application, you can apen the lib, assets and pubspec.yaml in a flutter project using Visual Studio.
+
+# MedCore Admin Panel Repository: https://github.com/zsenani/2022-GP-10-Admin-Panel.git
