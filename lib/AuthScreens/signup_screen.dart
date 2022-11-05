@@ -111,7 +111,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             } else if (isSecondStep) {
               checkSecond();
             } else {
-              GenderlocationController.text = "select your gender";
+              GenderlocationController.text = "Select your gender";
+              maritalStatusController.text = "Select your marital status";
+              nationalityController.text = "المملكة العربية السعودية";
 
               checkFirst();
             }
@@ -195,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         IDController.text,
       );
 
-      Get.to(SignInScreen(role: "patient"));
+      Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
     }
   }
 
@@ -216,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           IDController.text,
           IDOfHospitals);
 
-      Get.to(SignInScreen(role: "hospital"));
+      Get.to(HomeScreen(id: IDController.text));
     }
   }
 
@@ -234,10 +236,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         confirmEmailController.text,
         nationalityController.text,
         IDController.text,
-        hospital,
       );
 
-      Get.to(SignInScreen(role: "hospital"));
+      Get.to(LabHomePage1(id: IDController.text));
     }
   }
 
@@ -343,7 +344,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String lemail,
     String lnationality,
     String lnationalId,
-    String lhospital,
   ) async {
     var _id = M.ObjectId();
     final data = Welcome3(
@@ -356,7 +356,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       email: lemail,
       nationality: lnationality,
       nationalId: lnationalId,
-      hospital: lhospital,
     );
     var result = await DBConnection.insertLab(data, lnationalId);
     _clearAll3();
@@ -412,7 +411,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             error: errorID || errorID2),
                         const SizedBox(height: 5),
                         if (errorID == true)
-                          mediumText("Enter a valid ID", Colors.red, 16),
+                          mediumText("ID should be 10 digits", Colors.red, 16),
                         if (errorID2 == true)
                           mediumText("ID Already used", Colors.red, 16),
                         const SizedBox(height: 30),
@@ -550,7 +549,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool errorName = false;
   bool errorSpecialization = false;
   bool errorEmail = false;
-  bool errorNationality = false;
   bool errorGender = false;
   bool errorMaritalStatus = false;
   bool errorRole = false;
@@ -592,24 +590,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  bool validateNationality(String value) {
-    if (value.isEmpty) {
-      print('Enter Valid nationality');
-      setState(() {
-        errorNationality = true;
-      });
-      return false;
-    } else {
-      print("valid Nationality");
-      setState(() {
-        errorNationality = false;
-      });
-      return true;
-    }
-  }
-
   bool validateGender(String value) {
-    if (value.isEmpty || value == "select your gender") {
+    if (value.isEmpty || value == "Select your gender") {
       print('Enter Valid gender');
       setState(() {
         errorGender = true;
@@ -690,7 +672,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool validateMaritalStatus(String value) {
-    if (value.isEmpty) {
+    if (value.isEmpty || value == "Select your marital status") {
       print('Enter Valid marital status');
       setState(() {
         errorMaritalStatus = true;
@@ -1038,16 +1020,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                         Divider(
-                          color: errorNationality == false
-                              ? Colors.black
-                              : Colors.red,
+                          color: Colors.black,
                           indent: 0,
                           thickness: 0.4,
                         ),
-                        const SizedBox(height: 5),
-                        if (errorNationality == true)
-                          mediumText(
-                              "Enter a valid nationality", Colors.red, 16),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -1070,7 +1046,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
-                              hintText: 'select your gender',
+                              hintText: GenderlocationController.text,
                               hintStyle:
                                   TextStyle(color: ColorResources.grey777),
                               enabledBorder: UnderlineInputBorder(
@@ -1117,7 +1093,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ],
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                hintText: 'select your marital status',
+                                hintText: maritalStatusController.text,
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: errorMaritalStatus == false
                                       ? const BorderSide(
@@ -1262,7 +1238,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         passValidator(),
                         const SizedBox(height: 5),
                         if (errorPass == true)
-                          mediumText("Enter a valid password", Colors.red, 16),
+                          mediumText("Password should be at least 8 characters",
+                              Colors.red, 15),
+                        if (errorPass == true)
+                          mediumText(
+                              "one uppercase, lowercase characters, one digit and special character",
+                              Colors.red,
+                              15),
                         const SizedBox(height: 30),
                         Row(
                           children: [
@@ -1368,7 +1350,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
     validateMyName(nameController.text);
     validateEmail(emailController.text);
-    validateNationality(nationalityController.text);
     validateGender(GenderlocationController.text);
     validateMyPhone(phoneController.text);
     validateMyPass(passwordController.text);
@@ -1384,7 +1365,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         emailController.text == confirmEmailController.text &&
         !errorGender &&
         !errorName &&
-        !errorNationality &&
         !errorPass &&
         passwordController.text == confirmPasswordController.text &&
         !errorPhone) {
@@ -1536,7 +1516,7 @@ HospitalsLab() async {
   int ArrayLength = ArrayOfHospitals.length;
 
   String Hospital;
-  String ID;
+  //String ID;
   await collection.find().forEach((element) {
     if (isFinish2 < ArrayLength) {
       Hospital = element['name'] + ", " + element['district'];
@@ -1545,14 +1525,10 @@ HospitalsLab() async {
       if (hospital == Hospital) {
         // ID = element['hospitalId'];
         hid = element['_id'];
-        ID = element['_id'].$oid.toString();
-        hospital = ID;
-        print(hospital);
-        print(hid);
+        // ID = element['_id'].$oid.toString();
+        // hospital = ID;
       }
-
       isFinish2 = isFinish2 + 1;
     }
   });
-  print(hospital);
 }

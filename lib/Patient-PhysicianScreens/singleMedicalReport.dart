@@ -220,7 +220,7 @@ class singleMedicalReport extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: mediumText(
-                              "Assignment", Color.fromRGBO(241, 94, 34, 1), 18),
+                              "Assessment", Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
                         SizedBox(height: 10),
                         Padding(

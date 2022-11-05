@@ -161,7 +161,7 @@ class MedicalHistory extends StatelessWidget {
                                   bookText("Marital Status:   ",
                                       ColorResources.greyA0A, 16),
                                   mediumText(
-                                      "Singal", ColorResources.grey777, 16),
+                                      "Single", ColorResources.grey777, 16),
                                 ],
                               ),
                             ],

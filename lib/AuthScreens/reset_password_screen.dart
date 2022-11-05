@@ -167,7 +167,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   obscureText: _isVisiblleConfirmPassword ? false : true,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: currentPasswordController.text ==
+                      borderSide: newPasswordController.text ==
                               confirmPasswordController.text
                           ? const BorderSide(
                               color: ColorResources.greyA0A, width: 1)
@@ -175,7 +175,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     hintText: "Enter your new password again",
                     suffixIcon: IconButton(
-                      onPressed: () => updatePasswordStatus("currentPassword"),
+                      onPressed: () => updatePasswordStatus("confirmPassword"),
                       icon: Icon(_isVisiblleConfirmPassword
                           ? Icons.visibility
                           : Icons.visibility_off),
