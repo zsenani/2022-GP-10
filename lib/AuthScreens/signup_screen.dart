@@ -865,6 +865,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             RolelocationController.selectedValue ==
                                 'Lab specialist')
                           DropdownSearch<String>(
+                            selectedItem: hospital,
                             popupProps: PopupProps.menu(
                               showSearchBox: true,
                               showSelectedItems: true,
@@ -913,6 +914,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 // inputDecorationTheme: InputDecorationTheme()
                               ),
                               child: DropdownSearch<String>.multiSelection(
+                                selectedItems: hospitalsll,
                                 items: ArrayOfHospitals,
                                 popupProps: PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -942,6 +944,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 onChanged: (List<String> selectedValue) {
                                   hospitals = selectedValue;
+                                  hospitalsll = selectedValue;
                                 },
                               )),
                         const SizedBox(height: 5),
@@ -1477,6 +1480,7 @@ final RoleLocationController RolelocationController =
 
 List<String> ArrayOfHospitals = new List<String>();
 List<String> hospitals;
+List<String> hospitalsll = [];
 List<String> IDOfHospitals = new List<String>();
 String hospital;
 bool addedHospitals = false;

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
+import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:medcore/index.dart';
 import 'package:medcore/MongoDBModel.dart';
 // import 'package:mongo_dart/mongo_dart.dart';
+import '../Controller/role_location_controller.dart';
+import '../Utiils/text_font_family.dart';
 import '../database/constant.dart';
 import '../database/mongoDB.dart';
 import 'package:medcore/mongoDBModel2.dart';
@@ -21,6 +24,7 @@ final TextEditingController emailController = TextEditingController();
 var totalLength = 0;
 var mail;
 String role2;
+bool errorRoleSelect = false;
 
 class ForgetEmail extends StatefulWidget {
   String role;
@@ -37,7 +41,6 @@ class ForgetEmail extends StatefulWidget {
 
 class _ForgetEmailState extends State<ForgetEmail> {
   final formKey = GlobalKey<FormState>();
-  int _dummy = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +103,93 @@ class _ForgetEmailState extends State<ForgetEmail> {
               const SizedBox(height: 40),
               heavyText("Forgot password", ColorResources.green009, 24),
               const SizedBox(height: 15),
-              bookText(
-                  "Please enter your email below to receive your OTP number.",
-                  ColorResources.greyA0A,
-                  16),
+              if (widget.role != 'patient')
+                bookText(
+                    "Please enter your role and email below to receive your OTP number.",
+                    ColorResources.greyA0A,
+                    16),
+              if (widget.role == 'patient')
+                bookText(
+                    "Please enter your email below to receive your OTP number.",
+                    ColorResources.greyA0A,
+                    16),
               const SizedBox(height: 50),
+              if (widget.role != 'patient')
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.group_outlined,
+                      color: ColorResources.orange,
+                    ),
+                    const SizedBox(width: 15),
+                    mediumText("Role", ColorResources.grey777, 16),
+                  ],
+                ),
+              if (widget.role != 'patient')
+                FormField(
+                  builder: (FormFieldState<String> state) => InputDecorator(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(12, 10, 20, 20),
+                      border: UnderlineInputBorder(
+                        borderSide: errorRoleSelect == false
+                            ? const BorderSide(
+                                color: ColorResources.greyA0A, width: 1)
+                            : const BorderSide(color: Colors.red, width: 1),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: errorRoleSelect == false
+                            ? const BorderSide(
+                                color: ColorResources.greyA0A, width: 1)
+                            : const BorderSide(color: Colors.red, width: 1),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: errorRoleSelect == false
+                            ? const BorderSide(
+                                color: ColorResources.greyA0A, width: 1)
+                            : const BorderSide(color: Colors.red, width: 1),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    child: GetBuilder<RoleLocationController>(
+                      init: RoleLocationController(),
+                      builder: (controller) {
+                        return DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: RolelocationController.selectedValue,
+                            items: RolelocationController.role.map((element) {
+                              return DropdownMenuItem<String>(
+                                child: Text(element),
+                                value: element,
+                              );
+                            }).toList(),
+                            hint: const Text("Select your role"),
+                            style: TextStyle(
+                              color: ColorResources.greyA0A,
+                              fontSize: 16,
+                              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                            ),
+                            isExpanded: true,
+                            isDense: true,
+                            onChanged: (newValue) {
+                              RolelocationController.setSelected(
+                                  newValue.toString());
+                              role2 = newValue.toString();
+                              print(role2);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 5),
+              if (errorRoleSelect == true && role2 != "patient")
+                mediumText("  please select your role first ", Colors.red, 16),
+              const SizedBox(
+                height: 16,
+              ),
               Row(
                 children: [
                   const Icon(Icons.email_outlined,
@@ -118,6 +203,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
               const SizedBox(height: 30),
               const Spacer(),
               commonButton(() {
+                checkRole();
                 checkEmail();
               }, "Send OTP", ColorResources.green009, ColorResources.white),
             ],
@@ -125,6 +211,18 @@ class _ForgetEmailState extends State<ForgetEmail> {
         ),
       ),
     );
+  }
+
+  void checkRole() {
+    if (role2 != "Physician" || role2 != "Lab specialist") {
+      setState(() {
+        errorRoleSelect = true;
+      });
+    } else {
+      setState(() {
+        errorRoleSelect = false;
+      });
+    }
   }
 
   Future<void> checkEmail() async {

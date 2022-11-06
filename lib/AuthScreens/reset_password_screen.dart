@@ -15,6 +15,8 @@ String patientId;
 String role3;
 bool errorPass = false;
 bool errorCurrentPass = false;
+bool errorEq = false;
+bool errorEqOld = false;
 
 class ResetPasswordScreen extends StatefulWidget {
   ResetPasswordScreen({Key key, String id, String role}) : super(key: key) {
@@ -150,6 +152,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     padding: EdgeInsets.only(right: 185),
                     child: mediumText("Enter a valid password", Colors.red, 16),
                   ),
+                if (errorEq == true)
+                  Padding(
+                    padding: EdgeInsets.only(right: 50),
+                    child: mediumText(
+                        "new password and the confirmation password didn't match",
+                        Colors.red,
+                        16),
+                  ),
+                if (errorEqOld == true)
+                  Padding(
+                    padding: EdgeInsets.only(right: 50),
+                    child: mediumText(
+                        "New password and the Old password are matching",
+                        Colors.red,
+                        16),
+                  ),
                 const SizedBox(height: 30),
                 Row(
                   children: [
@@ -167,8 +185,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   obscureText: _isVisiblleConfirmPassword ? false : true,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: newPasswordController.text ==
-                              confirmPasswordController.text
+                      borderSide: errorEq == false && errorEqOld == false
                           ? const BorderSide(
                               color: ColorResources.greyA0A, width: 1)
                           : const BorderSide(color: Colors.red, width: 1),
@@ -184,6 +201,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 const SizedBox(height: 30),
                 commonButton(() {
+                  checkEq();
                   validateMyPass(confirmPasswordController.text);
                   checkPass();
                   // print(errorCurrentPass);
@@ -203,9 +221,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         obscureText: _isVisiblePassword ? false : true,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
+            borderSide:
+                errorPass == false && errorEq == false && errorEqOld == false
+                    ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+                    : const BorderSide(color: Colors.red, width: 1),
           ),
           hintText: "Enter your new password",
           suffixIcon: IconButton(
@@ -215,6 +234,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           ),
         ),
       );
+  void checkEq() {
+    if (newPasswordController.text == confirmPasswordController.text) {
+      setState(() {
+        errorEq = false;
+      });
+    } else {
+      setState(() {
+        errorEq = true;
+      });
+    }
+    if (currentPasswordController.text == newPasswordController.text) {
+      setState(() {
+        errorEqOld = true;
+      });
+    } else {
+      setState(() {
+        errorEqOld = false;
+      });
+    }
+  }
 
   showAlertDialog1(BuildContext context) {
     // set up the buttons
@@ -263,9 +302,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool validateMyPass(String value) {
     Pattern pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$";
     RegExp regex = new RegExp(pattern);
-    if (regex.hasMatch(value) &&
-        newPasswordController.text.compareTo(confirmPasswordController.text) ==
-            0) {
+    if (regex.hasMatch(value)) {
       print('Valid password');
       setState(() {
         errorPass = false;
@@ -300,7 +337,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         errorCurrentPass = true;
       });
     }
-    if (errorCurrentPass == false && errorPass == false) {
+    if (errorCurrentPass == false &&
+        errorPass == false &&
+        errorEq == false &&
+        errorEqOld == false) {
       showAlertDialog1(context);
     }
   }

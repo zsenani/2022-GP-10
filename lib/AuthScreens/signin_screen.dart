@@ -349,17 +349,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               alignment: Alignment.topRight,
                               child: InkWell(
                                 onTap: () {
-                                  print(widget.role);
-                                  if (widget.role == "hospital") {
-                                    setState(() {
-                                      errorRoleSelect = true;
-                                    });
-                                  } else {
-                                    Get.to(ForgetEmail(
-                                      role: widget.role,
-                                    ));
-                                    errorRoleSelect = false;
-                                  }
+                                  Get.to(ForgetEmail(role: widget.role));
                                 },
                                 child: heavyText("Forgot password?",
                                     ColorResources.greyA0A, 14),
@@ -441,16 +431,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   errorPassword = false;
                                   errorID = false;
                                 });
-                              else
-                              // if (widget.role == 'Lab specialist') {
-                              //   Get.to(LabHomePage1(id: idController.text));
-                              // } else if (widget.role == 'Physician') {
-                              //   Get.to(HomeScreen(id: idController.text));
-                              // } else {
-                              //   Get.to(PatientHomeScreen(id: idController.text),
-                              //       arguments: 'patient');
-                              // }
-                              if (widget.role == 'Lab specialist') {
+                              else if (widget.role == 'Lab specialist') {
                                 AuthlogIn1("Lab specialist", idController,
                                     passwordController);
                               } else if (widget.role == 'Physician') {
