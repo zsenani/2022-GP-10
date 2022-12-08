@@ -235,8 +235,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     mediumText("Adress", ColorResources.grey777, 16),
                   ],
                 ),
-                textField1("Saudi Arabia,Riyadh", emailController,
-                    TextInputType.emailAddress),
+                textField1("Saudi Arabia,Riyadh", addressController,
+                    TextInputType.text),
                 const SizedBox(height: 60),
                 commonButton(() {
                   showAlertDialog1(context);

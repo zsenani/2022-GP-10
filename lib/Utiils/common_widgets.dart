@@ -187,13 +187,6 @@ AppBar appBar(BuildContext context, color) {
           Navigator.of(context).pop();
         },
         child: Container(
-          decoration: BoxDecoration(
-            color: ColorResources.whiteF6F,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: ColorResources.greyA0A.withOpacity(0.2),
-            ),
-          ),
           child: const Icon(Icons.arrow_back, color: ColorResources.grey777),
         ),
       ),
@@ -208,13 +201,6 @@ AppBar appBar(BuildContext context, color) {
           child: Container(
             height: 40,
             width: 40,
-            decoration: BoxDecoration(
-              color: ColorResources.whiteF6F,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: ColorResources.greyA0A.withOpacity(0.2),
-              ),
-            ),
             child:
                 const Icon(Icons.home_outlined, color: ColorResources.grey777),
           ),

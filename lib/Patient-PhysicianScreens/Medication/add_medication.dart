@@ -44,23 +44,20 @@ class _AddMedicationState extends State<AddMedication> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 30, top: 40),
-                          child: Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: ColorResources.whiteF6F,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: ColorResources.white.withOpacity(0.2),
-                                  width: 1,
-                                ),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: ColorResources.whiteF6F,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: ColorResources.white.withOpacity(0.2),
+                                width: 1,
                               ),
-                              child: Center(
-                                child: Icon(Icons.arrow_back,
-                                    color: ColorResources.grey777),
-                              ),
+                            ),
+                            child: Center(
+                              child: Icon(Icons.arrow_back,
+                                  color: ColorResources.grey777),
                             ),
                           ),
                         ),

@@ -15,6 +15,8 @@ String patientId;
 String role3;
 bool errorPass = false;
 bool errorCurrentPass = false;
+bool errorEq = false;
+bool errorEqOld = false;
 
 class ResetPasswordScreen extends StatefulWidget {
   ResetPasswordScreen({Key key, String id, String role}) : super(key: key) {
@@ -25,6 +27,10 @@ class ResetPasswordScreen extends StatefulWidget {
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
+
+bool _isVisiblePassword = false;
+bool _isVisiblleConfirmPassword = false;
+bool _isVisibleCurrentPass = false;
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController currentPasswordController =
@@ -39,210 +45,183 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final VariableController confirmVariableController =
       Get.put(VariableController());
 
+  void updatePasswordStatus(who) {
+    if (who == 'password') {
+      setState(() {
+        _isVisiblePassword = !_isVisiblePassword;
+      });
+    } else if (who == 'confirmPassword') {
+      setState(() {
+        _isVisiblleConfirmPassword = !_isVisiblleConfirmPassword;
+      });
+    } else if (who == 'currentPassword') {
+      setState(() {
+        _isVisibleCurrentPass = !_isVisibleCurrentPass;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF7F,
-      appBar: AppBar(
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
         backgroundColor: ColorResources.whiteF7F,
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 18, top: 35, bottom: 8),
-          child: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Container(
-              height: 40,
-              width: 40,
-              child: const Center(
-                child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+        appBar: AppBar(
+          backgroundColor: ColorResources.whiteF7F,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          centerTitle: true,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 18, top: 35, bottom: 8),
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                child: const Center(
+                  child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+                ),
               ),
             ),
           ),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 10, top: 38, bottom: 8),
+            child: mediumText("Reset Password", ColorResources.grey777, 24),
+          ),
         ),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10, top: 38, bottom: 8),
-          child: mediumText("Reset Password", ColorResources.grey777, 24),
-        ),
-      ),
-      body: ScrollConfiguration(
-        behavior: MyBehavior(),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 65),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.lock_outlined,
-                      color: ColorResources.orange,
-                    ),
-                    const SizedBox(width: 15),
-                    mediumText("Current password", ColorResources.grey777, 16),
-                  ],
-                ),
-                Obx(
-                  () => TextFormField(
-                    cursorColor: ColorResources.black,
-                    obscureText: currentVariableController.isOpenPassword.value,
-                    controller: currentPasswordController,
+        body: ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 65),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.lock_outlined,
+                        color: ColorResources.orange,
+                      ),
+                      const SizedBox(width: 15),
+                      mediumText(
+                          "Current password", ColorResources.grey777, 16),
+                    ],
+                  ),
+                  TextFormField(
                     keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: ColorResources.black,
-                      fontSize: 16,
-                      fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                    ),
+                    controller: currentPasswordController,
+                    obscureText: _isVisibleCurrentPass ? false : true,
                     decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: InkWell(
-                          onTap: () {
-                            currentVariableController.isOpenPassword.value =
-                                !currentVariableController.isOpenPassword.value;
-                          },
-                          child: SvgPicture.asset(
-                            currentVariableController.isOpenPassword.isFalse
-                                ? Images.visibilityOnIcon
-                                : Images.visibilityOffIcon,
-                          ),
-                        ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: errorCurrentPass == false
+                            ? const BorderSide(
+                                color: ColorResources.greyA0A, width: 1)
+                            : const BorderSide(color: Colors.red, width: 1),
                       ),
                       hintText: "Enter your current password",
-                      hintStyle: TextStyle(
-                        color: ColorResources.grey777,
-                        fontSize: 16,
-                        fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                      ),
-                      filled: true,
-                      fillColor: ColorResources.whiteF6F,
-                      border: UnderlineInputBorder(
-                        borderSide: errorCurrentPass == false
-                            ? const BorderSide(
-                                color: ColorResources.greyA0A, width: 1)
-                            : const BorderSide(color: Colors.red, width: 1),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: errorCurrentPass == false
-                            ? const BorderSide(
-                                color: ColorResources.greyA0A, width: 1)
-                            : const BorderSide(color: Colors.red, width: 1),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: errorCurrentPass == false
-                            ? const BorderSide(
-                                color: ColorResources.greyA0A, width: 1)
-                            : const BorderSide(color: Colors.red, width: 1),
+                      suffixIcon: IconButton(
+                        onPressed: () =>
+                            updatePasswordStatus("currentPassword"),
+                        icon: Icon(_isVisibleCurrentPass
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                if (errorCurrentPass == true)
-                  Padding(
-                    padding: EdgeInsets.only(right: 225),
-                    child: mediumText("Wrong password", Colors.red, 16),
-                  ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.lock_outlined,
-                      color: ColorResources.orange,
+                  const SizedBox(height: 5),
+                  if (errorCurrentPass == true)
+                    Padding(
+                      padding: EdgeInsets.only(right: 225),
+                      child: mediumText("Wrong password", Colors.red, 16),
                     ),
-                    const SizedBox(width: 15),
-                    mediumText("New password", ColorResources.grey777, 16),
-                  ],
-                ),
-                passValidator(),
-                const SizedBox(height: 5),
-                if (errorPass == true)
-                  Padding(
-                    padding: EdgeInsets.only(right: 185),
-                    child: mediumText("Enter a valid password", Colors.red, 16),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.lock_outlined,
+                        color: ColorResources.orange,
+                      ),
+                      const SizedBox(width: 15),
+                      mediumText("New password", ColorResources.grey777, 16),
+                    ],
                   ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.lock_outlined,
-                      color: ColorResources.orange,
+                  passValidator(),
+                  const SizedBox(height: 5),
+                  if (errorPass == true)
+                    Padding(
+                      padding: EdgeInsets.only(right: 185),
+                      child:
+                          mediumText("Enter a valid password", Colors.red, 16),
                     ),
-                    const SizedBox(width: 15),
-                    mediumText("Confirm password", ColorResources.grey777, 16),
-                  ],
-                ),
-                Obx(
-                  () => TextFormField(
-                    cursorColor: ColorResources.black,
-                    obscureText:
-                        confirmVariableController.isOpenConfirmPassword.value,
-                    controller: confirmPasswordController,
+                  if (errorEq == true)
+                    Padding(
+                      padding: EdgeInsets.only(right: 50),
+                      child: mediumText(
+                          "new password and the confirmation password didn't match",
+                          Colors.red,
+                          16),
+                    ),
+                  if (errorEqOld == true)
+                    Padding(
+                      padding: EdgeInsets.only(right: 50),
+                      child: mediumText(
+                          "New password and the Old password are matching",
+                          Colors.red,
+                          16),
+                    ),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.lock_outlined,
+                        color: ColorResources.orange,
+                      ),
+                      const SizedBox(width: 15),
+                      mediumText(
+                          "Confirm password", ColorResources.grey777, 16),
+                    ],
+                  ),
+                  TextFormField(
                     keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: ColorResources.black,
-                      fontSize: 16,
-                      fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                    ),
+                    controller: confirmPasswordController,
+                    obscureText: _isVisiblleConfirmPassword ? false : true,
                     decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: InkWell(
-                          onTap: () {
-                            confirmVariableController
-                                    .isOpenConfirmPassword.value =
-                                !confirmVariableController
-                                    .isOpenConfirmPassword.value;
-                          },
-                          child: SvgPicture.asset(
-                            confirmVariableController
-                                    .isOpenConfirmPassword.isFalse
-                                ? Images.visibilityOnIcon
-                                : Images.visibilityOffIcon,
-                          ),
-                        ),
-                      ),
-                      hintText: "Confirm your password",
-                      hintStyle: TextStyle(
-                        color: ColorResources.grey777,
-                        fontSize: 16,
-                        fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                      ),
-                      filled: true,
-                      fillColor: ColorResources.whiteF6F,
-                      border: UnderlineInputBorder(
-                        borderSide: errorPass == false
-                            ? const BorderSide(
-                                color: ColorResources.greyA0A, width: 1)
-                            : const BorderSide(color: Colors.red, width: 1),
-                      ),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: errorPass == false
+                        borderSide: errorEq == false && errorEqOld == false
                             ? const BorderSide(
                                 color: ColorResources.greyA0A, width: 1)
                             : const BorderSide(color: Colors.red, width: 1),
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: errorPass == false
-                            ? const BorderSide(
-                                color: ColorResources.greyA0A, width: 1)
-                            : const BorderSide(color: Colors.red, width: 1),
+                      hintText: "Enter your new password again",
+                      suffixIcon: IconButton(
+                        onPressed: () =>
+                            updatePasswordStatus("confirmPassword"),
+                        icon: Icon(_isVisiblleConfirmPassword
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                commonButton(() {
-                  validateMyPass(confirmPasswordController.text);
-                  checkPass();
-                  // print(errorCurrentPass);
-                }, "Reset", ColorResources.green009, ColorResources.white),
-                const SizedBox(height: 30),
-              ],
+                  const SizedBox(height: 30),
+                  commonButton(() {
+                    checkEq();
+                    validateMyPass(confirmPasswordController.text);
+                    checkPass();
+                    // print(errorCurrentPass);
+                  }, "Reset", ColorResources.green009, ColorResources.white),
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),
@@ -251,54 +230,44 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   passValidator() => TextFormField(
-        cursorColor: ColorResources.black,
-        obscureText: newVariableController.isOpenNewPassowrd.value,
-        controller: newPasswordController,
         keyboardType: TextInputType.text,
-        style: TextStyle(
-          color: ColorResources.black,
-          fontSize: 16,
-          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-        ),
+        controller: newPasswordController,
+        obscureText: _isVisiblePassword ? false : true,
         decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(15),
-            child: InkWell(
-              onTap: () {
-                newVariableController.isOpenNewPassowrd.value =
-                    !newVariableController.isOpenNewPassowrd.value;
-              },
-              child: SvgPicture.asset(
-                newVariableController.isOpenNewPassowrd.isFalse
-                    ? Images.visibilityOnIcon
-                    : Images.visibilityOffIcon,
-              ),
-            ),
-          ),
-          hintText: "Enter password",
-          hintStyle: TextStyle(
-            color: ColorResources.grey777,
-            fontSize: 16,
-            fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-          ),
-          filled: false,
-          border: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
-          ),
           enabledBorder: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
+            borderSide:
+                errorPass == false && errorEq == false && errorEqOld == false
+                    ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+                    : const BorderSide(color: Colors.red, width: 1),
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
+          hintText: "Enter your new password",
+          suffixIcon: IconButton(
+            onPressed: () => updatePasswordStatus("password"),
+            icon: Icon(
+                _isVisiblePassword ? Icons.visibility : Icons.visibility_off),
           ),
         ),
       );
+  void checkEq() {
+    if (newPasswordController.text == confirmPasswordController.text) {
+      setState(() {
+        errorEq = false;
+      });
+    } else {
+      setState(() {
+        errorEq = true;
+      });
+    }
+    if (currentPasswordController.text == newPasswordController.text) {
+      setState(() {
+        errorEqOld = true;
+      });
+    } else {
+      setState(() {
+        errorEqOld = false;
+      });
+    }
+  }
 
   showAlertDialog1(BuildContext context) {
     // set up the buttons
@@ -347,9 +316,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool validateMyPass(String value) {
     Pattern pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$";
     RegExp regex = new RegExp(pattern);
-    if (regex.hasMatch(value) &&
-        newPasswordController.text.compareTo(confirmPasswordController.text) ==
-            0) {
+    if (regex.hasMatch(value)) {
       print('Valid password');
       setState(() {
         errorPass = false;
@@ -384,7 +351,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         errorCurrentPass = true;
       });
     }
-    if (errorCurrentPass == false && errorPass == false) {
+    if (errorCurrentPass == false &&
+        errorPass == false &&
+        errorEq == false &&
+        errorEqOld == false) {
       showAlertDialog1(context);
     }
   }

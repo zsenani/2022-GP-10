@@ -1,9 +1,7 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:medcore/AuthScreens/forgetEmail.dart';
-<<<<<<< HEAD
 import 'package:medcore/AuthScreens/signin_screen.dart';
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -47,7 +45,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   int currentStep = 0;
   var hashedPassword;
 
-<<<<<<< HEAD
   DateTime pselectedDate = DateTime.now();
   DateTime plselectedDate = DateTime(
       DateTime.now().year - 20, DateTime.now().month, DateTime.now().day);
@@ -72,95 +69,98 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (role == 'patient' && picked != null && picked != pselectedDate) {
       setState(() {
         selectedDate = picked;
+        pselectedDate = picked;
       });
     } else if (role != 'patient' &&
         picked != null &&
         picked != plselectedDate) {
-=======
-  DateTime selectedDate = DateTime.now();
-  DateTime picked;
-  Future<void> selectDate(BuildContext context) async {
-    picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1900, 8),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate) {
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
       setState(() {
         selectedDate = picked;
+        plselectedDate = picked;
       });
     }
   }
 
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
   final VariableController variableController = Get.put(VariableController());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context, const Color.fromRGBO(244, 251, 251, 1)),
-      body: Theme(
-        data: ThemeData(
-          canvasColor: const Color.fromRGBO(244, 251, 251, 1),
-          colorScheme: Theme.of(context).colorScheme.copyWith(),
-        ),
-        child: Stepper(
-          type: StepperType.horizontal,
-          onStepTapped: (int step) {
-            if (step < currentStep) {
-              setState(() => currentStep = step);
-            }
-          },
-          steps: getSteps(),
-          currentStep: currentStep,
-          onStepContinue: () {
-            final isLastStep = currentStep == getSteps().length - 1;
-            final isSecondStep = currentStep == getSteps().length - 2;
-            if (isLastStep) {
-              print('Completed');
-              //Sent data to server
-            } else if (isSecondStep) {
-              checkSecond();
-            } else {
-              GenderlocationController.text = "select your gender";
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
 
-              checkFirst();
-            }
-          },
-          onStepCancel:
-              currentStep == 0 ? null : () => setState(() => currentStep -= 1),
-          controlsBuilder: (BuildContext context, ControlsDetails details) {
-            final isLastStep = currentStep == getSteps().length - 1;
-            final isSecondStep = currentStep == getSteps().length - 2;
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: appBar(context, const Color.fromRGBO(244, 251, 251, 1)),
+        body: Theme(
+          data: ThemeData(
+            canvasColor: const Color.fromRGBO(244, 251, 251, 1),
+            colorScheme: Theme.of(context).colorScheme.copyWith(),
+          ),
+          child: Stepper(
+            type: StepperType.horizontal,
+            onStepTapped: (int step) {
+              if (step < currentStep) {
+                setState(() => currentStep = step);
+              }
+            },
+            steps: getSteps(),
+            currentStep: currentStep,
+            onStepContinue: () {
+              final isLastStep = currentStep == getSteps().length - 1;
+              final isSecondStep = currentStep == getSteps().length - 2;
+              if (isLastStep) {
+                print('Completed');
+                //Sent data to server
+              } else if (isSecondStep) {
+                checkSecond();
+              } else {
+                GenderlocationController.text = "Select your gender";
+                maritalStatusController.text = "Select your marital status";
+                nationalityController.text = "المملكة العربية السعودية";
 
-            return Row(
-              children: <Widget>[
-                if (currentStep != 0 && currentStep != 2)
+                checkFirst();
+              }
+            },
+            onStepCancel: currentStep == 0
+                ? null
+                : () => setState(() => currentStep -= 1),
+            controlsBuilder: (BuildContext context, ControlsDetails details) {
+              final isLastStep = currentStep == getSteps().length - 1;
+              final isSecondStep = currentStep == getSteps().length - 2;
+
+              return Row(
+                children: <Widget>[
+                  if (currentStep != 0 && currentStep != 2)
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: details.onStepCancel,
+                        child: const Text('BACK'),
+                      ),
+                    ),
+                  if (currentStep != 0 && currentStep != 2)
+                    const SizedBox(width: 20),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: details.onStepCancel,
-                      child: const Text('BACK'),
+                      onPressed: isLastStep
+                          ? role == "patient"
+                              ? () => Patient()
+                              : RolelocationController.selectedValue ==
+                                      'Physician'
+                                  ? () => Physician()
+                                  : () => Lab()
+                          : details.onStepContinue,
+                      child: Text(isLastStep ? 'Verify' : 'NEXT'),
                     ),
                   ),
-                if (currentStep != 0 && currentStep != 2)
-                  const SizedBox(width: 20),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: isLastStep
-                        ? role == "patient"
-                            ? () => Patient()
-                            : RolelocationController.selectedValue ==
-                                    'Physician'
-                                ? () => Physician()
-                                : () => Lab()
-                        : details.onStepContinue,
-                    child: Text(isLastStep ? 'Verify' : 'NEXT'),
-                  ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -192,10 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void Patient() {
     verifyOtp(emailController.text, context);
-<<<<<<< HEAD
     pinPutController.clear();
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
     if (validateOTP == true) {
       _insertDataPatient(
         nameController.text,
@@ -210,20 +207,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         IDController.text,
       );
 
-<<<<<<< HEAD
-      Get.to(SignInScreen(role: "patient"));
-=======
-      Get.to(PatientHomeScreen(), arguments: 'patient');
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
+      Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
     }
   }
 
   void Physician() {
     verifyOtp(emailController.text, context);
-<<<<<<< HEAD
     pinPutController.clear();
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
     if (validateOTP == true && addedHospitals == true) {
       _insertDataPhysician(
           nameController.text,
@@ -238,20 +228,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           IDController.text,
           IDOfHospitals);
 
-<<<<<<< HEAD
-      Get.to(SignInScreen(role: "hospital"));
-=======
-      Get.to(HomeScreen());
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
+      Get.to(HomeScreen(id: IDController.text));
     }
   }
 
   void Lab() {
     verifyOtp(emailController.text, context);
-<<<<<<< HEAD
     pinPutController.clear();
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
     if (validateOTP == true) {
       _insertDataLab(
         nameController.text,
@@ -263,14 +246,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         confirmEmailController.text,
         nationalityController.text,
         IDController.text,
-        hospital,
       );
 
-<<<<<<< HEAD
-      Get.to(SignInScreen(role: "hospital"));
-=======
-      Get.to(LabHomePage1());
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
+      Get.to(LabHomePage1(id: IDController.text));
     }
   }
 
@@ -320,10 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     selectedDate = null;
     hospitals = null;
     IDOfHospitals = null;
-<<<<<<< HEAD
     picked = null;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   }
 
   Future<void> _insertDataPatient(
@@ -367,10 +342,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordController.text = "";
     selectedDate = null;
     maritalStatusController.text = "";
-<<<<<<< HEAD
     picked = null;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   }
 
   Future<void> _insertDataLab(
@@ -382,7 +354,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String lemail,
     String lnationality,
     String lnationalId,
-    String lhospital,
   ) async {
     var _id = M.ObjectId();
     final data = Welcome3(
@@ -395,7 +366,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       email: lemail,
       nationality: lnationality,
       nationalId: lnationalId,
-      hospital: lhospital,
     );
     var result = await DBConnection.insertLab(data, lnationalId);
     _clearAll3();
@@ -413,17 +383,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordController.text = "";
     selectedDate = null;
     hospital = null;
-<<<<<<< HEAD
     picked = null;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
   }
 
   TextEditingController IDController = TextEditingController();
 
   ScrollConfiguration FirstStep(context, selectedDate, selectDate) {
-    final formKey = GlobalKey<FormState>();
-
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: SingleChildScrollView(
@@ -448,14 +413,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             mediumText("Citizen ID/ Resident ID",
                                 ColorResources.grey777, 16),
                           ],
-<<<<<<< HEAD
                         ),
                         textField1(
                             "Enter your ID", IDController, TextInputType.number,
                             error: errorID || errorID2),
                         const SizedBox(height: 5),
                         if (errorID == true)
-                          mediumText("Enter a valid ID", Colors.red, 16),
+                          mediumText("ID should be 10 digits", Colors.red, 16),
                         if (errorID2 == true)
                           mediumText("ID Already used", Colors.red, 16),
                         const SizedBox(height: 30),
@@ -491,39 +455,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                         ),
-=======
-                        ),
-                        textField1(
-                            "Enter your ID", IDController, TextInputType.number,
-                            error: errorID || errorID2),
-                        const SizedBox(height: 5),
-                        if (errorID == true)
-                          mediumText("Enter a valid ID", Colors.red, 16),
-                        if (errorID2 == true)
-                          mediumText("ID Already used", Colors.red, 16),
-                        const SizedBox(height: 30),
-                        Row(
-                          children: [
-                            const Icon(Icons.calendar_today_outlined,
-                                color: ColorResources.orange),
-                            const SizedBox(width: 15),
-                            mediumText(
-                                "Date of birth", ColorResources.grey777, 16),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        InkWell(
-                          onTap: () => selectDate(context),
-                          child: Text(
-                            "${selectedDate.toLocal()}".split(' ')[0],
-                            style: TextStyle(
-                              color: ColorResources.grey777,
-                              fontSize: 16,
-                              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                            ),
-                          ),
-                        ),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                         Divider(
                           color: errorDate == false
                               ? Colors.black.withOpacity(0.4)
@@ -626,7 +557,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool errorName = false;
   bool errorSpecialization = false;
   bool errorEmail = false;
-  bool errorNationality = false;
   bool errorGender = false;
   bool errorMaritalStatus = false;
   bool errorRole = false;
@@ -635,6 +565,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool errorHospitals = false;
   bool errorID2 = false;
   bool errorEmail2 = false;
+  bool _isVisiblePassword = false;
+  bool _isVisiblleConfirmPassword = false;
+
+  void updatePasswordStatus(who) {
+    if (who == 'password') {
+      setState(() {
+        _isVisiblePassword = !_isVisiblePassword;
+      });
+    } else if (who == 'confirmPassword') {
+      setState(() {
+        _isVisiblleConfirmPassword = !_isVisiblleConfirmPassword;
+      });
+    }
+  }
 
   bool validateMyPhone(String value) {
     Pattern pattern = r'^[0-9]{9}$';
@@ -654,24 +598,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  bool validateNationality(String value) {
-    if (value.isEmpty) {
-      print('Enter Valid nationality');
-      setState(() {
-        errorNationality = true;
-      });
-      return false;
-    } else {
-      print("valid Nationality");
-      setState(() {
-        errorNationality = false;
-      });
-      return true;
-    }
-  }
-
   bool validateGender(String value) {
-    if (value.isEmpty || value == "select your gender") {
+    if (value.isEmpty || value == "Select your gender") {
       print('Enter Valid gender');
       setState(() {
         errorGender = true;
@@ -752,7 +680,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool validateMaritalStatus(String value) {
-    if (value.isEmpty) {
+    if (value.isEmpty || value == "Select your marital status") {
       print('Enter Valid marital status');
       setState(() {
         errorMaritalStatus = true;
@@ -872,10 +800,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController maritalStatusController = TextEditingController();
   //VariableController variableController = Get.put(VariableController());
-<<<<<<< HEAD
   bool isOther = false;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 
   int isFilled = 0;
   Hospitals() async {
@@ -892,10 +817,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  final formKey1 = GlobalKey<FormState>();
+  static final formKey1 = GlobalKey<FormState>();
 
   ScrollConfiguration SecondStep(context) {
-    Hospitals();
+    if (ArrayOfHospitals.isEmpty == true) Hospitals();
     if (role == 'hospital') {
       if (RolelocationController.selectedValue == "Physician")
         role = "Physician";
@@ -948,7 +873,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             RolelocationController.selectedValue ==
                                 'Lab specialist')
                           DropdownSearch<String>(
-<<<<<<< HEAD
+                            selectedItem: hospital,
                             popupProps: PopupProps.menu(
                               showSearchBox: true,
                               showSelectedItems: true,
@@ -980,26 +905,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onChanged: (String selectedValue) {
                               hospital = selectedValue;
                             },
-=======
-                            mode: Mode.MENU,
-                            maxHeight: 300,
-                            showSelectedItems: true,
-                            onChanged: (String selectedValue) {
-                              hospital = selectedValue;
-                            },
-                            items: ArrayOfHospitals,
-                            dropdownSearchDecoration: InputDecoration(
-                              hintText: "Select your hospital",
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: errorHospital == false
-                                    ? const BorderSide(
-                                        color: ColorResources.greyA0A, width: 1)
-                                    : const BorderSide(
-                                        color: Colors.red, width: 1),
-                              ),
-                            ),
-                            showSearchBox: true,
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                           ),
                         const SizedBox(height: 5),
                         if (role != 'patient' &&
@@ -1010,7 +915,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (role != 'patient' &&
                             RolelocationController.selectedValue == 'Physician')
                           Theme(
-<<<<<<< HEAD
                               data: ThemeData(
                                 primarySwatch: Colors.teal,
                                 materialTapTargetSize:
@@ -1018,6 +922,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 // inputDecorationTheme: InputDecorationTheme()
                               ),
                               child: DropdownSearch<String>.multiSelection(
+                                selectedItems: hospitalsll,
                                 items: ArrayOfHospitals,
                                 popupProps: PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -1047,38 +952,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 onChanged: (List<String> selectedValue) {
                                   hospitals = selectedValue;
+                                  hospitalsll = selectedValue;
                                 },
                               )),
-=======
-                            data: ThemeData(
-                                primarySwatch: Colors.teal,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap),
-                            child: DropdownSearch<String>.multiSelection(
-                              mode: Mode.MENU,
-                              maxHeight: 300,
-                              showSelectedItems: true,
-                              onChanged: (List<String> selectedValue) {
-                                hospitals = selectedValue;
-                              },
-                              items: ArrayOfHospitals,
-                              dropdownSearchDecoration: InputDecoration(
-                                labelStyle: TextStyle(fontSize: 1000),
-                                hintText: 'Select your hospital',
-                                hoverColor: ColorResources.orange,
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: errorHospitals == false
-                                      ? const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
-                                ),
-                              ),
-                              showSearchBox: true,
-                            ),
-                          ),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                         const SizedBox(height: 5),
                         if (role != 'patient' &&
                             RolelocationController.selectedValue ==
@@ -1155,16 +1031,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                         Divider(
-                          color: errorNationality == false
-                              ? Colors.black
-                              : Colors.red,
+                          color: Colors.black,
                           indent: 0,
                           thickness: 0.4,
                         ),
-                        const SizedBox(height: 5),
-                        if (errorNationality == true)
-                          mediumText(
-                              "Enter a valid nationality", Colors.red, 16),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -1177,23 +1047,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                         DropdownSearch<String>(
-<<<<<<< HEAD
                           popupProps: PopupProps.menu(
                             showSelectedItems: true,
                             constraints: BoxConstraints(maxHeight: 120),
                           ),
-=======
-                          mode: Mode.MENU,
-                          showSelectedItems: true,
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                           items: const [
                             "Female",
                             'Male',
                           ],
-<<<<<<< HEAD
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
-                              hintText: 'select your gender',
+                              hintText: GenderlocationController.text,
                               hintStyle:
                                   TextStyle(color: ColorResources.grey777),
                               enabledBorder: UnderlineInputBorder(
@@ -1203,17 +1067,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     : const BorderSide(
                                         color: Colors.red, width: 1),
                               ),
-=======
-                          maxHeight: 120,
-                          dropdownSearchDecoration: InputDecoration(
-                            hintText: GenderlocationController.text,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: errorGender == false
-                                  ? const BorderSide(
-                                      color: ColorResources.greyA0A, width: 1)
-                                  : const BorderSide(
-                                      color: Colors.red, width: 1),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                             ),
                           ),
                           onChanged: (String selectedValue) {
@@ -1238,15 +1091,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         if (role == 'patient')
                           DropdownSearch<String>(
-<<<<<<< HEAD
                             popupProps: PopupProps.menu(
                               showSelectedItems: true,
                               constraints: BoxConstraints(maxHeight: 280),
                             ),
-=======
-                            mode: Mode.MENU,
-                            showSelectedItems: true,
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                             items: const [
                               "Single",
                               'Married',
@@ -1254,10 +1102,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               'Separated',
                               'Widow(er)'
                             ],
-<<<<<<< HEAD
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                hintText: 'select your marital status',
+                                hintText: maritalStatusController.text,
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: errorMaritalStatus == false
                                       ? const BorderSide(
@@ -1266,16 +1113,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       : const BorderSide(
                                           color: Colors.red, width: 1),
                                 ),
-=======
-                            dropdownSearchDecoration: InputDecoration(
-                              hintText: 'select your marital status',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: errorMaritalStatus == false
-                                    ? const BorderSide(
-                                        color: ColorResources.greyA0A, width: 1)
-                                    : const BorderSide(
-                                        color: Colors.red, width: 1),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                               ),
                             ),
                             onChanged: (String selectedValue) {
@@ -1300,7 +1137,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         if (role != 'patient' &&
                             RolelocationController.selectedValue == 'Physician')
-<<<<<<< HEAD
                           DropdownSearch<String>(
                             popupProps: const PopupProps.menu(
                               showSelectedItems: true,
@@ -1374,12 +1210,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         SizedBox(height: 5),
-=======
-                          textField1("Enter your specialty",
-                              specializationController, TextInputType.name,
-                              error: errorSpecialization),
-                        const SizedBox(height: 5),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                         if (role != 'patient' &&
                             RolelocationController.selectedValue ==
                                 'Physician' &&
@@ -1419,7 +1249,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         passValidator(),
                         const SizedBox(height: 5),
                         if (errorPass == true)
-                          mediumText("Enter a valid password", Colors.red, 16),
+                          mediumText("Password should be at least 8 characters",
+                              Colors.red, 15),
+                        if (errorPass == true)
+                          mediumText(
+                              "one uppercase, lowercase characters, one digit and special character",
+                              Colors.red,
+                              15),
                         const SizedBox(height: 30),
                         Row(
                           children: [
@@ -1432,59 +1268,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "Confirm password", ColorResources.grey777, 16),
                           ],
                         ),
-                        Obx(
-                          () => TextFormField(
-                            cursorColor: ColorResources.black,
-                            obscureText:
-                                variableController.isOpenConfirmPassword.value,
-                            controller: confirmPasswordController,
-                            keyboardType: TextInputType.text,
-                            style: TextStyle(
-                              color: ColorResources.black,
-                              fontSize: 16,
-                              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: confirmPasswordController,
+                          obscureText:
+                              _isVisiblleConfirmPassword ? false : true,
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: passwordController.text ==
+                                      confirmPasswordController.text
+                                  ? const BorderSide(
+                                      color: ColorResources.greyA0A, width: 1)
+                                  : const BorderSide(
+                                      color: Colors.red, width: 1),
                             ),
-                            decoration: InputDecoration(
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: InkWell(
-                                  onTap: () {
-                                    variableController
-                                            .isOpenConfirmPassword.value =
-                                        !variableController
-                                            .isOpenConfirmPassword.value;
-                                  },
-                                  child: SvgPicture.asset(
-                                    variableController
-                                            .isOpenConfirmPassword.isFalse
-                                        ? Images.visibilityOnIcon
-                                        : Images.visibilityOffIcon,
-                                  ),
-                                ),
-                              ),
-                              hintText: "Enter confirm password",
-                              hintStyle: TextStyle(
-                                color: ColorResources.grey777,
-                                fontSize: 16,
-                                fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                              ),
-                              filled: false,
-                              border: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorResources.greyA0A, width: 1),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: passwordController.text ==
-                                          confirmPasswordController.text
-                                      ? BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : BorderSide(
-                                          color: Colors.red, width: 1)),
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: ColorResources.greyA0A, width: 1),
-                              ),
+                            hintText: "Enter your password again",
+                            suffixIcon: IconButton(
+                              onPressed: () =>
+                                  updatePasswordStatus("confirmPassword"),
+                              icon: Icon(_isVisiblleConfirmPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                             ),
                           ),
                         ),
@@ -1557,7 +1361,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
     validateMyName(nameController.text);
     validateEmail(emailController.text);
-    validateNationality(nationalityController.text);
     validateGender(GenderlocationController.text);
     validateMyPhone(phoneController.text);
     validateMyPass(passwordController.text);
@@ -1573,7 +1376,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         emailController.text == confirmEmailController.text &&
         !errorGender &&
         !errorName &&
-        !errorNationality &&
         !errorPass &&
         passwordController.text == confirmPasswordController.text &&
         !errorPhone) {
@@ -1610,51 +1412,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String number = "966";
   passValidator() => TextFormField(
-        cursorColor: ColorResources.black,
-        obscureText: variableController.isOpenPassword.value,
-        controller: passwordController,
         keyboardType: TextInputType.text,
-        style: TextStyle(
-          color: ColorResources.black,
-          fontSize: 16,
-          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-        ),
+        controller: passwordController,
+        obscureText: _isVisiblePassword ? false : true,
         decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(15),
-            child: InkWell(
-              onTap: () {
-                variableController.isOpenPassword.value =
-                    !variableController.isOpenPassword.value;
-              },
-              child: SvgPicture.asset(
-                variableController.isOpenPassword.isFalse
-                    ? Images.visibilityOnIcon
-                    : Images.visibilityOffIcon,
-              ),
-            ),
-          ),
-          hintText: "Enter password",
-          hintStyle: TextStyle(
-            color: ColorResources.grey777,
-            fontSize: 16,
-            fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-          ),
-          filled: false,
-          border: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
-          ),
           enabledBorder: UnderlineInputBorder(
             borderSide: errorPass == false
                 ? const BorderSide(color: ColorResources.greyA0A, width: 1)
                 : const BorderSide(color: Colors.red, width: 1),
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: errorPass == false
-                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
-                : const BorderSide(color: Colors.red, width: 1),
+          hintText: "Enter password",
+          suffixIcon: IconButton(
+            onPressed: () => updatePasswordStatus("password"),
+            icon: Icon(
+                _isVisiblePassword ? Icons.visibility : Icons.visibility_off),
           ),
         ),
       );
@@ -1717,6 +1488,7 @@ final RoleLocationController RolelocationController =
 
 List<String> ArrayOfHospitals = new List<String>();
 List<String> hospitals;
+List<String> hospitalsll = [];
 List<String> IDOfHospitals = new List<String>();
 String hospital;
 bool addedHospitals = false;
@@ -1756,7 +1528,7 @@ HospitalsLab() async {
   int ArrayLength = ArrayOfHospitals.length;
 
   String Hospital;
-  String ID;
+  //String ID;
   await collection.find().forEach((element) {
     if (isFinish2 < ArrayLength) {
       Hospital = element['name'] + ", " + element['district'];
@@ -1765,14 +1537,10 @@ HospitalsLab() async {
       if (hospital == Hospital) {
         // ID = element['hospitalId'];
         hid = element['_id'];
-        ID = element['_id'].$oid.toString();
-        hospital = ID;
-        print(hospital);
-        print(hid);
+        // ID = element['_id'].$oid.toString();
+        // hospital = ID;
       }
-
       isFinish2 = isFinish2 + 1;
     }
   });
-  print(hospital);
 }

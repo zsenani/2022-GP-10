@@ -1,3 +1,4 @@
+import '../../Controller/patient_visit_tab_controller.dart';
 import '../../Controller/tab_controller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
@@ -10,7 +11,8 @@ import 'previous.dart';
 import 'upComming.dart';
 
 class PatientVisit extends StatelessWidget {
-  final TabBarController tabBarController = Get.put(TabBarController());
+  final PatientTabBarController tabBarController =
+      Get.put(PatientTabBarController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +30,12 @@ class PatientVisit extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: Flexible(
-                    flex: 1,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: Center(
-                        child: Icon(Icons.arrow_back,
-                            color: ColorResources.grey777),
-                      ),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    child: Center(
+                      child:
+                          Icon(Icons.arrow_back, color: ColorResources.grey777),
                     ),
                   ),
                 ),
@@ -91,7 +90,6 @@ class PatientVisit extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 70),
         ],
       ),
     );

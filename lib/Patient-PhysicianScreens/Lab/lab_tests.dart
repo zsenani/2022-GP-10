@@ -42,15 +42,12 @@ class _labTestsState extends State<labTests> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Flexible(
-                  flex: 1,
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    child: Center(
-                      child:
-                          Icon(Icons.arrow_back, color: ColorResources.grey777),
-                    ),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  child: Center(
+                    child:
+                        Icon(Icons.arrow_back, color: ColorResources.grey777),
                   ),
                 ),
               ),

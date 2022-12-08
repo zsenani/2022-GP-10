@@ -2,7 +2,7 @@ import 'package:medcore/AuthScreens/change_password_screen.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
-import 'package:medcore/AuthScreens/verification_screen.dart';
+
 import 'package:medcore/index.dart';
 import 'package:medcore/splash_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -43,7 +43,6 @@ class medcore extends StatelessWidget {
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
         ChangePasswordScreen.routeName: (ctx) => ChangePasswordScreen(),
         ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
-        VerificationScreen.routeName: (ctx) => VerificationScreen(),
       },
     );
   }

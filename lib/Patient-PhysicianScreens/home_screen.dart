@@ -44,34 +44,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF6F,
-      body: _screens[_selectedScreenIndex]["screen"],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedScreenIndex,
-        onTap: _selectScreen,
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: ColorResources.whiteF6F,
+        body: _screens[_selectedScreenIndex]["screen"],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedScreenIndex,
+          onTap: _selectScreen,
+          iconSize: 30,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'Home',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
             ),
-            label: 'Home',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+              ),
+              label: 'Search',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
             ),
-            label: 'Search',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
+            ),
+          ],
+        ),
       ),
     );
   }

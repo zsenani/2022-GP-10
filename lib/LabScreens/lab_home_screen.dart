@@ -36,27 +36,39 @@ class _LabHomePage1State extends State<LabHomePage1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF6F,
-      body: _screens[_selectedScreenIndex]["screen"],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedScreenIndex,
-        onTap: selectScreen,
-        iconSize: 30,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            label: 'Home',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          backgroundColor: ColorResources.whiteF6F,
+          body: _screens[_selectedScreenIndex]["screen"],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedScreenIndex,
+            onTap: selectScreen,
+            iconSize: 30,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: 'Home',
+                backgroundColor: Color.fromRGBO(19, 156, 140, 1),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+                backgroundColor: Color.fromRGBO(19, 156, 140, 1),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-        ],
+        ),
       ),
     );
   }

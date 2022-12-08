@@ -48,131 +48,131 @@ class PreviousReq extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorResources.whiteF7F,
-      body: Stack(
-        children: [
+        backgroundColor: ColorResources.whiteF7F,
+        body: Stack(children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: EdgeInsets.only(top: 3),
-                height: 600,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 30),
-                      ScrollConfiguration(
-                        behavior: MyBehavior(),
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: toDayList.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: EdgeInsets.only(bottom: 16),
-                            child: Container(
-                              height: 90,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: ColorResources.white,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  children: [
-                                    Stack(
-                                      clipBehavior: Clip.none,
-                                      alignment: Alignment.bottomRight,
+              Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 3),
+                    height: Get.height - 250,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 30),
+                          ScrollConfiguration(
+                            behavior: MyBehavior(),
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: toDayList.length,
+                              itemBuilder: (context, index) => Padding(
+                                padding: EdgeInsets.only(bottom: 16),
+                                child: Container(
+                                  height: 90,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: ColorResources.white,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Row(
                                       children: [
-                                        CircleAvatar(
-                                          backgroundColor: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          radius: 20,
-                                          backgroundImage: AssetImage(
-                                            toDayList[index]["image"],
+                                        Stack(
+                                          clipBehavior: Clip.none,
+                                          alignment: Alignment.bottomRight,
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              radius: 20,
+                                              backgroundImage: AssetImage(
+                                                toDayList[index]["image"],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(width: 20),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  mediumText(
+                                                      toDayList[index]["text1"],
+                                                      ColorResources.green009,
+                                                      20),
+                                                  SizedBox(height: 2),
+                                                  romanText(
+                                                      toDayList[index]["text2"],
+                                                      ColorResources.grey777,
+                                                      12),
+                                                  SizedBox(height: 4),
+                                                  romanText(
+                                                      toDayList[index]["text3"],
+                                                      ColorResources.grey777,
+                                                      12),
+                                                ],
+                                              ),
+                                              Button(() {
+                                                // Get.to(RoutScreen());
+                                              },
+                                                  "View Results",
+                                                  Color.fromRGBO(
+                                                      241, 94, 34, 0.7),
+                                                  //ColorResources.green009,
+                                                  ColorResources.white),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              mediumText(
-                                                  toDayList[index]["text1"],
-                                                  ColorResources.green009,
-                                                  20),
-                                              SizedBox(height: 2),
-                                              romanText(
-                                                  toDayList[index]["text2"],
-                                                  ColorResources.grey777,
-                                                  12),
-                                              SizedBox(height: 4),
-                                              romanText(
-                                                  toDayList[index]["text3"],
-                                                  ColorResources.grey777,
-                                                  12),
-                                            ],
-                                          ),
-                                          Button(() {
-                                            // Get.to(RoutScreen());
-                                          },
-                                              "View Results",
-                                              Color.fromRGBO(241, 94, 34, 0.7),
-                                              //ColorResources.green009,
-                                              ColorResources.white),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 320, bottom: 0, right: 0),
-                child: InkWell(
-                  onTap: () {
-                    _startAdd2(context);
-                  },
-                  child: Flexible(
-                    flex: 1,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: ColorResources.green009,
-                        borderRadius: BorderRadius.circular(40),
-                        border: Border.all(
-                          color: ColorResources.green009,
-                          width: 1,
-                        ),
-                      ),
-                      child: Center(
-                        child:
-                            Icon(Icons.filter_alt, color: ColorResources.white),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              )
+                  Padding(
+                    padding: EdgeInsets.only(left: 320, bottom: 0, right: 0),
+                    child: InkWell(
+                      onTap: () {
+                        _startAdd2(context);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: ColorResources.green009,
+                          borderRadius: BorderRadius.circular(40),
+                          border: Border.all(
+                            color: ColorResources.green009,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(Icons.filter_alt,
+                              color: ColorResources.white),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
-        ],
-      ),
-    );
+        ]));
   }
 
   void _startAdd2(BuildContext ctx) {

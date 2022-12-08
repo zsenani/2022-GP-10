@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import 'dart:developer';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/AuthScreens/otp.dart';
@@ -25,10 +22,7 @@ import 'package:medcore/index.dart';
 import 'package:mongo_dart/mongo_dart.dart' hide State;
 
 import '../database/mongoDB.dart';
-<<<<<<< HEAD
 import 'otpLogIn.dart';
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
 
 bool errorRoleSelect = false;
 
@@ -45,19 +39,23 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   String role;
-<<<<<<< HEAD
   bool error = false;
   bool errorPassword = false;
   bool errorID = false;
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
+  bool _isVisiblePassword = false;
+
   final TextEditingController idController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
+  updatePasswordStatus() {
+    setState(() {
+      _isVisiblePassword = !_isVisiblePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +64,12 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: const Color.fromRGBO(244, 251, 251, 1),
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.all(7),
+          padding: const EdgeInsets.all(10),
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(index.routeName);
             },
             child: Container(
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
-                ),
-              ),
               child:
                   const Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
@@ -86,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 15),
+            padding: const EdgeInsets.only(right: 10, top: 10),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(index.routeName);
@@ -94,13 +85,6 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Container(
                 height: 40,
                 width: 40,
-                decoration: BoxDecoration(
-                  color: ColorResources.whiteF6F,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                  ),
-                ),
                 child: const Icon(Icons.home_outlined,
                     color: ColorResources.grey777),
               ),
@@ -144,15 +128,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (widget.role != 'patient')
-<<<<<<< HEAD
                               if (error)
                                 mediumText("Username or Password incorrect!",
                                     Colors.red, 16),
                             if (widget.role != 'patient')
                               const SizedBox(height: 10),
                             if (widget.role != 'patient')
-=======
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                               Row(
                                 children: [
                                   const Icon(
@@ -237,18 +218,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             const SizedBox(height: 5),
                             if (errorRoleSelect == true &&
                                 widget.role != "patient")
-<<<<<<< HEAD
                               mediumText(
                                   "  please select your role ", Colors.red, 16),
-=======
-                              mediumText("  please select your role first",
-                                  Colors.red, 16),
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                             const SizedBox(height: 30),
 
                             if (widget.role == 'patient')
                               if (error)
-                                mediumText("Username or Password incorrect!",
+                                mediumText("Username or Password incorrect",
                                     Colors.red, 16),
                             if (widget.role == 'patient')
                               const SizedBox(height: 10),
@@ -306,7 +282,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             const SizedBox(height: 3),
                             if (errorID)
-                              mediumText(" Username is Empty!", Colors.red, 16),
+                              mediumText(
+                                  "  Please enter your ID", Colors.red, 16),
 
                             const SizedBox(height: 30),
                             Row(
@@ -320,93 +297,59 @@ class _SignInScreenState extends State<SignInScreen> {
                                     "Password", ColorResources.grey777, 16),
                               ],
                             ),
-                            Obx(
-                              () => TextFormField(
-                                cursorColor: ColorResources.black,
-                                obscureText:
-                                    variableController.isOpenLogIn.value,
-                                controller: passwordController,
-                                keyboardType: TextInputType.text,
-                                style: TextStyle(
-                                  color: ColorResources.black,
-                                  fontSize: 16,
-                                  fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                            TextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: passwordController,
+                              obscureText: _isVisiblePassword ? false : true,
+                              decoration: InputDecoration(
+                                hintText: " Enter password",
+                                suffixIcon: IconButton(
+                                  onPressed: () => updatePasswordStatus(),
+                                  icon: Icon(_isVisiblePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  color: ColorResources.grey9AA,
                                 ),
-                                decoration: InputDecoration(
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: InkWell(
-                                      onTap: () {
-                                        variableController.isOpenLogIn.value =
-                                            !variableController
-                                                .isOpenLogIn.value;
-                                      },
-                                      child: SvgPicture.asset(
-                                        variableController.isOpenLogIn.isFalse
-                                            ? Images.visibilityOnIcon
-                                            : Images.visibilityOffIcon,
-                                      ),
-                                    ),
-                                  ),
-                                  hintText: "Enter password",
-                                  hintStyle: TextStyle(
-                                    color: ColorResources.grey777,
-                                    fontSize: 16,
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_BOOK,
-                                  ),
-                                  filled: true,
-                                  fillColor: ColorResources.whiteF6F,
-                                  border: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: errorPassword == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                                border: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: errorPassword == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 3),
                             if (errorPassword)
-                              mediumText(" Password is Empty!", Colors.red, 16),
+                              mediumText("  Please enter your Password",
+                                  Colors.red, 16),
 
                             const SizedBox(height: 10),
                             Align(
                               alignment: Alignment.topRight,
                               child: InkWell(
                                 onTap: () {
-                                  print(widget.role);
-                                  if (widget.role == "hospital") {
-                                    setState(() {
-                                      errorRoleSelect = true;
-                                    });
-                                  } else {
-                                    Get.to(ForgetEmail(
-                                      role: widget.role,
-                                    ));
-                                    errorRoleSelect = false;
-                                  }
+                                  Get.to(ForgetEmail(role: widget.role));
                                 },
                                 child: heavyText("Forgot password?",
                                     ColorResources.greyA0A, 14),
@@ -415,7 +358,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
                             const SizedBox(height: 40),
                             commonButton(() {
-<<<<<<< HEAD
                               if (passwordController.text != '' &&
                                   idController.text != '' &&
                                   widget.role != "hospital")
@@ -489,16 +431,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   errorPassword = false;
                                   errorID = false;
                                 });
-                              else
-                              // if (widget.role == 'Lab specialist') {
-                              //   Get.to(LabHomePage1(id: idController.text));
-                              // } else if (widget.role == 'Physician') {
-                              //   Get.to(HomeScreen(id: idController.text));
-                              // } else {
-                              //   Get.to(PatientHomeScreen(id: idController.text),
-                              //       arguments: 'patient');
-                              // }
-                              if (widget.role == 'Lab specialist') {
+                              else if (widget.role == 'Lab specialist') {
                                 AuthlogIn1("Lab specialist", idController,
                                     passwordController);
                               } else if (widget.role == 'Physician') {
@@ -507,15 +440,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               } else {
                                 AuthlogIn1("patient", idController,
                                     passwordController);
-=======
-                              if (widget.role == 'Lab specialist') {
-                                Get.to(LabHomePage1(id: idController.text));
-                              } else if (widget.role == 'Physician') {
-                                Get.to(HomeScreen(id: idController.text));
-                              } else {
-                                Get.to(PatientHomeScreen(id: idController.text),
-                                    arguments: 'patient');
->>>>>>> 9114863e90d01b064ce086b8cedf9371e589bbb7
                               }
                             }, "Sign In", ColorResources.green009,
                                 ColorResources.white),

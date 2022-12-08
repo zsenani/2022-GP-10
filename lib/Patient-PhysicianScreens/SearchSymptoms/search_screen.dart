@@ -12,270 +12,285 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF6F,
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          HeaderWidget(),
-          const SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child:
-                heavyText("View Selected Symptoms", ColorResources.green, 18),
-          ),
-          ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.spaceBetween,
-                      spacing: 5,
-                      direction: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      SizedBox(width: 1),
-                                      mediumText(
-                                          'Symptoms1',
-                                          ColorResources.grey777,
-                                          15,
-                                          TextAlign.center),
-                                    ],
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: ColorResources.whiteF6F,
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeaderWidget(),
+            const SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child:
+                  heavyText("View Selected Symptoms", ColorResources.green, 18),
+            ),
+            ScrollConfiguration(
+              behavior: MyBehavior(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.spaceBetween,
+                        spacing: 5,
+                        direction: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        SizedBox(width: 1),
+                                        mediumText(
+                                            'Symptoms1',
+                                            ColorResources.grey777,
+                                            15,
+                                            TextAlign.center),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      SizedBox(width: 1),
-                                      mediumText(
-                                          'Symptoms2',
-                                          ColorResources.grey777,
-                                          15,
-                                          TextAlign.center),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        SizedBox(width: 1),
+                                        mediumText(
+                                            'Symptoms2',
+                                            ColorResources.grey777,
+                                            15,
+                                            TextAlign.center),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      SizedBox(width: 1),
-                                      mediumText(
-                                          'Symptoms3',
-                                          ColorResources.grey777,
-                                          15,
-                                          TextAlign.center),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        SizedBox(width: 1),
+                                        mediumText(
+                                            'Symptoms3',
+                                            ColorResources.grey777,
+                                            15,
+                                            TextAlign.center),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      mediumText('Symptoms4',
-                                          ColorResources.grey777, 15),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        mediumText('Symptoms4',
+                                            ColorResources.grey777, 15),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      mediumText('Symptoms5',
-                                          ColorResources.grey777, 15),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        mediumText('Symptoms5',
+                                            ColorResources.grey777, 15),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      mediumText('Symptoms6',
-                                          ColorResources.grey777, 15),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        mediumText('Symptoms6',
+                                            ColorResources.grey777, 15),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Container(
-                            height: 40,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: ColorResources.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.cancel_outlined,
-                                          color: ColorResources.orange,
-                                          size: 20),
-                                      mediumText('Symptoms7',
-                                          ColorResources.grey777, 15),
-                                    ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorResources.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.cancel_outlined,
+                                            color: ColorResources.orange,
+                                            size: 20),
+                                        mediumText('Symptoms7',
+                                            ColorResources.grey777, 15),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 100),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: InkWell(
+                onTap: () {
+                  Get.to(SearchResults());
+                },
+                child: Container(
+                  height: 50,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    color: ColorResources.green,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 100),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: InkWell(
-              onTap: () {
-                Get.to(SearchResults());
-              },
-              child: Container(
-                height: 50,
-                width: Get.width,
-                decoration: BoxDecoration(
-                  color: ColorResources.green,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child:
-                      heavyText("Show a Diagnosis", ColorResources.white, 18),
+                  child: Center(
+                    child:
+                        heavyText("Show a Diagnosis", ColorResources.white, 18),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
