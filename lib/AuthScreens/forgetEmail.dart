@@ -1,23 +1,13 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:medcore/AuthScreens/otp.dart';
-import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
-
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 import 'package:medcore/index.dart';
-import 'package:medcore/MongoDBModel.dart';
-// import 'package:mongo_dart/mongo_dart.dart';
 import '../Controller/role_location_controller.dart';
 import '../Utiils/text_font_family.dart';
-import '../database/constant.dart';
-import '../database/mongoDB.dart';
-import 'package:medcore/mongoDBModel2.dart';
-import 'change_password_screen.dart';
 import 'forgot_password_screen.dart';
 
 final TextEditingController emailController = TextEditingController();
@@ -178,7 +168,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
                               }).toList(),
                               hint: const Text("Select your role"),
                               style: TextStyle(
-                                color: ColorResources.greyA0A,
+                                color: ColorResources.black,
                                 fontSize: 16,
                                 fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
                               ),
@@ -218,7 +208,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
                 commonButton(() {
                   checkRole();
                   checkEmail();
-                  emailController.clear();
+                  // emailController.clear();
                 }, "Send OTP", ColorResources.green009, ColorResources.white),
               ],
             ),
@@ -240,17 +230,16 @@ class _ForgetEmailState extends State<ForgetEmail> {
     }
   }
 
+  static var mail = emailController.text;
   Future<void> checkEmail() async {
     String emailC =
-        await DBConnection.checkEmailExsist(role2, emailController.text);
-
+        await mysqlDatabase.checkEmailExsist(role2, emailController.text);
+    print(emailC);
     if (emailC == null) {
       showAlertDialog(context);
     } else {
-      Get.to(ForgotPasswordScreen(
-        role: role2,
-      ));
-      sendOtp(emailController.text);
+      Get.to(ForgotPasswordScreen(role1: role2, email: emailController.text));
+      //sendOtp(emailController.text);
       finishTimer = false;
     }
   }

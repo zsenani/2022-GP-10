@@ -7,6 +7,8 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../AuthScreens/signin_screen.dart';
+
 class SearchScreen extends StatelessWidget {
   // SearchScreen({Key? key}) : super(key: key);
 
@@ -301,23 +303,24 @@ class SearchScreen extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-            height: 160,
-            width: Get.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(80),
-                bottomRight: Radius.circular(80),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  ColorResources.green.withOpacity(0.2),
-                  ColorResources.lightBlue.withOpacity(0.2),
-                ],
-              ),
+          height: 160,
+          width: Get.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(80),
+              bottomRight: Radius.circular(80),
             ),
-            child: Row(children: [
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                ColorResources.green.withOpacity(0.2),
+                ColorResources.lightBlue.withOpacity(0.2),
+              ],
+            ),
+          ),
+          child: Row(
+            children: [
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: InkWell(
@@ -331,7 +334,23 @@ class SearchScreen extends StatelessWidget {
               const SizedBox(width: 83),
               heavyText("Symptoms Search", ColorResources.green, 22,
                   TextAlign.center),
-            ])),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, top: 1),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(SignInScreen());
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    child: const Icon(Icons.logout_outlined,
+                        color: ColorResources.grey777),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         Positioned(
           bottom: -25,
           left: 24,

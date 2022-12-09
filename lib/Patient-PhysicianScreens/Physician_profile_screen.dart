@@ -7,7 +7,6 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Patient-PhysicianScreens/edit_physician_profile_screen.dart';
-import 'package:medcore/mongoDBModel2.dart';
 
 String Id;
 

@@ -1,3 +1,4 @@
+import '../../AuthScreens/signin_screen.dart';
 import '../../Controller/patient_visit_tab_controller.dart';
 import '../../Controller/tab_controller.dart';
 import '../../Utiils/colors.dart';
@@ -42,6 +43,20 @@ class PatientVisit extends StatelessWidget {
                 Flexible(
                   flex: 10,
                   child: HeaderWidget(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 1),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(SignInScreen());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: const Icon(Icons.logout_outlined,
+                          color: ColorResources.grey777),
+                    ),
+                  ),
                 ),
               ],
             ),

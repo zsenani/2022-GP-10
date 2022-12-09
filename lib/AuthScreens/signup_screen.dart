@@ -1,32 +1,21 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:medcore/AuthScreens/forgetEmail.dart';
-import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
-import 'package:medcore/database/mongoDB.dart';
-import 'package:medcore/mongoDBModel2.dart';
-import 'package:mongo_dart/mongo_dart.dart' as M;
 import 'package:medcore/main.dart';
 import 'package:medcore/Controller/role_location_controller.dart';
 import 'package:medcore/Controller/hospital_location_controller.dart';
-import 'package:medcore/Utiils/images.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import '../LabScreens/lab_home_screen.dart';
 import '../Patient-PhysicianScreens/home_screen.dart';
 import '../Patient-PhysicianScreens/patient_home_screen.dart';
-import '../database/mongoDB.dart';
-import '../MongoDBModel.dart';
-import '../database/mongoDB.dart';
-import '../mongoDBModel3.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'otp.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 //import 'package:async/async.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -193,50 +182,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void Patient() {
     verifyOtp(emailController.text, context);
     pinPutController.clear();
-    if (validateOTP == true) {
-      _insertDataPatient(
-        nameController.text,
-        hashedPassword = new DBCrypt()
-            .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
-        "${selectedDate.toLocal()}".split(' ')[0],
-        GenderlocationController.text,
-        phoneController.text,
-        confirmEmailController.text,
-        nationalityController.text,
-        maritalStatusController.text,
-        IDController.text,
-      );
-
-      Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
-    }
+    //  if (validateOTP == true) {
+    mysqlDatabase.insertPatient(
+      nameController.text,
+      hashedPassword = new DBCrypt()
+          .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
+      "${selectedDate.toLocal()}".split(' ')[0],
+      GenderlocationController.text,
+      phoneController.text,
+      confirmEmailController.text,
+      nationalityController.text,
+      maritalStatusController.text,
+      int.parse(IDController.text),
+    );
+    _clearAll2();
+    Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
+    //   }
   }
 
   void Physician() {
     verifyOtp(emailController.text, context);
     pinPutController.clear();
-    if (validateOTP == true && addedHospitals == true) {
-      _insertDataPhysician(
-          nameController.text,
-          hashedPassword = new DBCrypt()
-              .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
-          "${selectedDate.toLocal()}".split(' ')[0],
-          GenderlocationController.text,
-          phoneController.text,
-          confirmEmailController.text,
-          nationalityController.text,
-          specializationController.text,
-          IDController.text,
-          IDOfHospitals);
-
-      Get.to(HomeScreen(id: IDController.text));
-    }
-  }
-
-  void Lab() {
-    verifyOtp(emailController.text, context);
-    pinPutController.clear();
-    if (validateOTP == true) {
-      _insertDataLab(
+    //if (validateOTP == true && addedHospitals == true) {
+    mysqlDatabase.insertPhysician(
         nameController.text,
         hashedPassword = new DBCrypt()
             .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
@@ -245,43 +213,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
         phoneController.text,
         confirmEmailController.text,
         nationalityController.text,
-        IDController.text,
-      );
-
-      Get.to(LabHomePage1(id: IDController.text));
-    }
+        specializationController.text,
+        int.parse(IDController.text),
+        IDOfHospitals);
+    _clearAll();
+    Get.to(HomeScreen(id: IDController.text));
+    // }
   }
 
-  Future<void> _insertDataPhysician(
-    String pname,
-    String ppassword,
-    String pdob,
-    String pgender,
-    String pmobileNo,
-    String pemail,
-    String pnationality,
-    String pspecialization,
-    String pnationalId,
-    List<String> phospitals,
-  ) async {
-    var _id = M.ObjectId();
-    final data = Welcome(
-      id: _id,
-      name: pname,
-      password: ppassword,
-      dob: pdob,
-      gender: pgender,
-      mobileNo: number + pmobileNo,
-      email: pemail,
-      nationality: pnationality,
-      specialization: pspecialization,
-      nationalId: pnationalId,
-      hospitals: phospitals,
-    );
-
-    var result =
-        await DBConnection.insertPhysician(data, phospitals, pnationalId);
-    _clearAll();
+  void Lab() {
+    verifyOtp(emailController.text, context);
+    pinPutController.clear();
+    // if (validateOTP == true) {
+    mysqlDatabase.insertLab(
+        nameController.text,
+        hashedPassword = new DBCrypt()
+            .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
+        "${selectedDate.toLocal()}".split(' ')[0],
+        GenderlocationController.text,
+        phoneController.text,
+        confirmEmailController.text,
+        nationalityController.text,
+        int.parse(IDController.text),
+        int.parse(hosID));
+    _clearAll3();
+    Get.to(LabHomePage1(id: IDController.text));
+    // }
   }
 
   void _clearAll() {
@@ -301,35 +258,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     picked = null;
   }
 
-  Future<void> _insertDataPatient(
-    String fname,
-    String fpassword,
-    String fdob,
-    String fgender,
-    String fmobileNo,
-    String femail,
-    String fnationality,
-    String fmaritalStatus,
-    String fnationalId,
-  ) async {
-    var _id = M.ObjectId();
-    final data = Welcome2(
-      id: _id,
-      name: fname,
-      password: fpassword,
-      dob: fdob,
-      gender: fgender,
-      mobileNo: number + fmobileNo,
-      email: femail,
-      nationality: fnationality,
-      maritalStatus: fmaritalStatus,
-      nationalId: fnationalId,
-    );
-    var result = await DBConnection.insertPatient(data);
-
-    _clearAll2();
-  }
-
   void _clearAll2() {
     nameController.text = "";
     IDController.text = "";
@@ -343,32 +271,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     selectedDate = null;
     maritalStatusController.text = "";
     picked = null;
-  }
-
-  Future<void> _insertDataLab(
-    String lname,
-    String lpassword,
-    String ldob,
-    String lgender,
-    String lmobileNo,
-    String lemail,
-    String lnationality,
-    String lnationalId,
-  ) async {
-    var _id = M.ObjectId();
-    final data = Welcome3(
-      id: _id,
-      name: lname,
-      password: lpassword,
-      dob: ldob,
-      gender: lgender,
-      mobileNo: number + lmobileNo,
-      email: lemail,
-      nationality: lnationality,
-      nationalId: lnationalId,
-    );
-    var result = await DBConnection.insertLab(data, lnationalId);
-    _clearAll3();
   }
 
   void _clearAll3() {
@@ -410,6 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const Icon(Icons.person_outline,
                                 color: ColorResources.orange),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText("Citizen ID/ Resident ID",
                                 ColorResources.grey777, 16),
                           ],
@@ -428,33 +331,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const Icon(Icons.calendar_today_outlined,
                                 color: ColorResources.orange),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText(
                                 "Date of birth", ColorResources.grey777, 16),
                           ],
                         ),
                         const SizedBox(height: 20),
-                        InkWell(
-                          onTap: () => selectDate(context),
-                          child: role == 'patient'
-                              ? Text(
-                                  "${pselectedDate.toLocal()}".split(' ')[0],
-                                  style: TextStyle(
-                                    color: ColorResources.grey777,
-                                    fontSize: 16,
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_BOOK,
+                        if (selectedDate == null)
+                          InkWell(
+                            onTap: () => selectDate(context),
+                            child: role == 'patient'
+                                ? Text(
+                                    "${pselectedDate.toLocal()}".split(' ')[0],
+                                    style: TextStyle(
+                                      color: ColorResources.grey777,
+                                      fontSize: 16,
+                                      fontFamily:
+                                          TextFontFamily.AVENIR_LT_PRO_BOOK,
+                                    ),
+                                  )
+                                : Text(
+                                    "${plselectedDate.toLocal()}".split(' ')[0],
+                                    style: TextStyle(
+                                      color: ColorResources.grey777,
+                                      fontSize: 16,
+                                      fontFamily:
+                                          TextFontFamily.AVENIR_LT_PRO_BOOK,
+                                    ),
                                   ),
-                                )
-                              : Text(
-                                  "${plselectedDate.toLocal()}".split(' ')[0],
-                                  style: TextStyle(
-                                    color: ColorResources.grey777,
-                                    fontSize: 16,
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_BOOK,
+                          ),
+                        if (selectedDate != null)
+                          InkWell(
+                            onTap: () => selectDate(context),
+                            child: role == 'patient'
+                                ? Text(
+                                    "${pselectedDate.toLocal()}".split(' ')[0],
+                                    style: TextStyle(
+                                      color: ColorResources.black,
+                                      fontSize: 16,
+                                      fontFamily:
+                                          TextFontFamily.AVENIR_LT_PRO_BOOK,
+                                    ),
+                                  )
+                                : Text(
+                                    "${plselectedDate.toLocal()}".split(' ')[0],
+                                    style: TextStyle(
+                                      color: ColorResources.black,
+                                      fontSize: 16,
+                                      fontFamily:
+                                          TextFontFamily.AVENIR_LT_PRO_BOOK,
+                                    ),
                                   ),
-                                ),
-                        ),
+                          ),
                         Divider(
                           color: errorDate == false
                               ? Colors.black.withOpacity(0.4)
@@ -474,6 +402,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorResources.orange,
                               ),
                               const SizedBox(width: 15),
+                              mediumText("* ", Colors.red, 16),
                               mediumText("Role", ColorResources.grey777, 16),
                             ],
                           ),
@@ -516,7 +445,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       }).toList(),
                                       hint: const Text("Select your role"),
                                       style: TextStyle(
-                                        color: ColorResources.greyA0A,
+                                        color: ColorResources.black,
                                         fontSize: 16,
                                         fontFamily:
                                             TextFontFamily.AVENIR_LT_PRO_BOOK,
@@ -804,17 +733,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   int isFilled = 0;
   Hospitals() async {
-    var status = db.serverStatus();
-    var collection = db.collection('Hospital');
-    int ArrayLength = await collection.find().length;
+    var results = await conn.query('select name, district from Hospital');
+    int ArrayLength = await results.length;
     String Hospital;
-    await collection.find().forEach((element) {
+    for (var row in results) {
       if (isFilled != ArrayLength) {
-        Hospital = element['name'] + ", " + element['district'];
+        Hospital = '${row[0]},${row[1]}';
         ArrayOfHospitals.add(Hospital);
         isFilled = isFilled + 1;
       }
-    });
+    }
+    ;
   }
 
   static final formKey1 = GlobalKey<FormState>();
@@ -847,6 +776,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const Icon(Icons.person_outline,
                                 color: ColorResources.orange),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText("Full Name", ColorResources.grey777, 16),
                           ],
                         ),
@@ -865,6 +795,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorResources.orange,
                               ),
                               const SizedBox(width: 15),
+                              mediumText("* ", Colors.red, 16),
                               mediumText(
                                   "Hospital", ColorResources.grey777, 16),
                             ],
@@ -969,6 +900,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText("Email", ColorResources.grey777, 16),
                           ],
                         ),
@@ -988,6 +920,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText(
                                 "Confirm Email", ColorResources.grey777, 16),
                           ],
@@ -1005,6 +938,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const Icon(Icons.language_outlined,
                                 color: ColorResources.orange),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText(
                                 "Nationality", ColorResources.grey777, 16),
                           ],
@@ -1043,6 +977,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText("Gender", ColorResources.grey777, 16),
                           ],
                         ),
@@ -1085,6 +1020,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorResources.orange,
                               ),
                               const SizedBox(width: 15),
+                              mediumText("* ", Colors.red, 16),
                               mediumText(
                                   "Marital status", ColorResources.grey777, 16),
                             ],
@@ -1131,6 +1067,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               const Icon(Icons.perm_identity_outlined,
                                   color: ColorResources.orange),
                               const SizedBox(width: 15),
+                              mediumText("* ", Colors.red, 16),
                               mediumText(
                                   "Specialization", ColorResources.grey777, 16),
                             ],
@@ -1226,6 +1163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText(
                                 "Phone number", ColorResources.grey777, 16),
                           ],
@@ -1243,6 +1181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText("Password", ColorResources.grey777, 16),
                           ],
                         ),
@@ -1264,6 +1203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorResources.orange,
                             ),
                             const SizedBox(width: 15),
+                            mediumText("* ", Colors.red, 16),
                             mediumText(
                                 "Confirm password", ColorResources.grey777, 16),
                           ],
@@ -1312,7 +1252,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool allValid1 = false;
   Future<void> checkFirst() async {
     var isFound;
-    isFound = await DBConnection.checkExisting(IDController.text, role, "ID");
+    isFound = await mysqlDatabase.checkExisting(IDController.text, role, "ID");
     if (role != 'patient') {
       setState(() {
         allValid1 = false;
@@ -1355,7 +1295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool allValid2 = false;
   Future<void> checkSecond() async {
     var isFound =
-        await DBConnection.checkExisting(emailController.text, role, "email");
+        await mysqlDatabase.checkExisting(emailController.text, role, "email");
     setState(() {
       allValid2 = false;
     });
@@ -1467,7 +1407,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-          hintText: "Enter phone number",
+          hintText: "556667777",
           hintStyle: TextStyle(
             color: ColorResources.greyA0A,
             fontSize: 18,
@@ -1489,58 +1429,46 @@ final RoleLocationController RolelocationController =
 List<String> ArrayOfHospitals = new List<String>();
 List<String> hospitals;
 List<String> hospitalsll = [];
-List<String> IDOfHospitals = new List<String>();
+List<int> IDOfHospitals = new List<int>();
 String hospital;
 bool addedHospitals = false;
+int ArrayLength = ArrayOfHospitals.length;
 int isFinish = 0;
 Future<bool> HospitalsPhysician() async {
-  var status = db.serverStatus();
-  var collection = db.collection('Hospital');
-  int ArrayLength = ArrayOfHospitals.length;
-  String Hospital;
-  String ID;
-  await collection.find().forEach((element) {
-    if (isFinish < ArrayLength) {
-      Hospital = element['name'] + ", " + element['district'];
+  int ID;
+  var results =
+      await conn.query('select name,district,idHospital from Hospital ');
+
+  if (isFinish < ArrayLength) {
+    for (var row in results) {
       hospitals.forEach((thisHospital) {
-        print("hospital: " + thisHospital);
-        print("Hospital: " + Hospital);
-        if (thisHospital == Hospital) {
-          // hID = element['_id'];
-          print(element['_id']);
-          hosArray.add(element['_id']);
-          // print(element['_id']);
-          ID = element['_id'].$oid.toString();
+        if ('${row[0]},${row[1]}' == thisHospital) {
+          print('true' + '${row[2]}');
+          ID = int.parse('${row[2]}');
           IDOfHospitals.add(ID);
           addedHospitals = true;
         }
       });
       isFinish = isFinish + 1;
     }
-  });
-  print(IDOfHospitals);
+  }
 }
 
 int isFinish2 = 0;
+String hosID;
 HospitalsLab() async {
-  var status = db.serverStatus();
-  var collection = db.collection('Hospital');
-  int ArrayLength = ArrayOfHospitals.length;
+  var results =
+      await conn.query('select name,district,idHospital from Hospital ');
 
-  String Hospital;
-  //String ID;
-  await collection.find().forEach((element) {
-    if (isFinish2 < ArrayLength) {
-      Hospital = element['name'] + ", " + element['district'];
-      print("hospital: " + hospital);
-      print("Hospital: " + Hospital);
-      if (hospital == Hospital) {
-        // ID = element['hospitalId'];
-        hid = element['_id'];
-        // ID = element['_id'].$oid.toString();
-        // hospital = ID;
+  if (isFinish2 < ArrayLength) {
+    for (var row in results) {
+      print(hospital);
+      print('${row[0]},${row[1]}');
+      if ('${row[0]},${row[1]}' == hospital) {
+        print('true' + '${row[2]}');
+        hosID = '${row[2]}';
       }
-      isFinish2 = isFinish2 + 1;
     }
-  });
+    isFinish2 = isFinish2 + 1;
+  }
 }

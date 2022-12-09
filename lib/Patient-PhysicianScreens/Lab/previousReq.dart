@@ -56,7 +56,7 @@ class PreviousReq extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 3),
+                    padding: EdgeInsets.only(top: 0),
                     height: Get.height - 250,
                     child: SingleChildScrollView(
                       child: Column(
@@ -125,7 +125,7 @@ class PreviousReq extends StatelessWidget {
                                               Button(() {
                                                 // Get.to(RoutScreen());
                                               },
-                                                  "View Results",
+                                                  "View",
                                                   Color.fromRGBO(
                                                       241, 94, 34, 0.7),
                                                   //ColorResources.green009,

@@ -10,6 +10,9 @@ import 'package:medcore/LabScreens/active_test_request.dart';
 import 'package:medcore/LabScreens/previouse_test_request.dart';
 import 'package:medcore/LabScreens/lab_profile_screen.dart';
 
+import '../AuthScreens/signin_screen.dart';
+import '../index.dart';
+
 String Id;
 
 class LabHomePage1 extends StatefulWidget {
@@ -126,12 +129,6 @@ class LabHomePage2 extends StatelessWidget {
           radius: 0.75,
           focal: Alignment(0.7, -0.7),
           tileMode: TileMode.clamp,
-          // begin: Alignment.topRight,
-          // end: Alignment.bottomLeft,
-          // colors: [
-          //   Color.fromRGBO(178, 224, 222, 1).withOpacity(0.4),
-          //   Color.fromRGBO(19, 156, 140, 1).withOpacity(0.9),
-          //],
         ),
       ),
       child: Container(
@@ -139,20 +136,37 @@ class LabHomePage2 extends StatelessWidget {
           children: [
             Column(
               children: [
-                Container(
-                  padding:
-                      EdgeInsets.only(left: 25, top: 70, right: 80, bottom: 0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      greeting() + ' JOHN',
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          greeting() + ' JOHN',
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, top: 55),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(SignInScreen());
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: const Icon(Icons.logout_outlined,
+                              color: ColorResources.grey777),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 25, top: 24, right: 5),

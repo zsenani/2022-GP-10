@@ -13,6 +13,7 @@ import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/prev_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
+import '../AuthScreens/signin_screen.dart';
 import 'SearchSymptoms/diagnosis_details.dart';
 import 'active_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
@@ -124,34 +125,44 @@ class labHomePage extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [ColorResources.green, ColorResources.lightBlue2],
-
           tileMode: TileMode.clamp,
-          // begin: Alignment.topRight,
-          // end: Alignment.bottomLeft,
-          // colors: [
-          //   Color.fromRGBO(178, 224, 222, 1).withOpacity(0.4),
-          //   Color.fromRGBO(19, 156, 140, 1).withOpacity(0.9),
-          //],
         ),
       ),
       child: Container(
         child: Stack(children: [
           Column(
             children: [
-              Container(
-                padding:
-                    EdgeInsets.only(left: 25, top: 70, right: 80, bottom: 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    greeting() + ' Dr.Saleh',
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        greeting() + ' Dr.Saleh',
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 60),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(SignInScreen());
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: const Icon(Icons.logout_outlined,
+                            color: Color.fromARGB(255, 86, 90, 123)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 padding: EdgeInsets.only(left: 25, top: 24, right: 5),

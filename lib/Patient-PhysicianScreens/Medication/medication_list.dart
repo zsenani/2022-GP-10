@@ -1,3 +1,4 @@
+import '../../AuthScreens/signin_screen.dart';
 import 'add_medication.dart';
 import 'current_medication.dart';
 import './past_medication.dart';
@@ -75,6 +76,20 @@ class MedicationList extends StatelessWidget {
                         ),
                       )
                     : Container(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 1),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(SignInScreen());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: const Icon(Icons.logout_outlined,
+                          color: ColorResources.grey777),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

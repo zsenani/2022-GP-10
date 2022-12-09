@@ -49,6 +49,23 @@ class MedicalHistory extends StatelessWidget {
                   flex: 10,
                   child: HeaderWidget(),
                 ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0, bottom: 0),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: Center(
+                        // heightFactor: 100,
+                        child: Icon(Icons.home_outlined,
+                            color: ColorResources.grey777),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             Padding(
@@ -347,7 +364,7 @@ class MedicalHistory extends StatelessWidget {
         Container(
           height: 80,
           width: Get.width,
-          padding: EdgeInsets.only(top: 23, left: 55),
+          padding: EdgeInsets.only(top: 23, left: 35),
           child: heavyText("Medical History ", ColorResources.green009, 30),
         ),
       ],

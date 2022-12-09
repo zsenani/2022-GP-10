@@ -2,13 +2,10 @@ import 'package:dbcrypt/dbcrypt.dart';
 import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
-import 'package:medcore/database/mongoDB.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/Utiils/images.dart';
-import 'package:medcore/Utiils/text_font_family.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 
 String patientId;
@@ -334,11 +331,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   void resetPass() {
     var newPassword = new DBCrypt()
         .hashpw(confirmPasswordController.text, new DBCrypt().gensalt());
-    DBConnection.resetPassword(role3, patientId, newPassword);
+    mysqlDatabase.resetPassword(role3, patientId, newPassword, "nationalID");
   }
 
   Future<void> checkPass() async {
-    String c = await DBConnection.checkOldPass(role3, patientId);
+    String c = await mysqlDatabase.checkOldPass(role3, patientId);
     //print(oldpass);
     // print(c);
     var isCorrect = new DBCrypt().checkpw(currentPasswordController.text, c);

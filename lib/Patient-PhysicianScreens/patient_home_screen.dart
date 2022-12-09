@@ -12,6 +12,7 @@ import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/prev_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
+import '../AuthScreens/signin_screen.dart';
 import 'Lab/add_request.dart';
 import 'Lab/lab_tests.dart';
 import 'Medication/medication_list.dart';
@@ -349,20 +350,34 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
             padding: const EdgeInsets.only(top: 60),
             child: ListTile(
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
 
-                        heavyText(greeting() + ", Abdullah Alsaleh",
+                        heavyText(greeting() + " Abdullah Alsaleh",
                             ColorResources.green, 20, TextAlign.left),
 
                         const SizedBox(height: 8),
                         // heavyText("ID: 1120772892", ColorResources.grey777, 18,
                         //     TextAlign.left),
                       ]),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 1, bottom: 225),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(SignInScreen());
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: const Icon(Icons.logout_outlined,
+                            color: ColorResources.grey777),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

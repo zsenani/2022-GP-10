@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:medcore/Utiils/images.dart';
 import 'package:get/get.dart';
 
+import '../AuthScreens/signin_screen.dart';
+
 class PreviouseTestDetails extends StatelessWidget {
   //const PreviouseTestDetails({Key key}) : super(key: key);
 
@@ -41,6 +43,22 @@ class PreviouseTestDetails extends StatelessWidget {
           ),
         ),
         title: mediumText("Test Request", ColorResources.grey777, 24),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 1),
+            child: InkWell(
+              onTap: () {
+                Get.to(SignInScreen());
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                child: const Icon(Icons.logout_outlined,
+                    color: ColorResources.grey777),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),

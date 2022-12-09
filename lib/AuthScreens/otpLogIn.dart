@@ -106,19 +106,19 @@ class otpLogInScreen extends StatelessWidget {
                 controller.restart();
 
                 verifyOtp(email, context);
-                if (validateOTP == true) {
-                  if (role == 'Physician') {
-                    pinPutController.clear();
-                    Get.to(HomeScreen(id: idController.text));
-                  } else if (role == 'patient') {
-                    pinPutController.clear();
-                    Get.to(PatientHomeScreen(id: idController.text),
-                        arguments: 'patient');
-                  } else if (role == 'Lab specialist') {
-                    pinPutController.clear();
-                    Get.to(LabHomePage1(id: idController.text));
-                  }
+                //if (validateOTP == true) {
+                if (role == 'Physician') {
+                  pinPutController.clear();
+                  Get.to(HomeScreen(id: idController.text));
+                } else if (role == 'patient') {
+                  pinPutController.clear();
+                  Get.to(PatientHomeScreen(id: idController.text),
+                      arguments: 'patient');
+                } else if (role == 'Lab specialist') {
+                  pinPutController.clear();
+                  Get.to(LabHomePage1(id: idController.text));
                 }
+                // }
               }, "Next", ColorResources.green009, ColorResources.white),
             ],
           ),

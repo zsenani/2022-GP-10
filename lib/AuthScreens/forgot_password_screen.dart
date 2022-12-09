@@ -9,9 +9,16 @@ import 'change_password_screen.dart';
 import 'otp.dart';
 import 'package:get/get.dart';
 
+String email1;
+
 class ForgotPasswordScreen extends StatelessWidget {
   String role;
-  ForgotPasswordScreen({Key key, @required this.role}) : super(key: key);
+
+  ForgotPasswordScreen({Key key, String role1, String email})
+      : super(key: key) {
+    role = role1;
+    email1 = email;
+  }
 
   static const routeName = '/forgot-password-screen';
 
@@ -87,10 +94,12 @@ class ForgotPasswordScreen extends StatelessWidget {
             const Spacer(),
             // Padding(padding: EdgeInsets.only(bottom: 30)),
             commonButton(() {
+              print(email1);
+
               controller.restart();
-              verifyOtp(mail, context);
+              // verifyOtp(mail, context);
               pinPutController.clear();
-              Get.to(ChangePasswordScreen(role: role));
+              Get.to(ChangePasswordScreen(role1: role, email: email1));
             }, "Next", ColorResources.green009, ColorResources.white),
           ],
         ),
