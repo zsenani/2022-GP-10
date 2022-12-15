@@ -210,7 +210,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                     ),
                   ),
                   onTap: () {
-                    showAlertDialog2(context);
+                    showAlertDialogPhy(context);
                   },
                 ),
                 const SizedBox(height: 100),
@@ -223,7 +223,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
   }
 }
 
-showAlertDialog2(BuildContext context) {
+showAlertDialogPhy(BuildContext context) {
   // set up the buttons
   Widget cancelButton = TextButton(
     child: const Text(
@@ -242,7 +242,9 @@ showAlertDialog2(BuildContext context) {
       ),
     ),
     onPressed: () {
-      Get.to(SignInScreen());
+      Get.to(SignInScreen(
+        role: "Physician",
+      ));
     },
   );
 

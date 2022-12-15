@@ -1,5 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
+// import 'dart:js';
+
+import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -17,8 +20,10 @@ import '../AuthScreens/signin_screen.dart';
 import 'SearchSymptoms/diagnosis_details.dart';
 import 'active_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
+bool _loading = true;
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, String id}) : super(key: key) {
@@ -54,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedScreenIndex,
           onTap: _selectScreen,
           iconSize: 30,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
@@ -81,8 +86,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class labHomePage extends StatelessWidget {
-  //const labHomePage({Key key}) : super(key: key);
+String physicianName = "";
+
+class labHomePage extends StatefulWidget {
+  @override
+  State<labHomePage> createState() => _labHomePageState();
+}
+
+class _labHomePageState extends State<labHomePage> {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      physician(Id);
+    });
+  }
+
+  Future physician(ID) async {
+    physicianName = await mysqlDatabase.PhysicianHomeScreen(ID);
+    // return patientInfor;
+    physicianName = physicianName.substring(0, physicianName.indexOf(" "));
+    setState(() {
+      _loading = false;
+    });
+    print("physician home page");
+    print(physicianName);
+  }
+
   final TabBarController tabBarController = Get.put(TabBarController());
 
   String greeting() {
@@ -103,7 +131,7 @@ class labHomePage extends StatelessWidget {
       body: Stack(
         children: [
           //Image
-          LabHomeDetailsContainer(),
+          _loading == true ? loadingPage() : LabHomeDetailsContainer(),
 
           //Doctor Detail
           LabOptionsContainer(),
@@ -112,11 +140,19 @@ class labHomePage extends StatelessWidget {
     );
   }
 
+  Widget loadingPage() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
+  }
+
   Widget LabHomeDetailsContainer() {
     return Container(
       height: 340,
       width: Get.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -129,58 +165,47 @@ class labHomePage extends StatelessWidget {
         ),
       ),
       child: Container(
-        child: Stack(children: [
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        greeting() + ' Dr.Saleh',
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "\n" + greeting() + " Dr." + physicianName,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40, top: 60),
-                    child: InkWell(
-                      onTap: () {
-                        Get.to(SignInScreen());
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        child: const Icon(Icons.logout_outlined,
-                            color: Color.fromARGB(255, 86, 90, 123)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40, top: 60),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(SignInScreen());
+                          //  showAlertDialogP(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: const Icon(Icons.logout_outlined,
+                              color: Color.fromARGB(255, 86, 90, 123)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 25, top: 24, right: 5),
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'King Faisal Specialist Hospital',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ]),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -244,7 +269,7 @@ class labHomePage extends StatelessWidget {
                                             fontSize: 16,
                                             fontFamily: TextFontFamily
                                                 .AVENIR_LT_PRO_MEDIUM),
-                                        unselectedLabelStyle: TextStyle(
+                                        unselectedLabelStyle: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: "RobotoRegular"),
                                         labelColor: ColorResources.white,
@@ -273,8 +298,12 @@ class labHomePage extends StatelessWidget {
                 child: TabBarView(
                   controller: tabBarController.controller,
                   children: [
-                    ActiveVisit(),
-                    PreVisitList(),
+                    ActiveVisit(
+                      id: Id,
+                    ),
+                    PreVisitList(
+                      id: Id,
+                    ),
                   ],
                 ),
               ),
@@ -304,4 +333,48 @@ class labHomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+showAlertDialogP(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: const Text(
+      "Cancel",
+      style: TextStyle(
+        fontSize: 15,
+      ),
+    ),
+    onPressed: () => Navigator.pop(context),
+  );
+  Widget continueButton = TextButton(
+    child: const Text(
+      "Yes",
+      style: TextStyle(
+        fontSize: 15,
+      ),
+    ),
+    onPressed: () {
+      Get.to(SignInScreen(
+        role: "Physician",
+      ));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Logout"),
+    content: const Text("Are you sure you want to logout?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

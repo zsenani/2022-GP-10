@@ -1,3 +1,5 @@
+import 'package:medcore/AuthScreens/reset_password_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/patientVisits/previous.dart';
 import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -22,10 +24,13 @@ import 'medicalHistory/medical_history.dart';
 import 'medical_reports.dart';
 import 'pateint_profile_screen.dart';
 import 'patientVisits/patientVisits.dart';
+import 'patientVisits/upComming.dart';
 import 'singleMedicalReport.dart';
 import 'write_diagnose.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
+bool _loading = true;
 
 class PatientHomeScreen extends StatefulWidget {
   PatientHomeScreen({Key key, String id}) : super(key: key) {
@@ -60,7 +65,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
           currentIndex: _selectedScreenIndex,
           onTap: _selectScreen,
           iconSize: 30,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
@@ -80,6 +85,10 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
   }
 }
 
+List<String> patientInfor = [];
+String PDOB = "";
+var ageNow = 0;
+
 class PatientVisitScreen extends StatefulWidget {
   // HomeScreen({Key? key}) : super(key: key);
   @override
@@ -87,10 +96,28 @@ class PatientVisitScreen extends StatefulWidget {
 }
 
 class _PatientVisitScreenState extends State<PatientVisitScreen> {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      patient(Id);
+    });
+  }
+
+  Future patient(idPatient) async {
+    patientInfor = await mysqlDatabase.PatientHomeScreen(idPatient);
+    ageNow = DateTime.now().year - int.parse(patientInfor[2].substring(0, 4));
+    setState(() {
+      _loading = false;
+    });
+    print("patient home page");
+    print(patientInfor[1]);
+  }
+
   final TextEditingController emailController = TextEditingController();
   String role = Get.arguments;
+
   String greeting() {
     var hour = DateTime.now().hour;
+
     if (hour < 12) {
       return 'Good Morning';
     }
@@ -132,7 +159,7 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            HeaderWidget(),
+            _loading == true ? loadingPage() : HeaderWidget(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: heavyText("Service:", ColorResources.grey777, 18),
@@ -142,7 +169,9 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: InkWell(
                 onTap: () {
-                  Get.to(PatientVisit());
+                  Get.to(PatientVisit(
+                    id: Id,
+                  ));
                 },
                 child: Container(
                   height: 50,
@@ -324,6 +353,14 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
     );
   }
 
+  Widget loadingPage() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
+  }
+
   Widget HeaderWidget() {
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -357,8 +394,13 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                       children: [
                         const SizedBox(height: 10),
 
-                        heavyText(greeting() + " Abdullah Alsaleh",
-                            ColorResources.green, 20, TextAlign.left),
+                        heavyText(
+                            greeting() +
+                                " " +
+                                patientInfor[1], //+ patientInfor[1]
+                            ColorResources.green,
+                            20,
+                            TextAlign.left),
 
                         const SizedBox(height: 8),
                         // heavyText("ID: 1120772892", ColorResources.grey777, 18,
@@ -368,7 +410,8 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                     padding: const EdgeInsets.only(right: 1, bottom: 225),
                     child: InkWell(
                       onTap: () {
-                        Get.to(SignInScreen());
+                        // Get.to(SignInScreen());
+                        showAlertDialog2(context);
                       },
                       child: Container(
                         height: 40,
@@ -407,20 +450,20 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                         const SizedBox(height: 13),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(
-                              "ID: 1120772892", ColorResources.grey777, 16),
+                          child:
+                              heavyText("ID: $Id", ColorResources.grey777, 16),
                         ),
                         const SizedBox(height: 2),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(
-                              "DoB: 13-Oct-2000", ColorResources.grey777, 16),
+                          child: heavyText("DoB: ${patientInfor[2]}",
+                              ColorResources.grey777, 16),
                         ),
                         const SizedBox(height: 2),
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 13),
-                            child: heavyText(
-                                "Male, 23 y", ColorResources.grey777, 16)),
+                            child: heavyText("${patientInfor[3]}, $ageNow y",
+                                ColorResources.grey777, 16)),
                         const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -433,8 +476,8 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                             mediumText("Hieght:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText('170', ColorResources.grey777,
-                                  12, TextAlign.center),
+                              child: romanText(patientInfor[4],
+                                  ColorResources.grey777, 12, TextAlign.center),
                             ),
                             const SizedBox(width: 10),
                             const Image(
@@ -446,8 +489,8 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                             mediumText("Weight:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText('55', ColorResources.grey777, 12,
-                                  TextAlign.center),
+                              child: romanText(patientInfor[5],
+                                  ColorResources.grey777, 12, TextAlign.center),
                             ),
                             const SizedBox(width: 8),
                             const Image(
@@ -459,8 +502,8 @@ class _PatientVisitScreenState extends State<PatientVisitScreen> {
                                 "Blood pressure:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText('90', ColorResources.grey777, 12,
-                                  TextAlign.center),
+                              child: romanText(patientInfor[6],
+                                  ColorResources.grey777, 12, TextAlign.center),
                             ),
                           ],
                         ),

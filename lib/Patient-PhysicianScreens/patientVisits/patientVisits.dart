@@ -7,13 +7,18 @@ import '../../Utiils/text_font_family.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'previous.dart';
 import 'upComming.dart';
 
+String patientId;
+
 class PatientVisit extends StatelessWidget {
+  PatientVisit({Key key, String id}) : super(key: key) {
+    patientId = id;
+  }
   final PatientTabBarController tabBarController =
       Get.put(PatientTabBarController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +35,7 @@ class PatientVisit extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pop();
+                    // UpCommingVisitState().upVisitM("1029384756");
                   },
                   child: Container(
                     height: 40,
@@ -101,7 +107,14 @@ class PatientVisit extends StatelessWidget {
               behavior: MyBehavior(),
               child: TabBarView(
                 controller: tabBarController.controller,
-                children: [UpCommingVisit(), PreviousVisit()],
+                children: [
+                  UpCommingVisit(
+                    id: patientId,
+                  ),
+                  PreviousVisit(
+                    id: patientId,
+                  )
+                ],
               ),
             ),
           ),

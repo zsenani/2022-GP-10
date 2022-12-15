@@ -1,5 +1,6 @@
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/active_visit.dart';
 
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
@@ -8,6 +9,9 @@ import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:medcore/index.dart';
 import '../LabScreens/lab_home_screen.dart';
+import '../Patient-PhysicianScreens/patientVisits/previous.dart';
+import '../Patient-PhysicianScreens/patientVisits/upComming.dart';
+import '../Patient-PhysicianScreens/prev_visit.dart';
 import 'change_password_screen.dart';
 import 'otp.dart';
 import 'package:get/get.dart';
@@ -105,13 +109,16 @@ class otpLogInScreen extends StatelessWidget {
               commonButton(() {
                 controller.restart();
 
-                verifyOtp(email, context);
+                //  verifyOtp(email, context);
                 //if (validateOTP == true) {
                 if (role == 'Physician') {
+                  // activeVisitP(idController.text);
                   pinPutController.clear();
+
                   Get.to(HomeScreen(id: idController.text));
                 } else if (role == 'patient') {
                   pinPutController.clear();
+
                   Get.to(PatientHomeScreen(id: idController.text),
                       arguments: 'patient');
                 } else if (role == 'Lab specialist') {

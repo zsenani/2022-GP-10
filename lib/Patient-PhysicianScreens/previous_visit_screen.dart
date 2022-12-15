@@ -12,8 +12,42 @@ import 'Lab/lab_tests.dart';
 import 'Medication/medication_list.dart';
 import 'medical_reports.dart';
 
+String patientId = "";
+String patientName = "";
+String patientGender = "";
+var patientDob;
+String patientHeight = "";
+String patientWeight = "";
+String patientBloodP = "";
+String hospitalName = "";
+String visitDate = "";
+String visitTime = "";
+
 class PreviousVisitScreen extends StatefulWidget {
-  // HomeScreen({Key? key}) : super(key: key);
+  PreviousVisitScreen(
+      {Key key,
+      String patientID,
+      String patientN,
+      String patientG,
+      String patientAge,
+      String patientH,
+      String patientW,
+      String patientB,
+      String hospitalN,
+      String visitD,
+      String visitT})
+      : super(key: key) {
+    patientId = patientID;
+    patientName = patientN;
+    patientGender = patientG;
+    patientDob = DateTime.now().year - int.parse(patientAge.substring(0, 4));
+    patientHeight = patientH;
+    patientWeight = patientW;
+    patientBloodP = patientB;
+    hospitalName = hospitalN;
+    visitDate = visitD;
+    visitTime = visitT;
+  }
   @override
   State<PreviousVisitScreen> createState() => _PreviousVisitScreenState();
 }
@@ -138,13 +172,13 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            heavyText("King Faisal Specialist Hospital",
-                                ColorResources.green, 20, TextAlign.center),
+                            heavyText(hospitalName, ColorResources.green, 20,
+                                TextAlign.center),
                             SizedBox(height: 0.5),
-                            bookText("Visit date: 17-Oct-2022",
+                            bookText("Date: " + visitDate,
                                 ColorResources.grey777, 20, TextAlign.center),
                             SizedBox(height: 0.5),
-                            bookText("Yesterday- 10:45 AM",
+                            bookText("Time: " + visitTime,
                                 ColorResources.orange, 20, TextAlign.center),
                           ]),
                     ])
@@ -174,20 +208,20 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                       SizedBox(height: 18),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient Name: Ahmad Alsaleh",
+                        child: heavyText("Patient Name: " + patientName,
                             ColorResources.grey777, 16),
                       ),
                       SizedBox(height: 2),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient ID: 1126147832",
+                        child: heavyText("Patient ID: " + patientId,
                             ColorResources.grey777, 16),
                       ),
                       SizedBox(height: 2),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(
-                              "Male, 35 y", ColorResources.grey777, 16)),
+                          child: heavyText(patientGender + ", $patientDob y",
+                              ColorResources.grey777, 16)),
                       SizedBox(height: 14),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -196,23 +230,38 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                               image: AssetImage(Images.height),
                               width: 20,
                               height: 20),
-                          mediumText("Hieght: 170", ColorResources.grey777, 12),
-                          SizedBox(width: 12),
-                          Image(
+                          mediumText("Hieght: ", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 28,
+                            child: romanText(patientHeight,
+                                ColorResources.grey777, 12, TextAlign.center),
+                          ),
+                          const SizedBox(width: 12),
+                          const Image(
                             image: AssetImage(Images.weight),
                             width: 17,
                             height: 17,
                           ),
-                          SizedBox(width: 1),
-                          mediumText("Weight: 55", ColorResources.grey777, 12),
-                          SizedBox(width: 12),
-                          Image(
+                          const SizedBox(width: 1),
+                          mediumText("Weight: ", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 28,
+                            child: romanText(patientWeight,
+                                ColorResources.grey777, 12, TextAlign.center),
+                          ),
+                          const SizedBox(width: 12),
+                          const Image(
                             image: AssetImage(Images.pressurIcon),
                             width: 20,
                             height: 20,
                           ),
                           mediumText(
-                              "Blood pressure: 90", ColorResources.grey777, 12),
+                              "Blood pressure: ", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 28,
+                            child: romanText(patientBloodP,
+                                ColorResources.grey777, 12, TextAlign.center),
+                          ),
                         ],
                       ),
                     ],

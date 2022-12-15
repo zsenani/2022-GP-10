@@ -317,8 +317,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ColorResources.grey777, 16),
                           ],
                         ),
-                        textField1(
-                            "Enter your ID", IDController, TextInputType.number,
+                        textField1("Enter your national ID or your Iqama ID",
+                            IDController, TextInputType.number,
                             error: errorID || errorID2),
                         const SizedBox(height: 5),
                         if (errorID == true)

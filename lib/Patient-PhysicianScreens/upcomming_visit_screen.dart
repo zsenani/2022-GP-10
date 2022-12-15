@@ -12,15 +12,49 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+String patientId = "";
+String patientName = "";
+String patientGender = "";
+var patientDob;
+String patientHeight = "";
+String patientWeight = "";
+String patientBloodP = "";
+String hospitalName = "";
+String visitDate = "";
+String visitTime = "";
+
 class UpCommingVisitScreen extends StatefulWidget {
-  // HomeScreen({Key? key}) : super(key: key);
+  UpCommingVisitScreen(
+      {Key key,
+      String patientID,
+      String patientN,
+      String patientG,
+      String patientAge,
+      String patientH,
+      String patientW,
+      String patientB,
+      String hospitalN,
+      String visitD,
+      String visitT})
+      : super(key: key) {
+    patientId = patientID;
+    patientName = patientN;
+    patientGender = patientG;
+    patientDob = DateTime.now().year - int.parse(patientAge.substring(0, 4));
+    patientHeight = patientH;
+    patientWeight = patientW;
+    patientBloodP = patientB;
+    hospitalName = hospitalN;
+    visitDate = visitD;
+    visitTime = visitT;
+  }
   @override
   State<UpCommingVisitScreen> createState() => _UpCommingVisitScreenState();
 }
 
 class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   final TextEditingController emailController = TextEditingController();
-  String role = Get.arguments;
+
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
@@ -153,35 +187,42 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: const EdgeInsets.only(top: 35),
-              child: ListTile(
-                  title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        child: const Icon(Icons.arrow_back,
-                            color: ColorResources.grey777),
-                      ),
+            padding: const EdgeInsets.only(top: 35),
+            child: ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      child: const Icon(Icons.arrow_back,
+                          color: ColorResources.grey777),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            heavyText("King Faisal Specialist Hospital",
-                                ColorResources.green, 20, TextAlign.center),
-                            const SizedBox(height: 0.5),
-                            bookText("Visit date: 1-Oct-2022",
-                                ColorResources.grey777, 20, TextAlign.center),
-                            const SizedBox(height: 0.5),
-                            bookText("Today- 10:45 AM", ColorResources.orange,
-                                20, TextAlign.center),
-                          ]),
-                    ])
-                  ]))),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          heavyText(hospitalName, ColorResources.green, 20,
+                              TextAlign.center),
+                          const SizedBox(height: 0.5),
+                          bookText("Date: " + visitDate, ColorResources.grey777,
+                              20, TextAlign.center),
+                          const SizedBox(height: 0.5),
+                          bookText("Time: " + visitTime, ColorResources.orange,
+                              20, TextAlign.center),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
         Positioned(
             bottom: 20,
@@ -208,20 +249,20 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                       const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient Name: Ahmad Alsaleh",
+                        child: heavyText("Patient Name: " + patientName,
                             ColorResources.grey777, 16),
                       ),
                       const SizedBox(height: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient ID: 1126147832",
+                        child: heavyText("Patient ID: " + patientId,
                             ColorResources.grey777, 16),
                       ),
                       const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(
-                              "Male, 23 y", ColorResources.grey777, 16)),
+                          child: heavyText(patientGender + ", $patientDob y",
+                              ColorResources.grey777, 16)),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -231,18 +272,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               width: 20,
                               height: 20),
                           mediumText("Hieght:", ColorResources.grey777, 12),
-                          const SizedBox(
+                          SizedBox(
                             width: 28,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '170',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                            child: romanText(patientHeight,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -252,18 +285,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           const SizedBox(width: 1),
                           mediumText("Weight:", ColorResources.grey777, 12),
-                          const SizedBox(
+                          SizedBox(
                             width: 28,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '55',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                            child: romanText(patientWeight,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -273,18 +298,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           mediumText(
                               "Blood pressure:", ColorResources.grey777, 12),
-                          const SizedBox(
-                            width: 31,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '90',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                          SizedBox(
+                            width: 28,
+                            child: romanText(patientBloodP,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                         ],
                       ),
