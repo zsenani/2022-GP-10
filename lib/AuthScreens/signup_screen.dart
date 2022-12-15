@@ -195,8 +195,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       maritalStatusController.text,
       int.parse(IDController.text),
     );
-    _clearAll2();
+
     Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
+    _clearAll2();
     //   }
   }
 
@@ -216,8 +217,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         specializationController.text,
         int.parse(IDController.text),
         IDOfHospitals);
-    _clearAll();
+
     Get.to(HomeScreen(id: IDController.text));
+    _clearAll();
     // }
   }
 
@@ -236,8 +238,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         nationalityController.text,
         int.parse(IDController.text),
         int.parse(hosID));
-    _clearAll3();
+
     Get.to(LabHomePage1(id: IDController.text));
+    _clearAll3();
     // }
   }
 

@@ -1,12 +1,14 @@
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/AuthScreens/reset_password_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Patient-PhysicianScreens/edit_physician_profile_screen.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
 
@@ -15,7 +17,6 @@ class PhysicianProfilePage extends StatefulWidget {
     Id = id;
   }
   static const routeName = '/lab-profile-screen';
-
   @override
   State<PhysicianProfilePage> createState() => _PhysicianProfilePageState();
 }
@@ -23,7 +24,34 @@ class PhysicianProfilePage extends StatefulWidget {
 class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
   final VariableController variableController = Get.put(VariableController());
 
+  @override
+  void initState() {
+    super.initState();
+    getProfileData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getProfileData();
+  }
+
   String selectedValue = "";
+  void getProfileData() async {
+    var user = await conn.query(
+        'select name,nationalId,DOB,email,gender,mobileNo from Physician where nationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        PHname = '${row[0]}';
+        PHnationalID = '${row[1]}';
+        PHDOB = '${row[2]}'.split(' ')[0];
+        PHemail = '${row[3]}';
+        PHgender = '${row[4]}';
+        PHmobileNo = '${row[5]}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +62,6 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
         children: [
           //HeaderWidget
           HeaderWidget(),
-
           const SizedBox(height: 80),
           //ColumnListTileWidget
           ColumnListTileWidget(),
@@ -74,11 +101,12 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20),
               child: ListTile(
-                title: heavyText("Name: John Doe",
+                title: heavyText("Name: " + PHname,
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
                     onTap: () {
-                      Get.to(EditPhysicianProfileScreen());
+                      getProfileData();
+                      Get.to(EditPhysicianProfileScreen(id: Id));
                     },
                     child: Image.asset('assets/images/edit.png',
                         height: 25, width: 25)),
@@ -107,7 +135,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("5511666223", ColorResources.grey777, 20),
+                      romanText(PHnationalID, ColorResources.grey777, 20),
                     ],
                   ),
                 ),
@@ -121,7 +149,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("13/6/1990", ColorResources.grey777, 20),
+                      romanText(PHDOB, ColorResources.grey777, 20),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -135,8 +163,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText(
-                          "johndoe@gmail.com", ColorResources.grey777, 16),
+                      romanText(PHemail, ColorResources.grey777, 16),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -151,7 +178,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("Male", ColorResources.grey777, 20),
+                      romanText(PHgender, ColorResources.grey777, 20),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -166,7 +193,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("0555774474", ColorResources.grey777, 20),
+                      romanText("0" + PHmobileNo, ColorResources.grey777, 20),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -210,7 +237,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
                     ),
                   ),
                   onTap: () {
-                    showAlertDialogPhy(context);
+                    showAlertDialog2(context);
                   },
                 ),
                 const SizedBox(height: 100),
@@ -223,7 +250,7 @@ class _PhysicianProfilePageState extends State<PhysicianProfilePage> {
   }
 }
 
-showAlertDialogPhy(BuildContext context) {
+showAlertDialog2(BuildContext context) {
   // set up the buttons
   Widget cancelButton = TextButton(
     child: const Text(
@@ -242,9 +269,7 @@ showAlertDialogPhy(BuildContext context) {
       ),
     ),
     onPressed: () {
-      Get.to(SignInScreen(
-        role: "Physician",
-      ));
+      Get.to(SignInScreen());
     },
   );
 

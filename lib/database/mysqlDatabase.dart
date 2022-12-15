@@ -146,6 +146,119 @@ class mysqlDatabase {
     }
   }
 
+  static addDiagnose(sub, obj, assessment, plan, vid) async {
+    var diagnose = await conn.query(
+        'update Visit set subject=?, object=? , assessment=? , plan=? where idvisit =?',
+        [sub, obj, assessment, plan, vid]);
+  }
+
+  static editProfile(role, name, email, phone, id) async {
+    if (role.compareTo('patient') == 0) {
+      if (name != "")
+        var editP = await conn
+            .query('update Patient set name=? where NationalID =?', [name, id]);
+      if (email != "")
+        var editP = await conn.query(
+            'update Patient set  email=? where NationalID =?', [email, id]);
+      if (phone != "")
+        var editP = await conn.query(
+            'update Patient set mobileNo=? where NationalID =?', [phone, id]);
+    } else if (role.compareTo('Physician') == 0) if (name != "")
+      var editP = await conn
+          .query('update Physician set name=? where nationalId =?', [name, id]);
+    if (email != "")
+      var editP = await conn.query(
+          'update Physician set  email=? where nationalId =?', [email, id]);
+    if (phone != "")
+      var editP = await conn.query(
+          'update Physician set mobileNo=? where nationalId =?', [phone, id]);
+  }
+
+  // static editHistory(allergies, social, family, surgical, medical, id) async {
+  //   if (allergies != "") {
+  //     var data = await conn
+  //         .query('select allergies from Patient where NationalID =?', [id]);
+  //     for (var row in data) {
+  //       print('${row[0]}');
+  //       data = '${row[0]}' + "," + allergies;
+  //     }
+  //     var edit = await conn.query(
+  //         'update Patient set allergies=? where NationalID =?', [data, id]);
+  //   }
+
+  //   if (social != "") {
+  //     var data = await conn
+  //         .query('select socialHistory from Patient where NationalID =?', [id]);
+  //     for (var row in data) {
+  //       print('${row[0]}');
+  //       data = '${row[0]}' + "," + social;
+  //     }
+  //     var edit = await conn.query(
+  //         'update Patient set socialHistory=? where NationalID =?', [data, id]);
+  //   }
+
+  //   if (family != "") {
+  //     var data = await conn
+  //         .query('select familyHistory from Patient where NationalID =?', [id]);
+  //     for (var row in data) {
+  //       print('${row[0]}');
+  //       data = '${row[0]}' + "," + family;
+  //     }
+  //     var edit = await conn.query(
+  //         'update Patient set familyHistory=? where NationalID =?', [data, id]);
+  //   }
+
+  //   if (surgical != "") {
+  //     var data = await conn.query(
+  //         'select surgicalHistory from Patient where NationalID =?', [id]);
+  //     for (var row in data) {
+  //       print('${row[0]}');
+  //       data = '${row[0]}' + "," + surgical;
+  //     }
+  //     var edit = await conn.query(
+  //         'update Patient set surgicalHistory=? where NationalID =?',
+  //         [data, id]);
+  //   }
+
+  //   if (medical != "") {
+  //     var data = await conn.query(
+  //         'select medicalIllnesses from Patient where NationalID =?', [id]);
+  //     for (var row in data) {
+  //       print('${row[0]}');
+  //       data = '${row[0]}' + "," + medical;
+  //     }
+  //     var edit = await conn.query(
+  //         'update Patient set medicalIllnesses=? where NationalID =?',
+  //         [data, id]);
+  //   }
+  // }
+
+  static editHistory(type, List<String> row, pid) async {
+    var data = '';
+    row.forEach((element) {
+      if (row.last == element)
+        data += element;
+      else
+        data += element + ',';
+    });
+    print(data);
+    var edit = await conn.query(
+        'update Patient set ' + type + '=? where NationalID =?', [data, pid]);
+  }
+
+  static deleteHistory(type, List<String> row, pid) async {
+    var data = '';
+    row.forEach((element) {
+      if (row.last == element)
+        data += element;
+      else
+        data += element + ',';
+    });
+    print(data);
+    var edit = await conn.query(
+        'update Patient set ' + type + '=? where NationalID =?', [data, pid]);
+  }
+
   static checkEmailExsist(role, email) async {
     var table = "";
     if (role.compareTo('patient') == 0)

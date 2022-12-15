@@ -3,6 +3,7 @@
 // import 'dart:js';
 
 import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -24,10 +25,18 @@ import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
 bool _loading = true;
+String Page;
+String PHname = "a";
+String PHnationalID = "bb";
+String PHgender = "bb";
+String PHmobileNo = "bb";
+String PHDOB = "b";
+String PHemail = "bb";
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, String id}) : super(key: key) {
+  HomeScreen({Key key, String id, String page}) : super(key: key) {
     Id = id;
+    Page = page;
   }
 
   @override
@@ -35,7 +44,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedScreenIndex = 0;
+  int _selectedScreenIndex;
+  void initState() {
+    print(Page);
+    super.initState();
+    setState(() {
+      if (Page == 'edit')
+        _selectedScreenIndex = 2;
+      else
+        _selectedScreenIndex = 0;
+    });
+  }
+
   final List _screens = [
     {"screen": labHomePage()},
     {"screen": SearchPatient()},
@@ -100,6 +120,22 @@ class _labHomePageState extends State<labHomePage> {
     });
   }
 
+  void getProfileData() async {
+    var user = await conn.query(
+        'select name,nationalId,DOB,email,gender,mobileNo from Physician where nationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        PHname = '${row[0]}';
+        PHnationalID = '${row[1]}';
+        PHDOB = '${row[2]}'.split(' ')[0];
+        PHemail = '${row[3]}';
+        PHgender = '${row[4]}';
+        PHmobileNo = '${row[5]}';
+      });
+    }
+  }
+
   Future physician(ID) async {
     physicianName = await mysqlDatabase.PhysicianHomeScreen(ID);
     // return patientInfor;
@@ -114,7 +150,9 @@ class _labHomePageState extends State<labHomePage> {
   final TabBarController tabBarController = Get.put(TabBarController());
 
   String greeting() {
+    getProfileData();
     var hour = DateTime.now().hour;
+
     if (hour < 12) {
       return 'Good Morning';
     }

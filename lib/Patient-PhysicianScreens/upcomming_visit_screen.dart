@@ -12,6 +12,9 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../database/mysqlDatabase.dart';
+import 'patient_home_screen.dart';
+
 String patientId = "";
 String patientName = "";
 String patientGender = "";
@@ -22,6 +25,7 @@ String patientBloodP = "";
 String hospitalName = "";
 String visitDate = "";
 String visitTime = "";
+String visitId = '';
 
 class UpCommingVisitScreen extends StatefulWidget {
   UpCommingVisitScreen(
@@ -35,7 +39,8 @@ class UpCommingVisitScreen extends StatefulWidget {
       String patientB,
       String hospitalN,
       String visitD,
-      String visitT})
+      String visitT,
+      String vid})
       : super(key: key) {
     patientId = patientID;
     patientName = patientN;
@@ -47,6 +52,7 @@ class UpCommingVisitScreen extends StatefulWidget {
     hospitalName = hospitalN;
     visitDate = visitD;
     visitTime = visitT;
+    visitId = vid;
   }
   @override
   State<UpCommingVisitScreen> createState() => _UpCommingVisitScreenState();
@@ -54,6 +60,56 @@ class UpCommingVisitScreen extends StatefulWidget {
 
 class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   final TextEditingController emailController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   getData();
+    // });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getData();
+  }
+
+  void getData() async {
+    var user = await conn.query(
+        'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus from Patient where nationalId=?',
+        [int.parse(patientId)]);
+    for (var row in user) {
+      setState(() {
+        name = '${row[0]}';
+        gender = '${row[1]}';
+        bloodType = '${row[2]}';
+        nationalID = '${row[3]}';
+        DOB = '${row[4]}'.split(' ')[0];
+        nationality = '${row[5]}'.split(' ')[1];
+        maritalStatus = '${row[6]}';
+        // age = '${row[7]}';
+        age = DateTime.now().year - int.parse(DOB.substring(0, 4));
+        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
+          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day)
+            age = age - 1;
+        }
+      });
+    }
+
+    var info = await conn.query(
+        'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses from Patient where nationalId=?',
+        [int.parse(patientId)]);
+    for (var row in info) {
+      setState(() {
+        allergies = '${row[0]}';
+        socialHistory = '${row[1]}';
+        familyHistory = '${row[2]}';
+        surgicalHistory = '${row[3]}';
+        medicalIllnesses = '${row[4]}';
+      });
+    }
+  }
 
   String greeting() {
     var hour = DateTime.now().hour;
@@ -70,7 +126,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     {
       "image": Images.history,
       "text1": "Medical History",
-      "caller": MedicalHistory(),
+      "caller": MedicalHistory(
+        id: patientId,
+      ),
     },
     {
       "image": Images.report,
@@ -141,7 +199,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(writeDiagnose());
+                    Get.to(writeDiagnose(
+                      id: int.parse(visitId),
+                    ));
                   },
                   child: Container(
                     height: 50,

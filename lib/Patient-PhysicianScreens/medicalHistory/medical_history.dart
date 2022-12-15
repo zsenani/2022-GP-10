@@ -1,13 +1,231 @@
+import 'dart:async';
+
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import '../../Utiils/images.dart';
+import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../upcomming_visit_screen.dart';
 import 'edit_history.dart';
+import '../patient_home_screen.dart';
 
-class MedicalHistory extends StatelessWidget {
+String Id;
+bool loading = true;
+
+class MedicalHistory extends StatefulWidget {
+  MedicalHistory({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
+
+  @override
+  State<MedicalHistory> createState() => MedicalHistoryState();
+}
+
+class MedicalHistoryState extends State<MedicalHistory> {
   String role = Get.arguments;
+  List<String> _Allergy = [];
+  List<String> _social = [];
+  List<String> _family = [];
+  List<String> _surgery = [];
+  List<String> _Medical = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData();
+    });
+  }
+
+  Future getData() async {
+    var info = await conn.query(
+        'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses from Patient where nationalId=?',
+        [int.parse(Id)]);
+    for (var row in info) {
+      print(Id);
+      setState(() {
+        allergies = '${row[0]}';
+        socialHistory = '${row[1]}';
+        familyHistory = '${row[2]}';
+        surgicalHistory = '${row[3]}';
+        medicalIllnesses = '${row[4]}';
+      });
+    }
+    setState(() {
+      _Allergy = allergies.split(',');
+      _social = socialHistory.split(',');
+      _family = familyHistory.split(',');
+      _surgery = surgicalHistory.split(',');
+      _Medical = medicalIllnesses.split(',');
+    });
+    setState(() {
+      loading = false;
+    });
+  }
+
+  Widget loadingPage() {
+    return Center(
+      child: const CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
+  }
+
+  Widget info() {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            Images.allergy2,
+            width: 25,
+            height: 25,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 6),
+                child: mediumText("Allergies", ColorResources.grey777, 18),
+              ),
+              SizedBox(height: 10),
+              for (var index in _Allergy) ...[
+                Column(
+                  children: [
+                    romanText("${index}", ColorResources.grey777, 16),
+                    SizedBox(height: 5),
+                  ],
+                ),
+              ],
+            ],
+          ),
+          SizedBox(width: 70),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.group,
+                  color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: mediumText(
+                        "Social History", ColorResources.grey777, 18),
+                  ),
+                  SizedBox(height: 10),
+                  for (var index in _social) ...[
+                    Column(
+                      children: [
+                        romanText("${index}", ColorResources.grey777, 16),
+                        SizedBox(height: 5),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      SizedBox(height: 30),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            Images.family2,
+            width: 25,
+            height: 25,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 6),
+                child: mediumText("Family History", ColorResources.grey777, 18),
+              ),
+              SizedBox(height: 10),
+              for (var index in _family) ...[
+                Column(
+                  children: [
+                    romanText("${index}", ColorResources.grey777, 16),
+                    SizedBox(height: 5),
+                  ],
+                ),
+              ],
+            ],
+          ),
+          SizedBox(width: 20),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                Images.surgery2,
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: mediumText(
+                        "Surgical History", ColorResources.grey777, 18),
+                  ),
+                  SizedBox(height: 10),
+                  for (var index in _surgery) ...[
+                    Column(
+                      children: [
+                        romanText("${index}", ColorResources.grey777, 16),
+                        SizedBox(height: 5),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      SizedBox(height: 30),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            Images.illness2,
+            width: 25,
+            height: 25,
+          ),
+          SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 6),
+                child:
+                    mediumText("Medical Illnesses", ColorResources.grey777, 18),
+              ),
+              SizedBox(height: 10),
+              for (var index in _Medical) ...[
+                Column(
+                  children: [
+                    romanText("${index}", ColorResources.grey777, 16),
+                    SizedBox(height: 5),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,8 +326,7 @@ class MedicalHistory extends StatelessWidget {
                                 children: [
                                   bookText("Name   :   ",
                                       ColorResources.greyA0A, 16),
-                                  mediumText("Sarah Alahmed",
-                                      ColorResources.grey777, 16),
+                                  mediumText(name, ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -117,7 +334,8 @@ class MedicalHistory extends StatelessWidget {
                                 children: [
                                   bookText("Age      :   ",
                                       ColorResources.greyA0A, 16),
-                                  mediumText("23", ColorResources.grey777, 16),
+                                  mediumText(
+                                      '${age}', ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -126,7 +344,7 @@ class MedicalHistory extends StatelessWidget {
                                   bookText("Gender :   ",
                                       ColorResources.greyA0A, 16),
                                   mediumText(
-                                      "Female", ColorResources.grey777, 16),
+                                      gender, ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -134,7 +352,8 @@ class MedicalHistory extends StatelessWidget {
                                 children: [
                                   bookText("Blood Type :  ",
                                       ColorResources.greyA0A, 16),
-                                  mediumText("O+", ColorResources.grey777, 16),
+                                  mediumText(
+                                      bloodType, ColorResources.grey777, 16),
                                 ],
                               ),
                             ],
@@ -148,7 +367,7 @@ class MedicalHistory extends StatelessWidget {
                                   bookText(
                                       "ID   :   ", ColorResources.greyA0A, 16),
                                   mediumText(
-                                      "1112345678", ColorResources.grey777, 16),
+                                      nationalID, ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -156,8 +375,7 @@ class MedicalHistory extends StatelessWidget {
                                 children: [
                                   bookText(
                                       "DOB:   ", ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      "16-11-1998", ColorResources.grey777, 16),
+                                  mediumText(DOB, ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -166,7 +384,7 @@ class MedicalHistory extends StatelessWidget {
                                   bookText("Nationality:   ",
                                       ColorResources.greyA0A, 16),
                                   mediumText(
-                                      "Saudi", ColorResources.grey777, 16),
+                                      nationality, ColorResources.grey777, 16),
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -174,8 +392,8 @@ class MedicalHistory extends StatelessWidget {
                                 children: [
                                   bookText("Marital Status:   ",
                                       ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      "Single", ColorResources.grey777, 16),
+                                  mediumText(maritalStatus,
+                                      ColorResources.grey777, 16),
                                 ],
                               ),
                             ],
@@ -188,159 +406,23 @@ class MedicalHistory extends StatelessWidget {
                         thickness: 1,
                       ),
                       SizedBox(height: 30),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.allergy2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Allergies",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText("Balsam of Peru",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("Sulfonamides",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                                SizedBox(width: 50),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.group,
-                                        color: Color.fromRGBO(241, 94, 34, 0.7),
-                                        size: 30),
-                                    SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 6),
-                                          child: mediumText("Social History",
-                                              ColorResources.grey777, 18),
-                                        ),
-                                        SizedBox(height: 10),
-                                        romanText("Tobacco use",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.family2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Family History",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText(
-                                        "Diabetes", ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("High Blood Pressure",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                                SizedBox(width: 8),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      Images.surgery2,
-                                      width: 25,
-                                      height: 25,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 6),
-                                          child: mediumText("Surgical History",
-                                              ColorResources.grey777, 18),
-                                        ),
-                                        SizedBox(height: 10),
-                                        romanText("Heart Surgery",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                        romanText("Appendectomy",
-                                            ColorResources.grey777, 16),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Images.illness2,
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6),
-                                      child: mediumText("Medical Illnesses",
-                                          ColorResources.grey777, 18),
-                                    ),
-                                    SizedBox(height: 10),
-                                    romanText("Coronavirus",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                    romanText("Bone Cancer",
-                                        ColorResources.grey777, 16),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ]),
+                      loading == true ? loadingPage() : info(),
+
                       SizedBox(height: 30),
                       role == "UPphysician"
                           ? Column(
                               children: [
-                                commonButton(() {
-                                  Get.to(EditHistory());
+                                commonButton(() async {
+                                  loading = true;
+                                  String refresh = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditHistory(
+                                                id: Id,
+                                              )));
+                                  if (refresh == 'refresh') {
+                                    getData();
+                                  }
                                 }, "Edit", ColorResources.green009,
                                     ColorResources.white),
                                 SizedBox(height: 30),
