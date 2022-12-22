@@ -3,8 +3,14 @@ import '../Utiils/common_widgets.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
+
+int visitId;
 
 class writeDiagnose extends StatefulWidget {
+  writeDiagnose({Key key, int id}) : super(key: key) {
+    visitId = id;
+  }
   @override
   State<writeDiagnose> createState() => _writeDiagnoseState();
 }
@@ -14,6 +20,15 @@ class _writeDiagnoseState extends State<writeDiagnose> {
   final TextEditingController descriptionControllerO = TextEditingController();
   final TextEditingController descriptionControllerA = TextEditingController();
   final TextEditingController descriptionControllerP = TextEditingController();
+
+  void add() {
+    mysqlDatabase.addDiagnose(
+        descriptionControllerS.text,
+        descriptionControllerO.text,
+        descriptionControllerA.text,
+        descriptionControllerP.text,
+        visitId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +108,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                         TextInputType.text),
                     SizedBox(height: 20),
                     heavyText(
-                      " Assignment",
+                      " Assessment",
                       Color.fromRGBO(241, 94, 34, 1),
                       18,
                     ),
@@ -146,6 +161,8 @@ class _writeDiagnoseState extends State<writeDiagnose> {
         ),
       ),
       onPressed: () {
+        add();
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );

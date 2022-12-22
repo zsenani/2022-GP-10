@@ -65,15 +65,12 @@ class _TestRequestState extends State<TestRequest> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 30, top: 50),
-                        child: Flexible(
-                          flex: 1,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            child: Center(
-                              child: Icon(Icons.arrow_back,
-                                  color: ColorResources.grey777),
-                            ),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: Center(
+                            child: Icon(Icons.arrow_back,
+                                color: ColorResources.grey777),
                           ),
                         ),
                       ),

@@ -1,5 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
+// import 'dart:js';
+
+import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -13,15 +17,26 @@ import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/prev_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
+import '../AuthScreens/signin_screen.dart';
 import 'SearchSymptoms/diagnosis_details.dart';
 import 'active_visit.dart';
 import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
+bool _loading = true;
+String Page;
+String PHname = "a";
+String PHnationalID = "bb";
+String PHgender = "bb";
+String PHmobileNo = "bb";
+String PHDOB = "b";
+String PHemail = "bb";
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, String id}) : super(key: key) {
+  HomeScreen({Key key, String id, String page}) : super(key: key) {
     Id = id;
+    Page = page;
   }
 
   @override
@@ -29,7 +44,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedScreenIndex = 0;
+  int _selectedScreenIndex;
+  void initState() {
+    print(Page);
+    super.initState();
+    setState(() {
+      if (Page == 'edit')
+        _selectedScreenIndex = 2;
+      else
+        _selectedScreenIndex = 0;
+    });
+  }
+
   final List _screens = [
     {"screen": labHomePage()},
     {"screen": SearchPatient()},
@@ -44,45 +70,89 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF6F,
-      body: _screens[_selectedScreenIndex]["screen"],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedScreenIndex,
-        onTap: _selectScreen,
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: ColorResources.whiteF6F,
+        body: _screens[_selectedScreenIndex]["screen"],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedScreenIndex,
+          onTap: _selectScreen,
+          iconSize: 30,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'Home',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
             ),
-            label: 'Home',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+              ),
+              label: 'Search',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
             ),
-            label: 'Search',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Color.fromRGBO(19, 156, 140, 1),
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Color.fromRGBO(19, 156, 140, 1),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class labHomePage extends StatelessWidget {
-  //const labHomePage({Key key}) : super(key: key);
+String physicianName = "";
+
+class labHomePage extends StatefulWidget {
+  @override
+  State<labHomePage> createState() => _labHomePageState();
+}
+
+class _labHomePageState extends State<labHomePage> {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      physician(Id);
+    });
+  }
+
+  void getProfileData() async {
+    var user = await conn.query(
+        'select name,nationalId,DOB,email,gender,mobileNo from Physician where nationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        PHname = '${row[0]}';
+        PHnationalID = '${row[1]}';
+        PHDOB = '${row[2]}'.split(' ')[0];
+        PHemail = '${row[3]}';
+        PHgender = '${row[4]}';
+        PHmobileNo = '${row[5]}';
+      });
+    }
+  }
+
+  Future physician(ID) async {
+    physicianName = await mysqlDatabase.PhysicianHomeScreen(ID);
+    // return patientInfor;
+    physicianName = physicianName.substring(0, physicianName.indexOf(" "));
+    setState(() {
+      _loading = false;
+    });
+    print("physician home page");
+    print(physicianName);
+  }
+
   final TabBarController tabBarController = Get.put(TabBarController());
 
   String greeting() {
+    getProfileData();
     var hour = DateTime.now().hour;
+
     if (hour < 12) {
       return 'Good Morning';
     }
@@ -99,7 +169,7 @@ class labHomePage extends StatelessWidget {
       body: Stack(
         children: [
           //Image
-          LabHomeDetailsContainer(),
+          _loading == true ? loadingPage() : LabHomeDetailsContainer(),
 
           //Doctor Detail
           LabOptionsContainer(),
@@ -108,11 +178,19 @@ class labHomePage extends StatelessWidget {
     );
   }
 
+  Widget loadingPage() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
+  }
+
   Widget LabHomeDetailsContainer() {
     return Container(
       height: 340,
       width: Get.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -121,52 +199,51 @@ class labHomePage extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [ColorResources.green, ColorResources.lightBlue2],
-
           tileMode: TileMode.clamp,
-          // begin: Alignment.topRight,
-          // end: Alignment.bottomLeft,
-          // colors: [
-          //   Color.fromRGBO(178, 224, 222, 1).withOpacity(0.4),
-          //   Color.fromRGBO(19, 156, 140, 1).withOpacity(0.9),
-          //],
         ),
       ),
       child: Container(
-        child: Stack(children: [
-          Column(
-            children: [
-              Container(
-                padding:
-                    EdgeInsets.only(left: 25, top: 70, right: 80, bottom: 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    greeting() + ' Dr.Saleh',
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "\n" + greeting() + " Dr." + physicianName,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 25, top: 24, right: 5),
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'King Faisal Specialist Hospital',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40, top: 60),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(SignInScreen());
+                          //  showAlertDialogP(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: const Icon(Icons.logout_outlined,
+                              color: Color.fromARGB(255, 86, 90, 123)),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ]),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -230,7 +307,7 @@ class labHomePage extends StatelessWidget {
                                             fontSize: 16,
                                             fontFamily: TextFontFamily
                                                 .AVENIR_LT_PRO_MEDIUM),
-                                        unselectedLabelStyle: TextStyle(
+                                        unselectedLabelStyle: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: "RobotoRegular"),
                                         labelColor: ColorResources.white,
@@ -259,8 +336,12 @@ class labHomePage extends StatelessWidget {
                 child: TabBarView(
                   controller: tabBarController.controller,
                   children: [
-                    ActiveVisit(),
-                    PreVisitList(),
+                    ActiveVisit(
+                      id: Id,
+                    ),
+                    PreVisitList(
+                      id: Id,
+                    ),
                   ],
                 ),
               ),
@@ -290,4 +371,48 @@ class labHomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+showAlertDialogP(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: const Text(
+      "Cancel",
+      style: TextStyle(
+        fontSize: 15,
+      ),
+    ),
+    onPressed: () => Navigator.pop(context),
+  );
+  Widget continueButton = TextButton(
+    child: const Text(
+      "Yes",
+      style: TextStyle(
+        fontSize: 15,
+      ),
+    ),
+    onPressed: () {
+      Get.to(SignInScreen(
+        role: "Physician",
+      ));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Logout"),
+    content: const Text("Are you sure you want to logout?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

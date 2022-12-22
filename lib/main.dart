@@ -2,7 +2,6 @@ import 'package:medcore/AuthScreens/change_password_screen.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
-import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/index.dart';
 import 'package:medcore/splash_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -10,11 +9,11 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'database/mongoDB.dart';
+import 'database/mysqlDatabase.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DBConnection.connect();
+  await mysqlDatabase.connect();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarBrightness: Brightness.dark,
@@ -43,7 +42,6 @@ class medcore extends StatelessWidget {
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
         ChangePasswordScreen.routeName: (ctx) => ChangePasswordScreen(),
         ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
-        VerificationScreen.routeName: (ctx) => VerificationScreen(),
       },
     );
   }

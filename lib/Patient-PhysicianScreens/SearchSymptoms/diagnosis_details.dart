@@ -321,7 +321,7 @@ class DiagnosisDetails extends StatelessWidget {
                                           ColorResources.greyA0A,
                                           16),
                                       SizedBox(height: 20),
-                                      mediumText("Assignment",
+                                      mediumText("Assessment",
                                           Color.fromRGBO(241, 94, 34, 1), 18),
                                       SizedBox(height: 10),
                                       romanText(

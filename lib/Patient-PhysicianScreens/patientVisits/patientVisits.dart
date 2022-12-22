@@ -1,3 +1,4 @@
+import '../../AuthScreens/signin_screen.dart';
 import '../../Controller/patient_visit_tab_controller.dart';
 import '../../Controller/tab_controller.dart';
 import '../../Utiils/colors.dart';
@@ -6,13 +7,18 @@ import '../../Utiils/text_font_family.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'previous.dart';
 import 'upComming.dart';
 
+String patientId;
+
 class PatientVisit extends StatelessWidget {
+  PatientVisit({Key key, String id}) : super(key: key) {
+    patientId = id;
+  }
   final PatientTabBarController tabBarController =
       Get.put(PatientTabBarController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,22 +35,34 @@ class PatientVisit extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pop();
+                    // UpCommingVisitState().upVisitM("1029384756");
                   },
-                  child: Flexible(
-                    flex: 1,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: Center(
-                        child: Icon(Icons.arrow_back,
-                            color: ColorResources.grey777),
-                      ),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    child: Center(
+                      child:
+                          Icon(Icons.arrow_back, color: ColorResources.grey777),
                     ),
                   ),
                 ),
                 Flexible(
                   flex: 10,
                   child: HeaderWidget(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 1),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(SignInScreen());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: const Icon(Icons.logout_outlined,
+                          color: ColorResources.grey777),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -89,7 +107,14 @@ class PatientVisit extends StatelessWidget {
               behavior: MyBehavior(),
               child: TabBarView(
                 controller: tabBarController.controller,
-                children: [UpCommingVisit(), PreviousVisit()],
+                children: [
+                  UpCommingVisit(
+                    id: patientId,
+                  ),
+                  PreviousVisit(
+                    id: patientId,
+                  )
+                ],
               ),
             ),
           ),

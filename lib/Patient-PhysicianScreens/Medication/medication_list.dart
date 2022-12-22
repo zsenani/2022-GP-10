@@ -1,3 +1,4 @@
+import '../../AuthScreens/signin_screen.dart';
 import 'add_medication.dart';
 import 'current_medication.dart';
 import './past_medication.dart';
@@ -9,7 +10,12 @@ import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+int idp;
+
 class MedicationList extends StatelessWidget {
+  MedicationList({Key key, String id}) : super(key: key) {
+    idp = int.parse(id);
+  }
   final TabBarController tabBarController = Get.put(TabBarController());
   String role = Get.arguments;
   @override
@@ -29,15 +35,12 @@ class MedicationList extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: Flexible(
-                    flex: 1,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: Center(
-                        child: Icon(Icons.arrow_back,
-                            color: ColorResources.grey777),
-                      ),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    child: Center(
+                      child:
+                          Icon(Icons.arrow_back, color: ColorResources.grey777),
                     ),
                   ),
                 ),
@@ -78,6 +81,20 @@ class MedicationList extends StatelessWidget {
                         ),
                       )
                     : Container(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 1),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(SignInScreen());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: const Icon(Icons.logout_outlined,
+                          color: ColorResources.grey777),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

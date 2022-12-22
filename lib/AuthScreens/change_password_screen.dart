@@ -1,21 +1,24 @@
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
-import 'package:medcore/AuthScreens/verification_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
-import 'package:medcore/Utiils/images.dart';
-import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medcore/database/mongoDB.dart';
+import 'package:medcore/database/mysqlDatabase.dart';
 import 'package:medcore/index.dart';
+
+String email2;
 
 class ChangePasswordScreen extends StatefulWidget {
   String role;
-  ChangePasswordScreen({Key key, @required this.role}) : super(key: key);
+
+  ChangePasswordScreen({Key key, String role1, String email})
+      : super(key: key) {
+    role = role1;
+    email2 = email;
+  }
   static const routeName = '/change-password-screen';
 
   @override
@@ -31,7 +34,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
 
@@ -62,13 +65,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               Get.back();
             },
             child: Container(
-              // decoration: BoxDecoration(
-              //   color: ColorResources.whiteF6F,
-              //   borderRadius: BorderRadius.circular(10),
-              //   border: Border.all(
-              //     color: ColorResources.greyA0A.withOpacity(0.2),
-              //   ),
-              // ),
               child:
                   const Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
@@ -84,13 +80,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               child: Container(
                 height: 40,
                 width: 40,
-                // decoration: BoxDecoration(
-                //   color: ColorResources.whiteF6F,
-                //   borderRadius: BorderRadius.circular(10),
-                //   border: Border.all(
-                //     color: ColorResources.greyA0A.withOpacity(0.2),
-                //   ),
-                // ),
                 child: const Icon(Icons.home_outlined,
                     color: ColorResources.grey777),
               ),
@@ -186,11 +175,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 if (passwordController.text != null &&
                     confirmPasswordController.text != null) {
                   if (validateMyPass(passwordController.text)) {
-                    print(widget.role);
-                    updatePass();
-                    Get.to(SignInScreen(
-                      role: widget.role,
-                    ));
+                    // print(widget.role);
+                    // updatePass();
+                    showAlertDialog9(context);
+                    // Get.to(SignInScreen(
+                    //   role: widget.role,
+                    // ));
                   }
                 }
               }, "Reset Password", ColorResources.green009,
@@ -224,9 +214,57 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     }
   }
 
+  showAlertDialog9(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Cancel",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: const Text(
+        "Confirm",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        updatePass();
+        Get.to(SignInScreen(
+          role: widget.role,
+        ));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Reset password"),
+      content: const Text("Are you sure you want to reset your password?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void updatePass() async {
+    // var x = ForgetEmail.
     var passHash = new DBCrypt()
         .hashpw(confirmPasswordController.text, new DBCrypt().gensalt());
-    DBConnection.update(widget.role, emailController.text, passHash);
+    print("email ff=");
+    print(mail);
+    mysqlDatabase.resetPassword(widget.role, email2, passHash, "email");
   }
 }

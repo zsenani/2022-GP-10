@@ -14,14 +14,11 @@ import 'package:medcore/Utiils/images.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/Controller/role_location_controller.dart';
 import 'package:medcore/index.dart';
-import 'package:mongo_dart/mongo_dart.dart' hide State;
-
-import '../database/mongoDB.dart';
+import '../database/mysqlDatabase.dart';
 import 'otpLogIn.dart';
 
 bool errorRoleSelect = false;
@@ -48,7 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final TextEditingController passwordController = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
   updatePasswordStatus() {
@@ -196,7 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           }).toList(),
                                           hint: const Text("Select your role"),
                                           style: TextStyle(
-                                            color: ColorResources.greyA0A,
+                                            color: ColorResources.black,
                                             fontSize: 16,
                                             fontFamily: TextFontFamily
                                                 .AVENIR_LT_PRO_BOOK,
@@ -303,6 +300,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               obscureText: _isVisiblePassword ? false : true,
                               decoration: InputDecoration(
                                 hintText: " Enter password",
+                                contentPadding:
+                                    EdgeInsets.only(top: 15, left: 12),
                                 suffixIcon: IconButton(
                                   onPressed: () => updatePasswordStatus(),
                                   icon: Icon(_isVisiblePassword
@@ -349,17 +348,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               alignment: Alignment.topRight,
                               child: InkWell(
                                 onTap: () {
-                                  print(widget.role);
-                                  if (widget.role == "hospital") {
-                                    setState(() {
-                                      errorRoleSelect = true;
-                                    });
-                                  } else {
-                                    Get.to(ForgetEmail(
-                                      role: widget.role,
-                                    ));
-                                    errorRoleSelect = false;
-                                  }
+                                  Get.to(ForgetEmail(role: widget.role));
                                 },
                                 child: heavyText("Forgot password?",
                                     ColorResources.greyA0A, 14),
@@ -441,16 +430,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   errorPassword = false;
                                   errorID = false;
                                 });
-                              else
-                              // if (widget.role == 'Lab specialist') {
-                              //   Get.to(LabHomePage1(id: idController.text));
-                              // } else if (widget.role == 'Physician') {
-                              //   Get.to(HomeScreen(id: idController.text));
-                              // } else {
-                              //   Get.to(PatientHomeScreen(id: idController.text),
-                              //       arguments: 'patient');
-                              // }
-                              if (widget.role == 'Lab specialist') {
+                              else if (widget.role == 'Lab specialist') {
                                 AuthlogIn1("Lab specialist", idController,
                                     passwordController);
                               } else if (widget.role == 'Physician') {
@@ -527,13 +507,18 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<State> AuthlogIn1(String role, TextEditingController idController,
       TextEditingController passwordController) async {
     //connect with table
-    bool errorAuth = await DBConnection.AuthlogIn(
-        role, idController.text, passwordController.text);
+
+    // bool errorAuth = await DBConnection.AuthlogIn(
+    //     role, idController.text, passwordController.text);
+    bool errorAuth = await mysqlDatabase.AuthlogIn(
+        role, int.parse(idController.text), passwordController.text);
     if (!errorAuth) {
       setState(() {
         error = false;
       });
-      var email = await DBConnection.getEmail(role, idController.text);
+      // var email = await DBConnection.getEmail(role, idController.text);
+      var email =
+          await mysqlDatabase.getEmail(role, int.parse(idController.text));
       print(email);
       sendOtp(email);
       Get.to(

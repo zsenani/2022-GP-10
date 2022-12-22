@@ -12,15 +12,105 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../database/mysqlDatabase.dart';
+import 'patient_home_screen.dart';
+
+String patientId = "";
+String patientName = "";
+String patientGender = "";
+var patientDob;
+String patientHeight = "";
+String patientWeight = "";
+String patientBloodP = "";
+String hospitalName = "";
+String visitDate = "";
+String visitTime = "";
+String visitId = '';
+
 class UpCommingVisitScreen extends StatefulWidget {
-  // HomeScreen({Key? key}) : super(key: key);
+  UpCommingVisitScreen(
+      {Key key,
+      String patientID,
+      String patientN,
+      String patientG,
+      String patientAge,
+      String patientH,
+      String patientW,
+      String patientB,
+      String hospitalN,
+      String visitD,
+      String visitT,
+      String vid})
+      : super(key: key) {
+    patientId = patientID;
+    patientName = patientN;
+    patientGender = patientG;
+    patientDob = DateTime.now().year - int.parse(patientAge.substring(0, 4));
+    patientHeight = patientH;
+    patientWeight = patientW;
+    patientBloodP = patientB;
+    hospitalName = hospitalN;
+    visitDate = visitD;
+    visitTime = visitT;
+    visitId = vid;
+  }
   @override
   State<UpCommingVisitScreen> createState() => _UpCommingVisitScreenState();
 }
 
 class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   final TextEditingController emailController = TextEditingController();
-  String role = Get.arguments;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   getData();
+    // });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getData();
+  }
+
+  void getData() async {
+    var user = await conn.query(
+        'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus from Patient where nationalId=?',
+        [int.parse(patientId)]);
+    for (var row in user) {
+      setState(() {
+        name = '${row[0]}';
+        gender = '${row[1]}';
+        bloodType = '${row[2]}';
+        nationalID = '${row[3]}';
+        DOB = '${row[4]}'.split(' ')[0];
+        nationality = '${row[5]}'.split(' ')[1];
+        maritalStatus = '${row[6]}';
+        // age = '${row[7]}';
+        age = DateTime.now().year - int.parse(DOB.substring(0, 4));
+        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
+          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day)
+            age = age - 1;
+        }
+      });
+    }
+
+    var info = await conn.query(
+        'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses from Patient where nationalId=?',
+        [int.parse(patientId)]);
+    for (var row in info) {
+      setState(() {
+        allergies = '${row[0]}';
+        socialHistory = '${row[1]}';
+        familyHistory = '${row[2]}';
+        surgicalHistory = '${row[3]}';
+        medicalIllnesses = '${row[4]}';
+      });
+    }
+  }
+
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
@@ -36,22 +126,22 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     {
       "image": Images.history,
       "text1": "Medical History",
-      "caller": MedicalHistory(),
+      "caller": MedicalHistory(id: patientId),
     },
     {
       "image": Images.report,
       "text1": "Medical Report",
-      "caller": MedicalReports(),
+      "caller": MedicalReports(id: patientId),
     },
     {
       "image": Images.labTest,
       "text1": "Lab Results",
-      "caller": labTests(),
+      "caller": labTests(id: patientId),
     },
     {
       "image": Images.list,
       "text1": "Medication List",
-      "caller": MedicationList(),
+      "caller": MedicationList(id: patientId),
     },
   ];
 
@@ -107,7 +197,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(writeDiagnose());
+                    Get.to(writeDiagnose(
+                      id: int.parse(visitId),
+                    ));
                   },
                   child: Container(
                     height: 50,
@@ -153,35 +245,42 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: const EdgeInsets.only(top: 35),
-              child: ListTile(
-                  title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        child: const Icon(Icons.arrow_back,
-                            color: ColorResources.grey777),
-                      ),
+            padding: const EdgeInsets.only(top: 35),
+            child: ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      child: const Icon(Icons.arrow_back,
+                          color: ColorResources.grey777),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            heavyText("King Faisal Specialist Hospital",
-                                ColorResources.green, 20, TextAlign.center),
-                            const SizedBox(height: 0.5),
-                            bookText("Visit date: 1-Oct-2022",
-                                ColorResources.grey777, 20, TextAlign.center),
-                            const SizedBox(height: 0.5),
-                            bookText("Today- 10:45 AM", ColorResources.orange,
-                                20, TextAlign.center),
-                          ]),
-                    ])
-                  ]))),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          heavyText(hospitalName, ColorResources.green, 20,
+                              TextAlign.center),
+                          const SizedBox(height: 0.5),
+                          bookText("Date: " + visitDate, ColorResources.grey777,
+                              20, TextAlign.center),
+                          const SizedBox(height: 0.5),
+                          bookText("Time: " + visitTime, ColorResources.orange,
+                              20, TextAlign.center),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
         Positioned(
             bottom: 20,
@@ -208,20 +307,20 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                       const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient Name: Ahmad Alsaleh",
+                        child: heavyText("Patient Name: " + patientName,
                             ColorResources.grey777, 16),
                       ),
                       const SizedBox(height: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient ID: 1126147832",
+                        child: heavyText("Patient ID: " + patientId,
                             ColorResources.grey777, 16),
                       ),
                       const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(
-                              "Male, 23 y", ColorResources.grey777, 16)),
+                          child: heavyText(patientGender + ", $patientDob y",
+                              ColorResources.grey777, 16)),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -231,18 +330,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               width: 20,
                               height: 20),
                           mediumText("Hieght:", ColorResources.grey777, 12),
-                          const SizedBox(
+                          SizedBox(
                             width: 28,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '170',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                            child: romanText(patientHeight,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -252,18 +343,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           const SizedBox(width: 1),
                           mediumText("Weight:", ColorResources.grey777, 12),
-                          const SizedBox(
+                          SizedBox(
                             width: 28,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '55',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                            child: romanText(patientWeight,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -273,18 +356,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                           mediumText(
                               "Blood pressure:", ColorResources.grey777, 12),
-                          const SizedBox(
-                            width: 31,
-                            child: TextField(
-                              style: TextStyle(fontSize: 12),
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                hintText: '90',
-                                isDense: true,
-                              ),
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
-                            ),
+                          SizedBox(
+                            width: 28,
+                            child: romanText(patientBloodP,
+                                ColorResources.grey777, 12, TextAlign.center),
                           ),
                         ],
                       ),

@@ -1,6 +1,6 @@
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
-import 'package:medcore/AuthScreens/verification_screen.dart';
+
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,21 @@ import 'change_password_screen.dart';
 import 'otp.dart';
 import 'package:get/get.dart';
 
+String email1;
+
 class ForgotPasswordScreen extends StatelessWidget {
   String role;
-  ForgotPasswordScreen({Key key, @required this.role}) : super(key: key);
+
+  ForgotPasswordScreen({Key key, String role1, String email})
+      : super(key: key) {
+    role = role1;
+    email1 = email;
+  }
 
   static const routeName = '/forgot-password-screen';
 
   final TextEditingController emailController2 = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +37,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           padding: const EdgeInsets.all(7),
           child: InkWell(
             onTap: () {
+              pinPutController.clear();
               Get.back();
             },
             child: Padding(
@@ -50,6 +58,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10, top: 15),
             child: InkWell(
               onTap: () {
+                pinPutController.clear();
                 Navigator.of(context).pushNamed(index.routeName);
               },
               child: Container(
@@ -85,10 +94,12 @@ class ForgotPasswordScreen extends StatelessWidget {
             const Spacer(),
             // Padding(padding: EdgeInsets.only(bottom: 30)),
             commonButton(() {
+              print(email1);
+
               controller.restart();
-              verifyOtp(mail, context);
+              // verifyOtp(mail, context);
               pinPutController.clear();
-              Get.to(ChangePasswordScreen(role: role));
+              Get.to(ChangePasswordScreen(role1: role, email: email1));
             }, "Next", ColorResources.green009, ColorResources.white),
           ],
         ),

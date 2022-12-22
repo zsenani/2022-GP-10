@@ -1,11 +1,13 @@
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/Controller/variable_controller.dart';
+import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/AuthScreens/reset_password_screen.dart';
+import '../database/mysqlDatabase.dart';
 import 'edit_patient_profile.dart';
 
 String Id;
@@ -23,6 +25,34 @@ class _patientProfilePage extends State<patientProfilePage> {
   final VariableController variableController = Get.put(VariableController());
 
   String selectedValue = "";
+  ////////////////////////////////////////
+  @override
+  void initState() {
+    super.initState();
+    getPatientProfileData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getPatientProfileData();
+  }
+
+  void getPatientProfileData() async {
+    var user = await conn.query(
+        'select name,NationalID,DOB,email,gender,mobileNo from Patient where NationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        Pname = '${row[0]}';
+        PnationalID = '${row[1]}';
+        PDOB = '${row[2]}'.split(' ')[0];
+        Pemail = '${row[3]}';
+        Pgender = '${row[4]}';
+        PmobileNo = '${row[5]}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +103,15 @@ class _patientProfilePage extends State<patientProfilePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20),
               child: ListTile(
-                title: heavyText("Name: John Doe",
+                title: heavyText("Name: " + Pname,
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
                   onTap: () {
-                    Get.to(EditPatientProfile());
+                    //////////////////////////////
+                    getPatientProfileData();
+                    Get.to(EditPatientProfile(
+                      id: Id,
+                    ));
                   },
                   child: Image.asset('assets/images/edit.png',
                       height: 25, width: 25),
@@ -107,7 +141,21 @@ class _patientProfilePage extends State<patientProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("1111122222", ColorResources.grey777, 20),
+                      romanText(PnationalID, ColorResources.grey777, 20),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Image.asset('assets/images/email.png',
+                      height: 30, width: 30),
+                  title: romanText("E-mail:", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText(Pemail, ColorResources.grey777, 16),
+                      const SizedBox(width: 10),
                     ],
                   ),
                 ),
@@ -121,22 +169,7 @@ class _patientProfilePage extends State<patientProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("0559876543", ColorResources.grey777, 16),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/email.png',
-                      height: 30, width: 30),
-                  title: romanText("E-mail:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(
-                          "johndoe@gmail.com", ColorResources.grey777, 16),
+                      romanText(PmobileNo, ColorResources.grey777, 16),
                       const SizedBox(width: 10),
                     ],
                   ),

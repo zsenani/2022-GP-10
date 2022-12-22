@@ -14,74 +14,83 @@ class SearchPatient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorResources.whiteF6F,
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          HeaderWidget(),
-          const SizedBox(height: 50),
-          Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: heavyText("Search result", ColorResources.green, 18),
-          ),
-          ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: InkWell(
-                onTap: () {
-                  Get.to(UpCommingVisitScreen(), arguments: 'UPphysician');
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: ColorResources.white,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  text: "King Khalid Hospital",
-                                  style: TextStyle(
-                                    fontFamily:
-                                        TextFontFamily.AVENIR_LT_PRO_ROMAN,
-                                    fontSize: 10,
-                                    color: ColorResources.green009,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: ColorResources.whiteF6F,
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeaderWidget(),
+            const SizedBox(height: 50),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: heavyText("Search result", ColorResources.green, 18),
+            ),
+            ScrollConfiguration(
+              behavior: MyBehavior(),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(UpCommingVisitScreen(), arguments: 'UPphysician');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorResources.white,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    text: "King Khalid Hospital",
+                                    style: TextStyle(
+                                      fontFamily:
+                                          TextFontFamily.AVENIR_LT_PRO_ROMAN,
+                                      fontSize: 10,
+                                      color: ColorResources.green009,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              mediumText("Patient: Brycen Bradford",
-                                  ColorResources.grey777, 18),
-                              SizedBox(height: 5),
-                              romanText(
-                                  "ID: 1122311217", ColorResources.grey777, 12),
-                            ],
+                                SizedBox(height: 5),
+                                mediumText("Patient: Brycen Bradford",
+                                    ColorResources.grey777, 18),
+                                SizedBox(height: 5),
+                                romanText("ID: 1122311217",
+                                    ColorResources.grey777, 12),
+                              ],
+                            ),
                           ),
-                        ),
-                        Image.asset(
-                          'assets/images/right-arrow.png',
-                          height: 30,
-                          width: 30,
-                          alignment: Alignment.centerRight,
-                        ),
-                      ],
+                          Image.asset(
+                            'assets/images/right-arrow.png',
+                            height: 30,
+                            width: 30,
+                            alignment: Alignment.centerRight,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

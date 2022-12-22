@@ -1,3 +1,4 @@
+import '../../database/mysqlDatabase.dart';
 import './datePicker.dart';
 import './previousReq.dart';
 import '../../Controller/test_tab_conroller.dart';
@@ -10,9 +11,13 @@ import 'package:get/get.dart';
 import 'ActiveReq.dart';
 import 'add_request.dart';
 
-class labTests extends StatefulWidget {
-  static const String routeName = '/lab_tests';
+int idp;
 
+class labTests extends StatefulWidget {
+  labTests({Key key, String id}) : super(key: key) {
+    idp = int.parse(id);
+  }
+  static const String routeName = '/lab_tests';
   @override
   State<labTests> createState() => _labTestsState();
 }
@@ -42,15 +47,12 @@ class _labTestsState extends State<labTests> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Flexible(
-                  flex: 1,
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    child: Center(
-                      child:
-                          Icon(Icons.arrow_back, color: ColorResources.grey777),
-                    ),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  child: Center(
+                    child:
+                        Icon(Icons.arrow_back, color: ColorResources.grey777),
                   ),
                 ),
               ),

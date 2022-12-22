@@ -1,3 +1,5 @@
+import 'package:medcore/Patient-PhysicianScreens/medical_reports.dart';
+
 import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
 import '../Utiils/text_font_family.dart';
@@ -6,16 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class singleMedicalReport extends StatelessWidget {
-  String greeting() {
-    var hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'Good Morning';
-    }
-    if (hour < 17) {
-      return 'Good Afternoon';
-    }
-    return 'Good Evening';
-  }
+  int ind;
+  singleMedicalReport({Key key, @required this.ind}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,35 +29,33 @@ class singleMedicalReport extends StatelessWidget {
 
   Widget DoctorHeader(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 30),
-      height: 340,
-      width: Get.width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+        padding: EdgeInsets.only(top: 30),
+        height: 340,
+        width: Get.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          gradient: RadialGradient(
+            colors: [
+              Color.fromRGBO(178, 224, 222, 1),
+              Color.fromRGBO(19, 156, 140, 1)
+            ],
+            radius: 0.75,
+            focal: Alignment(0.7, -0.7),
+            tileMode: TileMode.clamp,
+          ),
         ),
-        gradient: RadialGradient(
-          colors: [
-            Color.fromRGBO(178, 224, 222, 1),
-            Color.fromRGBO(19, 156, 140, 1)
-          ],
-          radius: 0.75,
-          focal: Alignment(0.7, -0.7),
-          tileMode: TileMode.clamp,
-        ),
-      ),
-      child: Container(
-        child: Stack(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+        child: Container(
+          child: Stack(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               InkWell(
                 onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(top: 0, left: 10, bottom: 200),
+                  padding: EdgeInsets.only(bottom: 200),
                   child: Container(
                     height: 40,
                     width: 40,
@@ -74,18 +66,18 @@ class singleMedicalReport extends StatelessWidget {
                   ),
                 ),
               ),
+              //SizedBox(width: 10),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: EdgeInsets.only(
-                      left: 20,
                       top: 70,
                     ),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Dr. Sarah Alhabib',
+                        drName[ind]['name'],
                         style: TextStyle(
                           fontFamily: TextFontFamily.AVENIR_LT_PRO_ROMAN,
                           fontSize: 28,
@@ -95,30 +87,33 @@ class singleMedicalReport extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 22,
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Alhabib Hospital - ",
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                        text: hospitalname[ind]['name'],
                         style: TextStyle(
                           fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
                           fontSize: 18,
                           color: ColorResources.white,
                         ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "11-16-2022",
-                            style: TextStyle(
-                              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                              fontSize: 18,
-                              color: ColorResources.white,
-                            ),
+                      )),
+                      RichText(
+                        text: TextSpan(
+                          text: "Date: " +
+                              toDayList[ind]['date'].substring(
+                                  0, toDayList[ind]['date'].indexOf(' ')) +
+                              " Time: " +
+                              toDayList[ind]['time'],
+                          style: TextStyle(
+                            fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                            fontSize: 18,
+                            color: ColorResources.white,
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
@@ -140,11 +135,9 @@ class singleMedicalReport extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
-        ]),
-      ),
-    );
+            ]),
+          ]),
+        ));
   }
 
   Widget DoctorDetailsContainer() {
@@ -161,7 +154,7 @@ class singleMedicalReport extends StatelessWidget {
           color: ColorResources.white,
         ),
         child: Stack(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.topCenter,
           clipBehavior: Clip.none,
           children: [
             Positioned(
@@ -196,10 +189,8 @@ class singleMedicalReport extends StatelessWidget {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(
-                              "Pt. reports not feeling well today, 'I'm very tired'",
-                              ColorResources.greyA0A,
-                              16),
+                          child: romanText(toDayList[ind]['subject'],
+                              ColorResources.greyA0A, 16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -210,25 +201,20 @@ class singleMedicalReport extends StatelessWidget {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(
-                              "Auscultation findings: scattered rhonchi all lung fields.Chest PT was performed in sitting \(ant. and post.\). Techniques included percussion, vibration, and shaking. Pt. performed a weak combined abdominal and upper costal cough that was nonbronchospastic, congested, and non-productive. The cough/huff was performed with VC."
-                              "Pectoral stretch/thoracic cage mobilizations performed in seated position.Pt. given towel roll placed in back of seat to open up ant. chest wall.Strengthening exercises in standing - pt. performed hip flexion, extension, and abduction; knee flexion 10 reps x 1 set B. Pt. performs HEP with supervision (in evenings with wife). Pt. instructed to hold tissue over trach when speaking to prevent infection and explained importance of drinking enough water.",
-                              ColorResources.greyA0A,
-                              16),
+                          child: romanText(toDayList[ind]['object'],
+                              ColorResources.greyA0A, 16),
                         ),
                         SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: mediumText(
-                              "Assignment", Color.fromRGBO(241, 94, 34, 1), 18),
+                              "Assessment", Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(
-                              "Pt. continues to present with congestion and limitations in coughing productivity. Pt. has been compliant with evening exercise program, which has results in increased tol to therapeutic exercise regime and an increase in LE strength. Amb. not attempted to 20 to pt. report of fatigue. Pt. should be able to tolerate short distance ambulation within the next few days.",
-                              ColorResources.greyA0A,
-                              16),
+                          child: romanText(toDayList[ind]['assessment'],
+                              ColorResources.greyA0A, 16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -239,10 +225,8 @@ class singleMedicalReport extends StatelessWidget {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(
-                              "Cont. current exercise plan including CPT; emphasize productive coughing techniques; increase strengthening exer reps to 15; attempt amb, again tomorrow,",
-                              ColorResources.greyA0A,
-                              16),
+                          child: romanText(toDayList[ind]['plan'],
+                              ColorResources.greyA0A, 16),
                         ),
                         SizedBox(height: 10),
                       ],
