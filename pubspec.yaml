@@ -55,6 +55,7 @@ dependencies:
   dbcrypt: ^2.0.0
   email_auth: 
   timer_count_down: ^2.2.1
+  mysql1: ^0.20.0
 
 
 
