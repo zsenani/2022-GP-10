@@ -137,12 +137,17 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     {
       "image": Images.labTest,
       "text1": "Lab Results",
-      "caller": labTests(id: patientId, idPhy: physicianId, r: 'physician'),
+      "caller": labTests(
+          id: patientId, idPhy: physicianId, r: 'physician', vid: visitId),
     },
     {
       "image": Images.list,
       "text1": "Medication List",
-      "caller": MedicationList(id: patientId),
+      "caller": MedicationList(
+        id: patientId,
+        vid: visitId,
+        Role: 'UPphysician',
+      ),
     },
   ];
 
@@ -177,7 +182,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(TestRequest());
+                    Get.to(TestRequest(vid: visitId));
                   },
                   child: Container(
                     height: 50,

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../LabScreens/showLabResult.dart';
 import '../../database/mysqlDatabase.dart';
 import './lab_tests.dart';
 
@@ -11,6 +12,8 @@ import '/../Utiils/text_font_family.dart';
 import '/../main.dart';
 import 'package:flutter/material.dart';
 
+import 'add_request.dart';
+
 bool setRange = false;
 String _rangeCount = '';
 PickerDateRange dateRange;
@@ -19,7 +22,14 @@ String endDate;
 DateTime startdt;
 DateTime enddt;
 
+String visitId;
+String Role;
+
 class ActiveReq extends StatefulWidget {
+  ActiveReq({Key key, String vid, String role}) : super(key: key) {
+    visitId = vid;
+    Role = role;
+  }
   @override
   State<ActiveReq> createState() => _ActiveReqState();
 }
@@ -294,7 +304,31 @@ class _ActiveReqState extends State<ActiveReq> {
                                                       ],
                                                     ),
                                                     Button(() {
-                                                      // Get.to(RoutScreen());
+                                                      roleHome == 'patient'
+                                                          ? Get.to(
+                                                              showlabResult(
+                                                                  vid: toDayList[
+                                                                          index]
+                                                                      [
+                                                                      "idvisit"],
+                                                                  id: idp
+                                                                      .toString(),
+                                                                  role:
+                                                                      'patient'),
+                                                              arguments:
+                                                                  'active')
+                                                          : Get.to(
+                                                              showlabResult(
+                                                                  vid: toDayList[
+                                                                          index]
+                                                                      [
+                                                                      "idvisit"],
+                                                                  id:
+                                                                      idPhysician,
+                                                                  role:
+                                                                      'physician'),
+                                                              arguments:
+                                                                  'active');
                                                     },
                                                         "View",
                                                         Color.fromRGBO(
@@ -315,31 +349,61 @@ class _ActiveReqState extends State<ActiveReq> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: 320, bottom: 0, right: 0),
-                          child: InkWell(
-                            onTap: () {
-                              _startAdd2(context);
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: ColorResources.green009,
-                                borderRadius: BorderRadius.circular(40),
-                                border: Border.all(
+                        Row(children: [
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 300, bottom: 0, right: 7),
+                            child: InkWell(
+                              onTap: () {
+                                _startAdd2(context);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
                                   color: ColorResources.green009,
-                                  width: 1,
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(
+                                    color: ColorResources.green009,
+                                    width: 1,
+                                  ),
                                 ),
-                              ),
-                              child: Center(
-                                child: Icon(Icons.filter_alt,
-                                    color: ColorResources.white),
+                                child: Center(
+                                  child: Icon(Icons.filter_alt,
+                                      color: ColorResources.white),
+                                ),
                               ),
                             ),
                           ),
-                        )
+
+                          ///////////////////////////////
+
+                          if (Role == 'UPphysician')
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 0, right: 0),
+                              child: InkWell(
+                                onTap: () {
+                                  _startAdd(context);
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: ColorResources.green009,
+                                    borderRadius: BorderRadius.circular(40),
+                                    border: Border.all(
+                                      color: ColorResources.green009,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Icon(Icons.add,
+                                        color: ColorResources.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ])
                       ],
                     ),
                   ],
@@ -384,22 +448,75 @@ class _ActiveReqState extends State<ActiveReq> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 160,
-                          width: 160,
-                          child: Image.asset(
-                            Images.report2,
-                            color: ColorResources.greyA0A,
-                            alignment: Alignment.center,
+                        Container(
+                          height: Get.height - 280,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 160,
+                                width: 160,
+                                child: Image.asset(
+                                  Images.report2,
+                                  color: ColorResources.greyA0A,
+                                  alignment: Alignment.center,
+                                ),
+                              ),
+                              romanText("There is no test request",
+                                  ColorResources.grey777, 18, TextAlign.center),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 20),
-                        romanText("There is no test request",
-                            ColorResources.grey777, 18, TextAlign.center),
+
+                        ///////////////////////////////
+
+                        if (Role == 'UPphysician')
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 320, bottom: 0, right: 0),
+                            child: InkWell(
+                              onTap: () {
+                                _startAdd(context);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: ColorResources.green009,
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(
+                                    color: ColorResources.green009,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.add,
+                                      color: ColorResources.white),
+                                ),
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   )
                 : loadingPage());
+  }
+
+  void _startAdd(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          //////////////////////////////
+          child: TestRequest(
+            vid: visitId,
+            page: 'active',
+          ),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
 
   void _startAdd2(BuildContext ctx) {

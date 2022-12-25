@@ -11,21 +11,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 int idp;
+String visitId;
+String role;
 
 class MedicationList extends StatelessWidget {
-  MedicationList({Key key, String id}) : super(key: key) {
+  MedicationList({Key key, String id, String vid, String Role})
+      : super(key: key) {
     idp = int.parse(id);
+    visitId = vid;
+    role = Role;
   }
   final TabBarController tabBarController = Get.put(TabBarController());
-  String role = Get.arguments;
+  //String role = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    print("medication listttttttttttttttttttt");
+    print(role);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 60),
+            padding: const EdgeInsets.only(top: 40),
             child: Row(
               children: [
                 SizedBox(
@@ -48,58 +55,27 @@ class MedicationList extends StatelessWidget {
                   flex: 10,
                   child: HeaderWidget(),
                 ),
-                role == 'UPphysician'
-                    ? Flexible(
-                        flex: 2,
-                        child: InkWell(
-                          onTap: () {
-                            _startAdd(context);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: 20,
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.only(right: 24, left: 7),
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: ColorResources.green009.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color:
-                                      ColorResources.green009.withOpacity(0.2),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Center(
-                                child: Icon(Icons.add,
-                                    color: ColorResources.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 1),
-                  child: InkWell(
+                if (role != 'patient')
+                  InkWell(
                     onTap: () {
-                      Get.to(SignInScreen());
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
                     },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: const Icon(Icons.logout_outlined,
-                          color: ColorResources.grey777),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10, left: 35, bottom: 10),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child: Center(
+                          // heightFactor: 100,
+                          child: Icon(Icons.home_outlined,
+                              color: ColorResources.grey777),
+                        ),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 20,
           ),
           Container(
             height: 50,
@@ -138,11 +114,16 @@ class MedicationList extends StatelessWidget {
               behavior: MyBehavior(),
               child: TabBarView(
                 controller: tabBarController.controller,
-                children: [currentMedication(), PastMedication()],
+                children: [
+                  currentMedication(
+                    vid: visitId,
+                    role: role,
+                  ),
+                  PastMedication()
+                ],
               ),
             ),
           ),
-          SizedBox(height: 70),
         ],
       ),
     );
@@ -154,25 +135,10 @@ class MedicationList extends StatelessWidget {
         Container(
           height: 50,
           width: Get.width,
-          padding: EdgeInsets.only(top: 10, left: 50),
+          padding: EdgeInsets.only(top: 10, left: 30),
           child: heavyText("Medication List", ColorResources.green009, 30),
         ),
       ],
-    );
-  }
-
-  void _startAdd(BuildContext ctx) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      // isDismissible: true,
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: AddMedication(),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
     );
   }
 }

@@ -4,47 +4,101 @@ import '../../Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../../database/mysqlDatabase.dart';
 import 'ActiveReq.dart';
 import 'previousReq.dart';
 import 'tests.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
+bool loading = true;
+String visitId;
+String Page;
+
 class TestRequest extends StatefulWidget {
+  TestRequest({Key key, String vid, String page}) : super(key: key) {
+    visitId = vid;
+    Page = page;
+  }
   State<TestRequest> createState() => _TestRequestState();
 }
 
 class _TestRequestState extends State<TestRequest> {
   final LabTabBarController tabBarController = Get.put(LabTabBarController());
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Tests();
+    });
+  }
+
+  void add() {
+    mysqlDatabase.addTest(selectedTest, int.parse(visitId));
+  }
 
   static final List<Widget> pages = [ActiveReq(), PreviousReq()];
 
-  static List<Tests> _tests = [
-    Tests(id: 1, name: "MPV"),
-    Tests(id: 2, name: "RDW"),
-    Tests(id: 3, name: "RBC"),
-    Tests(id: 4, name: "Hct"),
-    Tests(id: 5, name: "MCV"),
-    Tests(id: 6, name: "MCH"),
-    Tests(id: 7, name: "Hgb"),
-    Tests(id: 8, name: "Uric Acid"),
-  ];
+  List<String> _tests = new List<String>();
+  var _items;
+  //= [
+  //   Tests(id: 1, name: "MPV"),
+  //   Tests(id: 2, name: "RDW"),
+  //   Tests(id: 3, name: "RBC"),
+  //   Tests(id: 4, name: "Hct"),
+  //   Tests(id: 5, name: "MCV"),
+  //   Tests(id: 6, name: "MCH"),
+  //   Tests(id: 7, name: "Hgb"),
+  //   Tests(id: 8, name: "Uric Acid"),
+  // ];
 
-  final _items =
-      _tests.map((tests) => MultiSelectItem<Tests>(tests, tests.name)).toList();
-  //List<Tests> _selectedTests = [];
-  List<Tests> _selectedTests2 = [];
-  List<Tests> _selectedTests3 = [];
-  //List<Tests> _selectedTests4 = [];
-  List<Tests> _selectedTests5 = [];
-  static final _multiSelectKey = GlobalKey<FormFieldState>();
+  //String test;
+  List<String> selectedTest = new List<String>();
+  //String testName;
+  int isFilled = 0;
+  Tests() async {
+    var results = await conn.query('select name from LabTest');
+    int ArrayLength = await results.length;
 
-  @override
-  void initState() {
-    _selectedTests5 = _tests;
-    super.initState();
+    String testId;
+    for (var row in results) {
+      if (isFilled != ArrayLength) {
+        String testName = '${row[0]}';
+        //testId = '${row[1]}';
+        // ArrayOfMedication2.addAll({"id": medicationId, "name": medication});
+        _tests.add(testName);
+
+        isFilled = isFilled + 1;
+      }
+      //  print(ArrayOfMedication.toString());
+    }
+    setState(() {
+      loading = false;
+    });
+    if (loading == false)
+      _items =
+          _tests.map((tests) => MultiSelectItem<String>(tests, tests)).toList();
   }
 
+  // //List<Tests> _selectedTests = [];
+  // List<Tests> _selectedTests2 = [];
+  // List<Tests> _selectedTests3 = [];
+  // //List<Tests> _selectedTests4 = [];
+  // List<Tests> _selectedTests5 = [];
+  final _multiSelectKey = GlobalKey<FormFieldState>();
+
+  // @override
+  // void initState() {
+  //   _selectedTests5 = _tests;
+  //   super.initState();
+  // }
+
   final old = Get.previousRoute;
+
+  Widget loadingPage() {
+    return Center(
+      child: const CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +118,7 @@ class _TestRequestState extends State<TestRequest> {
                         Navigator.of(context).pop();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 30, top: 50),
+                        padding: const EdgeInsets.only(right: 20, top: 50),
                         child: Container(
                           height: 40,
                           width: 40,
@@ -82,61 +136,82 @@ class _TestRequestState extends State<TestRequest> {
                 flex: 10,
                 child: HeaderWidget(),
               ),
+              if (Page != 'active')
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 60, left: 0, bottom: 10),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: Center(
+                        // heightFactor: 100,
+                        child: Icon(Icons.home_outlined,
+                            color: ColorResources.grey777),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
           SizedBox(
             height: 20,
           ),
-          MultiSelectBottomSheetField<Tests>(
-            key: _multiSelectKey,
-            initialChildSize: 0.7,
-            maxChildSize: 0.95,
-            title: Text("Lab Tests"),
-            buttonText: Text("Choose Lab Tests"),
-            items: _items,
-            searchable: true,
-            confirmText: const Text(
-              "SAVE",
-              style: TextStyle(
-                color: ColorResources.green009,
-              ),
-            ),
-            cancelText: const Text(
-              "CANCEL",
-              style: TextStyle(
-                color: ColorResources.green009,
-              ),
-            ),
-            selectedColor: Color.fromRGBO(241, 94, 34, 0.8),
-            validator: (values) {
-              if (values == null || values.isEmpty) {
-                return "Required";
-              }
-              // List<String> names = values.map((e) => e.name).toList();
-              // if (names.contains("Frog")) {
-              //   return "Frogs are weird!";
-              // }
-              return null;
-            },
-            onConfirm: (values) {
-              setState(() {
-                _selectedTests3 = values;
-              });
-              _multiSelectKey.currentState.validate();
-            },
-            chipDisplay: MultiSelectChipDisplay(
-              icon: Icon(
-                Icons.close,
-                color: Color.fromRGBO(241, 94, 34, 0.8),
-              ),
-              onTap: (item) {
-                setState(() {
-                  _selectedTests3.remove(item);
-                });
-                _multiSelectKey.currentState.validate();
-              },
-            ),
-          ),
+          loading == true
+              ? loadingPage()
+              : MultiSelectBottomSheetField<String>(
+                  key: _multiSelectKey,
+                  initialChildSize: 0.7,
+                  maxChildSize: 0.95,
+                  title: Text("Lab Tests"),
+                  buttonText: Text("Choose Lab Tests"),
+                  items: _items,
+                  searchable: true,
+                  confirmText: const Text(
+                    "SAVE",
+                    style: TextStyle(
+                      color: ColorResources.green009,
+                    ),
+                  ),
+                  cancelText: const Text(
+                    "CANCEL",
+                    style: TextStyle(
+                      color: ColorResources.green009,
+                    ),
+                  ),
+                  selectedColor: Color.fromRGBO(241, 94, 34, 0.8),
+                  validator: (values) {
+                    if (values == null || values.isEmpty) {
+                      return "Required";
+                    }
+                    // List<String> names = values.map((e) => e.name).toList();
+                    // if (names.contains("Frog")) {
+                    //   return "Frogs are weird!";
+                    // }
+                    return null;
+                  },
+                  onConfirm: (values) {
+                    setState(() {
+                      selectedTest = values;
+                    });
+                    _multiSelectKey.currentState.validate();
+                  },
+                  chipDisplay: MultiSelectChipDisplay(
+                    icon: Icon(
+                      Icons.close,
+                      color: Color.fromRGBO(241, 94, 34, 0.8),
+                    ),
+                    onTap: (item) {
+                      setState(() {
+                        selectedTest.remove(item);
+                      });
+                      _multiSelectKey.currentState.validate();
+                    },
+                  ),
+                ),
           Spacer(),
           Row(
             children: [
@@ -157,8 +232,9 @@ class _TestRequestState extends State<TestRequest> {
       children: [
         Container(
           height: 80,
-          width: Get.width,
-          padding: EdgeInsets.only(top: 50, left: 10),
+          ////////////////////////////////
+          width: 500,
+          padding: EdgeInsets.only(top: 50, left: 0),
           child: heavyText("Request Lab Tests", ColorResources.green009, 30),
         ),
       ],
@@ -170,7 +246,7 @@ class _TestRequestState extends State<TestRequest> {
     String content;
     Navigator.of(context).pop();
 
-    if (_selectedTests3.length == 0) {
+    if (selectedTest.length == 0) {
       title = "Oops";
       content = "Please choose at least one test";
     } else {
@@ -185,6 +261,7 @@ class _TestRequestState extends State<TestRequest> {
         ),
       ),
       onPressed: () {
+        add();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       },

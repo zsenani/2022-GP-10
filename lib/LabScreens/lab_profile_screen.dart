@@ -8,7 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:medcore/AuthScreens/reset_password_screen.dart';
 import 'package:get/get.dart';
 
+import '../database/mysqlDatabase.dart';
+import 'lab_home_screen.dart';
+
 String Id;
+bool loading = true;
 
 class LabProfilePage extends StatefulWidget {
   LabProfilePage({Key key, String id}) : super(key: key) {
@@ -24,6 +28,33 @@ class _LabProfilePageState extends State<LabProfilePage> {
   final VariableController variableController = Get.put(VariableController());
 
   String selectedValue = "";
+  @override
+  void initState() {
+    super.initState();
+    getLabProfileData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getLabProfileData();
+  }
+
+  void getLabProfileData() async {
+    var user = await conn.query(
+        'select name,nationalID,DOB,email,gender,mobileNo from LabSpecialist where nationalID=?',
+        [int.parse(ID)]);
+    for (var row in user) {
+      setState(() {
+        lname = '${row[0]}';
+        lnationalId = '${row[1]}';
+        lDOB = '${row[2]}'.split(' ')[0];
+        lemail = '${row[3]}';
+        lgender = '${row[4]}';
+        lmobileNo = '${row[5]}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +66,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
           //HeaderWidget
           HeaderWidget(),
 
-          const SizedBox(height: 80),
+          const SizedBox(height: 60),
           //ColumnListTileWidget
           ColumnListTileWidget(),
         ],
@@ -74,11 +105,13 @@ class _LabProfilePageState extends State<LabProfilePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 12, bottom: 12, left: 20),
               child: ListTile(
-                title: heavyText("Name: John Doe",
+                title: heavyText("Name: " + lname,
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
                     onTap: () {
-                      Get.to(EditProfileScreen());
+                      Get.to(EditProfileScreen(
+                        id: Id,
+                      ));
                     },
                     child: Image.asset('assets/images/edit.png',
                         height: 25, width: 25)),
@@ -103,25 +136,25 @@ class _LabProfilePageState extends State<LabProfilePage> {
                   contentPadding: EdgeInsets.zero,
                   leading: Image.asset('assets/images/employee.png',
                       height: 30, width: 30),
-                  title: romanText("Lab ID:", ColorResources.grey777, 20),
+                  title: romanText("ID:", ColorResources.grey777, 20),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText("23826", ColorResources.grey777, 20),
+                      romanText(lnationalId, ColorResources.grey777, 20),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/location-pin.png',
+                  leading: Image.asset('assets/images/DOB.png',
                       height: 30, width: 30),
-                  title: romanText("Adress: ", ColorResources.grey777, 20),
+                  title:
+                      romanText("Date of birth: ", ColorResources.grey777, 20),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText(
-                          "Saudi Arabia,Riyadh", ColorResources.grey777, 16),
+                      romanText(lDOB, ColorResources.grey777, 20),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -135,23 +168,54 @@ class _LabProfilePageState extends State<LabProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText(
-                          "johndoe@gmail.com", ColorResources.grey777, 16),
+                      romanText(lemail, ColorResources.grey777, 16),
                       const SizedBox(width: 10),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Image.asset('assets/images/gender.png',
+                      height: 30, width: 30),
+                  title: romanText("Gender:", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText(lgender, ColorResources.grey777, 20),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 10),
-                // ListTile(
-                //   contentPadding: EdgeInsets.zero,
-                //   leading: Image.asset(Images.help, height: 50, width: 50),
-                //   title: romanText("Help", ColorResources.grey777, 16),
-                //   trailing: Icon(Icons.arrow_forward_ios,
-                //       color: ColorResources.grey777.withOpacity(0.3),
-                //       size: 16),
-                // ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.phone,
+                      color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
+                  title:
+                      romanText("Phone Number: ", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText('0' + lmobileNo, ColorResources.grey777, 16),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Image.asset('assets/images/location-pin.png',
+                      height: 30, width: 30),
+                  title: romanText("Hospital: ", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText(hname, ColorResources.grey777, 14),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
                 TextButton(
                   child: const Text(
                     'Reset Password',
@@ -161,7 +225,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                     Get.to(ResetPasswordScreen(id: Id, role: "Lab specialist"));
                   },
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 10),
                 InkWell(
                   child: Container(
                     height: 55,
@@ -184,7 +248,6 @@ class _LabProfilePageState extends State<LabProfilePage> {
                     showAlertDialog2(context);
                   },
                 ),
-                const SizedBox(height: 100),
               ],
             ),
           ),

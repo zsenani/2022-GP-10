@@ -85,6 +85,26 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                               ),
                             ],
                           ),
+                          ////////////////////////////
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 50, left: 35, bottom: 10),
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                child: Center(
+                                  // heightFactor: 100,
+                                  child: Icon(Icons.home_outlined,
+                                      color: ColorResources.grey777),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -153,19 +173,32 @@ class _writeDiagnoseState extends State<writeDiagnose> {
       title = "Saved";
       content = "The diagnose has been added successfully!";
     }
-    Widget OKButton = TextButton(
-      child: Text(
-        "OK",
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      onPressed: () {
-        add();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      },
-    );
+///////////////////////////////////
+    Widget OKButton = title == 'Oops'
+        ? TextButton(
+            child: Text(
+              "OK",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        : TextButton(
+            child: Text(
+              "OK",
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            onPressed: () {
+              add();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

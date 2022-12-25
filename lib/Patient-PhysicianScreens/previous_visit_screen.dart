@@ -177,7 +177,10 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: InkWell(
                     onTap: () {
-                      Get.to(singleMedicalReport(ind: visitId));
+                      Get.to(singleMedicalReport(
+                        ind: visitId,
+                        page: 'prePhysician',
+                      ));
                     },
                     child: Container(
                       height: 50,

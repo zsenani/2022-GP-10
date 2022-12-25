@@ -267,23 +267,28 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   flex: 10,
                   child: HeaderWidget(),
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 0, bottom: 0),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      child: Center(
-                        // heightFactor: 100,
-                        child: Icon(Icons.home_outlined,
-                            color: ColorResources.grey777),
+                //////////////////////////
+                if (role != "patient")
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      /////////////////////////////
+                      Navigator.of(context).pop();
+                    },
+                    child: Padding(
+                      //////////////////////////////
+                      padding: EdgeInsets.only(top: 3, bottom: 0),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child: Center(
+                          // heightFactor: 100,
+                          child: Icon(Icons.home_outlined,
+                              color: ColorResources.grey777),
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
             Padding(

@@ -163,15 +163,54 @@ class mysqlDatabase {
       if (phone != "")
         var editP = await conn.query(
             'update Patient set mobileNo=? where NationalID =?', [phone, id]);
-    } else if (role.compareTo('Physician') == 0) if (name != "")
-      var editP = await conn
-          .query('update Physician set name=? where nationalId =?', [name, id]);
-    if (email != "")
-      var editP = await conn.query(
-          'update Physician set  email=? where nationalId =?', [email, id]);
-    if (phone != "")
-      var editP = await conn.query(
-          'update Physician set mobileNo=? where nationalId =?', [phone, id]);
+    } else if (role.compareTo('Physician') == 0) {
+      if (name != "")
+        var editP = await conn.query(
+            'update Physician set name=? where nationalId =?', [name, id]);
+      if (email != "")
+        var editP = await conn.query(
+            'update Physician set  email=? where nationalId =?', [email, id]);
+      if (phone != "")
+        var editP = await conn.query(
+            'update Physician set mobileNo=? where nationalId =?', [phone, id]);
+    } else if (role.compareTo('Lab specialist') == 0) {
+      if (name != "")
+        var editP = await conn.query(
+            'update LabSpecialist set name=? where nationalId =?', [name, id]);
+      if (email != "")
+        var editP = await conn.query(
+            'update LabSpecialist set  email=? where nationalId =?',
+            [email, id]);
+      if (phone != "")
+        var editP = await conn.query(
+            'update LabSpecialist set mobileNo=? where nationalId =?',
+            [phone, id]);
+    }
+  }
+
+  static addMedication(name, dosage, start, end, des, vid) async {
+    var medId = await conn
+        .query('select idmedication from Medication where name = ?', [name]);
+    for (var row in medId) {
+      medId = "${row[0]}";
+    }
+    var add = await conn.query(
+        'insert into VisitMedication (dosage, description, startDate,endDate,medicationID,visitID) values (?, ?, ?,?, ?,?)',
+        [dosage, des, start, end, medId, vid]);
+  }
+
+  static addTest(List<String> name, vid) async {
+    var testId;
+    name.forEach((element) async {
+      testId = await conn
+          .query('select idlabTest from LabTest where name = ?', [element]);
+      for (var row in testId) {
+        testId = "${row[0]}";
+      }
+      var add = await conn.query(
+          'insert into VisitLabTest(visitID, labTestID, status) values (?, ?, ?)',
+          [vid, testId, "active"]);
+    });
   }
 
   static editHistory(type, List<String> row, pid) async {

@@ -31,6 +31,8 @@ List<Map> drName = [];
 List<Map> hospitalname = [];
 
 class MedicalReportsState extends State<MedicalReports> {
+  String role = Get.arguments;
+
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getMedicalRepot();
@@ -159,6 +161,24 @@ class MedicalReportsState extends State<MedicalReports> {
                           ),
                         ),
                         HeaderWidget(),
+                        if (role != "patient")
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 0, left: 20),
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                child: Center(
+                                  child: Icon(Icons.home_outlined,
+                                      color: ColorResources.grey777),
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -175,9 +195,11 @@ class MedicalReportsState extends State<MedicalReports> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  Get.to(singleMedicalReport(
-                                      ind: int.parse(
-                                          toDayList[index]['idvisit'])));
+                                  Get.to(
+                                      singleMedicalReport(
+                                          ind: int.parse(
+                                              toDayList[index]['idvisit'])),
+                                      arguments: role);
                                 },
                                 child: Container(
                                   height: 90,

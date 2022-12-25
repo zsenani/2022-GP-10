@@ -16,9 +16,20 @@ import '../index.dart';
 String Id;
 bool _loading = true;
 
+String lname = " ";
+String lnationalId = " ";
+String lemail = " ";
+String lDOB = " ";
+String lgender = " ";
+String lmobileNo = " ";
+String Page;
+String hid;
+String hname = " ";
+
 class LabHomePage1 extends StatefulWidget {
-  LabHomePage1({Key key, String id}) : super(key: key) {
+  LabHomePage1({Key key, String id, String page}) : super(key: key) {
     Id = id;
+    Page = page;
   }
 
   @override
@@ -26,7 +37,19 @@ class LabHomePage1 extends StatefulWidget {
 }
 
 class _LabHomePage1State extends State<LabHomePage1> {
-  int _selectedScreenIndex = 0;
+  int _selectedScreenIndex;
+
+  void initState() {
+    print(Page);
+    super.initState();
+    setState(() {
+      if (Page == 'edit')
+        _selectedScreenIndex = 1;
+      else
+        _selectedScreenIndex = 0;
+    });
+  }
+
   final List _screens = [
     {"screen": LabHomePage2(id: Id)},
     {"screen": LabProfilePage(id: Id)}
@@ -99,6 +122,30 @@ class _LabHomePage2State extends State<LabHomePage2> {
     });
   }
 
+  void getLabProfileData() async {
+    var user = await conn.query(
+        'select idHospital,NationalID,DOB,email,gender,mobileNo,name from LabSpecialist where NationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        hid = '${row[0]}';
+        lname = '${row[6]}';
+        lnationalId = '${row[1]}';
+        lDOB = '${row[2]}'.split(' ')[0];
+        lemail = '${row[3]}';
+        lgender = '${row[4]}';
+        lmobileNo = '${row[5]}';
+      });
+    }
+    var hos = await conn.query(
+        'select name from Hospital where idhospital=?', [int.parse(hid)]);
+    for (var row in hos) {
+      setState(() {
+        hname = '${row[0]}';
+      });
+    }
+  }
+
   Future labSpecalist(ID) async {
     labInfo = await mysqlDatabase.labSpecHomeScreen(ID);
     // return patientInfor;
@@ -115,6 +162,7 @@ class _LabHomePage2State extends State<LabHomePage2> {
   final TabBarController tabBarController = Get.put(TabBarController());
 
   String greeting() {
+    getLabProfileData();
     var hour = DateTime.now().hour;
     if (hour < 12) {
       return 'Good Morning';

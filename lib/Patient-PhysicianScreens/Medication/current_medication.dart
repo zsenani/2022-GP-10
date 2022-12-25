@@ -1,13 +1,23 @@
+import 'package:get/get.dart';
+
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import '../../Utiils/images.dart';
 import 'package:flutter/material.dart';
 import '../../database/mysqlDatabase.dart';
+import 'add_medication.dart';
 import 'medication_list.dart';
 import '/../Utiils/text_font_family.dart';
 import '/../main.dart';
 
+String visitId;
+String Role;
+
 class currentMedication extends StatefulWidget {
+  currentMedication({Key key, String vid, String role}) : super(key: key) {
+    visitId = vid;
+    Role = role;
+  }
   @override
   State<currentMedication> createState() => _currentMedicationState();
 }
@@ -160,123 +170,174 @@ class _currentMedicationState extends State<currentMedication> {
 
   @override
   Widget build(BuildContext context) {
+    print('1111111111111111111111111111111111111111111111111111');
+    print(Role);
     getCurrentMedication();
     medicationList.length < toDayList.length ? load = false : load = true;
     return arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 30),
-                  ScrollConfiguration(
-                    behavior: MyBehavior(),
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: load ? 0 : medicationList.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: Container(
-                          height: 122,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: ColorResources.white,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Row(
-                              children: [
-                                Stack(
-                                  clipBehavior: Clip.none,
-                                  alignment: Alignment.bottomRight,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 255, 255, 255),
-                                      radius: 20,
-                                      backgroundImage: AssetImage(
-                                        toDayList[index]["image"],
-                                      ),
-                                    ),
-                                  ],
+            body: Column(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30),
+                      Container(
+                        height: Get.height - 280,
+                        child: ScrollConfiguration(
+                          behavior: MyBehavior(),
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: load ? 0 : medicationList.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: Container(
+                                height: 122,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: ColorResources.white,
                                 ),
-                                SizedBox(width: 20),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                child: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Row(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                      Stack(
+                                        clipBehavior: Clip.none,
+                                        alignment: Alignment.bottomRight,
                                         children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              text: hospitalname[index]["name"],
-                                              style: TextStyle(
-                                                fontFamily: TextFontFamily
-                                                    .AVENIR_LT_PRO_ROMAN,
-                                                fontSize: 10,
-                                                color: ColorResources.greyA0A,
-                                              ),
+                                          CircleAvatar(
+                                            backgroundColor: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            radius: 20,
+                                            backgroundImage: AssetImage(
+                                              toDayList[index]["image"],
                                             ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 3),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: drName[index]["name"],
-                                          style: TextStyle(
-                                            fontFamily: TextFontFamily
-                                                .AVENIR_LT_PRO_ROMAN,
-                                            fontSize: 10,
-                                            color: ColorResources.greyA0A,
-                                          ),
+                                      SizedBox(width: 20),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: hospitalname[index]
+                                                        ["name"],
+                                                    style: TextStyle(
+                                                      fontFamily: TextFontFamily
+                                                          .AVENIR_LT_PRO_ROMAN,
+                                                      fontSize: 10,
+                                                      color: ColorResources
+                                                          .greyA0A,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 3),
+                                            RichText(
+                                              text: TextSpan(
+                                                text: drName[index]["name"],
+                                                style: TextStyle(
+                                                  fontFamily: TextFontFamily
+                                                      .AVENIR_LT_PRO_ROMAN,
+                                                  fontSize: 10,
+                                                  color: ColorResources.greyA0A,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            mediumText(
+                                                medicationname[index]["name"],
+                                                ColorResources.green009,
+                                                20),
+                                            SizedBox(height: 4),
+                                            romanText(
+                                                "Dosage: " +
+                                                    medicationList[index]
+                                                        ["dosage"],
+                                                ColorResources.grey777,
+                                                12),
+                                            SizedBox(height: 3),
+                                            romanText(
+                                                "Start date: " +
+                                                    medicationList[index]
+                                                            ["startDate"]
+                                                        .substring(
+                                                            0,
+                                                            medicationList[
+                                                                        index][
+                                                                    "startDate"]
+                                                                .indexOf(' ')) +
+                                                    "    End date: " +
+                                                    medicationList[index]
+                                                            ["endDate"]
+                                                        .substring(
+                                                            0,
+                                                            medicationList[
+                                                                        index]
+                                                                    ["endDate"]
+                                                                .indexOf(' ')),
+                                                ColorResources.grey777,
+                                                12),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
-                                      mediumText(medicationname[index]["name"],
-                                          ColorResources.green009, 20),
-                                      SizedBox(height: 4),
-                                      romanText(
-                                          "Dosage: " +
-                                              medicationList[index]["dosage"],
-                                          ColorResources.grey777,
-                                          12),
-                                      SizedBox(height: 3),
-                                      romanText(
-                                          "Start date: " +
-                                              medicationList[index]["startDate"]
-                                                  .substring(
-                                                      0,
-                                                      medicationList[index]
-                                                              ["startDate"]
-                                                          .indexOf(' ')) +
-                                              "    End date: " +
-                                              medicationList[index]["endDate"]
-                                                  .substring(
-                                                      0,
-                                                      medicationList[index]
-                                                              ["endDate"]
-                                                          .indexOf(' ')),
-                                          ColorResources.grey777,
-                                          12),
                                     ],
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      /////////////////////////////
+                    ],
                   ),
-                ],
-              ),
+                ),
+                if (Role == 'UPphysician')
+                  Flexible(
+                    flex: 2,
+                    child: InkWell(
+                      onTap: () {
+                        _startAdd(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          right: 20,
+                          left: 320,
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.only(right: 24, left: 7),
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: ColorResources.green009.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              color: ColorResources.green009.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(Icons.add, color: ColorResources.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+              ],
             ),
           )
         : Scaffold(
@@ -288,22 +349,83 @@ class _currentMedicationState extends State<currentMedication> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 160,
-                          width: 160,
-                          child: Image.asset(
-                            Images.prescription2,
-                            color: ColorResources.greyA0A,
-                            alignment: Alignment.center,
+                        Container(
+                          height: Get.height - 280,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 160,
+                                width: 160,
+                                child: Image.asset(
+                                  Images.prescription2,
+                                  color: ColorResources.greyA0A,
+                                  alignment: Alignment.center,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              romanText("There is no medication",
+                                  ColorResources.grey777, 18, TextAlign.center),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 20),
-                        romanText("There is no medication",
-                            ColorResources.grey777, 18, TextAlign.center),
+                        /////////////////////////////
+                        if (Role == 'UPphysician')
+                          Flexible(
+                            flex: 2,
+                            child: InkWell(
+                              onTap: () {
+                                _startAdd(context);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: 20,
+                                  left: 320,
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.only(right: 24, left: 7),
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: ColorResources.green009
+                                        .withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(40),
+                                    border: Border.all(
+                                      color: ColorResources.green009
+                                          .withOpacity(0.2),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Icon(Icons.add,
+                                        color: ColorResources.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   )
                 : loadingPage(),
           );
+  }
+
+  void _startAdd(BuildContext ctx) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      // isDismissible: true,
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          //////////////////////
+          child: AddMedication(
+            vid: visitId,
+          ),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
 }

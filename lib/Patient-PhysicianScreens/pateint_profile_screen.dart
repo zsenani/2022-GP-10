@@ -148,6 +148,21 @@ class _patientProfilePage extends State<patientProfilePage> {
                 const SizedBox(height: 10),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
+                  leading: Image.asset('assets/images/DOB.png',
+                      height: 30, width: 30),
+                  title:
+                      romanText("Date of birth: ", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText(PDOB, ColorResources.grey777, 20),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
                   leading: Image.asset('assets/images/email.png',
                       height: 30, width: 30),
                   title: romanText("E-mail:", ColorResources.grey777, 20),
@@ -162,6 +177,20 @@ class _patientProfilePage extends State<patientProfilePage> {
                 const SizedBox(height: 10),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
+                  leading: Image.asset('assets/images/gender.png',
+                      height: 30, width: 30),
+                  title: romanText("Gender:", ColorResources.grey777, 20),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      romanText(Pgender, ColorResources.grey777, 20),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.phone,
                       color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
                   title:
@@ -169,7 +198,7 @@ class _patientProfilePage extends State<patientProfilePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      romanText(PmobileNo, ColorResources.grey777, 16),
+                      romanText('0' + PmobileNo, ColorResources.grey777, 16),
                       const SizedBox(width: 10),
                     ],
                   ),
@@ -184,7 +213,7 @@ class _patientProfilePage extends State<patientProfilePage> {
                     Get.to(ResetPasswordScreen(id: Id, role: "patient"));
                   },
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 10),
                 InkWell(
                   child: Container(
                     height: 55,
@@ -207,7 +236,6 @@ class _patientProfilePage extends State<patientProfilePage> {
                     showAlertDialog2(context);
                   },
                 ),
-                const SizedBox(height: 100),
               ],
             ),
           ),

@@ -10,16 +10,22 @@ import 'package:get/get.dart';
 
 int idddd;
 bool _loading = true;
+String Page;
 
 class singleMedicalReport extends StatefulWidget {
   final int ind;
-  singleMedicalReport({Key key, @required this.ind}) : super(key: key);
+  singleMedicalReport({Key key, @required this.ind, String page})
+      : super(key: key) {
+    Page = page;
+  }
 
   @override
   State<singleMedicalReport> createState() => _singleMedicalReportState();
 }
 
 class _singleMedicalReportState extends State<singleMedicalReport> {
+  String role = Get.arguments;
+  // print(role);
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getMedicalRepot(widget.ind);
@@ -230,13 +236,22 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                   ),
                 ],
               ),
+
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  ///////////////////////////////
+                  if (role == 'patient' || Page == 'prePhysician') {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10, bottom: 200),
+                  /////////////////////////////////////
+                  padding: EdgeInsets.only(right: 5, bottom: 180),
                   child: Container(
                     height: 60,
                     width: 60,

@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:medcore/Controller/gender_location_controller.dart';
 import 'package:medcore/LabScreens/lab_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -9,8 +10,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medcore/LabScreens/lab_profile_screen.dart';
 
+import '../database/mysqlDatabase.dart';
+
+String Id;
+
 class EditProfileScreen extends StatefulWidget {
-  // EditProfileScreen({Key? key}) : super(key: key);
+  EditProfileScreen({Key key, String id}) : super(key: key) {
+    Id = id;
+  }
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -30,30 +37,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final TextEditingController addressController = TextEditingController();
 
-  final ImagePicker _picker = ImagePicker();
-
-  // ignore: prefer_typing_uninitialized_variables
-  var fileImage;
-
-  bool isImageChange = false;
-
-  _getImageGallery() async {
-    //  XFile? image = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 50);
-    XFile image =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-    setState(() {
-      fileImage = image;
-      isImageChange = true;
-    });
+  void edit() {
+    print(Id);
+    mysqlDatabase.editProfile("Lab specialist", nameController.text,
+        emailController.text, phoneController.text, int.parse(Id));
   }
 
-  _getImageCamera() async {
-    var image =
-        await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
-    setState(() {
-      fileImage = image;
-      isImageChange = true;
-    });
+  @override
+  void initState() {
+    super.initState();
+    getLabProfileData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getLabProfileData();
+  }
+
+  void getLabProfileData() async {
+    var user = await conn.query(
+        'select name,NationalID,DOB,email,gender,mobileNo from LabSpecialist where NationalID=?',
+        [int.parse(Id)]);
+    for (var row in user) {
+      setState(() {
+        lname = '${row[0]}';
+        lnationalId = '${row[1]}';
+        lDOB = '${row[2]}'.split(' ')[0];
+        lemail = '${row[3]}';
+        lgender = '${row[4]}';
+        lmobileNo = '${row[5]}';
+      });
+    }
   }
 
   @override
@@ -74,14 +89,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Container(
               height: 40,
               width: 40,
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
-                  width: 1,
-                ),
-              ),
               child: const Center(
                 child: Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
@@ -96,8 +103,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 45),
+                const SizedBox(height: 15),
                 Stack(
                   alignment: Alignment.topCenter,
                   clipBehavior: Clip.none,
@@ -115,88 +123,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      right: 80,
-                      top: -10,
-                      child: InkWell(
-                        onTap: () {
-                          Get.bottomSheet(
-                            Container(
-                              height: 100,
-                              width: Get.width,
-                              color: ColorResources.white,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            _getImageCamera();
-
-                                            Get.back();
-                                          },
-                                          child: const Icon(
-                                            Icons.camera_alt_outlined,
-                                            color: ColorResources.green009,
-                                            size: 28,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Camera",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: ColorResources.black,
-                                            fontFamily: TextFontFamily
-                                                .AVENIR_LT_PRO_BOOK,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 80,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            _getImageGallery();
-                                            Get.back();
-                                          },
-                                          child: const Icon(
-                                            Icons.image_outlined,
-                                            color: ColorResources.green009,
-                                            size: 28,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Gallery",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: ColorResources.black,
-                                            fontFamily: TextFontFamily
-                                                .AVENIR_LT_PRO_BOOK,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Image.asset(
@@ -208,7 +137,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     mediumText("Name", ColorResources.grey777, 16),
                   ],
                 ),
-                textField1("John Doe", nameController, TextInputType.text),
+                textField1(lname, nameController, TextInputType.text,
+                    error: errorName),
+                const SizedBox(height: 5),
+                if (errorName == true)
+                  mediumText(
+                    "Enter a valid Name",
+                    Colors.red,
+                    16,
+                  ),
                 const SizedBox(height: 30),
                 Row(
                   children: [
@@ -221,25 +158,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     mediumText("Email", ColorResources.grey777, 16),
                   ],
                 ),
-                textField1("johndoe@gmail.com", emailController,
-                    TextInputType.emailAddress),
+                textField1(lemail, emailController, TextInputType.emailAddress,
+                    error: errorEmail || errorEmail2),
+                const SizedBox(height: 5),
+                if (errorEmail == true)
+                  mediumText("Enter a valid Email", Colors.red, 16),
+                if (errorEmail2 == true)
+                  mediumText("Email Already used", Colors.red, 16),
                 const SizedBox(height: 30),
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/images/location-pin.png',
-                      height: 25,
-                      width: 25,
-                    ),
+                    const Icon(Icons.phone,
+                        color: Color.fromRGBO(241, 94, 34, 0.7), size: 25),
                     const SizedBox(width: 15),
-                    mediumText("Adress", ColorResources.grey777, 16),
+                    mediumText("Phone Number", ColorResources.grey777, 16),
                   ],
                 ),
-                textField1("Saudi Arabia,Riyadh", addressController,
-                    TextInputType.text),
-                const SizedBox(height: 60),
+                phoneValidator(),
+                const SizedBox(height: 5),
+                if (errorPhone == true)
+                  mediumText("Enter a valid phone number", Colors.red, 16),
+                const SizedBox(height: 40),
                 commonButton(() {
-                  showAlertDialog1(context);
+                  check();
                 }, "Save", ColorResources.green009, ColorResources.white),
                 const SizedBox(height: 30),
               ],
@@ -248,6 +189,150 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  String number = "966";
+  bool errorPhone = false;
+  bool errorName = false;
+  bool errorEmail = false;
+  bool errorEmail2 = false;
+
+  phoneValidator() => TextFormField(
+        cursorColor: ColorResources.black,
+        style: TextStyle(
+          color: ColorResources.black,
+          fontSize: 16,
+          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+        ),
+        keyboardType: TextInputType.number,
+        controller: phoneController,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+            color: Colors.red[400],
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+          ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CountryCodePicker(
+                  onChanged: ((value) => number = value.toString()),
+                  initialSelection: 'SA',
+                  favorite: const ['+966', 'SA'],
+                  textStyle: TextStyle(
+                    fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                    fontSize: 16,
+                    color: ColorResources.greyA0A,
+                  ),
+                  showCountryOnly: false,
+                  showFlag: false,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                ),
+                const Icon(Icons.arrow_drop_down),
+              ],
+            ),
+          ),
+          hintText: lmobileNo,
+          hintStyle: TextStyle(
+            color: ColorResources.greyA0A,
+            fontSize: 18,
+            fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+          ),
+          filled: false,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: errorPhone == false
+                ? const BorderSide(color: ColorResources.greyA0A, width: 1)
+                : const BorderSide(color: Colors.red, width: 1),
+          ),
+        ),
+      );
+
+  bool validateMyName(String value) {
+    Pattern pattern = r"^([a-zA-Z]{2,}\s[a-zA-Z]{2,})";
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value) && value != "") {
+      print('Enter Valid name');
+      setState(() {
+        errorName = true;
+      });
+      return false;
+    } else {
+      print("valid name");
+      setState(() {
+        errorName = false;
+      });
+      return true;
+    }
+  }
+
+  bool validateMyPhone(String value) {
+    Pattern pattern = r'^[0-9]{9}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value) && value != "") {
+      print('Enter Valid Phone number');
+      setState(() {
+        errorPhone = true;
+      });
+      return false;
+    } else {
+      print("valid Phone number");
+      setState(() {
+        errorPhone = false;
+      });
+      return true;
+    }
+  }
+
+  bool validateEmail(String value) {
+    Pattern pattern = r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    RegExp regex = new RegExp(pattern);
+    if (regex.hasMatch(value) || value == "") {
+      print('Valid Email');
+
+      setState(() {
+        errorEmail = false;
+      });
+      return true;
+    } else {
+      print("Enter Valid Email");
+      setState(() {
+        errorEmail = true;
+      });
+      return false;
+    }
+  }
+
+  bool allValid2 = false;
+  bool isFound = false;
+
+  Future<void> check() async {
+    isFound = await mysqlDatabase.checkExisting(
+        emailController.text, "Physician", "email");
+    setState(() {
+      allValid2 = false;
+    });
+    validateMyName(nameController.text);
+    validateEmail(emailController.text);
+    validateMyPhone(phoneController.text);
+
+    if (!errorEmail && !errorName && !errorPhone) {
+      setState(() {
+        allValid2 = true;
+      });
+    }
+    if (isFound == true) {
+      setState(() {
+        errorEmail2 = true;
+      });
+    } else if (isFound == false) {
+      errorEmail2 = false;
+    }
+    if (isFound == false && allValid2) {
+      showAlertDialog1(context);
+    }
   }
 
   showAlertDialog1(BuildContext context) {
@@ -269,9 +354,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
       onPressed: () {
+        edit();
         Navigator.pop(context);
-        Navigator.pop(context);
-        // Get.to(LabHomePage1());
+        //Navigator.pop(context);
+        Get.to(LabHomePage1(
+          id: Id,
+          page: 'edit',
+        ));
       },
     );
 

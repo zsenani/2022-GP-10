@@ -14,12 +14,15 @@ import 'add_request.dart';
 int idp;
 String idPhysician;
 String roleHome;
+String visitId;
 
 class labTests extends StatefulWidget {
-  labTests({Key key, String id, String idPhy, String r}) : super(key: key) {
+  labTests({Key key, String id, String idPhy, String r, String vid})
+      : super(key: key) {
     idp = int.parse(id);
     idPhysician = idPhy;
     roleHome = r;
+    visitId = vid;
   }
   static const String routeName = '/lab_tests';
   @override
@@ -64,38 +67,26 @@ class _labTestsState extends State<labTests> {
                 flex: 10,
                 child: HeaderWidget(),
               ),
-              role == 'UPphysician'
-                  ? Flexible(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: () {
-                          _startAdd(context);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: 20,
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.only(right: 38, left: 5),
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: ColorResources.green009.withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: ColorResources.green009.withOpacity(0.2),
-                                width: 1,
-                              ),
-                            ),
-                            child: Center(
-                              child:
-                                  Icon(Icons.add, color: ColorResources.white),
-                            ),
-                          ),
-                        ),
+              if (role != 'patient')
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10, left: 35, bottom: 10),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: Center(
+                        // heightFactor: 100,
+                        child: Icon(Icons.home_outlined,
+                            color: ColorResources.grey777),
                       ),
-                    )
-                  : Container(),
+                    ),
+                  ),
+                ),
             ],
           ),
           Container(
@@ -135,7 +126,10 @@ class _labTestsState extends State<labTests> {
               behavior: MyBehavior(),
               child: TabBarView(
                 controller: tabBarController.controller,
-                children: [ActiveReq(), PreviousReq()], // pages,
+                children: [
+                  ActiveReq(vid: visitId, role: role),
+                  PreviousReq()
+                ], // pages,
               ),
             ),
           ),
@@ -154,19 +148,6 @@ class _labTestsState extends State<labTests> {
           child: heavyText("Lab Results", ColorResources.green009, 30),
         ),
       ],
-    );
-  }
-
-  void _startAdd(BuildContext ctx) {
-    showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: TestRequest(),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
     );
   }
 }

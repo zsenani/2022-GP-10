@@ -180,6 +180,8 @@ class _EditHistory extends State<EditHistory> {
                           onTap: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
+                            //////////////////////////////
+                            Navigator.of(context).pop();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(
