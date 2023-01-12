@@ -56,7 +56,8 @@ dependencies:
   email_auth: 
   timer_count_down: ^2.2.1
   mysql1: ^0.20.0
-
+  http: ^0.13.5
+  chip_list: ^2.2.3+7
 
 
 

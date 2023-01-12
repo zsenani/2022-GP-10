@@ -16,4 +16,5 @@ class ColorResources {
   static const Color blue0C1 = Color(0xff0C174B);
   static const Color green = Color(0xff139c8c);
   static const Color lightBlue2 = Color(0xffb2e0de);
+  static const Color buttonselect = Color(0xffA8E1DD);
 }

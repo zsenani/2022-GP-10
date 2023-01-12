@@ -82,16 +82,18 @@ class _ActiveVisitState extends State<ActiveVisit> {
                 child: InkWell(
                   onTap: () {
                     Get.to(UpCommingVisitScreen(
-                        patientID: activeVisit[index][9],
-                        hospitalN: activeVisit[index][2],
-                        visitD: activeVisit[index][1],
-                        visitT: activeVisit[index][10],
-                        patientAge: activeVisit[index][5],
-                        patientB: activeVisit[index][8],
-                        patientG: activeVisit[index][4],
-                        patientH: activeVisit[index][6],
-                        patientN: activeVisit[index][3],
-                        patientW: activeVisit[index][7]));
+                      patientID: activeVisit[index][9],
+                      hospitalN: activeVisit[index][2],
+                      visitD: activeVisit[index][1],
+                      visitT: activeVisit[index][10],
+                      patientAge: activeVisit[index][5],
+                      patientB: activeVisit[index][8],
+                      patientG: activeVisit[index][4],
+                      patientH: activeVisit[index][6],
+                      patientN: activeVisit[index][3],
+                      patientW: activeVisit[index][7],
+                      vid: activeVisit[index][0],
+                    ));
                   },
                   child: Container(
                     decoration: BoxDecoration(

@@ -859,6 +859,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 selectedItems: hospitalsll,
                                 items: ArrayOfHospitals,
                                 popupProps: PopupPropsMultiSelection.menu(
+                                  showSearchBox: true,
                                   showSelectedItems: true,
                                   searchFieldProps: TextFieldProps(
                                       decoration: InputDecoration(

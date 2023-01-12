@@ -161,7 +161,18 @@ class labResultState extends State<labResult> {
           SizedBox(
             height: 60,
             child: Container(
-              color: ColorResources.orange,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(13),
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    ColorResources.orange,
+                    ColorResources.orange,
+                  ],
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -181,7 +192,7 @@ class labResultState extends State<labResult> {
             shrinkWrap: true,
             itemCount: testsIDglobal.length,
             itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(bottom: 16),
+              padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
               child: InkWell(
                 child: Container(
                   decoration: BoxDecoration(

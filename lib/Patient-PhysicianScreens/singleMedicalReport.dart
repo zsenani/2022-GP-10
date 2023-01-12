@@ -318,7 +318,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(toDayList[0]['subject'],
-                              ColorResources.greyA0A, 16),
+                              Color.fromARGB(212, 0, 0, 0), 16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -329,8 +329,12 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(toDayList[0]['object'],
-                              ColorResources.greyA0A, 16),
+                          child: romanText(
+                              toDayList[0]['object']
+                                  .replaceAll("[", "")
+                                  .replaceAll("]", ""),
+                              Color.fromARGB(212, 0, 0, 0),
+                              16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -342,7 +346,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(toDayList[0]['assessment'],
-                              ColorResources.greyA0A, 16),
+                              Color.fromARGB(212, 0, 0, 0), 16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -353,8 +357,8 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(
-                              toDayList[0]['plan'], ColorResources.greyA0A, 16),
+                          child: romanText(toDayList[0]['plan'],
+                              Color.fromARGB(212, 0, 0, 0), 16),
                         ),
                         SizedBox(height: 10),
                       ],

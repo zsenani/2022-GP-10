@@ -153,6 +153,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(visitId);
     return Scaffold(
       backgroundColor: ColorResources.whiteF6F,
       body: ScrollConfiguration(

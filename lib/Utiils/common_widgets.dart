@@ -113,7 +113,7 @@ textField2(hintText, controller, keyBoardType) => TextFormField(
       cursorColor: ColorResources.black,
       keyboardType: keyBoardType,
       style: TextStyle(
-        color: ColorResources.grey777,
+        color: ColorResources.black,
         fontSize: 16,
         fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
       ),
@@ -172,6 +172,42 @@ textField3(hintText, controller, keyBoardType, validator) => TextFormField(
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+        ),
+      ),
+    );
+textField4(hintText, controller, keyBoardType) => TextFormField(
+      maxLines: 1,
+      controller: controller,
+      cursorColor: ColorResources.black,
+      keyboardType: keyBoardType,
+      style: TextStyle(
+        color: ColorResources.black,
+        fontSize: 16,
+        fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+      ),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: ColorResources.grey777,
+          fontSize: 16,
+          fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+        ),
+        filled: true,
+        fillColor: ColorResources.whiteF6F,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: ColorResources.greyA0A.withOpacity(0.4), width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: ColorResources.greyA0A.withOpacity(0.4), width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: ColorResources.greyA0A.withOpacity(0.4), width: 1),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
     );

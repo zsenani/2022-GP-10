@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../LabScreens/showLabResult.dart';
 import '../../database/mysqlDatabase.dart';
 import './lab_tests.dart';
 
@@ -323,7 +324,30 @@ class PreviousReqState extends State<PreviousReq> {
                                                       ],
                                                     ),
                                                     Button(() {
-                                                      // Get.to(RoutScreen());
+                                                      roleHome == 'patient'
+                                                          ? Get.to(
+                                                              showlabResult(
+                                                                  vid: toDayList[
+                                                                          index]
+                                                                      [
+                                                                      "idvisit"],
+                                                                  id: idp
+                                                                      .toString(),
+                                                                  role:
+                                                                      'patient'),
+                                                              arguments: 'prev')
+                                                          : Get.to(
+                                                              showlabResult(
+                                                                  vid: toDayList[
+                                                                          index]
+                                                                      [
+                                                                      "idvisit"],
+                                                                  id:
+                                                                      idPhysician,
+                                                                  role:
+                                                                      'physician'),
+                                                              arguments:
+                                                                  'prev');
                                                     },
                                                         "View",
                                                         Color.fromRGBO(
