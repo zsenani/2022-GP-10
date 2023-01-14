@@ -408,10 +408,11 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                   InkWell(
                     onTap: () {
                       Get.to(
-                          MedicationList(
-                            id: Id,
-                          ),
-                          arguments: "patient");
+                        MedicationList(
+                          id: Id,
+                          role1: 'patient',
+                        ),
+                      );
                     },
                     child: Container(
                       height: 170,

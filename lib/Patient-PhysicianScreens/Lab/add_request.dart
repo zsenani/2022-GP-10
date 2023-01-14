@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../../database/mysqlDatabase.dart';
 import 'ActiveReq.dart';
+import 'lab_tests.dart';
 import 'previousReq.dart';
 import 'tests.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
@@ -414,8 +415,14 @@ class _TestRequestState extends State<TestRequest> {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        Get.to(
+          labTests(
+              id: idp.toString(),
+              idPhy: idPhysician,
+              r: 'physician',
+              vid: visitId),
+          arguments: 'patientfile',
+        );
       },
     );
 

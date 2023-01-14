@@ -30,11 +30,8 @@ class _currentMedicationState extends State<currentMedication> {
   int setlength = 0;
   var resultspre;
   List<Map> toDayList = [];
-  List<Map> drName = [];
-  List<Map> hospitalname = [];
-  List<Map> medicationList = [];
-  List<Map> medicationname = [];
   List<Map> sortedList = [];
+  List<Map> glopalMedication = [];
   // @override
   // void initState() {
   //   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,6 +50,7 @@ class _currentMedicationState extends State<currentMedication> {
     arraylength = resultspre.length;
     arraylength == 0 ? empty = true : empty = false;
     print(arraylength);
+
     Map day = {
       "idvisit": "",
       "time": "",
@@ -105,6 +103,7 @@ class _currentMedicationState extends State<currentMedication> {
         print(medicaton);
         print(medicaton.length);
         for (var m in medicaton) {
+          Map global = {};
           Med = {
             "visitID": "${m[0]}",
             "medicationID": "${m[1]}",
@@ -113,6 +112,13 @@ class _currentMedicationState extends State<currentMedication> {
             "startDate": "${m[4]}",
             "endDate": "${m[5]}"
           };
+          //
+          global["visitID"] = Med["visitID"];
+          global["medicationID"] = Med["medicationID"];
+          global["dosage"] = Med["dosage"];
+          global["description"] = Med["description"];
+          global["startDate"] = Med["startDate"];
+          global["endDate"] = Med["endDate"];
           doctor = await conn.query(
               'select name from Physician where nationalID=?', ['${row[4]}']);
           print("%%%%%%%%%% doctor name");
@@ -120,9 +126,8 @@ class _currentMedicationState extends State<currentMedication> {
           print(doctor.length);
           for (var d in doctor) {
             nameD = {"name": "${d[0]}"};
-            drName.add(nameD);
           }
-
+          global["drname"] = nameD["name"];
           hospital = await conn.query(
               'select name from Hospital where idhospital=?', ['${row[3]}']);
           print('^^^^^^^^6hospital name');
@@ -130,8 +135,8 @@ class _currentMedicationState extends State<currentMedication> {
           print(hospital.length);
           for (var h in hospital) {
             nameH = {"name": "${h[0]}"};
-            hospitalname.add(nameH);
           }
+          global["hospitalname"] = nameH["name"];
           medname = await conn.query(
               'select name from Medication where idmedication=?', ['${m[1]}']);
           print("medication name");
@@ -139,30 +144,33 @@ class _currentMedicationState extends State<currentMedication> {
           print(medname.length);
           for (var mn in medname) {
             nameM = {"name": "${mn[0]}"};
-            medicationname.add(nameM);
           }
-          print(medicationname);
-          medicationList.add(Med);
+          global["medicationname"] = nameM["name"];
+          glopalMedication.add(global);
+          print('gloooooooooooooooooobal');
+          print(global);
           setlength += 1;
         }
+
         isFilled = isFilled + 1;
       }
       toDayList.add(day);
     }
 
-    medicationList.sort((a, b) {
-      return DateTime.parse(a['endDate'])
-          .toUtc()
-          .compareTo(DateTime.parse(b['endDate']).toUtc());
-      //convert Date string to DateTime and compare
-      ////softing on DateTime order (Ascending order by DOB date string)
-    });
+    glopalMedication.sort((a, b) => (DateTime.parse(a['endDate']).toUtc())
+        .compareTo(DateTime.parse(b['endDate']).toUtc()));
+    // medicationList.sort((a, b) {
+    //   return DateTime.parse(a['endDate'])
+    //       .toUtc()
+    //       .compareTo(DateTime.parse(b['endDate']).toUtc());
+    //   //convert Date string to DateTime and compare
+    //   ////softing on DateTime order (Ascending order by DOB date string)
+    // });
     print("sssssssssssssssssssssssssssssssssssssssss");
-    print(medicationList);
     setState(() {
-      arraylength = medicationList.length;
+      arraylength = glopalMedication.length;
       load = true;
-      sortedList = medicationList;
+      sortedList = glopalMedication;
     });
   }
 
@@ -179,7 +187,7 @@ class _currentMedicationState extends State<currentMedication> {
     print('1111111111111111111111111111111111111111111111111111');
     print(Role);
     getCurrentMedication();
-    medicationList.length < toDayList.length ? load = false : load = true;
+    glopalMedication.length < toDayList.length ? load = false : load = true;
     return arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
@@ -198,7 +206,7 @@ class _currentMedicationState extends State<currentMedication> {
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: load ? 0 : medicationList.length,
+                            itemCount: load ? 0 : glopalMedication.length,
                             itemBuilder: (context, index) => Padding(
                               padding: EdgeInsets.only(bottom: 16),
                               child: Container(
@@ -238,8 +246,9 @@ class _currentMedicationState extends State<currentMedication> {
                                               children: [
                                                 RichText(
                                                   text: TextSpan(
-                                                    text: hospitalname[index]
-                                                        ["name"],
+                                                    text:
+                                                        glopalMedication[index]
+                                                            ["hospitalname"],
                                                     style: TextStyle(
                                                       fontFamily: TextFontFamily
                                                           .AVENIR_LT_PRO_ROMAN,
@@ -255,7 +264,8 @@ class _currentMedicationState extends State<currentMedication> {
                                             RichText(
                                               text: TextSpan(
                                                 text: "Dr." +
-                                                    drName[index]["name"],
+                                                    glopalMedication[index]
+                                                        ["drname"],
                                                 style: TextStyle(
                                                   fontFamily: TextFontFamily
                                                       .AVENIR_LT_PRO_ROMAN,
@@ -266,46 +276,47 @@ class _currentMedicationState extends State<currentMedication> {
                                             ),
                                             SizedBox(height: 5),
                                             mediumText(
-                                                medicationname[index]["name"],
+                                                glopalMedication[index]
+                                                    ["medicationname"],
                                                 ColorResources.green009,
                                                 20),
                                             SizedBox(height: 4),
                                             romanText(
                                                 "Dosage: " +
-                                                    medicationList[index]
+                                                    glopalMedication[index]
                                                         ["dosage"],
                                                 ColorResources.grey777,
                                                 12),
-                                            if (medicationList[index]
+                                            if (glopalMedication[index]
                                                     ["description"] !=
                                                 null)
                                               SizedBox(height: 4),
-                                            if (medicationList[index]
+                                            if (glopalMedication[index]
                                                     ["description"] !=
                                                 null)
                                               romanText(
                                                   "Description: " +
-                                                      medicationList[index]
+                                                      glopalMedication[index]
                                                           ["description"],
                                                   ColorResources.grey777,
                                                   12),
                                             SizedBox(height: 4),
                                             romanText(
                                                 "Start date: " +
-                                                    medicationList[index]
+                                                    glopalMedication[index]
                                                             ["startDate"]
                                                         .substring(
                                                             0,
-                                                            medicationList[
+                                                            glopalMedication[
                                                                         index][
                                                                     "startDate"]
                                                                 .indexOf(' ')) +
                                                     "    End date: " +
-                                                    medicationList[index]
+                                                    glopalMedication[index]
                                                             ["endDate"]
                                                         .substring(
                                                             0,
-                                                            medicationList[
+                                                            glopalMedication[
                                                                         index]
                                                                     ["endDate"]
                                                                 .indexOf(' ')),
@@ -432,18 +443,9 @@ class _currentMedicationState extends State<currentMedication> {
   }
 
   void _startAdd(BuildContext ctx) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      // isDismissible: true,
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          child: AddMedication(
-            pid: idp,
-            vid: visitId,
-          ),
-        );
-      },
-    );
+    Get.to(AddMedication(
+      pid: idp,
+      vid: visitId,
+    ));
   }
 }

@@ -153,7 +153,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
       "caller": MedicationList(
         id: patientId,
         vid: visitId,
-        Role: 'UPphysician',
+        role1: 'UPphysician',
       ),
     },
   ];

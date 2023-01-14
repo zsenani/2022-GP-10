@@ -13,18 +13,20 @@ import 'package:get/get.dart';
 int idp;
 String visitId;
 String role;
+String patientfile;
 
 class MedicationList extends StatelessWidget {
-  MedicationList({Key key, String id, String vid, String Role})
+  MedicationList({Key key, String id, String vid, String role1})
       : super(key: key) {
     idp = int.parse(id);
     visitId = vid;
-    role = Role;
+    role = role1;
   }
   final TabBarController tabBarController = Get.put(TabBarController());
   //String role = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    patientfile = Get.arguments;
     print("medication listttttttttttttttttttt");
     print(role);
     return Scaffold(
@@ -32,52 +34,6 @@ class MedicationList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           HeaderWidget(),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 40),
-          //   child: Row(
-          //     children: [
-          //       SizedBox(
-          //         width: 10,
-          //       ),
-          //       InkWell(
-          //         onTap: () {
-          //           Navigator.of(context).pop();
-          //         },
-          //         child: Container(
-          //           height: 40,
-          //           width: 40,
-          //           child: Center(
-          //             child:
-          //                 Icon(Icons.arrow_back, color: ColorResources.grey777),
-          //           ),
-          //         ),
-          //       ),
-          //       Flexible(
-          //         flex: 10,
-          //         child: HeaderWidget(),
-          //       ),
-          //       if (role != 'patient')
-          //         InkWell(
-          //           onTap: () {
-          //             Navigator.of(context).pop();
-          //             Navigator.of(context).pop();
-          //           },
-          //           child: Padding(
-          //             padding: EdgeInsets.only(top: 10, left: 35, bottom: 10),
-          //             child: Container(
-          //               height: 60,
-          //               width: 60,
-          //               child: Center(
-          //                 // heightFactor: 100,
-          //                 child: Icon(Icons.home_outlined,
-          //                     color: ColorResources.grey777),
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
           Container(
             height: 50,
             width: Get.width,
@@ -131,6 +87,9 @@ class MedicationList extends StatelessWidget {
   }
 
   Widget HeaderWidget() {
+    print(
+        '##################################################################3');
+    print(patientfile);
     return Padding(
       padding: const EdgeInsets.only(top: 60, left: 12),
       child: Row(
@@ -138,7 +97,15 @@ class MedicationList extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Get.back();
+              if (role == 'patient')
+                Get.back();
+              else if (patientfile == "patientfile") {
+                Get.back();
+                Get.back();
+                Get.back();
+                Get.back();
+              } else
+                Get.back();
             },
             child: Container(
               height: 40,
@@ -178,16 +145,6 @@ class MedicationList extends StatelessWidget {
             ),
         ],
       ),
-    );
-    Stack(
-      children: [
-        Container(
-          height: 50,
-          width: Get.width,
-          padding: EdgeInsets.only(top: 10, left: 30),
-          child: heavyText("Medication List", ColorResources.green009, 30),
-        ),
-      ],
     );
   }
 }

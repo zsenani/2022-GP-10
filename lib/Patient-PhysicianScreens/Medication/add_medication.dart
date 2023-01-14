@@ -11,6 +11,7 @@ import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
 import '../Lab/tests.dart';
 import 'current_medication.dart';
+import 'medication_list.dart';
 import 'past_medication.dart';
 
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
@@ -664,8 +665,12 @@ class _AddMedicationState extends State<AddMedication> {
         onPressed: () {
           if (done == 'true') {
             add();
-            Navigator.pop(context);
-            Navigator.pop(context);
+            Get.to(
+                MedicationList(
+                    id: patientId.toString(),
+                    vid: visitId,
+                    role1: 'UPphysician'),
+                arguments: 'patientfile');
           } else
             Navigator.pop(context);
         });

@@ -304,37 +304,6 @@ class MedicalReportsState extends State<MedicalReports> {
                         height: 60,
                       ),
                       HeaderWidget(),
-                      // Row(
-                      //   children: [
-                      //     SizedBox(
-                      //       width: 20,
-                      //     ),
-                      //     InkWell(
-                      //       onTap: () {
-                      //         //Get.to(HomeScreen());
-                      //         toDayList.clear();
-                      //         Navigator.of(context).pop();
-                      //       },
-                      //       child: Container(
-                      //         height: 40,
-                      //         width: 20,
-                      //         decoration: BoxDecoration(
-                      //           color: ColorResources.whiteF6F,
-                      //           borderRadius: BorderRadius.circular(10),
-                      //           border: Border.all(
-                      //             color: ColorResources.white.withOpacity(0.2),
-                      //             width: 1,
-                      //           ),
-                      //         ),
-                      //         child: Center(
-                      //           child: Icon(Icons.arrow_back,
-                      //               color: ColorResources.grey777),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     HeaderWidget(),
-                      //   ],
-                      // ),
                       SizedBox(height: 230),
                       empty
                           ? Align(
@@ -421,15 +390,6 @@ class MedicalReportsState extends State<MedicalReports> {
               ),
             ),
         ],
-      ),
-    );
-    Align(
-      alignment: AlignmentDirectional.topStart,
-      child: Container(
-        height: 50,
-        width: 300,
-        padding: EdgeInsets.only(top: 8, left: 40),
-        child: heavyText("Medical Reports", ColorResources.green009, 30),
       ),
     );
   }

@@ -505,20 +505,10 @@ class _ActiveReqState extends State<ActiveReq> {
   }
 
   void _startAdd(BuildContext ctx) {
-    showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          //////////////////////////////
-          child: TestRequest(
-            vid: visitId,
-            page: 'active',
-          ),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
+    Get.to(TestRequest(
+      vid: visitId,
+      page: 'active',
+    ));
   }
 
   void _startAdd2(BuildContext ctx) {

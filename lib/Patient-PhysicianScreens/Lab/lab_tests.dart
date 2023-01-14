@@ -51,7 +51,15 @@ class _labTestsState extends State<labTests> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pop();
+                  if (role == 'patient')
+                    Get.back();
+                  else if (role == "patientfile") {
+                    Get.back();
+                    Get.back();
+                    Get.back();
+                    Get.back();
+                  } else
+                    Get.back();
                 },
                 child: Container(
                   height: 40,

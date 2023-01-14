@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/LabScreens/previose_test_details.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-
-import '../Utiils/images.dart';
-import 'active_test_details.dart';
+import '';
+import '../../LabScreens/active_test_details.dart';
+import '../../Utiils/images.dart';
 
 String labId;
 List<List<String>> ActiveTest1 = [];
