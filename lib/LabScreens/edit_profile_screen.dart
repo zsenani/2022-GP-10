@@ -330,7 +330,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } else if (isFound == false) {
       errorEmail2 = false;
     }
-    if (isFound == false && allValid2) {
+    if (nameController.text == "" &&
+        emailController.text == "" &&
+        phoneController.text == "") {
+      showAlertDialog2(context);
+    } else if (isFound == false && allValid2) {
       showAlertDialog1(context);
     }
   }
@@ -355,7 +359,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       onPressed: () {
         edit();
-        Navigator.pop(context);
+        Navigator.pop(context, 'refresh');
         //Navigator.pop(context);
         Get.to(LabHomePage1(
           id: Id,
@@ -372,6 +376,37 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         cancelButton,
         continueButton,
       ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialog2(BuildContext context) {
+    String content = "There is nothing changed";
+
+    Widget OKButton = TextButton(
+      child: Text(
+        "OK",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text(content),
+      actions: [OKButton],
     );
 
     // show the dialog

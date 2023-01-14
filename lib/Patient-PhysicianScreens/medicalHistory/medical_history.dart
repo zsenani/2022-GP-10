@@ -73,9 +73,11 @@ class MedicalHistoryState extends State<MedicalHistory> {
   }
 
   Widget info() {
+    print(_Medical);
+
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
@@ -92,16 +94,19 @@ class MedicalHistoryState extends State<MedicalHistory> {
               ),
               SizedBox(height: 10),
               for (var index in _Allergy) ...[
-                Column(
-                  children: [
-                    romanText("${index}", ColorResources.grey777, 16),
-                    SizedBox(height: 5),
-                  ],
-                ),
+                if (index != null && index != ' ')
+                  Column(
+                    children: [
+                      if ("${index}" != '' && "${index}" != ' ')
+                        romanText("${index}", ColorResources.grey777, 16),
+                      if ("${index}" != '' && "${index}" != ' ')
+                        SizedBox(height: 5),
+                    ],
+                  ),
               ],
             ],
           ),
-          SizedBox(width: 70),
+          SizedBox(width: 30),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -120,8 +125,10 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   for (var index in _social) ...[
                     Column(
                       children: [
-                        romanText("${index}", ColorResources.grey777, 16),
-                        SizedBox(height: 5),
+                        if ("${index}" != '' && "${index}" != ' ')
+                          romanText("${index}", ColorResources.grey777, 16),
+                        if ("${index}" != '' && "${index}" != ' ')
+                          SizedBox(height: 5),
                       ],
                     ),
                   ],
@@ -133,7 +140,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
       ),
       SizedBox(height: 30),
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
@@ -146,14 +153,17 @@ class MedicalHistoryState extends State<MedicalHistory> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 6),
-                child: mediumText("Family History", ColorResources.grey777, 18),
+                child:
+                    mediumText(" Family History", ColorResources.grey777, 18),
               ),
               SizedBox(height: 10),
               for (var index in _family) ...[
                 Column(
                   children: [
-                    romanText("${index}", ColorResources.grey777, 16),
-                    SizedBox(height: 5),
+                    if ("${index}" != '' && "${index}" != ' ')
+                      romanText("${index}", ColorResources.grey777, 16),
+                    if ("${index}" != '' && "${index}" != ' ')
+                      SizedBox(height: 5),
                   ],
                 ),
               ],
@@ -168,7 +178,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                 width: 25,
                 height: 25,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -181,8 +191,8 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   for (var index in _surgery) ...[
                     Column(
                       children: [
-                        romanText("${index}", ColorResources.grey777, 16),
-                        SizedBox(height: 5),
+                        if ("${index}" != '' && "${index}" != ' ')
+                          romanText("${index}", ColorResources.grey777, 16),
                       ],
                     ),
                   ],
@@ -214,8 +224,10 @@ class MedicalHistoryState extends State<MedicalHistory> {
               for (var index in _Medical) ...[
                 Column(
                   children: [
-                    romanText("${index}", ColorResources.grey777, 16),
-                    SizedBox(height: 5),
+                    if ("${index}" != '' && "${index}" != ' ')
+                      romanText("${index}", ColorResources.grey777, 16),
+                    if ("${index}" != '' && "${index}" != ' ')
+                      SizedBox(height: 5),
                   ],
                 ),
               ],
@@ -267,16 +279,14 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   flex: 10,
                   child: HeaderWidget(),
                 ),
-                //////////////////////////
                 if (role != "patient")
                   InkWell(
                     onTap: () {
                       Navigator.of(context).pop();
-                      /////////////////////////////
+
                       Navigator.of(context).pop();
                     },
                     child: Padding(
-                      //////////////////////////////
                       padding: EdgeInsets.only(top: 3, bottom: 0),
                       child: Container(
                         height: 60,
@@ -291,154 +301,172 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            loading == true
+                ? loadingPage()
+                : Column(
                     children: [
-                      //SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.person_outline,
-                              color: Color.fromRGBO(241, 94, 34, 1), size: 30),
-                          SizedBox(width: 10),
-                          Padding(
-                            padding: EdgeInsets.only(top: 6),
-                            child: mediumText("Personal information",
-                                ColorResources.grey777, 18),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Divider(
-                        color: ColorResources.greyD4D.withOpacity(0.4),
-                        thickness: 1,
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  bookText("Name   :   ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(name, ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText("Age      :   ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      '${age}', ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText("Gender :   ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      gender, ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText("Blood Type :  ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      bloodType, ColorResources.grey777, 16),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  bookText(
-                                      "ID   :   ", ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      nationalID, ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText(
-                                      "DOB:   ", ColorResources.greyA0A, 16),
-                                  mediumText(DOB, ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText("Nationality:   ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(
-                                      nationality, ColorResources.grey777, 16),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  bookText("Marital Status:   ",
-                                      ColorResources.greyA0A, 16),
-                                  mediumText(maritalStatus,
-                                      ColorResources.grey777, 16),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Divider(
-                        color: ColorResources.greyD4D.withOpacity(0.4),
-                        thickness: 1,
-                      ),
-                      SizedBox(height: 30),
-                      loading == true ? loadingPage() : info(),
-
-                      SizedBox(height: 30),
-                      role == "UPphysician"
-                          ? Column(
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: ScrollConfiguration(
+                          behavior: MyBehavior(),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                commonButton(() async {
-                                  loading = true;
-                                  String refresh = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditHistory(
-                                                id: Id,
-                                              )));
-                                  if (refresh == 'refresh') {
-                                    getData();
-                                  }
-                                }, "Edit", ColorResources.green009,
-                                    ColorResources.white),
+                                //SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.person_outline,
+                                        color: Color.fromRGBO(241, 94, 34, 1),
+                                        size: 30),
+                                    SizedBox(width: 10),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 6),
+                                      child: mediumText("Personal information",
+                                          ColorResources.grey777, 18),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Divider(
+                                  color:
+                                      ColorResources.greyD4D.withOpacity(0.4),
+                                  thickness: 1,
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            bookText("Name   :   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(name,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Age      :   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText('${age}',
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Gender :   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(gender,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Nationality: ",
+                                                ColorResources.greyA0A, 14),
+                                            mediumText(nationality + " ",
+                                                ColorResources.grey777, 13),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            bookText("ID   :   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(nationalID,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("DOB:   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(DOB,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Marital Status:   ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(maritalStatus,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Blood Type :  ",
+                                                ColorResources.greyA0A, 16),
+                                            mediumText(bloodType,
+                                                ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Divider(
+                                  color:
+                                      ColorResources.greyD4D.withOpacity(0.4),
+                                  thickness: 1,
+                                ),
                                 SizedBox(height: 30),
+                                info(),
+
+                                SizedBox(height: 30),
+                                role == "UPphysician"
+                                    ? Column(
+                                        children: [
+                                          commonButton(() async {
+                                            loading = true;
+                                            String refresh =
+                                                await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EditHistory(
+                                                              id: Id,
+                                                            )));
+                                            if (refresh == 'refresh') {
+                                              getData();
+                                            }
+                                          }, "Edit", ColorResources.green009,
+                                              ColorResources.white),
+                                          SizedBox(height: 30),
+                                        ],
+                                      )
+                                    : Container(),
                               ],
-                            )
-                          : Container(),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

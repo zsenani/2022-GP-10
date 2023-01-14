@@ -24,7 +24,6 @@ String lgender = " ";
 String lmobileNo = " ";
 String Page;
 String hid;
-String hname = " ";
 
 class LabHomePage1 extends StatefulWidget {
   LabHomePage1({Key key, String id, String page}) : super(key: key) {
@@ -135,13 +134,6 @@ class _LabHomePage2State extends State<LabHomePage2> {
         lemail = '${row[3]}';
         lgender = '${row[4]}';
         lmobileNo = '${row[5]}';
-      });
-    }
-    var hos = await conn.query(
-        'select name from Hospital where idhospital=?', [int.parse(hid)]);
-    for (var row in hos) {
-      setState(() {
-        hname = '${row[0]}';
       });
     }
   }

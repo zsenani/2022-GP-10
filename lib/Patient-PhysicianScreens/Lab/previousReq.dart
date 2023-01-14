@@ -197,7 +197,7 @@ class PreviousReqState extends State<PreviousReq> {
 
   @override
   Widget build(BuildContext context) {
-    return arraylength != 0
+    return arraylength != 0 && setRange == false
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
             body: Stack(
@@ -403,44 +403,18 @@ class PreviousReqState extends State<PreviousReq> {
               ],
             ),
           )
-        // : setRange == true && toDayListFilttered.isEmpty
-        //     ? Scaffold(
-        //         backgroundColor: ColorResources.whiteF7F,
-        //         body: Align(
-        //           alignment: Alignment.center,
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             children: [
-        //               SizedBox(
-        //                 height: 160,
-        //                 width: 160,
-        //                 child: Image.asset(
-        //                   Images.report2,
-        //                   color: ColorResources.greyA0A,
-        //                   alignment: Alignment.center,
-        //                 ),
-        //               ),
-        //               SizedBox(height: 20),
-        //               romanText(
-        //                   "There is no test request at this time you selected",
-        //                   ColorResources.grey777,
-        //                   18,
-        //                   TextAlign.center),
-        //             ],
-        //           ),
-        //         ),
-        //       )
-        : Scaffold(
-            backgroundColor: ColorResources.whiteF7F,
-            body: load
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
+        : setRange == true && toDayListFilttered.isEmpty
+            ? Scaffold(
+                backgroundColor: ColorResources.whiteF7F,
+                body: Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: SizedBox(
                           height: 160,
                           width: 160,
                           child: Image.asset(
@@ -449,13 +423,70 @@ class PreviousReqState extends State<PreviousReq> {
                             alignment: Alignment.center,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        romanText("There is no test request",
-                            ColorResources.grey777, 18, TextAlign.center),
-                      ],
-                    ),
-                  )
-                : loadingPage());
+                      ),
+                      SizedBox(height: 20),
+                      romanText(
+                          "There is no test request at \nthis time you selected",
+                          ColorResources.grey777,
+                          18,
+                          TextAlign.center),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 320, bottom: 0, right: 0, top: 150),
+                        child: InkWell(
+                          onTap: () {
+                            _startAdd2(context);
+                            // setState(() {
+                            //   setRange = true;
+                            // });
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: ColorResources.green009,
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(
+                                color: ColorResources.green009,
+                                width: 1,
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(Icons.filter_alt,
+                                  color: ColorResources.white),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            : Scaffold(
+                backgroundColor: ColorResources.whiteF7F,
+                body: load
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 160,
+                              width: 160,
+                              child: Image.asset(
+                                Images.report2,
+                                color: ColorResources.greyA0A,
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            romanText("There is no test request",
+                                ColorResources.grey777, 18, TextAlign.center),
+                          ],
+                        ),
+                      )
+                    : loadingPage());
   }
 
   void _startAdd2(BuildContext ctx) {
@@ -499,14 +530,14 @@ class PreviousReqState extends State<PreviousReq> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // Text('Selected range: $_range'),
-                  Text(
-                    ' Selected ranges count: $_rangeCount',
-                    style:
-                        TextStyle(color: ColorResources.grey777, fontSize: 14),
-                  )
-                ],
+                // children: <Widget>[
+                //   // Text('Selected range: $_range'),
+                //   Text(
+                //     ' Selected ranges count: $_rangeCount',
+                //     style:
+                //         TextStyle(color: ColorResources.grey777, fontSize: 14),
+                //   )
+                // ],
               ),
             ),
             Positioned(
@@ -517,9 +548,6 @@ class PreviousReqState extends State<PreviousReq> {
               child: SfDateRangePicker(
                 onSelectionChanged: _onSelectionChanged,
                 selectionMode: DateRangePickerSelectionMode.range,
-                initialSelectedRange: PickerDateRange(
-                    DateTime.now().subtract(const Duration(days: 4)),
-                    DateTime.now().add(const Duration(days: 3))),
                 maxDate: DateTime.now(),
               ),
             ),
@@ -529,6 +557,9 @@ class PreviousReqState extends State<PreviousReq> {
               child: Row(
                 children: [
                   Button(() {
+                    setState(() {
+                      setRange = false;
+                    });
                     Navigator.pop(context);
                   }, "Cancel", ColorResources.orange.withOpacity(0.9),
                       ColorResources.white),

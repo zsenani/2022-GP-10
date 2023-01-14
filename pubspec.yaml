@@ -58,7 +58,7 @@ dependencies:
   mysql1: ^0.20.0
   http: ^0.13.5
   chip_list: ^2.2.3+7
-
+  parent_child_checkbox: ^0.0.3
 
 
 dev_dependencies:

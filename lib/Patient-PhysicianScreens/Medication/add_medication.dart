@@ -16,10 +16,12 @@ import 'past_medication.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
 String visitId;
+int patientId;
 
 class AddMedication extends StatefulWidget {
-  AddMedication({Key key, String vid}) : super(key: key) {
+  AddMedication({Key key, String vid, int pid}) : super(key: key) {
     visitId = vid;
+    patientId = pid;
   }
   State<AddMedication> createState() => _AddMedicationState();
 }
@@ -34,6 +36,9 @@ class _AddMedicationState extends State<AddMedication> {
 
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        loading = true;
+      });
       Medications();
     });
   }
@@ -223,7 +228,7 @@ class _AddMedicationState extends State<AddMedication> {
                                 const SizedBox(height: 5),
                                 if (errorName == true)
                                   mediumText(
-                                      "Enter medication name", Colors.red, 16),
+                                      "Choose medication", Colors.red, 16),
                                 SizedBox(height: 20),
                                 heavyText("Dosage",
                                     Color.fromRGBO(241, 94, 34, 1), 18),
@@ -558,25 +563,77 @@ class _AddMedicationState extends State<AddMedication> {
   List<String> ArrayOfMedication = new List<String>();
 
   int isFilled = 0;
-  Medications() async {
-    var results = await conn.query('select name from Medication');
-    int ArrayLength = await results.length;
-    String medication;
-    String medicationId;
-    for (var row in results) {
-      if (isFilled != ArrayLength) {
-        medication = '${row[0]}';
-        //medicationId = '${row[1]}';
-        // ArrayOfMedication2.addAll({"id": medicationId, "name": medication});
-        ArrayOfMedication.add(medication);
+  int isFilled2 = 0;
 
-        isFilled = isFilled + 1;
+  ////////////////////////////////////
+  Medications() async {
+    var visits = await conn
+        .query('select idvisit from Visit where idPatient = ?', [patientId]);
+    int visitLength = await visits.length;
+    int ArrayLength;
+    List<int> medIds = [];
+    for (var visit in visits) {
+      isFilled2 = 0;
+      var results = await conn.query(
+          'select medicationID from VisitMedication where visitID = ? and endDate>?',
+          [int.parse('${visit[0]}'), DateTime.now().toUtc()]);
+      print("result");
+      print(results);
+
+      print(int.parse('${visit[0]}'));
+      ArrayLength = await results.length;
+      if (ArrayLength != 0) {
+        print("enter");
+        for (var row2 in results) {
+          if (isFilled2 != ArrayLength) {
+            int medNo2 = int.parse('${row2[0]}');
+            medIds.add(medNo2);
+            isFilled2 = isFilled2 + 1;
+          }
+        }
       }
-      //  print(ArrayOfMedication.toString());
     }
-    setState(() {
-      loading = false;
-    });
+    print("medIds");
+
+    print(medIds);
+    print(isFilled2);
+    print(ArrayLength);
+
+    var allResults =
+        await conn.query('select name,idmedication from Medication');
+    int allArrayLength = await allResults.length;
+    if (isFilled2 == ArrayLength) {
+      bool exist = false;
+      String medication;
+      for (var row in allResults) {
+        setState(() {
+          exist = false;
+        });
+        print(allResults);
+        if (isFilled != allArrayLength) {
+          medication = '${row[0]}';
+          int medNo1 = int.parse('${row[1]}');
+          if (ArrayLength != 0) {
+            medIds.forEach((element) {
+              if (element == medNo1)
+                setState(() {
+                  exist = true;
+                });
+            });
+          }
+          if (!exist) ArrayOfMedication.add(medication);
+          //   ArrayOfMedication.add(medication);
+          print("ArrayOfMedication");
+          print(ArrayOfMedication);
+
+          isFilled = isFilled + 1;
+        }
+      }
+
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   sendReq() {

@@ -1436,24 +1436,29 @@ List<String> hospitalsll = [];
 List<int> IDOfHospitals = new List<int>();
 String hospital;
 bool addedHospitals = false;
-int ArrayLength = ArrayOfHospitals.length;
+
 int isFinish = 0;
 Future<bool> HospitalsPhysician() async {
   int ID;
   var results =
       await conn.query('select name,district,idHospital from Hospital ');
-
+  int ArrayLength = results.length;
   if (isFinish < ArrayLength) {
     for (var row in results) {
-      hospitals.forEach((thisHospital) {
-        if ('${row[0]},${row[1]}' == thisHospital) {
-          print('true' + '${row[2]}');
-          ID = int.parse('${row[2]}');
-          IDOfHospitals.add(ID);
-          addedHospitals = true;
-        }
-      });
-      isFinish = isFinish + 1;
+      if (hospitals != null) {
+        hospitals.forEach((thisHospital) {
+          print("thisHospital");
+          print(thisHospital);
+          if ('${row[0]},${row[1]}' == thisHospital) {
+            print('true' + '${row[2]}');
+            ID = int.parse('${row[2]}');
+            IDOfHospitals.add(ID);
+            addedHospitals = true;
+          }
+        });
+
+        isFinish = isFinish + 1;
+      }
     }
   }
 }
@@ -1464,7 +1469,7 @@ HospitalsLab() async {
   var results =
       await conn.query('select name,district,idHospital from Hospital ');
 
-  if (isFinish2 < ArrayLength) {
+  if (isFinish2 < results.length) {
     for (var row in results) {
       print(hospital);
       print('${row[0]},${row[1]}');

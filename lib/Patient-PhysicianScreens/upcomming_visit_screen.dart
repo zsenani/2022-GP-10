@@ -12,7 +12,6 @@ import 'package:medcore/Utiils/images.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../database/mysqlDatabase.dart';
 import 'patient_home_screen.dart';
 
@@ -27,6 +26,9 @@ String hospitalName = "";
 String visitDate = "";
 String visitTime = "";
 String visitId = '';
+bool errorH = false;
+bool errorW = false;
+bool errorP = false;
 
 class UpCommingVisitScreen extends StatefulWidget {
   UpCommingVisitScreen(
@@ -61,10 +63,15 @@ class UpCommingVisitScreen extends StatefulWidget {
 
 class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController hightController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController bloodPressController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     getData();
+
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   getData();
     // });
@@ -87,7 +94,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         bloodType = '${row[2]}';
         nationalID = '${row[3]}';
         DOB = '${row[4]}'.split(' ')[0];
-        nationality = '${row[5]}'.split(' ')[1];
+        nationality = '${row[5]}';
         maritalStatus = '${row[6]}';
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
@@ -229,6 +236,78 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     );
   }
 
+  void updatePatientInfo() async {
+    if (hightController.text != "null") {
+      var pNewHight = await conn.query(
+          'update Patient set  height=? where NationalID =?',
+          [double.parse(hightController.text), int.parse(patientId)]);
+    }
+    if (hightController.text != "null") {
+      var pNewWeight = await conn.query(
+          'update Patient set weight=? where NationalID =?',
+          [double.parse(weightController.text), int.parse(patientId)]);
+    }
+    if (hightController.text != "null") {
+      var newPatientInfo = await conn.query(
+          'update Patient set BloodPressure=? where NationalID =?',
+          [double.parse(bloodPressController.text), int.parse(patientId)]);
+    }
+  }
+
+  bool validateH(String valueH) {
+    Pattern pattern = r'^[0-9]{1,3}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(valueH)) {
+      print('Please enter Numbers');
+      setState(() {
+        errorH = true;
+      });
+      return false;
+    } else {
+      print("valid Hight");
+      setState(() {
+        errorH = false;
+      });
+      return true;
+    }
+  }
+
+  bool validateW(String valueW) {
+    Pattern pattern = r'^[0-9]{1,3}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(valueW)) {
+      print('wrong wight');
+      setState(() {
+        errorW = true;
+      });
+      return false;
+    } else {
+      print("valid wiegth");
+      setState(() {
+        errorW = false;
+      });
+      return true;
+    }
+  }
+
+  bool validateP(String valueB) {
+    Pattern pattern = r'^[0-9]{1,3}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(valueB)) {
+      print('wrong blood pressure');
+      setState(() {
+        errorP = true;
+      });
+      return false;
+    } else {
+      print("valid blood pressure");
+      setState(() {
+        errorP = false;
+      });
+      return true;
+    }
+  }
+
   Widget HeaderWidget() {
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -328,7 +407,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 13),
                           child: heavyText(patientGender + ", $patientDob y",
                               ColorResources.grey777, 16)),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -336,11 +415,33 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               image: AssetImage(Images.height),
                               width: 20,
                               height: 20),
-                          mediumText("Hieght:", ColorResources.grey777, 12),
-                          SizedBox(
-                            width: 28,
-                            child: romanText(patientHeight,
-                                ColorResources.grey777, 12, TextAlign.center),
+                          mediumText("Hieght: ", ColorResources.grey777, 12),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: SizedBox(
+                              height: 13,
+                              width: 35,
+                              child: TextField(
+                                controller: hightController,
+                                decoration: InputDecoration(
+                                  hintText: patientHeight == "null"
+                                      ? "---"
+                                      : patientHeight,
+                                  border: UnderlineInputBorder(),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: errorH == false
+                                        ? const BorderSide(
+                                            color: ColorResources.grey777,
+                                            width: 1)
+                                        : const BorderSide(
+                                            color: Colors.red, width: 1),
+                                  ),
+                                ),
+                                style: TextStyle(fontSize: 13),
+                              ),
+                              // romanText(patientHeight,
+                              //     ColorResources.grey777, 12, TextAlign.center),
+                            ),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -349,11 +450,31 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             height: 17,
                           ),
                           const SizedBox(width: 1),
-                          mediumText("Weight:", ColorResources.grey777, 12),
-                          SizedBox(
-                            width: 28,
-                            child: romanText(patientWeight,
-                                ColorResources.grey777, 12, TextAlign.center),
+                          mediumText("Weight: ", ColorResources.grey777, 12),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: SizedBox(
+                              height: 13,
+                              width: 35,
+                              child: TextField(
+                                controller: weightController,
+                                decoration: InputDecoration(
+                                  hintText: patientWeight == "null"
+                                      ? "---"
+                                      : patientWeight,
+                                  border: UnderlineInputBorder(),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: errorH == false
+                                        ? const BorderSide(
+                                            color: ColorResources.greyA0A,
+                                            width: 1)
+                                        : const BorderSide(
+                                            color: Colors.red, width: 1),
+                                  ),
+                                ),
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -362,13 +483,59 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             height: 20,
                           ),
                           mediumText(
-                              "Blood pressure:", ColorResources.grey777, 12),
-                          SizedBox(
-                            width: 28,
-                            child: romanText(patientBloodP,
-                                ColorResources.grey777, 12, TextAlign.center),
+                              "Blood pressure: ", ColorResources.grey777, 12),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: SizedBox(
+                              height: 13,
+                              width: 35,
+                              child: TextField(
+                                controller: bloodPressController,
+                                decoration: InputDecoration(
+                                  hintText: patientBloodP == "null"
+                                      ? "---"
+                                      : patientBloodP,
+                                  border: UnderlineInputBorder(),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: errorP == false
+                                        ? const BorderSide(
+                                            color: ColorResources.grey777,
+                                            width: 1)
+                                        : const BorderSide(
+                                            color: Colors.red, width: 1),
+                                  ),
+                                ),
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: Container(
+                          width: 100,
+                          height: 20,
+                          // margin: EdgeInsets.all(25),
+                          child: ElevatedButton(
+                            child: Text(
+                              'Update',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            onPressed: () {
+                              validateH(hightController.text);
+                              validateP(bloodPressController.text);
+                              validateW(weightController.text);
+                              if (errorH == false &&
+                                  errorW == false &&
+                                  errorP == false) {
+                                alertDialogUpdate(context);
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -427,6 +594,49 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
               )),
         ),
       ),
+    );
+  }
+
+  alertDialogUpdate(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Cancel",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: const Text(
+        "Confirm",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        updatePatientInfo();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Update"),
+      content: const Text("Are you sure you want to update patient info ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

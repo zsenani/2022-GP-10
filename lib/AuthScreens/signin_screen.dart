@@ -29,13 +29,13 @@ class SignInScreen extends StatefulWidget {
   SignInScreen({Key key, @required this.role}) : super(key: key);
 
   static const routeName = '/signin-screen';
-
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
   String role;
+
   bool error = false;
   bool errorPassword = false;
   bool errorID = false;

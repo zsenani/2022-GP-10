@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dropdown_search/dropdown_search.dart';
+
 import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
@@ -9,10 +13,13 @@ import 'ActiveReq.dart';
 import 'previousReq.dart';
 import 'tests.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
+//import 'package:flutter_custom_selector/flutter_custom_selector.dart';
+import 'package:parent_child_checkbox/parent_child_checkbox.dart';
 
 bool loading = true;
 String visitId;
 String Page;
+bool isFirst = true;
 
 class TestRequest extends StatefulWidget {
   TestRequest({Key key, String vid, String page}) : super(key: key) {
@@ -26,70 +33,86 @@ class _TestRequestState extends State<TestRequest> {
   final LabTabBarController tabBarController = Get.put(LabTabBarController());
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        loading = true;
+      });
       Tests();
     });
   }
 
   void add() {
-    mysqlDatabase.addTest(selectedTest, int.parse(visitId));
+    if (allArrayLength > _tests.length)
+      mysqlDatabase.addTest(selectedTest, int.parse(visitId), 'yes');
+    else
+      mysqlDatabase.addTest(selectedTest, int.parse(visitId), 'no');
+
+    selectedTest.forEach((element) {
+      _tests.remove(element);
+    });
   }
 
   static final List<Widget> pages = [ActiveReq(), PreviousReq()];
 
   List<String> _tests = new List<String>();
-  var _items;
-  //= [
-  //   Tests(id: 1, name: "MPV"),
-  //   Tests(id: 2, name: "RDW"),
-  //   Tests(id: 3, name: "RBC"),
-  //   Tests(id: 4, name: "Hct"),
-  //   Tests(id: 5, name: "MCV"),
-  //   Tests(id: 6, name: "MCH"),
-  //   Tests(id: 7, name: "Hgb"),
-  //   Tests(id: 8, name: "Uric Acid"),
-  // ];
 
-  //String test;
+  var _items;
+
   List<String> selectedTest = new List<String>();
-  //String testName;
   int isFilled = 0;
+  int isFilled2 = 0;
+  int allArrayLength = 0;
+  int index = 0;
   Tests() async {
-    var results = await conn.query('select name from LabTest');
+    List<int> testIds = [];
+    var results = await conn.query(
+        'select labTestID from VisitLabTest where visitID = ?', [visitId]);
     int ArrayLength = await results.length;
 
-    String testId;
-    for (var row in results) {
-      if (isFilled != ArrayLength) {
-        String testName = '${row[0]}';
-        //testId = '${row[1]}';
-        // ArrayOfMedication2.addAll({"id": medicationId, "name": medication});
-        _tests.add(testName);
-
-        isFilled = isFilled + 1;
+    for (var row2 in results) {
+      if (isFilled2 != ArrayLength) {
+        int testNo2 = int.parse('${row2[0]}');
+        testIds.add(testNo2);
+        isFilled2 = isFilled2 + 1;
       }
-      //  print(ArrayOfMedication.toString());
     }
-    setState(() {
-      loading = false;
-    });
+    var allResults = await conn.query('select name,idlabTest from LabTest');
+    allArrayLength = await allResults.length;
+
+    if (isFilled2 == ArrayLength) {
+      bool exist = false;
+      for (var row in allResults) {
+        setState(() {
+          exist = false;
+        });
+        if (isFilled != allArrayLength) {
+          String testName = '${row[0]}';
+          int testNo1 = int.parse('${row[1]}');
+          if (ArrayLength != 0) {
+            testIds.forEach((element) {
+              if (element == testNo1)
+                setState(() {
+                  exist = true;
+                });
+            });
+          }
+          if (!exist) _tests.add(testName);
+
+          isFilled = isFilled + 1;
+        }
+      }
+
+      setState(() {
+        loading = false;
+      });
+    }
     if (loading == false)
       _items =
           _tests.map((tests) => MultiSelectItem<String>(tests, tests)).toList();
+    // for (var lab in _tests)
+    //   listItemSelected.add(ItemSelect(value: index++, label: '${lab[index]}'));
   }
 
-  // //List<Tests> _selectedTests = [];
-  // List<Tests> _selectedTests2 = [];
-  // List<Tests> _selectedTests3 = [];
-  // //List<Tests> _selectedTests4 = [];
-  // List<Tests> _selectedTests5 = [];
   final _multiSelectKey = GlobalKey<FormFieldState>();
-
-  // @override
-  // void initState() {
-  //   _selectedTests5 = _tests;
-  //   super.initState();
-  // }
-
   final old = Get.previousRoute;
 
   Widget loadingPage() {
@@ -100,6 +123,34 @@ class _TestRequestState extends State<TestRequest> {
     );
   }
 
+  // Future list() {
+  //   if (selectedTest.length != 0)
+  //     for (var index in selectedTest) {
+  //       Row(
+  //         children: [
+  //           SizedBox(width: 10),
+  //           Text('${index}'),
+  //           IconButton(
+  //               icon: Icon(Icons.close),
+  //               onPressed: () {
+  //                 setState(() {
+  //                   selectedTest.remove(index);
+  //                   // Allergy = true;
+  //                 });
+  //               })
+  //         ],
+  //       );
+  //     }
+  // }
+
+  TextEditingController controllerName = TextEditingController();
+  void _onSelectionComplete(value) {
+    selectedTest?.addAll(value);
+    print(selectedTest);
+    setState(() {});
+  }
+
+  bool selected;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,65 +213,160 @@ class _TestRequestState extends State<TestRequest> {
           ),
           loading == true
               ? loadingPage()
-              : MultiSelectBottomSheetField<String>(
-                  key: _multiSelectKey,
-                  initialChildSize: 0.7,
-                  maxChildSize: 0.95,
-                  title: Text("Lab Tests"),
-                  buttonText: Text("Choose Lab Tests"),
-                  items: _items,
-                  searchable: true,
-                  confirmText: const Text(
-                    "SAVE",
-                    style: TextStyle(
-                      color: ColorResources.green009,
-                    ),
-                  ),
-                  cancelText: const Text(
-                    "CANCEL",
-                    style: TextStyle(
-                      color: ColorResources.green009,
-                    ),
-                  ),
-                  selectedColor: Color.fromRGBO(241, 94, 34, 0.8),
-                  validator: (values) {
-                    if (values == null || values.isEmpty) {
-                      return "Required";
-                    }
-                    // List<String> names = values.map((e) => e.name).toList();
-                    // if (names.contains("Frog")) {
-                    //   return "Frogs are weird!";
-                    // }
-                    return null;
-                  },
-                  onConfirm: (values) {
+              : InkWell(
+                  onTap: () {
                     setState(() {
-                      selectedTest = values;
+                      selected = viewTest();
                     });
-                    _multiSelectKey.currentState.validate();
                   },
-                  chipDisplay: MultiSelectChipDisplay(
-                    icon: Icon(
-                      Icons.close,
-                      color: Color.fromRGBO(241, 94, 34, 0.8),
-                    ),
-                    onTap: (item) {
-                      setState(() {
-                        selectedTest.remove(item);
-                      });
-                      _multiSelectKey.currentState.validate();
-                    },
-                  ),
-                ),
-          Spacer(),
-          Row(
-            children: [
-              SizedBox(width: 6),
-              commonButton(() {
-                showAlertDialog(context);
-              }, "SEND", ColorResources.green009, ColorResources.white),
-            ],
-          ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(" Select a lab test"),
+                          Icon(Icons.arrow_downward),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 2,
+                      ),
+                    ],
+                  )),
+
+          // Card(
+          //   color: ColorResources.green009.withOpacity(0.4),
+          //   borderOnForeground: true,
+          //   shadowColor: Colors.grey,
+          //   elevation: 4,
+          //   child: ParentChildCheckbox(
+          //     parent: Text(
+          //       'Select All',
+          //       style: TextStyle(fontSize: 20),
+          //     ),
+          //     children: [
+          //       for (var lab in _tests)
+          //         Text(
+          //           lab,
+          //           style: TextStyle(fontSize: 20),
+          //         ),
+          //     ],
+          //     parentCheckboxColor: Colors.orange,
+          //     childrenCheckboxColor: Colors.red,
+          //   ),
+          // ),
+          // Spacer(),
+          // allArrayLength > _tests.length
+          //     ? commonButton(() {
+          //         selectedTest =
+          //             ParentChildCheckbox.selectedChildrens['Select All'];
+          //         log(ParentChildCheckbox.isParentSelected.toString());
+          //         log(ParentChildCheckbox.selectedChildrens.toString());
+          //         print(ParentChildCheckbox.selectedChildrens['Select All']
+          //             .toString());
+          //         print(selectedTest);
+          //         showAlertDialog(context);
+          //       }, "UPDATE", ColorResources.green009, ColorResources.white)
+          //     : commonButton(() {
+          //         selectedTest =
+          //             ParentChildCheckbox.selectedChildrens['Select All'];
+          //         log(ParentChildCheckbox.isParentSelected.toString());
+          //         log(ParentChildCheckbox.selectedChildrens.toString());
+          //         print(ParentChildCheckbox.selectedChildrens['Select All']
+          //             .toString());
+          //         print(selectedTest);
+          //         showAlertDialog(context);
+          //       }, "SEND", ColorResources.green009, ColorResources.white),
+
+          // ElevatedButton(
+          //   child: allArrayLength > _tests.length?Text('UPDATE'):Text('SEND'),
+          //   onPressed: () {
+          //     selectedTest =
+          //         ParentChildCheckbox.selectedChildrens['Select All'];
+          //     log(ParentChildCheckbox.isParentSelected.toString());
+          //     log(ParentChildCheckbox.selectedChildrens.toString());
+          //     print(ParentChildCheckbox.selectedChildrens['Select All']
+          //         .toString());
+          //     print(selectedTest);
+          //     showAlertDialog(context);
+          //   },
+          // ),
+          // MultiSelectBottomSheetField<String>(
+          //     key: _multiSelectKey,
+          //     initialChildSize: 0.7,
+          //     maxChildSize: 0.95,
+          //     title: _tests.length == 0
+          //         ? Text(
+          //             " You have requested all the lab tests",
+          //             style: TextStyle(fontSize: 20, color: Colors.red),
+          //           )
+          //         : Text("Lab Tests"),
+          //     buttonText: Text("Choose Lab Tests"),
+          //     items: _items,
+          //     searchable: true,
+          //     confirmText: const Text(
+          //       "SAVE",
+          //       style: TextStyle(
+          //         color: ColorResources.green009,
+          //       ),
+          //     ),
+          //     cancelText: const Text(
+          //       "CANCEL",
+          //       style: TextStyle(
+          //         color: ColorResources.green009,
+          //       ),
+          //     ),
+          //     selectedColor: Color.fromRGBO(241, 94, 34, 0.8),
+          //     validator: (values) {
+          //       if (values == null || values.isEmpty) {
+          //         return "Required";
+          //       }
+
+          //       return null;
+          //     },
+          //     onConfirm: (values) {
+          //       setState(() {
+          //         selectedTest = values;
+          //       });
+          //       print(_multiSelectKey.currentState.value);
+          //       if (_multiSelectKey.currentState.value != null)
+          //         _multiSelectKey.currentState.value.forEach((element) {
+          //           if (element == 'Select All')
+          //             setState(() {
+          //               _multiSelectKey.currentState.setValue(_tests);
+          //               print(_multiSelectKey.currentState.value);
+          //               _multiSelectKey.currentState.validate();
+          //             });
+          //         });
+          //     },
+          //     chipDisplay: MultiSelectChipDisplay(
+          //       icon: Icon(
+          //         Icons.close,
+          //         color: Color.fromRGBO(241, 94, 34, 0.8),
+          //       ),
+          //       onTap: (item) {
+          //         setState(() {
+          //           selectedTest.remove(item);
+          //         });
+          //         _multiSelectKey.currentState.validate();
+          //       },
+          //     ),
+          //   ),
+          // Spacer(),
+          // if (loading == false)
+          //   Row(
+          //     children: [
+          //       SizedBox(width: 6),
+          //       if (allArrayLength > _tests.length)
+          //         commonButton(() {
+          //           showAlertDialog(context);
+          //         }, "UPDATE", ColorResources.green009, ColorResources.white),
+          //       if (allArrayLength == _tests.length)
+          //         commonButton(() {
+          //           showAlertDialog(context);
+          //         }, "SEND", ColorResources.green009, ColorResources.white),
+          //     ],
+          //   ),
           SizedBox(height: 30),
         ],
       ),
@@ -232,7 +378,6 @@ class _TestRequestState extends State<TestRequest> {
       children: [
         Container(
           height: 80,
-          ////////////////////////////////
           width: 500,
           padding: EdgeInsets.only(top: 50, left: 0),
           child: heavyText("Request Lab Tests", ColorResources.green009, 30),
@@ -245,13 +390,21 @@ class _TestRequestState extends State<TestRequest> {
     String title;
     String content;
     Navigator.of(context).pop();
+    Navigator.of(context).pop();
 
     if (selectedTest.length == 0) {
       title = "Oops";
       content = "Please choose at least one test";
+    } else if (!isFirst) {
+      title = "DONE!";
+      content =
+          "The request has been updated successfully!\n\nYour Request Number is " +
+              visitId;
     } else {
       title = "DONE!";
-      content = "The request has been sent successfully";
+      content =
+          "The request has been sent successfully!\n\nYour Request Number is " +
+              visitId;
     }
     Widget OKButton = TextButton(
       child: Text(
@@ -261,7 +414,6 @@ class _TestRequestState extends State<TestRequest> {
         ),
       ),
       onPressed: () {
-        add();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
@@ -283,6 +435,76 @@ class _TestRequestState extends State<TestRequest> {
     );
   }
 
+  viewTest() {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _tests.length != 0
+                    ? ParentChildCheckbox(
+                        parent: Text(
+                          'Select All',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        children: [
+                          for (var lab in _tests)
+                            Text(
+                              lab,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                        ],
+                        parentCheckboxColor: ColorResources.green009,
+                        childrenCheckboxColor: Colors.orange,
+                      )
+                    : Text(
+                        "\nYou have requested all the lab tests",
+                        style: TextStyle(color: Colors.red, fontSize: 20),
+                      ),
+                SizedBox(
+                  height: 10,
+                ),
+                if (_tests.length != 0)
+                  allArrayLength > _tests.length
+                      ? commonButton(() {
+                          selectedTest = ParentChildCheckbox
+                              .selectedChildrens['Select All'];
+                          log(ParentChildCheckbox.isParentSelected.toString());
+                          log(ParentChildCheckbox.selectedChildrens.toString());
+                          print(ParentChildCheckbox
+                              .selectedChildrens['Select All']
+                              .toString());
+                          print(selectedTest);
+                          showAlertDialog(context);
+                        }, "UPDATE", ColorResources.green009,
+                          ColorResources.white)
+                      : commonButton(() {
+                          selectedTest = ParentChildCheckbox
+                              .selectedChildrens['Select All'];
+                          log(ParentChildCheckbox.isParentSelected.toString());
+                          log(ParentChildCheckbox.selectedChildrens.toString());
+                          print(ParentChildCheckbox
+                              .selectedChildrens['Select All']
+                              .toString());
+                          print(selectedTest);
+                          showAlertDialog(context);
+                        }, "SEND", ColorResources.green009,
+                          ColorResources.white),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -298,28 +520,61 @@ class _TestRequestState extends State<TestRequest> {
 
         // Navigator.pop(context),
         );
-    Widget continueButton = TextButton(
-      child: Text(
-        "SEND",
-        style: TextStyle(
-          fontSize: 15,
+    Widget continueButton;
+    if (allArrayLength > _tests.length) {
+      continueButton = TextButton(
+        child: Text(
+          "UPDATE",
+          style: TextStyle(
+            fontSize: 15,
+          ),
         ),
-      ),
-      onPressed: () {
-        sendReq();
-      },
-    );
+        onPressed: () {
+          add();
+          setState(() {
+            isFirst = false;
+          });
+          sendReq();
+        },
+      );
+    } else {
+      continueButton = TextButton(
+        child: Text(
+          "SEND",
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        onPressed: () {
+          add();
+          setState(() {
+            isFirst = true;
+          });
+          sendReq();
+        },
+      );
+    }
 
+    AlertDialog alert;
     // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Send Request"),
-      content: Text("Are you sure you want to send request?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
+    if (allArrayLength > _tests.length)
+      alert = AlertDialog(
+        title: Text("Update Request"),
+        content: Text("Are you sure you want to update the request?"),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
+    else
+      alert = AlertDialog(
+        title: Text("Send Request"),
+        content: Text("Are you sure you want to send request?"),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
     // show the dialog
     showDialog(
       context: context,

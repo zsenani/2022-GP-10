@@ -1,7 +1,10 @@
+import 'package:email_auth/email_auth.dart';
 import 'package:medcore/AuthScreens/change_password_screen.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
+import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
+import 'package:medcore/auth.config.dart';
 import 'package:medcore/index.dart';
 import 'package:medcore/splash_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
 
+EmailAuth emailAuth;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await mysqlDatabase.connect();
@@ -19,6 +23,8 @@ Future<void> main() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
+  emailAuth = new EmailAuth(sessionName: "MedCore App");
+  emailAuth.config(remoteServerConfiguration);
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((value) => runApp(medcore()));

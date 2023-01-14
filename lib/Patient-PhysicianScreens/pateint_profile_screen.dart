@@ -11,6 +11,7 @@ import '../database/mysqlDatabase.dart';
 import 'edit_patient_profile.dart';
 
 String Id;
+bool loading = true;
 
 class patientProfilePage extends StatefulWidget {
   patientProfilePage({Key key, String id}) : super(key: key) {
@@ -39,19 +40,31 @@ class _patientProfilePage extends State<patientProfilePage> {
   }
 
   void getPatientProfileData() async {
-    var user = await conn.query(
-        'select name,NationalID,DOB,email,gender,mobileNo from Patient where NationalID=?',
-        [int.parse(Id)]);
-    for (var row in user) {
+    var name = await conn
+        .query('select name from Patient where NationalID=?', [int.parse(Id)]);
+    for (var row in name) {
       setState(() {
         Pname = '${row[0]}';
-        PnationalID = '${row[1]}';
-        PDOB = '${row[2]}'.split(' ')[0];
-        Pemail = '${row[3]}';
-        Pgender = '${row[4]}';
-        PmobileNo = '${row[5]}';
       });
     }
+    var email = await conn
+        .query('select email from Patient where NationalID=?', [int.parse(Id)]);
+    for (var row in email) {
+      setState(() {
+        Pemail = '${row[0]}';
+      });
+    }
+    var phone = await conn.query(
+        'select mobileNo from Patient where NationalID=?', [int.parse(Id)]);
+    for (var row in phone) {
+      setState(() {
+        PmobileNo = '${row[0]}';
+      });
+    }
+
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -68,6 +81,14 @@ class _patientProfilePage extends State<patientProfilePage> {
           //ColumnListTileWidget
           ColumnListTileWidget(),
         ],
+      ),
+    );
+  }
+
+  Widget loadingPage() {
+    return Center(
+      child: const CircularProgressIndicator(
+        color: ColorResources.grey777,
       ),
     );
   }
@@ -106,12 +127,17 @@ class _patientProfilePage extends State<patientProfilePage> {
                 title: heavyText("Name: " + Pname,
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
-                  onTap: () {
-                    //////////////////////////////
-                    getPatientProfileData();
-                    Get.to(EditPatientProfile(
-                      id: Id,
-                    ));
+                  onTap: () async {
+                    loading = true;
+                    String refresh = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditPatientProfile(
+                                  id: Id,
+                                )));
+                    if (refresh == 'refresh') {
+                      getPatientProfileData();
+                    }
                   },
                   child: Image.asset('assets/images/edit.png',
                       height: 25, width: 25),
@@ -131,113 +157,116 @@ class _patientProfilePage extends State<patientProfilePage> {
         child: ScrollConfiguration(
           behavior: MyBehavior(),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/employee.png',
-                      height: 30, width: 30),
-                  title: romanText("ID:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+            child: loading
+                ? loadingPage()
+                : Column(
                     children: [
-                      romanText(PnationalID, ColorResources.grey777, 20),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/employee.png',
+                            height: 30, width: 30),
+                        title: romanText("ID:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(PnationalID, ColorResources.grey777, 20),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/DOB.png',
+                            height: 30, width: 30),
+                        title: romanText(
+                            "Date of birth: ", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(PDOB, ColorResources.grey777, 20),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/email.png',
+                            height: 30, width: 30),
+                        title: romanText("E-mail:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(Pemail, ColorResources.grey777, 16),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.phone,
+                            color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
+                        title: romanText(
+                            "Phone Number: ", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(
+                                '0' + PmobileNo, ColorResources.grey777, 16),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/gender.png',
+                            height: 30, width: 30),
+                        title: romanText("Gender:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(Pgender, ColorResources.grey777, 20),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      TextButton(
+                        child: const Text(
+                          'Reset Password',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        onPressed: () async {
+                          Get.to(ResetPasswordScreen(id: Id, role: "patient"));
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      InkWell(
+                        child: Container(
+                          height: 55,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: const Color.fromARGB(255, 242, 29, 29),
+                                width: 1),
+                            color: const Color.fromARGB(255, 242, 29, 29),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              romanText("Logout", ColorResources.white, 16),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          showAlertDialog2(context);
+                        },
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/DOB.png',
-                      height: 30, width: 30),
-                  title:
-                      romanText("Date of birth: ", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(PDOB, ColorResources.grey777, 20),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/email.png',
-                      height: 30, width: 30),
-                  title: romanText("E-mail:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(Pemail, ColorResources.grey777, 16),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/gender.png',
-                      height: 30, width: 30),
-                  title: romanText("Gender:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(Pgender, ColorResources.grey777, 20),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.phone,
-                      color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
-                  title:
-                      romanText("Phone Number: ", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText('0' + PmobileNo, ColorResources.grey777, 16),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextButton(
-                  child: const Text(
-                    'Reset Password',
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onPressed: () async {
-                    Get.to(ResetPasswordScreen(id: Id, role: "patient"));
-                  },
-                ),
-                const SizedBox(height: 10),
-                InkWell(
-                  child: Container(
-                    height: 55,
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 242, 29, 29),
-                          width: 1),
-                      color: const Color.fromARGB(255, 242, 29, 29),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        romanText("Logout", ColorResources.white, 16),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    showAlertDialog2(context);
-                  },
-                ),
-              ],
-            ),
           ),
         ),
       ),

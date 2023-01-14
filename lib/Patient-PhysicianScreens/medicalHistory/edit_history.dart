@@ -47,16 +47,12 @@ class _EditHistory extends State<EditHistory> {
   List<String> _surgery1 = surgicalHistory.split(',');
   List<String> _Medical1 = medicalIllnesses.split(',');
 
-  List<String> Allergy;
-  List<String> social;
-  List<String> family;
-  List<String> surgery;
-  List<String> Medical;
+  bool Allergy = false;
+  bool social = false;
+  bool family = false;
+  bool surgery = false;
+  bool Medical = false;
 
-  // String _social1 = socialHistory;
-  // String _family1 = familyHistory;
-  // String _surgery1 = surgicalHistory;
-  // String _Medical1 = medicalIllnesses;
   final TextEditingController SocialController = TextEditingController();
   final TextEditingController AllergyController = TextEditingController();
   final TextEditingController FamilyController = TextEditingController();
@@ -64,40 +60,51 @@ class _EditHistory extends State<EditHistory> {
   final TextEditingController MedicalController = TextEditingController();
 
   void edit() {
-    if (AllergyController.text != "") {
+    if (AllergyController.text != "" && AllergyController.text != " ") {
       _Allergy1.add(AllergyController.text);
       mysqlDatabase.deleteHistory("allergies", _Allergy1, int.parse(Pid));
     }
-    if (FamilyController.text != "") {
+    if (FamilyController.text != "" && FamilyController.text != " ") {
       _family1.add(FamilyController.text);
       mysqlDatabase.deleteHistory("familyHistory", _family1, int.parse(Pid));
     }
-    if (SocialController.text != "") {
+    if (SocialController.text != "" && SocialController.text != " ") {
       _social1.add(SocialController.text);
       mysqlDatabase.deleteHistory("socialHistory", _social1, int.parse(Pid));
     }
-    if (MedicalController.text != "") {
+    if (MedicalController.text != "" && MedicalController.text != " ") {
       _Medical1.add(MedicalController.text);
       mysqlDatabase.deleteHistory(
           "medicalIllnesses", _Medical1, int.parse(Pid));
     }
-    if (SurgicalController.text != "") {
+    if (SurgicalController.text != "" && SurgicalController.text != " ") {
       _surgery1.add(SurgicalController.text);
       mysqlDatabase.deleteHistory("surgicalHistory", _surgery1, int.parse(Pid));
     }
   }
 
   void delete() {
-    if (Allergy != null)
-      mysqlDatabase.deleteHistory("allergies", Allergy, int.parse(Pid));
-    if (social != null)
-      mysqlDatabase.deleteHistory("socialHistory", social, int.parse(Pid));
-    if (family != null)
-      mysqlDatabase.deleteHistory("familyHistory", family, int.parse(Pid));
-    if (surgery != null)
-      mysqlDatabase.deleteHistory("surgicalHistory", surgery, int.parse(Pid));
-    if (Medical != null)
-      mysqlDatabase.deleteHistory("medicalIllnesses", Medical, int.parse(Pid));
+    if (Allergy) {
+      mysqlDatabase.deleteHistory("allergies", _Allergy1, int.parse(Pid));
+      Allergy = false;
+    }
+    if (social) {
+      mysqlDatabase.deleteHistory("socialHistory", _social1, int.parse(Pid));
+      social = false;
+    }
+    if (family) {
+      mysqlDatabase.deleteHistory("familyHistory", _family1, int.parse(Pid));
+      family = false;
+    }
+    if (surgery) {
+      mysqlDatabase.deleteHistory("surgicalHistory", _surgery1, int.parse(Pid));
+      surgery = false;
+    }
+    if (Medical) {
+      mysqlDatabase.deleteHistory(
+          "medicalIllnesses", _Medical1, int.parse(Pid));
+      Medical = false;
+    }
   }
 
   void getData() async {
@@ -203,130 +210,128 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Column(
+            //       children: [
             Padding(
-              padding: const EdgeInsets.only(top: 0),
-              child: Row(
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child:
-                            mediumText("Allergies", ColorResources.orange, 18),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        height: 40,
-                        width: 100,
-                        child: txtfield(AllergyController),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        //  height: ,
-                        width: 190,
-                        child: Column(
-                          children: [
-                            for (var index in _Allergy1) ...[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(width: 20),
-                                  if (index != "") Text('${index}'),
-                                  if (index != "")
-                                    IconButton(
-                                        icon: Icon(Icons.close),
-                                        onPressed: () {
-                                          setState(() {
-                                            _Allergy1.remove(index);
-                                            Allergy = _Allergy1;
-                                          });
-                                        })
-                                ],
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 6, left: 10),
+                    child: mediumText("Allergies", ColorResources.orange, 18),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child: mediumText(
-                            "Social History", ColorResources.orange, 18),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        height: 40,
-                        width: 100,
-                        child: txtfield(SocialController),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        //height: 40,
-                        width: 140,
-                        child: Column(
-                          children: [
-                            for (var index in _social1) ...[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (index != "") Text('${index}'),
-                                  if (index != "")
-                                    IconButton(
-                                        icon: Icon(Icons.close),
-                                        onPressed: () {
-                                          setState(() {
-                                            _social1.remove(index);
-                                            social = _social1;
-                                          });
-                                        })
-                                ],
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                    ],
+                  SizedBox(height: 10),
+                  Container(
+                    height: 40,
+                    //width: 200,
+                    child: txtfield(AllergyController),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Column(
+                      children: [
+                        for (var index in _Allergy1) ...[
+                          if (index != null && index != ' ')
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                if (index != "") Text('${index}'),
+                                if (index != "")
+                                  IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          _Allergy1.remove(index);
+                                          Allergy = true;
+                                        });
+                                      })
+                              ],
+                            ),
+                        ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: mediumText(
-                          "Family History", ColorResources.orange, 18),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 40,
-                      width: 100,
-                      child: txtfield(FamilyController),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      //height: 40,
-                      width: 190,
-                      child: Column(
-                        children: [
-                          for (var index in _family1) ...[
+            SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 6, left: 10),
+                    child:
+                        mediumText("Social History", ColorResources.orange, 18),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 40,
+                    child: txtfield(SocialController),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Column(
+                      children: [
+                        for (var index in _social1) ...[
+                          if (index != null && index != ' ')
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 50),
+                                SizedBox(width: 10),
+                                if (index != "") Text('${index}'),
+                                if (index != "")
+                                  IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          _social1.remove(index);
+                                          social = true;
+                                        });
+                                      })
+                              ],
+                            ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //   ],
+            // ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 6, left: 10),
+                    child:
+                        mediumText("Family History", ColorResources.orange, 18),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 40,
+                    child: txtfield(FamilyController),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Column(
+                      children: [
+                        for (var index in _family1) ...[
+                          if (index != null && index != ' ')
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
                                 if (index != "")
                                   Text('${index}'
                                       // _family1,
@@ -337,44 +342,44 @@ class _EditHistory extends State<EditHistory> {
                                       onPressed: () {
                                         setState(() {
                                           _family1.remove(index);
-                                          family = _family1;
+                                          family = true;
                                         });
                                       })
                               ],
                             ),
-                          ],
                         ],
-                      ),
+                      ],
                     ),
-                    SizedBox(height: 10),
-                  ],
-                ),
-                SizedBox(width: 25),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: mediumText(
-                          "Surgical History", ColorResources.orange, 18),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 40,
-                      width: 100,
-                      child: txtfield(SurgicalController),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      //  height: 40,
-                      width: 160,
-                      child: Column(
-                        children: [
-                          for (var index in _surgery1) ...[
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 6, left: 10),
+                    child: mediumText(
+                        "Surgical History", ColorResources.orange, 18),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 40,
+                    child: txtfield(SurgicalController),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Column(
+                      children: [
+                        for (var index in _surgery1) ...[
+                          if (index != null && index != ' ')
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 20),
+                                SizedBox(width: 10),
                                 if (index != "") Text('${index}'),
                                 if (index != "")
                                   IconButton(
@@ -382,60 +387,55 @@ class _EditHistory extends State<EditHistory> {
                                       onPressed: () {
                                         setState(() {
                                           _surgery1.remove(index);
-                                          surgery = _surgery1;
+                                          surgery = true;
                                         });
                                       })
                               ],
                             ),
-                          ],
                         ],
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(right: 210),
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6),
+                    padding: EdgeInsets.only(top: 6, left: 10),
                     child: mediumText(
                         "Medical Illnesses", ColorResources.orange, 18),
                   ),
                   SizedBox(height: 10),
                   Container(
                     height: 40,
-                    width: 100,
                     child: txtfield(MedicalController),
                   ),
                   SizedBox(height: 10),
                   Container(
-                    //height: 40,
-                    width: 150,
                     child: Column(
                       children: [
                         for (var index in _Medical1) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(width: 20),
-                              if (index != "") Text('${index}'),
-                              if (index != "")
-                                IconButton(
-                                    icon: Icon(Icons.close),
-                                    onPressed: () {
-                                      setState(() {
-                                        _Medical1.remove(index);
-                                        Medical = _Medical1;
-                                      });
-                                    })
-                            ],
-                          ),
+                          if (index != null && index != ' ')
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                if (index != "") Text('${index}'),
+                                if (index != "")
+                                  IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          _Medical1.remove(index);
+                                          Medical = true;
+                                        });
+                                      })
+                              ],
+                            ),
                         ],
                       ],
                     ),
@@ -467,16 +467,22 @@ class _EditHistory extends State<EditHistory> {
 
   Widget txtfield(_controller) {
     return TextField(
-        style: TextStyle(
-          backgroundColor: ColorResources.white,
-        ),
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
-          ),
-        ),
-        controller: _controller,
-        keyboardType: TextInputType.text);
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+      ),
+      controller: _controller,
+    );
+    // TextField(
+    //     showCursor: true,
+    //     style: TextStyle(
+    //         backgroundColor: ColorResources.white, fontSize: 14,),
+    //     decoration: InputDecoration(
+    //       border: OutlineInputBorder(
+    //         borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
+    //       ),
+    //     ),
+    //     controller: _controller,
+    //     keyboardType: TextInputType.text);
   }
 
   showAlertDialog(BuildContext context) {
@@ -506,11 +512,7 @@ class _EditHistory extends State<EditHistory> {
             MedicalController != "" ||
             SurgicalController != "") edit();
 
-        if (Allergy != null ||
-            social != null ||
-            family != null ||
-            Medical != null ||
-            surgery != null) delete();
+        if (Allergy || social || family || Medical || surgery) delete();
         Navigator.of(context).pop();
 
         Navigator.pop(context, 'refresh');

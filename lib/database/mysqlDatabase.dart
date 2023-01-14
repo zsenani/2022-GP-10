@@ -85,18 +85,16 @@ class mysqlDatabase {
       print(e.toString());
       print("");
     }
-    var f = 0;
+    print("before phospitals ");
     var result2;
     phospitals.forEach((element) async {
-      if (f < phospitals.length) {
-        print(element);
-        result2 = await conn.query(
-            'insert into HospitalPhysician (idHospital, idPhysician) values (?,?)',
-            [element, pnationalId]);
-        f = f + 1;
-      }
+      print("inside phospitals ");
+      print(element);
+      result2 = await conn.query(
+          'insert into HospitalPhysician (idHospital, idPhysician) values (?,?)',
+          [element, pnationalId]);
     });
-
+    print("after phospitals ");
     try {
       if (result2.isSuccess) {
         print("Data Inserted");
@@ -199,7 +197,7 @@ class mysqlDatabase {
         [dosage, des, start, end, medId, vid]);
   }
 
-  static addTest(List<String> name, vid) async {
+  static addTest(List<String> name, vid, String update) async {
     var testId;
     name.forEach((element) async {
       testId = await conn
@@ -208,8 +206,8 @@ class mysqlDatabase {
         testId = "${row[0]}";
       }
       var add = await conn.query(
-          'insert into VisitLabTest(visitID, labTestID, status) values (?, ?, ?)',
-          [vid, testId, "active"]);
+          'insert into VisitLabTest(visitID, labTestID, status,isUpdated) values (?, ?, ?,?)',
+          [vid, testId, "active", update]);
     });
   }
 
@@ -227,12 +225,14 @@ class mysqlDatabase {
   }
 
   static deleteHistory(type, List<String> row, pid) async {
-    var data = '';
+    var data = row.first + ",";
     row.forEach((element) {
-      if (row.last == element)
-        data += element;
-      else
-        data += element + ',';
+      if (row.first != element) {
+        if (row.last == element)
+          data += element;
+        else
+          data += element + ',';
+      }
     });
     print(data);
     var edit = await conn.query(
@@ -408,7 +408,10 @@ class mysqlDatabase {
     for (int g = 0; g < phyVisit.length; g++) {
       var dateP = info[g][1] + "00:00:00";
       DateTime dt1 = DateTime.parse(dateP);
-      if (dt1.isBefore(DateTime.now())) {
+      if (dt1.compareTo(DateTime.now()) < 0 &&
+          dt1.year != DateTime.now().year &&
+          dt1.month != DateTime.now().month &&
+          dt1.day != DateTime.now().day) {
         List<String> oneRow = [];
         oneRow.add(info[g][0]);
         oneRow.add(info[g][1]);

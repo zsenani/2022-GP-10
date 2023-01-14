@@ -1,16 +1,18 @@
 import 'package:email_auth/email_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
+import 'package:medcore/auth.config.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
 import '../Utiils/text_font_family.dart';
+import '../main.dart';
 import 'signup_screen.dart';
 
-EmailAuth emailAuth = new EmailAuth(sessionName: "MedCore App");
 String emailController;
 String role;
 CountdownController controller = new CountdownController(autoStart: true);
@@ -173,7 +175,7 @@ class _otpMailState extends State<otpMail> {
 }
 
 void sendOtp(email) async {
-  bool result = await emailAuth.sendOtp(recipientMail: email, otpLength: 4);
+  bool result = await emailAuth.sendOtp(recipientMail: email, otpLength: 6);
   if (result) {
     print("OTP sent");
   }

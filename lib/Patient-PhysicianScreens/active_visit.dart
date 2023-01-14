@@ -12,6 +12,8 @@ import '../Utiils/images.dart';
 List<List<String>> activeVisit = [];
 bool _loading = true;
 String physicianId;
+List<List<String>> todayVisits = [];
+List<List<String>> upcommingVisits = [];
 
 class ActiveVisit extends StatefulWidget {
   ActiveVisit({Key key, String id}) : super(key: key) {
@@ -29,31 +31,52 @@ class _ActiveVisitState extends State<ActiveVisit> {
   }
 
   Future activeVisitP(idVisit) async {
+    todayVisits.clear();
     activeVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Up");
     print("in visit");
-    print(activeVisit.length);
+    print(activeVisit);
     // print(activeVisit[0][0]);
     for (int i = 0; i < activeVisit.length; i++) {
-      activeVisit.sort((a, b) {
+      activeVisit.sort((b, a) {
         var adate = a[i][0];
         var bdate = b[i][0];
         return -adate.compareTo(bdate);
       });
     }
+
+    for (int i = 0; i < activeVisit.length; i++) {
+      print("loop today list");
+      print(i);
+      var visitDate = activeVisit[i][1] + "00:00:00";
+      var dateVisit = DateTime.parse(visitDate);
+      if (dateVisit.year == DateTime.now().year &&
+          dateVisit.month == DateTime.now().month &&
+          dateVisit.day == DateTime.now().day) {
+        print(activeVisit[i]);
+        todayVisits.add(activeVisit[i]);
+      } else {
+        upcommingVisits.add(activeVisit[i]);
+      }
+    }
+    print("today visits:");
+    print(todayVisits.length);
+    print(todayVisits);
+
     setState(() {
       _loading = false;
     });
   }
 
-  // ActiveReq({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
         child: _loading == true
             ? loadingPage()
-            : activeVisit.isEmpty
+            : activeVisit.isEmpty && todayVisits.isEmpty
                 ? emptyVis()
-                : fullVis());
+                : todayVisits.isNotEmpty
+                    ? fullVis()
+                    : upcommingV());
   }
 
   Widget loadingPage() {
@@ -64,11 +87,14 @@ class _ActiveVisitState extends State<ActiveVisit> {
     );
   }
 
-  Widget fullVis() {
+  Widget upcommingV() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //upcomming visit
+          SizedBox(height: 5),
+          mediumText("      Upcomming Visits ", ColorResources.grey777, 15),
           SizedBox(height: 10),
           ScrollConfiguration(
             behavior: MyBehavior(),
@@ -76,23 +102,121 @@ class _ActiveVisitState extends State<ActiveVisit> {
               padding: EdgeInsets.zero,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: activeVisit.length,
+              itemCount: upcommingVisits.length,
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: InkWell(
+                  // onTap: () {
+                  //   Get.to(UpCommingVisitScreen(
+                  //     patientID: upcommingVisits[index][9],
+                  //     hospitalN: upcommingVisits[index][2],
+                  //     visitD: upcommingVisits[index][1],
+                  //     visitT: upcommingVisits[index][10],
+                  //     patientAge: upcommingVisits[index][5],
+                  //     patientB: upcommingVisits[index][8],
+                  //     patientG: upcommingVisits[index][4],
+                  //     patientH: upcommingVisits[index][6],
+                  //     patientN: upcommingVisits[index][3],
+                  //     patientW: upcommingVisits[index][7],
+                  //     vid: upcommingVisits[index][0],
+                  //   ));
+                  // },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorResources.white,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        text: upcommingVisits[index][2],
+                                        style: TextStyle(
+                                          fontFamily: TextFontFamily
+                                              .AVENIR_LT_PRO_ROMAN,
+                                          fontSize: 14,
+                                          color: ColorResources.green009,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 53),
+                                    romanText(upcommingVisits[index][1],
+                                        ColorResources.grey777, 14),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                mediumText(
+                                    "Patient: " + upcommingVisits[index][3],
+                                    ColorResources.grey777,
+                                    18),
+                                SizedBox(height: 5),
+                                romanText(
+                                    "Visit ID: " + upcommingVisits[index][0],
+                                    ColorResources.grey777,
+                                    12),
+                              ],
+                            ),
+                          ),
+                          // Image.asset(
+                          //   'assets/images/right-arrow.png',
+                          //   height: 30,
+                          //   width: 30,
+                          //   alignment: Alignment.centerRight,
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget fullVis() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //today visit
+          SizedBox(height: 15),
+          mediumText("      Today Visits ", ColorResources.grey777, 15),
+          SizedBox(height: 10),
+          ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: todayVisits.length,
               itemBuilder: (context, index) => Padding(
                 padding: EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   onTap: () {
                     Get.to(UpCommingVisitScreen(
-                      patientID: activeVisit[index][9],
-                      hospitalN: activeVisit[index][2],
-                      visitD: activeVisit[index][1],
-                      visitT: activeVisit[index][10],
-                      patientAge: activeVisit[index][5],
-                      patientB: activeVisit[index][8],
-                      patientG: activeVisit[index][4],
-                      patientH: activeVisit[index][6],
-                      patientN: activeVisit[index][3],
-                      patientW: activeVisit[index][7],
-                      vid: activeVisit[index][0],
+                      patientID: todayVisits[index][9],
+                      hospitalN: todayVisits[index][2],
+                      visitD: todayVisits[index][1],
+                      visitT: todayVisits[index][10],
+                      patientAge: todayVisits[index][5],
+                      patientB: todayVisits[index][8],
+                      patientG: todayVisits[index][4],
+                      patientH: todayVisits[index][6],
+                      patientN: todayVisits[index][3],
+                      patientW: todayVisits[index][7],
+                      vid: todayVisits[index][0],
                     ));
                   },
                   child: Container(
@@ -113,7 +237,7 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                   children: [
                                     RichText(
                                       text: TextSpan(
-                                        text: activeVisit[index][2],
+                                        text: todayVisits[index][2],
                                         style: TextStyle(
                                           fontFamily: TextFontFamily
                                               .AVENIR_LT_PRO_ROMAN,
@@ -122,16 +246,16 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 55),
-                                    romanText(activeVisit[index][1],
+                                    const SizedBox(width: 50),
+                                    romanText(todayVisits[index][1],
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
                                 SizedBox(height: 5),
-                                mediumText("Patient: " + activeVisit[index][3],
+                                mediumText("Patient: " + todayVisits[index][3],
                                     ColorResources.grey777, 18),
                                 SizedBox(height: 5),
-                                romanText("Visit ID: " + activeVisit[index][0],
+                                romanText("Visit ID: " + todayVisits[index][0],
                                     ColorResources.grey777, 12),
                               ],
                             ),
@@ -142,6 +266,94 @@ class _ActiveVisitState extends State<ActiveVisit> {
                             width: 30,
                             alignment: Alignment.centerRight,
                           ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          //upcomming visit
+          SizedBox(height: 5),
+          mediumText("      Upcomming Visits ", ColorResources.grey777, 15),
+          SizedBox(height: 10),
+          ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: upcommingVisits.length,
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: InkWell(
+                  // onTap: () {
+                  //   Get.to(UpCommingVisitScreen(
+                  //     patientID: upcommingVisits[index][9],
+                  //     hospitalN: upcommingVisits[index][2],
+                  //     visitD: upcommingVisits[index][1],
+                  //     visitT: upcommingVisits[index][10],
+                  //     patientAge: upcommingVisits[index][5],
+                  //     patientB: upcommingVisits[index][8],
+                  //     patientG: upcommingVisits[index][4],
+                  //     patientH: upcommingVisits[index][6],
+                  //     patientN: upcommingVisits[index][3],
+                  //     patientW: upcommingVisits[index][7],
+                  //     vid: upcommingVisits[index][0],
+                  //   ));
+                  // },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorResources.white,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        text: upcommingVisits[index][2],
+                                        style: TextStyle(
+                                          fontFamily: TextFontFamily
+                                              .AVENIR_LT_PRO_ROMAN,
+                                          fontSize: 14,
+                                          color: ColorResources.green009,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 53),
+                                    romanText(upcommingVisits[index][1],
+                                        ColorResources.grey777, 14),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                mediumText(
+                                    "Patient: " + upcommingVisits[index][3],
+                                    ColorResources.grey777,
+                                    18),
+                                SizedBox(height: 5),
+                                romanText(
+                                    "Visit ID: " + upcommingVisits[index][0],
+                                    ColorResources.grey777,
+                                    12),
+                              ],
+                            ),
+                          ),
+                          // Image.asset(
+                          //   'assets/images/right-arrow.png',
+                          //   height: 30,
+                          //   width: 30,
+                          //   alignment: Alignment.centerRight,
+                          // ),
                         ],
                       ),
                     ),

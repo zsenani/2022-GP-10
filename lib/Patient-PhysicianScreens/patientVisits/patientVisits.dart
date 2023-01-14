@@ -1,3 +1,5 @@
+import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
+
 import '../../AuthScreens/signin_screen.dart';
 import '../../Controller/patient_visit_tab_controller.dart';
 import '../../Controller/tab_controller.dart';
@@ -54,7 +56,8 @@ class PatientVisit extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 10, top: 1),
                   child: InkWell(
                     onTap: () {
-                      Get.to(SignInScreen());
+                      // Get.to(SignInScreen());
+                      showAlertDialog2(context);
                     },
                     child: Container(
                       height: 40,

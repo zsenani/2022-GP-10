@@ -26,12 +26,12 @@ import 'package:medcore/database/mysqlDatabase.dart';
 String Id;
 bool _loading = true;
 String Page;
-String PHname = "a";
-String PHnationalID = "bb";
-String PHgender = "bb";
-String PHmobileNo = "bb";
-String PHDOB = "b";
-String PHemail = "bb";
+String PHname = "";
+String PHnationalID = "";
+String PHgender = "";
+String PHmobileNo = "";
+String PHDOB = "";
+String PHemail = "";
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, String id, String page}) : super(key: key) {
@@ -224,11 +224,11 @@ class _labHomePageState extends State<labHomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 40, top: 60),
+                      padding: const EdgeInsets.only(left: 10, top: 90),
                       child: InkWell(
                         onTap: () {
-                          Get.to(SignInScreen());
-                          //  showAlertDialogP(context);
+                          // Get.to(SignInScreen());
+                          showAlertDialogP(context);
                         },
                         child: Container(
                           height: 40,
@@ -393,7 +393,7 @@ showAlertDialogP(BuildContext context) {
     ),
     onPressed: () {
       Get.to(SignInScreen(
-        role: "Physician",
+        role: "hospital",
       ));
     },
   );

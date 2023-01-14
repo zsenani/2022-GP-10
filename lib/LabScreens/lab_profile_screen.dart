@@ -40,20 +40,32 @@ class _LabProfilePageState extends State<LabProfilePage> {
     getLabProfileData();
   }
 
-  void getLabProfileData() async {
+  Future getLabProfileData() async {
     var user = await conn.query(
-        'select name,nationalID,DOB,email,gender,mobileNo from LabSpecialist where nationalID=?',
-        [int.parse(ID)]);
+        'select name from LabSpecialist where nationalID=?', [int.parse(ID)]);
     for (var row in user) {
       setState(() {
         lname = '${row[0]}';
-        lnationalId = '${row[1]}';
-        lDOB = '${row[2]}'.split(' ')[0];
-        lemail = '${row[3]}';
-        lgender = '${row[4]}';
-        lmobileNo = '${row[5]}';
       });
     }
+    var user2 = await conn.query(
+        'select email from LabSpecialist where nationalID=?', [int.parse(ID)]);
+    for (var row in user2) {
+      setState(() {
+        lemail = '${row[0]}';
+      });
+    }
+    var user3 = await conn.query(
+        'select mobileNo from LabSpecialist where nationalID=?',
+        [int.parse(ID)]);
+    for (var row in user3) {
+      setState(() {
+        lmobileNo = '${row[0]}';
+      });
+    }
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -70,6 +82,14 @@ class _LabProfilePageState extends State<LabProfilePage> {
           //ColumnListTileWidget
           ColumnListTileWidget(),
         ],
+      ),
+    );
+  }
+
+  Widget loadingPage() {
+    return Center(
+      child: const CircularProgressIndicator(
+        color: ColorResources.grey777,
       ),
     );
   }
@@ -108,10 +128,17 @@ class _LabProfilePageState extends State<LabProfilePage> {
                 title: heavyText("Name: " + lname,
                     const Color.fromRGBO(19, 156, 140, 1), 24),
                 trailing: InkWell(
-                    onTap: () {
-                      Get.to(EditProfileScreen(
-                        id: Id,
-                      ));
+                    onTap: () async {
+                      loading = true;
+                      String refresh = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfileScreen(
+                                    id: Id,
+                                  )));
+                      if (refresh == 'refresh') {
+                        getLabProfileData();
+                      }
                     },
                     child: Image.asset('assets/images/edit.png',
                         height: 25, width: 25)),
@@ -130,126 +157,131 @@ class _LabProfilePageState extends State<LabProfilePage> {
         child: ScrollConfiguration(
           behavior: MyBehavior(),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/employee.png',
-                      height: 30, width: 30),
-                  title: romanText("ID:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+            child: loading
+                ? loadingPage()
+                : Column(
                     children: [
-                      romanText(lnationalId, ColorResources.grey777, 20),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/employee.png',
+                            height: 30, width: 30),
+                        title: romanText("ID:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(lnationalId, ColorResources.grey777, 20),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/DOB.png',
+                            height: 30, width: 30),
+                        title: romanText(
+                            "Date of birth: ", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(lDOB, ColorResources.grey777, 20),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.phone,
+                            color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
+                        title: romanText(
+                            "Phone Number: ", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(
+                                '0' + lmobileNo, ColorResources.grey777, 16),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/email.png',
+                            height: 30, width: 30),
+                        title: romanText("E-mail:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(lemail, ColorResources.grey777, 16),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/gender.png',
+                            height: 30, width: 30),
+                        title: romanText("Gender:", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(lgender, ColorResources.grey777, 20),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Image.asset('assets/images/location-pin.png',
+                            height: 30, width: 30),
+                        title:
+                            romanText("Hospital: ", ColorResources.grey777, 20),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            romanText(labH, ColorResources.grey777, 14),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        child: const Text(
+                          'Reset Password',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        onPressed: () {
+                          Get.to(ResetPasswordScreen(
+                              id: Id, role: "Lab specialist"));
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      InkWell(
+                        child: Container(
+                          height: 55,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: const Color.fromARGB(255, 242, 29, 29),
+                                width: 1),
+                            color: const Color.fromARGB(255, 242, 29, 29),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              romanText("Logout", ColorResources.white, 16),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          showAlertDialog2(context);
+                        },
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/DOB.png',
-                      height: 30, width: 30),
-                  title:
-                      romanText("Date of birth: ", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(lDOB, ColorResources.grey777, 20),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/email.png',
-                      height: 30, width: 30),
-                  title: romanText("E-mail:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(lemail, ColorResources.grey777, 16),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/gender.png',
-                      height: 30, width: 30),
-                  title: romanText("Gender:", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(lgender, ColorResources.grey777, 20),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.phone,
-                      color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
-                  title:
-                      romanText("Phone Number: ", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText('0' + lmobileNo, ColorResources.grey777, 16),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Image.asset('assets/images/location-pin.png',
-                      height: 30, width: 30),
-                  title: romanText("Hospital: ", ColorResources.grey777, 20),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      romanText(hname, ColorResources.grey777, 14),
-                      const SizedBox(width: 10),
-                    ],
-                  ),
-                ),
-                TextButton(
-                  child: const Text(
-                    'Reset Password',
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onPressed: () {
-                    Get.to(ResetPasswordScreen(id: Id, role: "Lab specialist"));
-                  },
-                ),
-                const SizedBox(height: 10),
-                InkWell(
-                  child: Container(
-                    height: 55,
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 242, 29, 29),
-                          width: 1),
-                      color: const Color.fromARGB(255, 242, 29, 29),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        romanText("Logout", ColorResources.white, 16),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    showAlertDialog2(context);
-                  },
-                ),
-              ],
-            ),
           ),
         ),
       ),

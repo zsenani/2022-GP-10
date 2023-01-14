@@ -422,6 +422,7 @@ class _currentMedicationState extends State<currentMedication> {
           //////////////////////
           child: AddMedication(
             vid: visitId,
+            pid: idp,
           ),
           behavior: HitTestBehavior.opaque,
         );
