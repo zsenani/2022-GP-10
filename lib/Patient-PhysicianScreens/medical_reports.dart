@@ -40,8 +40,8 @@ class MedicalReportsState extends State<MedicalReports> {
   }
 
   getMedicalRepot() async {
-    results =
-        await conn.query('select * from Visit where idPatient=?', [idpatient]);
+    results = await conn.query(
+        'select * from Visit where idPatient=? ORDER BY date ASC', [idpatient]);
     print(results);
     arraylength = results.length;
     setlength = results.length;
@@ -132,55 +132,56 @@ class MedicalReportsState extends State<MedicalReports> {
                     SizedBox(
                       height: 60,
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            //Get.to(HomeScreen());
-                            toDayList.clear();
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: ColorResources.whiteF6F,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: ColorResources.white.withOpacity(0.2),
-                                width: 1,
-                              ),
-                            ),
-                            child: Center(
-                              child: Icon(Icons.arrow_back,
-                                  color: ColorResources.grey777),
-                            ),
-                          ),
-                        ),
-                        HeaderWidget(),
-                        if (role != "patient")
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 0, left: 20),
-                              child: Container(
-                                height: 60,
-                                width: 60,
-                                child: Center(
-                                  child: Icon(Icons.home_outlined,
-                                      color: ColorResources.grey777),
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
+                    HeaderWidget(),
+                    // Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       width: 20,
+                    //     ),
+                    //     InkWell(
+                    //       onTap: () {
+                    //         //Get.to(HomeScreen());
+                    //         toDayList.clear();
+                    //         Navigator.of(context).pop();
+                    //       },
+                    //       child: Container(
+                    //         height: 40,
+                    //         width: 20,
+                    //         decoration: BoxDecoration(
+                    //           color: ColorResources.whiteF6F,
+                    //           borderRadius: BorderRadius.circular(10),
+                    //           border: Border.all(
+                    //             color: ColorResources.white.withOpacity(0.2),
+                    //             width: 1,
+                    //           ),
+                    //         ),
+                    //         child: Center(
+                    //           child: Icon(Icons.arrow_back,
+                    //               color: ColorResources.grey777),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     HeaderWidget(),
+                    //     if (role != "patient")
+                    //       InkWell(
+                    //         onTap: () {
+                    //           Navigator.of(context).pop();
+                    //           Navigator.of(context).pop();
+                    //         },
+                    //         child: Padding(
+                    //           padding: EdgeInsets.only(top: 0, left: 0),
+                    //           child: Container(
+                    //             height: 60,
+                    //             width: 60,
+                    //             child: Center(
+                    //               child: Icon(Icons.home_outlined,
+                    //                   color: ColorResources.grey777),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //   ],
+                    // ),
                     SizedBox(height: 10),
                     SizedBox(
                       child: ScrollConfiguration(
@@ -302,37 +303,38 @@ class MedicalReportsState extends State<MedicalReports> {
                       SizedBox(
                         height: 60,
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              //Get.to(HomeScreen());
-                              toDayList.clear();
-                              Navigator.of(context).pop();
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                color: ColorResources.whiteF6F,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: ColorResources.white.withOpacity(0.2),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Center(
-                                child: Icon(Icons.arrow_back,
-                                    color: ColorResources.grey777),
-                              ),
-                            ),
-                          ),
-                          HeaderWidget(),
-                        ],
-                      ),
+                      HeaderWidget(),
+                      // Row(
+                      //   children: [
+                      //     SizedBox(
+                      //       width: 20,
+                      //     ),
+                      //     InkWell(
+                      //       onTap: () {
+                      //         //Get.to(HomeScreen());
+                      //         toDayList.clear();
+                      //         Navigator.of(context).pop();
+                      //       },
+                      //       child: Container(
+                      //         height: 40,
+                      //         width: 20,
+                      //         decoration: BoxDecoration(
+                      //           color: ColorResources.whiteF6F,
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           border: Border.all(
+                      //             color: ColorResources.white.withOpacity(0.2),
+                      //             width: 1,
+                      //           ),
+                      //         ),
+                      //         child: Center(
+                      //           child: Icon(Icons.arrow_back,
+                      //               color: ColorResources.grey777),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     HeaderWidget(),
+                      //   ],
+                      // ),
                       SizedBox(height: 230),
                       empty
                           ? Align(
@@ -371,15 +373,64 @@ class MedicalReportsState extends State<MedicalReports> {
   }
 
   Widget HeaderWidget() {
-    return Stack(
-      children: [
-        Container(
-          height: 50,
-          width: 350,
-          padding: EdgeInsets.only(top: 8, left: 40),
-          child: heavyText("Medical Reports", ColorResources.green009, 30),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {
+              //Get.to(HomeScreen());
+              toDayList.clear();
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              height: 40,
+              width: 20,
+              decoration: BoxDecoration(
+                color: ColorResources.whiteF6F,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: ColorResources.white.withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
+              child: Center(
+                child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+              ),
+            ),
+          ),
+          SizedBox(width: 3),
+          heavyText("Medical Reports", ColorResources.green009, 30),
+          if (role != "patient")
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: 0, left: 0),
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  child: Center(
+                    child: Icon(Icons.home_outlined,
+                        color: ColorResources.grey777),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+    Align(
+      alignment: AlignmentDirectional.topStart,
+      child: Container(
+        height: 50,
+        width: 300,
+        padding: EdgeInsets.only(top: 8, left: 40),
+        child: heavyText("Medical Reports", ColorResources.green009, 30),
+      ),
     );
   }
 }

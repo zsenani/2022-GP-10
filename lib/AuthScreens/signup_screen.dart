@@ -947,32 +947,301 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "Nationality", ColorResources.grey777, 16),
                           ],
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CountryCodePicker(
-                              onChanged: (CountryCode countryCode) {
-                                nationalityController.text = countryCode.name;
-                              },
-                              initialSelection: 'SA',
-                              favorite: const ['+966', 'SA'],
-                              textStyle: TextStyle(
-                                fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 179, 160, 170),
-                              ),
-                              showCountryOnly: true,
-                              showFlag: true,
-                              showOnlyCountryWhenClosed: true,
-                              alignLeft: false,
-                            ),
+                        DropdownSearch<String>(
+                          popupProps: PopupProps.menu(
+                            showSearchBox: true,
+                            showSelectedItems: true,
+                            searchFieldProps: TextFieldProps(
+                                decoration: InputDecoration(
+                                    hintText: 'Search..',
+                                    constraints:
+                                        BoxConstraints(maxHeight: 40))),
+                            constraints: BoxConstraints(maxHeight: 300),
+                          ),
+                          items: const [
+                            "Afghanistan",
+                            "Aland Islands",
+                            "Albania",
+                            "Algeria",
+                            "American Samoa",
+                            "AndorrA",
+                            "Angola",
+                            "Anguilla",
+                            "Antarctica",
+                            "Antigua and Barbuda",
+                            "Argentina",
+                            "Armenia",
+                            "Aruba",
+                            "Australia",
+                            "Austria",
+                            "Azerbaijan",
+                            "Bahamas",
+                            "Bahrain",
+                            "Bangladesh",
+                            "Barbados",
+                            "Belarus",
+                            "Belgium",
+                            "Belize",
+                            "Benin",
+                            "Bermuda",
+                            "Bhutan",
+                            "Bolivia",
+                            "Bosnia and Herzegovina",
+                            "Botswana",
+                            "Bouvet Island",
+                            "Brazil",
+                            "British Indian Ocean Territory",
+                            "Brunei Darussalam",
+                            "Bulgaria",
+                            "Burkina Faso",
+                            "Burundi",
+                            "Cambodia",
+                            "Cameroon",
+                            "Canada",
+                            "Cape Verde",
+                            "Cayman Islands",
+                            "Central African Republic",
+                            "Chad",
+                            "Chile",
+                            "China",
+                            "Christmas Island",
+                            "Cocos (Keeling) Islands",
+                            "Colombia",
+                            "Comoros",
+                            "Congo",
+                            "Congo, The Democratic Republic of the",
+                            "Cook Islands",
+                            "Costa Rica",
+                            "Croatia",
+                            "Cuba",
+                            "Cyprus",
+                            "Czech Republic",
+                            "Denmark",
+                            "Djibouti",
+                            "Dominica",
+                            "Dominican Republic",
+                            "Ecuador",
+                            "Egypt",
+                            "El Salvador",
+                            "Equatorial Guinea",
+                            "Eritrea",
+                            "Estonia",
+                            "Ethiopia",
+                            "Falkland Islands (Malvinas)",
+                            "Faroe Islands",
+                            "Fiji",
+                            "Finland",
+                            "France",
+                            "French Guiana",
+                            "French Polynesia",
+                            "French Southern Territories",
+                            "Gabon",
+                            "Gambia",
+                            "Georgia",
+                            "Germany",
+                            "Ghana",
+                            "Gibraltar",
+                            "Greece",
+                            "Greenland",
+                            "Grenada",
+                            "Guadeloupe",
+                            "Guam",
+                            "Guatemala",
+                            "Guernsey",
+                            "Guinea",
+                            "Guinea-Bissau",
+                            "Guyana",
+                            "Haiti",
+                            "Holy See (Vatican City State)",
+                            "Honduras",
+                            "Hong Kong",
+                            "Hungary",
+                            "Iceland",
+                            "India",
+                            "Indonesia",
+                            "Iran, Islamic Republic Of",
+                            "Iraq",
+                            "Ireland",
+                            "Isle of Man",
+                            "Israel",
+                            "Italy",
+                            "Jamaica",
+                            "Japan",
+                            "Jersey",
+                            "Jordan",
+                            "Kazakhstan",
+                            "Kenya",
+                            "Kiribati",
+                            "Korea, Republic of",
+                            "Kuwait",
+                            "Kyrgyzstan",
+                            "Latvia",
+                            "Lebanon",
+                            "Lesotho",
+                            "Liberia",
+                            "Libyan Arab Jamahiriya",
+                            "Liechtenstein",
+                            "Lithuania",
+                            "Luxembourg",
+                            "Macao",
+                            "Madagascar",
+                            "Malawi",
+                            "Malaysia",
+                            "Maldives",
+                            "Mali",
+                            "Malta",
+                            "Marshall Islands",
+                            "Martinique",
+                            "Mauritania",
+                            "Mauritius",
+                            "Mayotte",
+                            "Mexico",
+                            "Micronesia, Federated States of",
+                            "Moldova, Republic of",
+                            "Monaco",
+                            "Mongolia",
+                            "Montserrat",
+                            "Morocco",
+                            "Mozambique",
+                            "Myanmar",
+                            "Namibia",
+                            "Nauru",
+                            "Nepal",
+                            "Netherlands",
+                            "Netherlands Antilles",
+                            "New Caledonia",
+                            "New Zealand",
+                            "Nicaragua",
+                            "Niger",
+                            "Nigeria",
+                            "Niue",
+                            "Norfolk Island",
+                            "Northern Mariana Islands",
+                            "Norway",
+                            "Oman",
+                            "Pakistan",
+                            "Palau",
+                            "Palestinian Territory, Occupied",
+                            "Panama",
+                            "Papua New Guinea",
+                            "Paraguay",
+                            "Peru",
+                            "Philippines",
+                            "Pitcairn",
+                            "Poland",
+                            "Portugal",
+                            "Puerto Rico",
+                            "Qatar",
+                            "Reunion",
+                            "Romania",
+                            "Russian Federation",
+                            "RWANDA",
+                            "Saint Helena",
+                            "Saint Kitts and Nevis",
+                            "Saint Lucia",
+                            "Saint Pierre and Miquelon",
+                            "Saint Vincent and the Grenadines",
+                            "Samoa",
+                            "San Marino",
+                            "Sao Tome and Principe",
+                            "Saudi Arabia",
+                            "Senegal",
+                            "Serbia and Montenegro",
+                            "Seychelles",
+                            "Sierra Leone",
+                            "Singapore",
+                            "Slovakia",
+                            "Slovenia",
+                            "Solomon Islands",
+                            "Somalia",
+                            "South Africa",
+                            "South Georgia and the South Sandwich Islands",
+                            "Spain",
+                            "Sri Lanka",
+                            "Sudan",
+                            "Suriname",
+                            "Svalbard and Jan Mayen",
+                            "Swaziland",
+                            "Sweden",
+                            "Switzerland",
+                            "Syrian Arab Republic",
+                            "Taiwan, Province of China",
+                            "Tajikistan",
+                            "Tanzania, United Republic of",
+                            "Thailand",
+                            "Timor-Leste",
+                            "Togo",
+                            "Tokelau",
+                            "Tonga",
+                            "Trinidad and Tobago",
+                            "Tunisia",
+                            "Turkey",
+                            "Turkmenistan",
+                            "Turks and Caicos Islands",
+                            "Tuvalu",
+                            "Uganda",
+                            "Ukraine",
+                            "United Arab Emirates",
+                            "United Kingdom",
+                            "United States",
+                            "Uruguay",
+                            "Uzbekistan",
+                            "Vanuatu",
+                            "Venezuela",
+                            "Viet Nam",
+                            "Virgin Islands, British",
+                            "Virgin Islands, U.S.",
+                            "Wallis and Futuna",
+                            "Western Sahara",
+                            "Yemen",
+                            "Zambia",
+                            "Zimbabwe",
                           ],
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              hintText: nationalityController.text,
+                              hintStyle:
+                                  TextStyle(color: ColorResources.grey777),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: //errorGender == false
+                                      const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                  // : const BorderSide(
+                                  //     color: Colors.red, width: 1),
+                                  ),
+                            ),
+                          ),
+                          onChanged: (String selectedValue) {
+                            nationalityController.text = selectedValue;
+                          },
                         ),
-                        Divider(
-                          color: Colors.black,
-                          indent: 0,
-                          thickness: 0.4,
-                        ),
+                        // Row(
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   children: [
+                        //     CountryCodePicker(
+                        //       onChanged: (CountryCode countryCode) {
+                        //         nationalityController.text = countryCode.name;
+                        //       },
+                        //       initialSelection: 'SA',
+                        //       favorite: const ['+966', 'SA'],
+                        //       textStyle: TextStyle(
+                        //         fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                        //         fontSize: 16,
+                        //         color: Color.fromARGB(255, 179, 160, 170),
+                        //       ),
+                        //       showCountryOnly: true,
+                        //       showFlag: true,
+                        //       showOnlyCountryWhenClosed: true,
+                        //       alignLeft: false,
+                        //     ),
+                        //   ],
+                        // ),
+                        // Divider(
+                        //   color: Colors.black,
+                        //   indent: 0,
+                        //   thickness: 0.4,
+                        // ),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -1436,29 +1705,24 @@ List<String> hospitalsll = [];
 List<int> IDOfHospitals = new List<int>();
 String hospital;
 bool addedHospitals = false;
-
+int ArrayLength = ArrayOfHospitals.length;
 int isFinish = 0;
 Future<bool> HospitalsPhysician() async {
   int ID;
   var results =
       await conn.query('select name,district,idHospital from Hospital ');
-  int ArrayLength = results.length;
+
   if (isFinish < ArrayLength) {
     for (var row in results) {
-      if (hospitals != null) {
-        hospitals.forEach((thisHospital) {
-          print("thisHospital");
-          print(thisHospital);
-          if ('${row[0]},${row[1]}' == thisHospital) {
-            print('true' + '${row[2]}');
-            ID = int.parse('${row[2]}');
-            IDOfHospitals.add(ID);
-            addedHospitals = true;
-          }
-        });
-
-        isFinish = isFinish + 1;
-      }
+      hospitals.forEach((thisHospital) {
+        if ('${row[0]},${row[1]}' == thisHospital) {
+          print('true' + '${row[2]}');
+          ID = int.parse('${row[2]}');
+          IDOfHospitals.add(ID);
+          addedHospitals = true;
+        }
+      });
+      isFinish = isFinish + 1;
     }
   }
 }
@@ -1469,7 +1733,7 @@ HospitalsLab() async {
   var results =
       await conn.query('select name,district,idHospital from Hospital ');
 
-  if (isFinish2 < results.length) {
+  if (isFinish2 < ArrayLength) {
     for (var row in results) {
       print(hospital);
       print('${row[0]},${row[1]}');

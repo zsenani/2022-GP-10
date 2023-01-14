@@ -186,86 +186,94 @@ class labResultState extends State<labResult> {
           if (isFilled == false)
             mediumText('All the fields should be filled ', Colors.red, 17),
           SizedBox(height: 15),
-          ListView.builder(
-            padding: EdgeInsets.zero,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: testsIDglobal.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
-              child: InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: ColorResources.white,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 20),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 12),
-                                  mediumText(testNames[index] + ": ",
-                                      ColorResources.grey777, 25),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 110,
-                                child: TextFormField(
-                                  controller: _controller[index],
-                                  decoration: InputDecoration(
-                                    //  floatingLabelStyle: TextStyle(),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: testsIDglobal.length,
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                child: InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorResources.white,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 12),
+                                    mediumText(testNames[index] + ": ",
+                                        ColorResources.grey777, 25),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 110,
+                                  child: TextFormField(
+                                    controller: _controller[index],
+                                    decoration: InputDecoration(
+                                      //  floatingLabelStyle: TextStyle(),
 
-                                    hintText: 'Enter result',
-                                    border: UnderlineInputBorder(
-                                      borderSide: flagcontroller[index] == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 2)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 4),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: flagcontroller[index] == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 2)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 4),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: flagcontroller[index] == false
-                                          ? const BorderSide(
-                                              color: ColorResources.greyA0A,
-                                              width: 2)
-                                          : const BorderSide(
-                                              color: Colors.red, width: 4),
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      hintText: 'Enter result',
+                                      border: UnderlineInputBorder(
+                                        borderSide: flagcontroller[index] ==
+                                                false
+                                            ? const BorderSide(
+                                                color: ColorResources.greyA0A,
+                                                width: 2)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 4),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: flagcontroller[index] ==
+                                                false
+                                            ? const BorderSide(
+                                                color: ColorResources.greyA0A,
+                                                width: 2)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 4),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: flagcontroller[index] ==
+                                                false
+                                            ? const BorderSide(
+                                                color: ColorResources.greyA0A,
+                                                width: 2)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 4),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          Spacer(),
+          // Spacer(),
           SizedBox(
             width: 360,
             child: commonButton(() {

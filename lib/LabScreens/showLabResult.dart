@@ -210,39 +210,41 @@ class showlabResultState extends State<showlabResult> {
           SizedBox(height: 15),
           testsIDglobal.length == 0
               ? SizedBox(height: 400, child: loadingPage())
-              : ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: testsIDglobal.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorResources.white,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  mediumText(testNameglobal[index],
-                                      ColorResources.grey777, 24),
-                                  mediumText(
-                                      page == 'active'
-                                          ? '-'
-                                          : testsResultglobal[index],
-                                      ColorResources.grey777,
-                                      24),
-                                ],
+              : Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: testsIDglobal.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: ColorResources.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    mediumText(testNameglobal[index],
+                                        ColorResources.grey777, 24),
+                                    mediumText(
+                                        page == 'active'
+                                            ? '-'
+                                            : testsResultglobal[index],
+                                        ColorResources.grey777,
+                                        24),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

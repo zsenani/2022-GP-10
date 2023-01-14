@@ -1,4 +1,5 @@
 import 'package:medcore/Controller/rout_controller.dart';
+import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/diagnosis_details.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 
 class SearchResults extends StatelessWidget {
   //  SpeciaListScreen({Key? key}) : super(key: key);
-
+  String Id = Get.arguments;
   final RoutController routController = Get.put(RoutController());
   final List<Map> nearByDoctorsList = [
     {
@@ -86,7 +87,9 @@ class SearchResults extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, top: 15),
             child: InkWell(
               onTap: () {
-                Get.to(HomeScreen());
+                selectedSymptoms = [];
+                commonSymptoms = [];
+                Get.to(HomeScreen(id: Id));
               },
               child: Container(
                 height: 40,
@@ -115,7 +118,7 @@ class SearchResults extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 16),
             child: InkWell(
               onTap: () {
-                Get.to(DiagnosisDetails());
+                Get.to(DiagnosisDetails(), arguments: Id);
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -349,7 +349,7 @@ class _labHomePageState extends State<labHomePage> {
                 padding: EdgeInsets.symmetric(vertical: 17, horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(SearchScreen());
+                    Get.to(SearchScreen(), arguments: Id);
                   },
                   child: Container(
                     height: 50,

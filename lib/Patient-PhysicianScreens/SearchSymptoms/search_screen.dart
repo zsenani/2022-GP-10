@@ -447,7 +447,7 @@ Future<http.Response> postData(name) {
 class _SearchScreenState extends State<SearchScreen> {
   // SearchScreen({Key? key}) : super(key: key);
   String greating = '';
-
+  String Id = Get.arguments;
   @override
   Widget build(BuildContext context) {
     // selectedSymptoms.add('fever');
@@ -979,7 +979,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                         if (empty == false) {
                           onsubmit();
-                          Get.to(SearchResults());
+                          Get.to(SearchResults(), arguments: Id);
                         }
 
                         var data = await postData(zero);

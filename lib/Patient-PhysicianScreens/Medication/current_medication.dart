@@ -35,6 +35,12 @@ class _currentMedicationState extends State<currentMedication> {
   List<Map> medicationList = [];
   List<Map> medicationname = [];
   List<Map> sortedList = [];
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     getCurrentMedication();
+  //   });
+  // }
 
   var currentday = DateTime.now();
   String current;
@@ -196,7 +202,7 @@ class _currentMedicationState extends State<currentMedication> {
                             itemBuilder: (context, index) => Padding(
                               padding: EdgeInsets.only(bottom: 16),
                               child: Container(
-                                height: 122,
+                                //height: 122,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: ColorResources.white,
@@ -248,7 +254,8 @@ class _currentMedicationState extends State<currentMedication> {
                                             SizedBox(height: 3),
                                             RichText(
                                               text: TextSpan(
-                                                text: drName[index]["name"],
+                                                text: "Dr." +
+                                                    drName[index]["name"],
                                                 style: TextStyle(
                                                   fontFamily: TextFontFamily
                                                       .AVENIR_LT_PRO_ROMAN,
@@ -269,7 +276,20 @@ class _currentMedicationState extends State<currentMedication> {
                                                         ["dosage"],
                                                 ColorResources.grey777,
                                                 12),
-                                            SizedBox(height: 3),
+                                            if (medicationList[index]
+                                                    ["description"] !=
+                                                null)
+                                              SizedBox(height: 4),
+                                            if (medicationList[index]
+                                                    ["description"] !=
+                                                null)
+                                              romanText(
+                                                  "Description: " +
+                                                      medicationList[index]
+                                                          ["description"],
+                                                  ColorResources.grey777,
+                                                  12),
+                                            SizedBox(height: 4),
                                             romanText(
                                                 "Start date: " +
                                                     medicationList[index]
@@ -418,13 +438,10 @@ class _currentMedicationState extends State<currentMedication> {
       context: ctx,
       builder: (_) {
         return GestureDetector(
-          onTap: () {},
-          //////////////////////
           child: AddMedication(
-            vid: visitId,
             pid: idp,
+            vid: visitId,
           ),
-          behavior: HitTestBehavior.opaque,
         );
       },
     );
