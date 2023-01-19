@@ -77,14 +77,23 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                 ),
               ),
             ),
-            DataCell(
-              Text(
-                tests[++i],
-                style: const TextStyle(
-                  fontSize: 19,
-                ),
-              ),
-            ),
+            i == tests.length
+                ? DataCell(
+                    Text(
+                      tests[i],
+                      style: const TextStyle(
+                        fontSize: 19,
+                      ),
+                    ),
+                  )
+                : DataCell(
+                    Text(
+                      "",
+                      style: const TextStyle(
+                        fontSize: 19,
+                      ),
+                    ),
+                  )
           ],
         ),
       );
@@ -322,7 +331,7 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                   commonButton(() {
                     Get.to(labResult(
                         vid: visitID, testnames: tests, labid: LabSpID));
-                  }, "Upload Results", const Color.fromRGBO(19, 156, 140, 1),
+                  }, "Add Results", const Color.fromRGBO(19, 156, 140, 1),
                       ColorResources.white),
                   const SizedBox(height: 20),
                 ],

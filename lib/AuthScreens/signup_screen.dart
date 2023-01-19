@@ -110,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               } else {
                 GenderlocationController.text = "Select your gender";
                 maritalStatusController.text = "Select your marital status";
-                nationalityController.text = "المملكة العربية السعودية";
+                nationalityController.text = "Saudi Arabia";
 
                 checkFirst();
               }
@@ -259,6 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     hospitals = null;
     IDOfHospitals = null;
     picked = null;
+    ArrayOfHospitals.clear();
   }
 
   void _clearAll2() {
@@ -289,6 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     selectedDate = null;
     hospital = null;
     picked = null;
+    ArrayOfHospitals.clear();
   }
 
   TextEditingController IDController = TextEditingController();

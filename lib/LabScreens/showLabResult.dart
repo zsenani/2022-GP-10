@@ -18,6 +18,7 @@ String ID;
 String Role;
 bool _loading = true;
 List<String> testNameglobal = [];
+List<String> testUnitglobal = [];
 List<String> testsIDglobal = [];
 List<String> testsResultglobal = [];
 
@@ -41,6 +42,7 @@ class showlabResultState extends State<showlabResult> {
     print(page);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       testNameglobal.clear();
+      testUnitglobal.clear();
       testsIDglobal.clear();
       testsResultglobal.clear();
       labTestID(visitID);
@@ -52,6 +54,7 @@ class showlabResultState extends State<showlabResult> {
   labTestID(visitid) async {
     List<String> testID = [];
     List<String> testNames = [];
+    List<String> testUnits = [];
     List<String> result = [];
     var ID = await conn.query(
         'select labTestID from VisitLabTest where visitID = ?',
@@ -66,10 +69,11 @@ class showlabResultState extends State<showlabResult> {
     print(testID);
     for (int i = 0; i < testID.length; i++) {
       var testsNam = await conn.query(
-          'select name from LabTest where idlabTest = ?',
+          'select name,unit from LabTest where idlabTest = ?',
           [testID[i]]); //here check
       for (var row in testsNam) {
         testNames.add('${row[0]}');
+        testUnits.add('${row[1]}');
       }
     }
     for (int i = 0; i < testID.length; i++) {
@@ -83,6 +87,7 @@ class showlabResultState extends State<showlabResult> {
     setState(() {
       testsIDglobal = testID;
       testNameglobal = testNames;
+      testUnitglobal = testUnits;
       testsResultglobal = result;
       _controller =
           List.generate(testNameglobal.length, (i) => TextEditingController());
@@ -143,6 +148,7 @@ class showlabResultState extends State<showlabResult> {
                   testNameglobal.clear();
                   testsIDglobal.clear();
                   testsResultglobal.clear();
+                  testUnitglobal.clear();
                   Role == 'labS'
                       ? Get.to(LabHomePage1(id: ID))
                       : Role == 'patient'
@@ -217,7 +223,7 @@ class showlabResultState extends State<showlabResult> {
                     shrinkWrap: true,
                     itemCount: testsIDglobal.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                      padding: EdgeInsets.only(left: 22, bottom: 16, right: 22),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -230,16 +236,32 @@ class showlabResultState extends State<showlabResult> {
                               Expanded(
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     mediumText(testNameglobal[index],
-                                        ColorResources.grey777, 24),
-                                    mediumText(
-                                        page == 'active'
-                                            ? '-'
-                                            : testsResultglobal[index],
-                                        ColorResources.grey777,
-                                        24),
+                                        ColorResources.grey777, 22),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        mediumText(
+                                            page == 'active'
+                                                ? '-'
+                                                : testsResultglobal[index],
+                                            ColorResources.grey777,
+                                            22),
+                                        SizedBox(width: 3),
+                                        mediumText(
+                                            page == 'active'
+                                                ? '-'
+                                                : testUnitglobal[index] !=
+                                                        'null'
+                                                    ? testUnitglobal[index]
+                                                    : '',
+                                            ColorResources.grey777,
+                                            22),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),

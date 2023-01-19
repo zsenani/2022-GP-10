@@ -1,3 +1,5 @@
+import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
+
 import '../../AuthScreens/signin_screen.dart';
 import 'add_medication.dart';
 import 'current_medication.dart';
@@ -14,13 +16,15 @@ int idp;
 String visitId;
 String role;
 String patientfile;
+String idPhysician;
 
 class MedicationList extends StatelessWidget {
-  MedicationList({Key key, String id, String vid, String role1})
+  MedicationList({Key key, String id, String vid, String role1, String idPHy})
       : super(key: key) {
     idp = int.parse(id);
     visitId = vid;
     role = role1;
+    idPhysician = idPHy;
   }
   final TabBarController tabBarController = Get.put(TabBarController());
   //String role = Get.arguments;
@@ -128,8 +132,7 @@ class MedicationList extends StatelessWidget {
           if (role != "patient")
             InkWell(
               onTap: () {
-                Get.back();
-                Get.back();
+                Get.to(HomeScreen(id: idPhysician));
               },
               child: Padding(
                 padding: EdgeInsets.only(top: 0, left: 0),

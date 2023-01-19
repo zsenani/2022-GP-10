@@ -196,7 +196,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        drName[0]['name'],
+                        "Dr. " + drName[0]['name'],
                         style: TextStyle(
                           fontFamily: TextFontFamily.AVENIR_LT_PRO_ROMAN,
                           fontSize: 28,
@@ -317,8 +317,12 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(toDayList[0]['subject'],
-                              Color.fromARGB(212, 0, 0, 0), 16),
+                          child: romanText(
+                              toDayList[0]['subject'] != "null"
+                                  ? toDayList[0]['subject']
+                                  : '',
+                              Color.fromARGB(212, 0, 0, 0),
+                              16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -330,9 +334,11 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
-                              toDayList[0]['object']
-                                  .replaceAll("[", "")
-                                  .replaceAll("]", ""),
+                              toDayList[0]['object'] != "null"
+                                  ? toDayList[0]['object']
+                                      .replaceAll("[", "")
+                                      .replaceAll("]", "")
+                                  : '',
                               Color.fromARGB(212, 0, 0, 0),
                               16),
                         ),
@@ -345,8 +351,12 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(toDayList[0]['assessment'],
-                              Color.fromARGB(212, 0, 0, 0), 16),
+                          child: romanText(
+                              toDayList[0]['assessment'] != 'null'
+                                  ? toDayList[0]['assessment']
+                                  : '',
+                              Color.fromARGB(212, 0, 0, 0),
+                              16),
                         ),
                         SizedBox(height: 20),
                         Padding(
@@ -357,8 +367,12 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: romanText(toDayList[0]['plan'],
-                              Color.fromARGB(212, 0, 0, 0), 16),
+                          child: romanText(
+                              toDayList[0]['plan'] != "null"
+                                  ? toDayList[0]['plan']
+                                  : '',
+                              Color.fromARGB(212, 0, 0, 0),
+                              16),
                         ),
                         SizedBox(height: 10),
                       ],

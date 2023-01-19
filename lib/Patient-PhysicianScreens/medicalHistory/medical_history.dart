@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
+
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import '../../Utiils/images.dart';
@@ -24,6 +26,9 @@ class MedicalHistory extends StatefulWidget {
 }
 
 class MedicalHistoryState extends State<MedicalHistory> {
+  final TextEditingController BloodController = TextEditingController();
+  bool errorBlood = false;
+
   String role = Get.arguments;
   List<String> _Allergy = [];
   List<String> _social = [];
@@ -40,11 +45,12 @@ class MedicalHistoryState extends State<MedicalHistory> {
 
   Future getData() async {
     var info = await conn.query(
-        'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses from Patient where nationalId=?',
+        'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses,bloodType from Patient where nationalId=?',
         [int.parse(Id)]);
     for (var row in info) {
       print(Id);
       setState(() {
+        bloodType = '${row[5]}';
         allergies = '${row[0]}';
         socialHistory = '${row[1]}';
         familyHistory = '${row[2]}';
@@ -72,6 +78,32 @@ class MedicalHistoryState extends State<MedicalHistory> {
     );
   }
 
+  void updatePatientInfo() async {
+    if (BloodController.text != "null") {
+      var pNewBlood = await conn.query(
+          'update Patient set  bloodType=? where NationalID =?',
+          [BloodController.text, int.parse(nationalID)]);
+    }
+  }
+
+  bool validateBlood(String valueW) {
+    // Pattern pattern = r'^([a-zA-Z]{1,1}[+-]{1,1})$';
+    // RegExp regex = new RegExp(pattern);
+    if (valueW == null || valueW == '') {
+      print('wrong blood type');
+      setState(() {
+        errorBlood = true;
+      });
+      return false;
+    } else {
+      print("valid blood type");
+      setState(() {
+        errorBlood = false;
+      });
+      return true;
+    }
+  }
+
   Widget info() {
     print(_Medical);
 
@@ -97,16 +129,20 @@ class MedicalHistoryState extends State<MedicalHistory> {
                 if (index != null && index != ' ')
                   Column(
                     children: [
-                      if ("${index}" != '' && "${index}" != ' ')
+                      if ("${index}" != '' &&
+                          "${index}" != ' ' &&
+                          "${index}" != 'null')
                         romanText("${index}", ColorResources.grey777, 16),
-                      if ("${index}" != '' && "${index}" != ' ')
+                      if ("${index}" != '' &&
+                          "${index}" != ' ' &&
+                          "${index}" != 'null')
                         SizedBox(height: 5),
                     ],
                   ),
               ],
             ],
           ),
-          SizedBox(width: 30),
+          SizedBox(width: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,9 +161,13 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   for (var index in _social) ...[
                     Column(
                       children: [
-                        if ("${index}" != '' && "${index}" != ' ')
+                        if ("${index}" != '' &&
+                            "${index}" != ' ' &&
+                            "${index}" != 'null')
                           romanText("${index}", ColorResources.grey777, 16),
-                        if ("${index}" != '' && "${index}" != ' ')
+                        if ("${index}" != '' &&
+                            "${index}" != ' ' &&
+                            "${index}" != 'null')
                           SizedBox(height: 5),
                       ],
                     ),
@@ -153,16 +193,20 @@ class MedicalHistoryState extends State<MedicalHistory> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 6),
-                child:
-                    mediumText(" Family History", ColorResources.grey777, 18),
+                child: mediumText("Family History", ColorResources.grey777, 18),
               ),
               SizedBox(height: 10),
+              SizedBox(width: 10),
               for (var index in _family) ...[
                 Column(
                   children: [
-                    if ("${index}" != '' && "${index}" != ' ')
+                    if ("${index}" != '' &&
+                        "${index}" != ' ' &&
+                        "${index}" != 'null')
                       romanText("${index}", ColorResources.grey777, 16),
-                    if ("${index}" != '' && "${index}" != ' ')
+                    if ("${index}" != '' &&
+                        "${index}" != ' ' &&
+                        "${index}" != 'null')
                       SizedBox(height: 5),
                   ],
                 ),
@@ -191,7 +235,9 @@ class MedicalHistoryState extends State<MedicalHistory> {
                   for (var index in _surgery) ...[
                     Column(
                       children: [
-                        if ("${index}" != '' && "${index}" != ' ')
+                        if ("${index}" != '' &&
+                            "${index}" != ' ' &&
+                            "${index}" != 'null')
                           romanText("${index}", ColorResources.grey777, 16),
                       ],
                     ),
@@ -224,9 +270,13 @@ class MedicalHistoryState extends State<MedicalHistory> {
               for (var index in _Medical) ...[
                 Column(
                   children: [
-                    if ("${index}" != '' && "${index}" != ' ')
+                    if ("${index}" != '' &&
+                        "${index}" != ' ' &&
+                        "${index}" != 'null')
                       romanText("${index}", ColorResources.grey777, 16),
-                    if ("${index}" != '' && "${index}" != ' ')
+                    if ("${index}" != '' &&
+                        "${index}" != ' ' &&
+                        "${index}" != 'null')
                       SizedBox(height: 5),
                   ],
                 ),
@@ -240,6 +290,9 @@ class MedicalHistoryState extends State<MedicalHistory> {
 
   @override
   Widget build(BuildContext context) {
+    print("bloodType");
+    print(bloodType);
+
     return Scaffold(
       backgroundColor: ColorResources.whiteF6F,
       body: SingleChildScrollView(
@@ -415,13 +468,162 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
-                                        Row(
+                                        if (bloodType != 'null' &&
+                                            bloodType != '')
+                                          SizedBox(height: 10),
+                                        Column(
                                           children: [
-                                            bookText("Blood Type :  ",
-                                                ColorResources.greyA0A, 16),
-                                            mediumText(bloodType,
-                                                ColorResources.grey777, 16),
+                                            Row(
+                                              children: [
+                                                bookText("Blood Type :  ",
+                                                    ColorResources.greyA0A, 16),
+                                                bloodType == 'null' ||
+                                                        bloodType == ''
+                                                    ? Container(
+                                                        width: 80,
+                                                        child: DropdownSearch<
+                                                            String>(
+                                                          selectedItem:
+                                                              BloodController
+                                                                  .text,
+                                                          popupProps:
+                                                              PopupProps.menu(
+                                                            showSelectedItems:
+                                                                true,
+                                                            constraints:
+                                                                BoxConstraints(
+                                                                    maxHeight:
+                                                                        230,
+                                                                    maxWidth:
+                                                                        70),
+                                                            scrollbarProps:
+                                                                ScrollbarProps(
+                                                                    thumbVisibility:
+                                                                        true),
+                                                          ),
+                                                          items: [
+                                                            'O+',
+                                                            'O-',
+                                                            'A+',
+                                                            'A-',
+                                                            'B+',
+                                                            'B-',
+                                                            'AB+',
+                                                            'AB-'
+                                                          ],
+                                                          dropdownDecoratorProps:
+                                                              DropDownDecoratorProps(
+                                                            dropdownSearchDecoration:
+                                                                InputDecoration(
+                                                              hintText: '--',
+                                                              hintStyle: TextStyle(
+                                                                  color: ColorResources
+                                                                      .grey777),
+                                                              enabledBorder:
+                                                                  UnderlineInputBorder(
+                                                                borderSide: errorBlood ==
+                                                                        false
+                                                                    ? const BorderSide(
+                                                                        color: ColorResources
+                                                                            .greyA0A,
+                                                                        width:
+                                                                            1)
+                                                                    : const BorderSide(
+                                                                        color: Colors
+                                                                            .red,
+                                                                        width:
+                                                                            1),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          onChanged: (String
+                                                              selectedValue) {
+                                                            BloodController
+                                                                    .text =
+                                                                selectedValue;
+                                                          },
+                                                        ),
+                                                      )
+                                                    : bookText(
+                                                        bloodType,
+                                                        ColorResources.grey777,
+                                                        16),
+                                                // mediumText(bloodType,
+                                                //     ColorResources.grey777, 16),
+
+                                                //     Padding(
+                                                //       padding:
+                                                //           const EdgeInsets.only(
+                                                //               top: 9),
+                                                //       child: SizedBox(
+                                                //         height: 13,
+                                                //         width: 35,
+                                                //         child: TextField(
+                                                //           controller:
+                                                //               BloodController,
+                                                //           decoration:
+                                                //               InputDecoration(
+                                                //             hintText:
+                                                //                 bloodType == "null"
+                                                //                     ? "  ---"
+                                                //                     : bloodType,
+                                                //             border:
+                                                //                 UnderlineInputBorder(),
+                                                //             enabledBorder:
+                                                //                 UnderlineInputBorder(
+                                                //               borderSide: errorBlood ==
+                                                //                       false
+                                                //                   ? const BorderSide(
+                                                //                       color: ColorResources
+                                                //                           .grey777,
+                                                //                       width: 1)
+                                                //                   : const BorderSide(
+                                                //                       color: Colors
+                                                //                           .red,
+                                                //                       width: 1),
+                                                //             ),
+                                                //           ),
+                                                //           style: TextStyle(
+                                                //               fontSize: 13),
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            bloodType == 'null' ||
+                                                    bloodType == ''
+                                                ? Center(
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 20,
+                                                      // margin: EdgeInsets.all(25),
+                                                      child: ElevatedButton(
+                                                        child: Text(
+                                                          'Update',
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        ),
+                                                        onPressed: () {
+                                                          validateBlood(
+                                                              BloodController
+                                                                  .text);
+
+                                                          if (errorBlood ==
+                                                              false) {
+                                                            alertDialogUpdate(
+                                                                context);
+                                                          } else {
+                                                            alertUpdateError(
+                                                                context);
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container()
                                           ],
                                         ),
                                       ],
@@ -434,6 +636,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                       ColorResources.greyD4D.withOpacity(0.4),
                                   thickness: 1,
                                 ),
+
                                 SizedBox(height: 30),
                                 info(),
 
@@ -470,6 +673,82 @@ class MedicalHistoryState extends State<MedicalHistory> {
           ],
         ),
       ),
+    );
+  }
+
+  alertDialogUpdate(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Cancel",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: const Text(
+        "Confirm",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        updatePatientInfo();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Update"),
+      content: const Text("Are you sure you want to update patient info ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  alertUpdateError(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: const Text(
+        "Ok",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Error"),
+      content: const Text("Please choose a blood type"),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

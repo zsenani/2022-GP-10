@@ -114,7 +114,7 @@ class _PreviousVisitState extends State<PreviousVisit> {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      text: preVisit[index][5] + " - ",
+                                      text: preVisit[index][4] + " - ",
                                       style: TextStyle(
                                         fontFamily:
                                             TextFontFamily.AVENIR_LT_PRO_ROMAN,

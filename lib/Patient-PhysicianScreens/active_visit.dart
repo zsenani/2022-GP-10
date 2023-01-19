@@ -32,6 +32,12 @@ class _ActiveVisitState extends State<ActiveVisit> {
 
   Future activeVisitP(idVisit) async {
     todayVisits.clear();
+
+    upcommingVisits.clear();
+
+    activeVisit.clear();
+
+    _loading = true;
     activeVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Up");
     print("in visit");
     print(activeVisit);
@@ -204,7 +210,7 @@ class _ActiveVisitState extends State<ActiveVisit> {
               itemBuilder: (context, index) => Padding(
                 padding: EdgeInsets.only(bottom: 16),
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
                     Get.to(UpCommingVisitScreen(
                       patientID: todayVisits[index][9],
                       hospitalN: todayVisits[index][2],
@@ -218,6 +224,17 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       patientW: todayVisits[index][7],
                       vid: todayVisits[index][0],
                     ));
+                    var visits = await conn.query(
+                        'select idvisit from Visit where idPatient = ?',
+                        [todayVisits[index][9]]);
+                    int visitsArrayLength = await visits.length;
+                    for (var row2 in visits) {
+                      if (isFilled3 != visitsArrayLength) {
+                        int visit = int.parse('${row2[0]}');
+                        visitsIds.add(visit);
+                        isFilled3 = isFilled3 + 1;
+                      }
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -246,7 +263,7 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 50),
+                                    const SizedBox(width: 45),
                                     romanText(todayVisits[index][1],
                                         ColorResources.grey777, 14),
                                   ],

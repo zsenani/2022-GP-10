@@ -31,6 +31,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   }
 
   Future previTest(idLabSpe) async {
+    prevTest.clear();
+    _loading = true;
     prevTest = await mysqlDatabase.labTestReq(idLabSpe, "Pre");
     print("in lab spe active home");
     print(prevTest.length);
@@ -309,8 +311,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
             ),
           ),
           SizedBox(height: 20),
-          romanText("There is no active test requests", ColorResources.grey777,
-              18, TextAlign.center),
+          romanText("There is no previous test requests",
+              ColorResources.grey777, 18, TextAlign.center),
         ],
       ),
     );

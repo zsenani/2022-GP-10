@@ -408,10 +408,16 @@ class mysqlDatabase {
     for (int g = 0; g < phyVisit.length; g++) {
       var dateP = info[g][1] + "00:00:00";
       DateTime dt1 = DateTime.parse(dateP);
-      if (dt1.compareTo(DateTime.now()) < 0 &&
-          dt1.year != DateTime.now().year &&
-          dt1.month != DateTime.now().month &&
-          dt1.day != DateTime.now().day) {
+      print("todaytime");
+      DateTime todayDate = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      print(dt1);
+
+      if (dt1.compareTo(todayDate) < 0) {
+        // (dt1.year != DateTime.now().year &&
+        // dt1.month != DateTime.now().month &&
+        // dt1.day != DateTime.now().day)
+        //print(DateTime.now());
         List<String> oneRow = [];
         oneRow.add(info[g][0]);
         oneRow.add(info[g][1]);
@@ -543,10 +549,11 @@ class mysqlDatabase {
 
     for (int g = 0; g < idLabTest.length; g++) {
       var labVisit = await conn.query(
-          'select visitID,status,result from VisitLabTest where labTestID = ?',
+          'select visitID,status,result,isUpdated from VisitLabTest where labTestID = ?',
           [idLabTest[g]]);
       for (var row in labVisit) {
-        LabTest.add([idLabTest[g], '${row[0]}', '${row[1]}', '${row[2]}']);
+        LabTest.add(
+            [idLabTest[g], '${row[0]}', '${row[1]}', '${row[2]}', '${row[3]}']);
       }
       print("lab test visit statuse");
       print(LabTest);
@@ -561,6 +568,7 @@ class mysqlDatabase {
         activ.add(LabTest[g][1]);
         activ.add(LabTest[g][2]);
         activ.add(LabTest[g][3]);
+        //activ.add(LabTest[g][4]);
         var patientid = await conn.query(
             'select idPatient from Visit where idvisit = ?', [LabTest[g][1]]);
         var patiId;
@@ -582,6 +590,7 @@ class mysqlDatabase {
             activ.add(LabTest[j][1]);
             activ.add(LabTest[j][2]);
             activ.add(LabTest[j][3]);
+            //activ.add(LabTest[j][4]);
             LabTest.removeAt(j--);
           }
         }
@@ -685,7 +694,9 @@ class mysqlDatabase {
     for (int g = 0; g < patientP.length; g++) {
       var dateP = info[g][1] + "00:00:00";
       DateTime dt1 = DateTime.parse(dateP);
-      if (dt1.isBefore(DateTime.now())) {
+      DateTime todayDate = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      if (dt1.compareTo(todayDate) < 0) {
         List<String> oneRow = [];
         oneRow.add(info[g][1]);
         oneRow.add(info[g][4]);

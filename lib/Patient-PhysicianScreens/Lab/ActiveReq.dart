@@ -60,7 +60,7 @@ class _ActiveReqState extends State<ActiveReq> {
 
   aa() async {
     resultsActive = await conn.query(
-        'select * from Visit where idPatient=? and idvisit IN(select visitID from VisitLabTest where status =?)',
+        'select * from Visit where idPatient=? and idvisit IN(select visitID from VisitLabTest where status =?) ORDER BY date DESC, time DESC',
         [idp, 'active']);
     print(resultsActive);
     arraylength = resultsActive.length;
@@ -251,14 +251,19 @@ class _ActiveReqState extends State<ActiveReq> {
                                                       children: [
                                                         setRange == false
                                                             ? mediumText(
-                                                                drName[index]
-                                                                    ["name"],
+                                                                "Dr. " +
+                                                                    drName[index]
+                                                                        [
+                                                                        "name"],
                                                                 ColorResources
                                                                     .green009,
                                                                 20)
                                                             : mediumText(
-                                                                drNameFil[index]
-                                                                    ["name"],
+                                                                "Dr. " +
+                                                                    drNameFil[
+                                                                            index]
+                                                                        [
+                                                                        "name"],
                                                                 ColorResources
                                                                     .green009,
                                                                 20),
@@ -351,7 +356,7 @@ class _ActiveReqState extends State<ActiveReq> {
                         ),
                         Row(children: [
                           Padding(
-                            padding: Role == 'UPphysician'
+                            padding: roleHome == 'UPphysician'
                                 ? EdgeInsets.only(
                                     left: 300, bottom: 0, right: 7)
                                 : EdgeInsets.only(left: 350, bottom: 0),
@@ -380,7 +385,7 @@ class _ActiveReqState extends State<ActiveReq> {
 
                           ///////////////////////////////
 
-                          if (Role == 'UPphysician')
+                          if (roleHome == 'UPphysician')
                             Padding(
                               padding: EdgeInsets.only(bottom: 0, right: 0),
                               child: InkWell(
@@ -472,7 +477,7 @@ class _ActiveReqState extends State<ActiveReq> {
 
                         ///////////////////////////////
 
-                        if (Role == 'UPphysician')
+                        if (roleHome == 'UPphysician')
                           Padding(
                             padding:
                                 EdgeInsets.only(left: 320, bottom: 0, right: 0),
@@ -505,10 +510,14 @@ class _ActiveReqState extends State<ActiveReq> {
   }
 
   void _startAdd(BuildContext ctx) {
-    Get.to(TestRequest(
-      vid: visitId,
-      page: 'active',
-    ));
+    if (!Get.isBottomSheetOpen) print(Get.isBottomSheetOpen);
+    Get.bottomSheet(
+      TestRequest(
+        pid: idp,
+        vid: visitId,
+        page: 'active',
+      ),
+    );
   }
 
   void _startAdd2(BuildContext ctx) {

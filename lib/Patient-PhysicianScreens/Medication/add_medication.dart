@@ -528,7 +528,7 @@ class _AddMedicationState extends State<AddMedication> {
 
   bool validateName(String value) {
     print(value);
-    if (value == '') {
+    if (value == ''|| value == null) {
       print('Enter valid name');
       setState(() {
         errorName = true;
@@ -667,9 +667,11 @@ class _AddMedicationState extends State<AddMedication> {
             add();
             Get.to(
                 MedicationList(
-                    id: patientId.toString(),
-                    vid: visitId,
-                    role1: 'UPphysician'),
+                  id: patientId.toString(),
+                  vid: visitId,
+                  role1: 'UPphysician',
+                  idPHy: idPhysician,
+                ),
                 arguments: 'patientfile');
           } else
             Navigator.pop(context);

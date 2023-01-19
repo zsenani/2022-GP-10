@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
 
 import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
@@ -21,16 +22,19 @@ bool loading = true;
 String visitId;
 String Page;
 bool isFirst = true;
+int patientID;
 
 class TestRequest extends StatefulWidget {
-  TestRequest({Key key, String vid, String page}) : super(key: key) {
+  TestRequest({Key key, String vid, String page, int pid}) : super(key: key) {
     visitId = vid;
     Page = page;
+    patientID = pid;
   }
   State<TestRequest> createState() => _TestRequestState();
 }
 
 class _TestRequestState extends State<TestRequest> {
+  String back = Get.arguments;
   final LabTabBarController tabBarController = Get.put(LabTabBarController());
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -63,49 +67,63 @@ class _TestRequestState extends State<TestRequest> {
   int isFilled2 = 0;
   int allArrayLength = 0;
   int index = 0;
+  List<int> testIds = [];
+  var results;
+  int ArrayLength;
+  var allResults;
   Tests() async {
-    List<int> testIds = [];
-    var results = await conn.query(
-        'select labTestID from VisitLabTest where visitID = ?', [visitId]);
-    int ArrayLength = await results.length;
-
-    for (var row2 in results) {
-      if (isFilled2 != ArrayLength) {
-        int testNo2 = int.parse('${row2[0]}');
-        testIds.add(testNo2);
-        isFilled2 = isFilled2 + 1;
-      }
-    }
-    var allResults = await conn.query('select name,idlabTest from LabTest');
-    allArrayLength = await allResults.length;
-
-    if (isFilled2 == ArrayLength) {
-      bool exist = false;
-      for (var row in allResults) {
-        setState(() {
-          exist = false;
-        });
-        if (isFilled != allArrayLength) {
-          String testName = '${row[0]}';
-          int testNo1 = int.parse('${row[1]}');
-          if (ArrayLength != 0) {
-            testIds.forEach((element) {
-              if (element == testNo1)
-                setState(() {
-                  exist = true;
-                });
-            });
-          }
-          if (!exist) _tests.add(testName);
-
-          isFilled = isFilled + 1;
+    visitsIds.forEach((element) async {
+      results = await conn.query(
+          'select labTestID from VisitLabTest where visitID = ? and status=?',
+          [element, 'active']);
+      print(element);
+      ArrayLength = await results.length;
+      isFilled2 = 0;
+      for (var row2 in results) {
+        if (isFilled2 != ArrayLength) {
+          int testNo2 = int.parse('${row2[0]}');
+          testIds.add(testNo2);
+          print(testIds);
+          isFilled2 = isFilled2 + 1;
         }
       }
+      if (element == visitsIds.last) {
+        Tests2();
+      }
+    });
+  }
 
+  Tests2() async {
+    allResults = await conn.query('select name,idlabTest from LabTest');
+    allArrayLength = await allResults.length;
+    //if (isFilled2 == ArrayLength) {
+    print("isFilled2");
+
+    bool exist = false;
+    for (var row in allResults) {
       setState(() {
-        loading = false;
+        exist = false;
       });
+      if (isFilled != allArrayLength) {
+        String testName = '${row[0]}';
+        int testNo1 = int.parse('${row[1]}');
+        if (testIds.length != 0) {
+          testIds.forEach((element) {
+            if (element == testNo1)
+              setState(() {
+                exist = true;
+              });
+          });
+        }
+        if (!exist) _tests.add(testName);
+        isFilled = isFilled + 1;
+      }
     }
+
+    setState(() {
+      loading = false;
+    });
+    //}
     if (loading == false)
       _items =
           _tests.map((tests) => MultiSelectItem<String>(tests, tests)).toList();
@@ -415,14 +433,20 @@ class _TestRequestState extends State<TestRequest> {
         ),
       ),
       onPressed: () {
-        Get.to(
-          labTests(
-              id: idp.toString(),
-              idPhy: idPhysician,
-              r: 'physician',
-              vid: visitId),
-          arguments: 'patientfile',
-        );
+        if (back == 'back2') {
+          Get.back();
+          Get.back();
+        } else {
+          //Get.back();
+          Get.to(
+            labTests(
+                id: idp.toString(),
+                idPhy: idPhysician,
+                r: 'UPphysician',
+                vid: visitId),
+            arguments: 'patientfile',
+          );
+        }
       },
     );
 

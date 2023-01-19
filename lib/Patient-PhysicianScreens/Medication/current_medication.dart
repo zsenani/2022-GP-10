@@ -263,7 +263,7 @@ class _currentMedicationState extends State<currentMedication> {
                                             SizedBox(height: 3),
                                             RichText(
                                               text: TextSpan(
-                                                text: "Dr." +
+                                                text: "Dr. " +
                                                     glopalMedication[index]
                                                         ["drname"],
                                                 style: TextStyle(

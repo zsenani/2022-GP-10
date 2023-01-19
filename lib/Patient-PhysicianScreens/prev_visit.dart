@@ -31,14 +31,17 @@ class _PreVisitListState extends State<PreVisitList> {
   }
 
   Future previouseVisitP(idVisit) async {
+    previouseVisit.clear();
+    _loading = true;
+
     previouseVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Pre");
     print("in visit");
     print(previouseVisit.length);
-    // print(activeVisit[0][0]);
+    // print(previouseVisit[0][1]);
     for (int i = 0; i < previouseVisit.length; i++) {
-      previouseVisit.sort((b, a) {
-        var adate = a[i][0];
-        var bdate = b[i][0];
+      previouseVisit.sort((a, b) {
+        var adate = a[i];
+        var bdate = b[i];
         return -adate.compareTo(bdate);
       });
     }
@@ -123,7 +126,7 @@ class _PreVisitListState extends State<PreVisitList> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 55),
+                                    const SizedBox(width: 45),
                                     romanText(previouseVisit[index][1],
                                         ColorResources.grey777, 14),
                                   ],

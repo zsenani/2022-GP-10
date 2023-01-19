@@ -32,6 +32,9 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   }
 
   Future ActiveTest(idLabSpe) async {
+    ActiveTest1.clear();
+    _loading = true;
+
     ActiveTest1 = await mysqlDatabase.labTestReq(idLabSpe, "active");
     print("in lab spe active home");
     print(ActiveTest1.length);
@@ -187,7 +190,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                       ),
                                       SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: " + ActiveTest1[index][4],
+                                          "Patient: " + ActiveTest1[index][5],
                                           ColorResources.grey777,
                                           18),
                                       SizedBox(height: 5),

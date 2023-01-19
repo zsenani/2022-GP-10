@@ -47,7 +47,7 @@ class PreviousReqState extends State<PreviousReq> {
 
   aa() async {
     resultspre = await conn.query(
-        'select * from Visit where idPatient=? and idvisit IN(select visitID from VisitLabTest where status =?)',
+        'select * from Visit where idPatient=? and idvisit IN(select visitID from VisitLabTest where status =?) ORDER BY date DESC, time DESC',
         [idp, 'done']);
     print(resultspre);
     arraylength = resultspre.length;
@@ -271,14 +271,19 @@ class PreviousReqState extends State<PreviousReq> {
                                                       children: [
                                                         setRange == false
                                                             ? mediumText(
-                                                                drName[index]
-                                                                    ["name"],
+                                                                "Dr. " +
+                                                                    drName[index]
+                                                                        [
+                                                                        "name"],
                                                                 ColorResources
                                                                     .green009,
                                                                 20)
                                                             : mediumText(
-                                                                drNameFil[index]
-                                                                    ["name"],
+                                                                "Dr. " +
+                                                                    drNameFil[
+                                                                            index]
+                                                                        [
+                                                                        "name"],
                                                                 ColorResources
                                                                     .green009,
                                                                 20),

@@ -29,6 +29,8 @@ String visitId = '';
 bool errorH = false;
 bool errorW = false;
 bool errorP = false;
+List<int> visitsIds = [];
+int isFilled3 = 0;
 
 class UpCommingVisitScreen extends StatefulWidget {
   UpCommingVisitScreen(
@@ -117,6 +119,16 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         medicalIllnesses = '${row[4]}';
       });
     }
+//  var visits = await conn
+//         .query('select idvisit from Visit where idPatient = ?', [patientID]);
+//     int visitsArrayLength = await visits.length;
+//     for (var row2 in visits) {
+//       if (isFilled3 != visitsArrayLength) {
+//         int visit = int.parse('${row2[0]}');
+//         visitsIds.add(visit);
+//         isFilled3 = isFilled3 + 1;
+//       }
+//     }
   }
 
   String greeting() {
@@ -145,7 +157,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
       "image": Images.labTest,
       "text1": "Lab Results",
       "caller": labTests(
-          id: patientId, idPhy: physicianId, r: 'physician', vid: visitId),
+          id: patientId, idPhy: physicianId, r: 'UPphysician', vid: visitId),
     },
     {
       "image": Images.list,
@@ -154,6 +166,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         id: patientId,
         vid: visitId,
         role1: 'UPphysician',
+        idPHy: physicianId,
       ),
     },
   ];
@@ -190,7 +203,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: InkWell(
                   onTap: () {
-                    Get.to(TestRequest(vid: visitId));
+                    Get.to(TestRequest(vid: visitId, pid: int.parse(patientId)),
+                        arguments: 'back2');
                   },
                   child: Container(
                     height: 50,
@@ -464,7 +478,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                       : patientWeight,
                                   border: UnderlineInputBorder(),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorH == false
+                                    borderSide: errorW == false
                                         ? const BorderSide(
                                             color: ColorResources.greyA0A,
                                             width: 1)
@@ -532,6 +546,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   errorW == false &&
                                   errorP == false) {
                                 alertDialogUpdate(context);
+                              } else {
+                                alertUpdateError(context);
                               }
                             },
                           ),
@@ -627,6 +643,40 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
       content: const Text("Are you sure you want to update patient info ?"),
       actions: [
         cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  alertUpdateError(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: const Text(
+        "Ok",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Error"),
+      content:
+          const Text("Please make sure that you entered digits in the fields"),
+      actions: [
         continueButton,
       ],
     );

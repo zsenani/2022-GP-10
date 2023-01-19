@@ -210,12 +210,6 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Column(
-            //       children: [
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
@@ -237,12 +231,15 @@ class _EditHistory extends State<EditHistory> {
                     child: Column(
                       children: [
                         for (var index in _Allergy1) ...[
-                          if (index != null && index != ' ')
+                          if (index != null &&
+                              index != ' ' &&
+                              "${index}" != 'null')
                             Row(
                               children: [
                                 SizedBox(width: 10),
-                                if (index != "") Text('${index}'),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
+                                  Text('${index}'),
+                                if (index != "" && "${index}" != 'null')
                                   IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
@@ -261,7 +258,6 @@ class _EditHistory extends State<EditHistory> {
               ),
             ),
             SizedBox(height: 20),
-
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
@@ -282,12 +278,15 @@ class _EditHistory extends State<EditHistory> {
                     child: Column(
                       children: [
                         for (var index in _social1) ...[
-                          if (index != null && index != ' ')
+                          if (index != null &&
+                              index != ' ' &&
+                              "${index}" != 'null')
                             Row(
                               children: [
                                 SizedBox(width: 10),
-                                if (index != "") Text('${index}'),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
+                                  Text('${index}'),
+                                if (index != "" && "${index}" != 'null')
                                   IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
@@ -305,8 +304,6 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            //   ],
-            // ),
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
@@ -328,15 +325,17 @@ class _EditHistory extends State<EditHistory> {
                     child: Column(
                       children: [
                         for (var index in _family1) ...[
-                          if (index != null && index != ' ')
+                          if (index != null &&
+                              index != ' ' &&
+                              "${index}" != 'null')
                             Row(
                               children: [
                                 SizedBox(width: 10),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
                                   Text('${index}'
                                       // _family1,
                                       ),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
                                   IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
@@ -355,7 +354,6 @@ class _EditHistory extends State<EditHistory> {
               ),
             ),
             SizedBox(height: 20),
-
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
@@ -376,12 +374,15 @@ class _EditHistory extends State<EditHistory> {
                     child: Column(
                       children: [
                         for (var index in _surgery1) ...[
-                          if (index != null && index != ' ')
+                          if (index != null &&
+                              index != ' ' &&
+                              "${index}" != 'null')
                             Row(
                               children: [
                                 SizedBox(width: 10),
-                                if (index != "") Text('${index}'),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
+                                  Text('${index}'),
+                                if (index != "" && "${index}" != 'null')
                                   IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
@@ -420,12 +421,15 @@ class _EditHistory extends State<EditHistory> {
                     child: Column(
                       children: [
                         for (var index in _Medical1) ...[
-                          if (index != null && index != ' ')
+                          if (index != null &&
+                              index != ' ' &&
+                              "${index}" != 'null')
                             Row(
                               children: [
                                 SizedBox(width: 10),
-                                if (index != "") Text('${index}'),
-                                if (index != "")
+                                if (index != "" && "${index}" != 'null')
+                                  Text('${index}'),
+                                if (index != "" && "${index}" != 'null')
                                   IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
@@ -472,17 +476,6 @@ class _EditHistory extends State<EditHistory> {
       ),
       controller: _controller,
     );
-    // TextField(
-    //     showCursor: true,
-    //     style: TextStyle(
-    //         backgroundColor: ColorResources.white, fontSize: 14,),
-    //     decoration: InputDecoration(
-    //       border: OutlineInputBorder(
-    //         borderSide: BorderSide(color: ColorResources.greyA0A, width: 1),
-    //       ),
-    //     ),
-    //     controller: _controller,
-    //     keyboardType: TextInputType.text);
   }
 
   showAlertDialog(BuildContext context) {

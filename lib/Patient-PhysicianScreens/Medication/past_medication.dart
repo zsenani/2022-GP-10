@@ -227,7 +227,7 @@ class _PastMedicationState extends State<PastMedication> {
                                       SizedBox(height: 3),
                                       RichText(
                                         text: TextSpan(
-                                          text: "Dr." +
+                                          text: "Dr. " +
                                               glopalMedication[index]["drname"],
                                           style: TextStyle(
                                             fontFamily: TextFontFamily

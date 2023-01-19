@@ -97,7 +97,10 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
     {
       "image": Images.list,
       "text1": "Medication List",
-      "caller": MedicationList(id: patientId),
+      "caller": MedicationList(
+        id: patientId,
+        idPHy: physicianId,
+      ),
     },
   ];
 

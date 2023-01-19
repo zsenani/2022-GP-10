@@ -15,6 +15,7 @@ String LabSpID;
 bool _loading = true;
 List<String> testNames;
 List<String> testsIDglobal = [];
+List<String> testUnitglobal = [];
 
 class labResult extends StatefulWidget {
   labResult({String vid, List<String> testnames, String labid}) {
@@ -53,6 +54,15 @@ class labResultState extends State<labResult> {
       testsIDglobal = testID;
       _loading = false;
     });
+    for (int i = 0; i < testNames.length; i++) {
+      var units = await conn
+          .query('select unit from LabTest where name = ?', [testNames[i]]);
+      for (var un in units) {
+        testUnitglobal.add('${un[0]}');
+      }
+    }
+    print('units');
+    print(testUnitglobal);
     testsIDglobal = testID;
 
     print('global');
@@ -193,7 +203,7 @@ class labResultState extends State<labResult> {
               shrinkWrap: true,
               itemCount: testsIDglobal.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                padding: EdgeInsets.only(left: 20, bottom: 16, right: 20),
                 child: InkWell(
                   child: Container(
                     decoration: BoxDecoration(
@@ -204,10 +214,9 @@ class labResultState extends State<labResult> {
                       padding: EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
                           Expanded(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
@@ -215,7 +224,7 @@ class labResultState extends State<labResult> {
                                   children: [
                                     SizedBox(height: 12),
                                     mediumText(testNames[index] + ": ",
-                                        ColorResources.grey777, 25),
+                                        ColorResources.grey777, 22),
                                   ],
                                 ),
                                 SizedBox(
@@ -225,7 +234,9 @@ class labResultState extends State<labResult> {
                                     decoration: InputDecoration(
                                       //  floatingLabelStyle: TextStyle(),
 
-                                      hintText: 'Enter result',
+                                      hintText: testUnitglobal[index] != 'null'
+                                          ? 'In ' + testUnitglobal[index]
+                                          : 'Enter result',
                                       border: UnderlineInputBorder(
                                         borderSide: flagcontroller[index] ==
                                                 false
@@ -311,8 +322,9 @@ class labResultState extends State<labResult> {
               'update VisitLabTest set status=?, result=? where visitID =? and labTestID =?',
               ['done', _controller[i].text, visitID, testsIDglobal[i]]);
         }
-        Navigator.pop(context);
-        Navigator.pop(context);
+        Get.to(LabHomePage1(
+          id: LabSpID,
+        ));
       },
     );
 

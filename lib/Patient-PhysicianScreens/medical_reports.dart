@@ -41,7 +41,8 @@ class MedicalReportsState extends State<MedicalReports> {
 
   getMedicalRepot() async {
     results = await conn.query(
-        'select * from Visit where idPatient=? ORDER BY date ASC', [idpatient]);
+        'select * from Visit where idPatient=? and assessment is Not null and date<? ORDER BY date DESC, time DESC',
+        [idpatient, DateTime.now().toUtc()]);
     print(results);
     arraylength = results.length;
     setlength = results.length;
@@ -110,13 +111,6 @@ class MedicalReportsState extends State<MedicalReports> {
 
   @override
   Widget build(BuildContext context) {
-    //if (toDayList.isEmpty == true) aa();
-    // else
-    //   setState(() {
-    //     arraylength = setlength;
-    //   });
-    // ;
-
     print(toDayList);
     print(drName);
     print(hospitalname);
@@ -133,55 +127,6 @@ class MedicalReportsState extends State<MedicalReports> {
                       height: 60,
                     ),
                     HeaderWidget(),
-                    // Row(
-                    //   children: [
-                    //     SizedBox(
-                    //       width: 20,
-                    //     ),
-                    //     InkWell(
-                    //       onTap: () {
-                    //         //Get.to(HomeScreen());
-                    //         toDayList.clear();
-                    //         Navigator.of(context).pop();
-                    //       },
-                    //       child: Container(
-                    //         height: 40,
-                    //         width: 20,
-                    //         decoration: BoxDecoration(
-                    //           color: ColorResources.whiteF6F,
-                    //           borderRadius: BorderRadius.circular(10),
-                    //           border: Border.all(
-                    //             color: ColorResources.white.withOpacity(0.2),
-                    //             width: 1,
-                    //           ),
-                    //         ),
-                    //         child: Center(
-                    //           child: Icon(Icons.arrow_back,
-                    //               color: ColorResources.grey777),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     HeaderWidget(),
-                    //     if (role != "patient")
-                    //       InkWell(
-                    //         onTap: () {
-                    //           Navigator.of(context).pop();
-                    //           Navigator.of(context).pop();
-                    //         },
-                    //         child: Padding(
-                    //           padding: EdgeInsets.only(top: 0, left: 0),
-                    //           child: Container(
-                    //             height: 60,
-                    //             width: 60,
-                    //             child: Center(
-                    //               child: Icon(Icons.home_outlined,
-                    //                   color: ColorResources.grey777),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //   ],
-                    // ),
                     SizedBox(height: 10),
                     SizedBox(
                       child: ScrollConfiguration(
@@ -218,65 +163,81 @@ class MedicalReportsState extends State<MedicalReports> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 7),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SizedBox(
-                                            height: 45,
-                                            width: 40,
-                                            child: Image.asset(
-                                              Images.medical2,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          Row(
                                             children: [
-                                              Flexible(
-                                                flex: 2,
-                                                child: heavyText(
-                                                    drName[index]['name'],
-                                                    //dr.name
-                                                    //getCareList[index]["text2"],
-                                                    ColorResources.green009,
-                                                    20,
-                                                    TextAlign.left),
-                                              ),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: hospitalname[index]
-                                                      ['name'],
-                                                  //hospital name
-                                                  style: TextStyle(
-                                                    fontFamily: TextFontFamily
-                                                        .AVENIR_LT_PRO_BOOK,
-                                                    fontSize: 14,
-                                                    color:
-                                                        ColorResources.grey777,
-                                                  ),
+                                              SizedBox(
+                                                height: 45,
+                                                width: 40,
+                                                child: Image.asset(
+                                                  Images.medical2,
                                                 ),
                                               ),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: "Date: " +
-                                                      toDayList[index]['date']
-                                                          .substring(
-                                                              0,
-                                                              toDayList[index]
-                                                                      ['date']
-                                                                  .indexOf(
-                                                                      ' ')),
-                                                  style: TextStyle(
-                                                    fontFamily: TextFontFamily
-                                                        .AVENIR_LT_PRO_BOOK,
-                                                    fontSize: 14,
-                                                    color:
-                                                        ColorResources.greyA0A,
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    flex: 2,
+                                                    child: heavyText(
+                                                        "Dr. " +
+                                                            drName[index]
+                                                                ['name'],
+                                                        //dr.name
+                                                        //getCareList[index]["text2"],
+                                                        ColorResources.green009,
+                                                        20,
+                                                        TextAlign.left),
                                                   ),
-                                                ),
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      text: hospitalname[index]
+                                                          ['name'],
+                                                      //hospital name
+                                                      style: TextStyle(
+                                                        fontFamily: TextFontFamily
+                                                            .AVENIR_LT_PRO_BOOK,
+                                                        fontSize: 14,
+                                                        color: ColorResources
+                                                            .grey777,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      text: "Date: " +
+                                                          toDayList[index]
+                                                                  ['date']
+                                                              .substring(
+                                                                  0,
+                                                                  toDayList[index]
+                                                                          [
+                                                                          'date']
+                                                                      .indexOf(
+                                                                          ' ')),
+                                                      style: TextStyle(
+                                                        fontFamily: TextFontFamily
+                                                            .AVENIR_LT_PRO_BOOK,
+                                                        fontSize: 14,
+                                                        color: ColorResources
+                                                            .greyA0A,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
+                                          ),
+                                          Image.asset(
+                                            'assets/images/right-arrow.png',
+                                            height: 30,
+                                            width: 30,
+                                            alignment: Alignment.centerRight,
                                           ),
                                         ],
                                       )),

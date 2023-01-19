@@ -68,6 +68,15 @@ class _SearchPatientState extends State<SearchPatient> {
                 color: ColorResources.white,
               ),
               child: TextFormField(
+                onFieldSubmitted: ((value) {
+                  setState(() {
+                    idPatient == null ? first = true : first = false;
+                    returnedPatient.clear();
+                    load = false;
+                  });
+
+                  searchPatientinfo(idPhysician, int.parse(idPatient.text));
+                }),
                 controller: idPatient,
                 cursorColor: ColorResources.black,
                 style: TextStyle(
@@ -252,7 +261,7 @@ class _SearchPatientState extends State<SearchPatient> {
                                           : returnedPatient.length == 0 &&
                                                   load == true
                                               ? "There is no patient with this ID or you don't have access to the patient file"
-                                              : 'gg',
+                                              : '',
                               ColorResources.grey777,
                               18,
                               TextAlign.center),

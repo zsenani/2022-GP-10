@@ -238,7 +238,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                         leading: Image.asset('assets/images/location-pin.png',
                             height: 30, width: 30),
                         title:
-                            romanText("Hospital: ", ColorResources.grey777, 20),
+                            romanText("Hospital: ", ColorResources.grey777, 18),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
