@@ -1,6 +1,7 @@
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
+import 'package:medcore/index.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,10 +15,12 @@ String labId;
 List<List<String>> ActiveTest1 = [];
 List<List<String>> activepatientList = [];
 bool _loading = true;
+bool updated1 = false;
 
 class ActiveTestReq extends StatefulWidget {
   ActiveTestReq({Key key, String id}) : super(key: key) {
     labId = id;
+    updated1 = false;
   }
   @override
   State<ActiveTestReq> createState() => _ActiveTestReqState();
@@ -40,6 +43,15 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
     print(ActiveTest1.length);
     print(ActiveTest1);
 
+    // for (int j = 0; j < ActiveTest1.length; j++) {
+    //   for (int i = 12; i < ActiveTest1[j].length; i + 5) {
+    //     if (ActiveTest1[j][i] == "yes") {
+    //       updated1 = true;
+    //     }
+    //   }
+    // }
+    print("updated var");
+    print(updated1);
     setState(() {
       _loading = false;
     });
@@ -47,8 +59,8 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
 
   searchPatientActive(String idP) {
     for (int i = 0; i < ActiveTest1.length; i++) {
-      print(ActiveTest1[i][5].runtimeType);
-      if (ActiveTest1[i][5] == idP) {
+      print(ActiveTest1[i][6].runtimeType);
+      if (ActiveTest1[i][6] == idP) {
         setState(() {
           activepatientList.add(ActiveTest1[i]);
         });
@@ -74,6 +86,39 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
         color: ColorResources.grey777,
       ),
     );
+  }
+
+  Widget updated(index) {
+    for (int i = 12; i < ActiveTest1[index].length; i + 5) {
+      if (ActiveTest1[index][i] == "yes") {
+        updated1 = true;
+        break;
+      }
+    }
+    if (updated1 == true) {
+      return Row(
+        children: [
+          const SizedBox(
+            width: 170,
+          ),
+          const Icon(
+            Icons.circle,
+            color: ColorResources.orange,
+            size: 12,
+          ),
+          RichText(
+            text: TextSpan(
+              text: " Updated",
+              style: TextStyle(
+                fontFamily: TextFontFamily.AVENIR_LT_PRO_ROMAN,
+                fontSize: 14,
+                color: ColorResources.orange,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   @override
@@ -177,7 +222,8 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: ActiveTest1[index][2],
+                                              text: "Visit ID: " +
+                                                  ActiveTest1[index][1],
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -186,6 +232,10 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                               ),
                                             ),
                                           ),
+                                          // update
+
+                                          // if (updated1 == true)
+                                          updated(index),
                                         ],
                                       ),
                                       SizedBox(height: 5),
@@ -195,9 +245,9 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           18),
                                       SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: " + ActiveTest1[index][1],
+                                          "Physician: " + ActiveTest1[index][7],
                                           ColorResources.grey777,
-                                          12),
+                                          15),
                                     ],
                                   ),
                                 ),

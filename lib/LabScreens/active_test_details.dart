@@ -52,13 +52,22 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
     print(testInfo.length);
     print(testInfo);
     tests = await mysqlDatabase.labTestnames(vis);
+    print("length tests");
+    print(tests);
     for (var i = 0; i < tests.length && i < 2; i++) {
       column.add(
         DataColumn(
           label: Text(
-            tests[i],
+            tests[i] == "yes"
+                ? "Updated"
+                : tests[i] == "no"
+                    ? ""
+                    : tests[i],
             style: TextStyle(
               fontSize: 19,
+              color: tests[i] == "yes"
+                  ? ColorResources.orange
+                  : ColorResources.black,
             ),
           ),
         ),
@@ -77,13 +86,16 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                 ),
               ),
             ),
-            i == tests.length
+            i + 1 < tests.length
                 ? DataCell(
                     Text(
-                      tests[i],
+                      tests[++i] == "yes"
+                          ? "Updated"
+                          : tests[i] == "no"
+                              ? ""
+                              : "",
                       style: const TextStyle(
-                        fontSize: 19,
-                      ),
+                          fontSize: 19, color: ColorResources.orange),
                     ),
                   )
                 : DataCell(
