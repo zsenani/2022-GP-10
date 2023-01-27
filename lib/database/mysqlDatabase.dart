@@ -267,10 +267,14 @@ class mysqlDatabase {
     else if (role.compareTo('Physician') == 0)
       table = 'Physician';
     else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
-
-    var rr = await conn
+    var rr;
+    rr = await conn
         .query('select password from ' + table + ' where NationalID = ?', [id]);
-    return rr;
+    String pass;
+    for (var row in rr) {
+      pass = '${row[0]}';
+    }
+    return pass;
   }
 
   static PatientHomeScreen(id) async {
@@ -397,7 +401,7 @@ class mysqlDatabase {
           '${row[1]}'.substring(0, 11),
           '${row[2]}',
           '${row[3]}',
-          '${row[4]}'
+          '${row[4]}' //patientId
         ]);
       }
       // print(i++);
@@ -568,7 +572,7 @@ class mysqlDatabase {
         activ.add(LabTest[g][1]);
         activ.add(LabTest[g][2]);
         activ.add(LabTest[g][3]);
-        //activ.add(LabTest[g][4]);
+        activ.add(LabTest[g][4]);
         var patientid = await conn.query(
             'select idPatient from Visit where idvisit = ?', [LabTest[g][1]]);
         var patiId;
@@ -584,16 +588,32 @@ class mysqlDatabase {
         activ.add(patiN);
         //////////cady
         activ.add(patiId);
+        // physican id and name
+        var phyid = await conn.query(
+            'select idPhysician from Visit where idvisit = ?', [LabTest[g][1]]);
+        var phyId;
+        var phyName;
+        for (var row in phyid) {
+          phyId = '${row[0]}';
+        }
+        var phyN = await conn
+            .query('select name from Physician where NationalID = ?', [phyId]);
+        for (var row in phyN) {
+          phyName = '${row[0]}';
+        }
+        activ.add(phyName);
+
         for (int j = g + 1; j < LabTest.length; j++) {
           if (LabTest[g][1] == LabTest[j][1] && LabTest[j][2] == "active") {
             activ.add(LabTest[j][0]);
             activ.add(LabTest[j][1]);
             activ.add(LabTest[j][2]);
             activ.add(LabTest[j][3]);
-            //activ.add(LabTest[j][4]);
+            activ.add(LabTest[j][4]);
             LabTest.removeAt(j--);
           }
         }
+
         print("before avtiv");
         print(LabTest);
         // LabTest.removeAt(g);
@@ -622,6 +642,20 @@ class mysqlDatabase {
         prev.add(patiN);
         //////cady
         prev.add(patiId);
+        // physican id and name
+        var phyid = await conn.query(
+            'select idPhysician from Visit where idvisit = ?', [LabTest[g][1]]);
+        var phyId;
+        var phyName;
+        for (var row in phyid) {
+          phyId = '${row[0]}';
+        }
+        var phyN = await conn
+            .query('select name from Physician where NationalID = ?', [phyId]);
+        for (var row in phyN) {
+          phyName = '${row[0]}';
+        }
+        prev.add(phyName);
         for (int j = g + 1; j < LabTest.length; j++) {
           if (LabTest[g][1] == LabTest[j][1] && LabTest[j][2] == "done") {
             prev.add(LabTest[j][0]);
@@ -631,6 +665,7 @@ class mysqlDatabase {
             LabTest.removeAt(j--);
           }
         }
+
         print("before prev");
         print(LabTest);
         // LabTest.removeAt(g);

@@ -77,10 +77,10 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                 ),
               ),
             ),
-            i == tests.length
+            i + 1 < tests.length
                 ? DataCell(
                     Text(
-                      tests[i],
+                      tests[++i],
                       style: const TextStyle(
                         fontSize: 19,
                       ),

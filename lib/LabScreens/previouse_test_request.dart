@@ -45,8 +45,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
 
   searchPatientPrev(String idP) {
     for (int i = 0; i < prevTest.length; i++) {
-      print(prevTest[i][5].runtimeType);
-      if (prevTest[i][5] == idP) {
+      print(prevTest[i][6].runtimeType);
+      if (prevTest[i][6] == idP) {
         setState(() {
           prevpatientList.add(prevTest[i]);
         });
@@ -175,7 +175,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: prevTest[index][2],
+                                              text: "Visit ID: " +
+                                                  prevTest[index][1],
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -184,6 +185,9 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            width: 30,
+                                          )
                                         ],
                                       ),
                                       SizedBox(height: 5),
@@ -193,7 +197,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                           18),
                                       SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: " + prevTest[index][1],
+                                          "Physician: " + prevTest[index][6],
                                           ColorResources.grey777,
                                           12),
                                     ],
@@ -250,7 +254,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: prevpatientList[index][2],
+                                              text: "Visit ID: " +
+                                                  prevpatientList[index][1],
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -270,9 +275,9 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                       SizedBox(height: 5),
                                       romanText(
                                           "Visit ID: " +
-                                              prevpatientList[index][1],
+                                              prevpatientList[index][6],
                                           ColorResources.grey777,
-                                          12),
+                                          15),
                                     ],
                                   ),
                                 ),

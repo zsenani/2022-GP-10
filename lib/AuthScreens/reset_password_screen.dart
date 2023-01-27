@@ -335,8 +335,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Future<void> checkPass() async {
-    String c = await mysqlDatabase.checkOldPass(role3, patientId);
-    //print(oldpass);
+    var c = await mysqlDatabase.checkOldPass(role3, patientId);
+    print("type");
+    print(c.runtimeType);
+    print(c.toString());
     // print(c);
     var isCorrect = new DBCrypt().checkpw(currentPasswordController.text, c);
     if (isCorrect) {
