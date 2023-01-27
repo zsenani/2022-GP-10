@@ -44,8 +44,8 @@ class _ActiveVisitState extends State<ActiveVisit> {
     // print(activeVisit[0][0]);
     for (int i = 0; i < activeVisit.length; i++) {
       activeVisit.sort((b, a) {
-        var adate = a[i];
-        var bdate = b[i];
+        var adate = a[i][0];
+        var bdate = b[i][0];
         return -adate.compareTo(bdate);
       });
     }
@@ -78,124 +78,17 @@ class _ActiveVisitState extends State<ActiveVisit> {
     return Container(
         child: _loading == true
             ? loadingPage()
-            : upcommingVisits.isEmpty && todayVisits.isEmpty
+            : activeVisit.isEmpty && todayVisits.isEmpty
                 ? emptyVis()
-                : todayVisits.isNotEmpty && upcommingVisits.isEmpty
-                    ? TodatVOnly()
-                    : todayVisits.isEmpty && upcommingVisits.isNotEmpty
-                        ? upcommingV()
-                        : fullVis());
+                : todayVisits.isNotEmpty
+                    ? fullVis()
+                    : upcommingV());
   }
 
   Widget loadingPage() {
     return const Center(
       child: CircularProgressIndicator(
         color: ColorResources.grey777,
-      ),
-    );
-  }
-
-  Widget TodatVOnly() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //today visit
-          const SizedBox(height: 15),
-          mediumText("      Today Visits ", ColorResources.grey777, 15),
-          const SizedBox(height: 10),
-          ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: todayVisits.length,
-              itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: InkWell(
-                  onTap: () async {
-                    Get.to(UpCommingVisitScreen(
-                      patientID: todayVisits[index][9],
-                      hospitalN: todayVisits[index][2],
-                      visitD: todayVisits[index][1],
-                      visitT: todayVisits[index][10],
-                      patientAge: todayVisits[index][5],
-                      patientB: todayVisits[index][8],
-                      patientG: todayVisits[index][4],
-                      patientH: todayVisits[index][6],
-                      patientN: todayVisits[index][3],
-                      patientW: todayVisits[index][7],
-                      vid: todayVisits[index][0],
-                    ));
-                    var visits = await conn.query(
-                        'select idvisit from Visit where idPatient = ?',
-                        [todayVisits[index][9]]);
-                    int visitsArrayLength = await visits.length;
-                    for (var row2 in visits) {
-                      if (isFilled3 != visitsArrayLength) {
-                        int visit = int.parse('${row2[0]}');
-                        visitsIds.add(visit);
-                        isFilled3 = isFilled3 + 1;
-                      }
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ColorResources.white,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        text: todayVisits[index][2],
-                                        style: TextStyle(
-                                          fontFamily: TextFontFamily
-                                              .AVENIR_LT_PRO_ROMAN,
-                                          fontSize: 14,
-                                          color: ColorResources.green009,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 45),
-                                    romanText(todayVisits[index][1],
-                                        ColorResources.grey777, 14),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                mediumText("Patient: " + todayVisits[index][3],
-                                    ColorResources.grey777, 18),
-                                SizedBox(height: 5),
-                                romanText("Visit ID: " + todayVisits[index][0],
-                                    ColorResources.grey777, 12),
-                              ],
-                            ),
-                          ),
-                          Image.asset(
-                            'assets/images/right-arrow.png',
-                            height: 30,
-                            width: 30,
-                            alignment: Alignment.centerRight,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -29,9 +29,6 @@ String visitId = '';
 bool errorH = false;
 bool errorW = false;
 bool errorP = false;
-bool isHNull = false;
-bool isWNull = false;
-bool isPNull = false;
 List<int> visitsIds = [];
 int isFilled3 = 0;
 
@@ -255,47 +252,28 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
 
   void updatePatientInfo() async {
     if (hightController.text != "null") {
-      var hight = hightController.text + ".0";
       var pNewHight = await conn.query(
           'update Patient set  height=? where NationalID =?',
-          [double.parse(hight), int.parse(patientId)]);
+          [double.parse(hightController.text), int.parse(patientId)]);
     }
-    if (weightController.text != "null") {
-      var weight = weightController.text + ".0";
+    if (hightController.text != "null") {
       var pNewWeight = await conn.query(
           'update Patient set weight=? where NationalID =?',
-          [double.parse(weight), int.parse(patientId)]);
+          [double.parse(weightController.text), int.parse(patientId)]);
     }
-    if (bloodPressController.text != "null") {
-      var bloodPress = bloodPressController.text + ".0";
+    if (hightController.text != "null") {
       var newPatientInfo = await conn.query(
           'update Patient set BloodPressure=? where NationalID =?',
-          [double.parse(bloodPress), int.parse(patientId)]);
+          [double.parse(bloodPressController.text), int.parse(patientId)]);
     }
   }
 
   bool validateH(String valueH) {
-    isHNull = false;
-    Pattern pattern = r'^\d{1,3}(\.\d+)?$';
+    Pattern pattern = r'^[0-9]{1,3}$';
     RegExp regex = new RegExp(pattern);
-    print("value h");
-    print(valueH);
-    print(valueH.isEmpty);
-    print(patientHeight == "null");
-    if (valueH.isEmpty && patientHeight == "null") {
-      isHNull = true;
-
-      print(isHNull);
-    } else if (valueH.isEmpty) {
-      valueH = patientHeight;
-      isHNull = false;
-    }
-    print("**************");
-    print(valueH);
     if (!regex.hasMatch(valueH)) {
       print('Please enter Numbers');
       setState(() {
-        isHNull = false;
         errorH = true;
       });
       return false;
@@ -309,22 +287,11 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   }
 
   bool validateW(String valueW) {
-    isWNull = false;
-    Pattern pattern = r'^\d{1,3}(\.\d+)?$';
+    Pattern pattern = r'^[0-9]{1,3}$';
     RegExp regex = new RegExp(pattern);
-    if (valueW.isEmpty && patientWeight == "null") {
-      isWNull = true;
-      print(isWNull);
-    } else if (valueW.isEmpty) {
-      isWNull = false;
-      valueW = patientWeight;
-    }
-    print("**************");
-    print(valueW);
     if (!regex.hasMatch(valueW)) {
       print('wrong wight');
       setState(() {
-        isWNull = false;
         errorW = true;
       });
       return false;
@@ -338,23 +305,11 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   }
 
   bool validateP(String valueB) {
-    isPNull = false;
-    Pattern pattern = r'^\d{1,3}(\.\d+)?$';
+    Pattern pattern = r'^[0-9]{1,3}$';
     RegExp regex = new RegExp(pattern);
-    if (valueB.isEmpty && patientBloodP == "null") {
-      isPNull = true;
-
-      print(isPNull);
-    } else if (valueB.isEmpty) {
-      isPNull = false;
-      valueB = patientBloodP;
-    }
-    print("**************");
-    print(valueB);
     if (!regex.hasMatch(valueB)) {
       print('wrong blood pressure');
       setState(() {
-        isPNull = false;
         errorP = true;
       });
       return false;
@@ -376,7 +331,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           height: 320,
           width: Get.width,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(240),
               bottomRight: Radius.circular(240),
             ),
@@ -570,7 +525,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
                       Center(
@@ -579,7 +534,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                           height: 20,
                           // margin: EdgeInsets.all(25),
                           child: ElevatedButton(
-                            child: const Text(
+                            child: Text(
                               'Update',
                               style: TextStyle(fontSize: 15),
                             ),
@@ -587,22 +542,12 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               validateH(hightController.text);
                               validateP(bloodPressController.text);
                               validateW(weightController.text);
-                              print("*****");
-                              print(errorP);
-                              if (isHNull || isWNull || isPNull) {
-                                print("###########");
-                                print(isHNull);
-                                print(isWNull);
-                                print(isPNull);
-                                alertUpdateError(context,
-                                    "Please make sure that you fill all the input fields");
-                              } else if (errorH == false &&
+                              if (errorH == false &&
                                   errorW == false &&
                                   errorP == false) {
                                 alertDialogUpdate(context);
                               } else {
-                                alertUpdateError(context,
-                                    "Please make sure that you entered digits in the fields");
+                                alertUpdateError(context);
                               }
                             },
                           ),
@@ -711,7 +656,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     );
   }
 
-  alertUpdateError(BuildContext context, String message) {
+  alertUpdateError(BuildContext context) {
     // set up the buttons
 
     Widget continueButton = TextButton(
@@ -729,7 +674,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Error"),
-      content: Text(message),
+      content:
+          const Text("Please make sure that you entered digits in the fields"),
       actions: [
         continueButton,
       ],
