@@ -193,6 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       confirmEmailController.text,
       nationalityController.text,
       maritalStatusController.text,
+      BloodTypeController.text,
       int.parse(IDController.text),
     );
 
@@ -274,6 +275,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordController.text = "";
     selectedDate = null;
     maritalStatusController.text = "";
+    BloodTypeController.text = "";
     picked = null;
   }
 
@@ -327,7 +329,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             error: errorID || errorID2),
                         const SizedBox(height: 5),
                         if (errorID == true)
-                          mediumText("ID should be 10 digits", Colors.red, 16),
+                          mediumText(
+                              "ID should be 10 digits and start with 1 or 2",
+                              Colors.red,
+                              16),
                         if (errorID2 == true)
                           mediumText("ID Already used", Colors.red, 16),
                         const SizedBox(height: 30),
@@ -501,6 +506,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool errorEmail2 = false;
   bool _isVisiblePassword = false;
   bool _isVisiblleConfirmPassword = false;
+  bool errorBloodType = false;
 
   void updatePasswordStatus(who) {
     if (who == 'password') {
@@ -540,9 +546,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       return false;
     } else {
-      print("valid Nationality");
+      print("valid gender");
       setState(() {
         errorGender = false;
+      });
+      return true;
+    }
+  }
+
+  bool validateBlood(String value) {
+    if (value.isEmpty) {
+      print('Enter Valid blood type');
+      setState(() {
+        errorBloodType = true;
+      });
+      return false;
+    } else {
+      print("valid blood type");
+      setState(() {
+        errorBloodType = false;
       });
       return true;
     }
@@ -630,9 +652,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool validateMyID(String value) {
-    Pattern pattern = r'^[0-9]{10}$';
+    Pattern pattern = r'^[1-2]{1}[0-9]{9}$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) {
+    if (!regex.hasMatch(value) || value == '0000000000') {
       print('Enter Valid ID');
       setState(() {
         errorID = true;
@@ -728,6 +750,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmEmailController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   TextEditingController GenderlocationController = TextEditingController();
+  TextEditingController BloodTypeController = TextEditingController();
   TextEditingController specializationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -1334,7 +1357,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (role == 'patient' && errorMaritalStatus == true)
                           mediumText(
                               "Enter a valid marital status", Colors.red, 16),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
+                        if (role == 'patient')
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.bloodtype_outlined,
+                                color: ColorResources.orange,
+                              ),
+                              const SizedBox(width: 15),
+                              mediumText("* ", Colors.red, 16),
+                              mediumText(
+                                  "Blood Type", ColorResources.grey777, 16),
+                            ],
+                          ),
+                        if (role == 'patient')
+                          DropdownSearch<String>(
+                            popupProps: PopupProps.menu(
+                              showSelectedItems: true,
+                              constraints: BoxConstraints(maxHeight: 160),
+                            ),
+                            items: [
+                              'O+',
+                              'O-',
+                              'A+',
+                              'A-',
+                              'B+',
+                              'B-',
+                              'AB+',
+                              'AB-',
+                              'I\'m not sure'
+                            ],
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                hintText: 'Select your blood type',
+                                hintStyle:
+                                    TextStyle(color: ColorResources.grey777),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorBloodType == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                ),
+                              ),
+                            ),
+                            onChanged: (String selectedValue) {
+                              BloodTypeController.text = selectedValue;
+                            },
+                          ),
+                        const SizedBox(height: 5),
+                        if (errorBloodType == true && role == 'patient')
+                          mediumText(
+                              "Enter a valid blood type", Colors.red, 16),
+                        if (role == 'patient') const SizedBox(height: 30),
+
                         if (role != 'patient' &&
                             RolelocationController.selectedValue == 'Physician')
                           Row(
@@ -1398,7 +1476,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                           ),
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         if (isOther)
                           TextField(
@@ -1421,7 +1499,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                        SizedBox(height: 5),
                         if (role != 'patient' &&
                             RolelocationController.selectedValue ==
                                 'Physician' &&
@@ -1580,7 +1657,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     validateMyPhone(phoneController.text);
     validateMyPass(passwordController.text);
 
-    if (role == 'patient') validateMaritalStatus(maritalStatusController.text);
+    if (role == 'patient') {
+      validateMaritalStatus(maritalStatusController.text);
+      validateBlood(BloodTypeController.text);
+    }
     if (RolelocationController.selectedValue == 'Physician') {
       validateHospitals(hospitals);
       validateSpecialization(specializationController.text);
@@ -1594,7 +1674,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         !errorPass &&
         passwordController.text == confirmPasswordController.text &&
         !errorPhone) {
-      if ((role == 'patient' && !errorMaritalStatus) ||
+      if ((role == 'patient' && !errorMaritalStatus && !errorBloodType) ||
           (RolelocationController.selectedValue == 'Physician' &&
               !errorSpecialization &&
               !errorHospitals) ||

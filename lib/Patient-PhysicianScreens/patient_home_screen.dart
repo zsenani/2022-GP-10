@@ -145,7 +145,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
         bloodType = '${row[2]}';
         nationalID = '${row[3]}';
         DOB = '${row[4]}'.split(' ')[0];
-        nationality = '${row[5]}'.split(' ')[1];
+        nationality = '${row[5]}';
         maritalStatus = '${row[6]}';
         //age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));

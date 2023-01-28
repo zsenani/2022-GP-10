@@ -86,6 +86,7 @@ class mysqlDatabase {
       print("");
     }
     print("before phospitals ");
+    print(phospitals);
     var result2;
     phospitals.forEach((element) async {
       print("inside phospitals ");
@@ -116,22 +117,39 @@ class mysqlDatabase {
     String femail,
     String fnationality,
     String fmaritalStatus,
+    String bloodType,
     int fnationalId,
   ) async {
-    var result = await conn.query(
-        'insert into Patient (nationalId, name, password,DOB,gender,mobileNo,email,nationality,maritalStatus) values (?, ?, ?,?, ?, ?,?, ?, ?)',
-        [
-          fnationalId,
-          fname,
-          fpassword,
-          fdob,
-          fgender,
-          fmobileNo,
-          femail,
-          fnationality,
-          fmaritalStatus
-        ]);
-
+    var result;
+    if (bloodType != 'I\'m not sure')
+      result = await conn.query(
+          'insert into Patient (nationalId, name, password,DOB,gender,mobileNo,email,nationality,maritalStatus,bloodType) values (?, ?, ?,?, ?, ?,?, ?, ?,?)',
+          [
+            fnationalId,
+            fname,
+            fpassword,
+            fdob,
+            fgender,
+            fmobileNo,
+            femail,
+            fnationality,
+            fmaritalStatus,
+            bloodType
+          ]);
+    else
+      result = await conn.query(
+          'insert into Patient (nationalId, name, password,DOB,gender,mobileNo,email,nationality,maritalStatus) values (?, ?, ?,?, ?, ?,?, ?, ?)',
+          [
+            fnationalId,
+            fname,
+            fpassword,
+            fdob,
+            fgender,
+            fmobileNo,
+            femail,
+            fnationality,
+            fmaritalStatus,
+          ]);
     try {
       if (result.isSuccess) {
         print("Data Inserted");
@@ -197,8 +215,22 @@ class mysqlDatabase {
         [dosage, des, start, end, medId, vid]);
   }
 
-  static addTest(List<String> name, vid, String update) async {
+  static addTest(List<String> name, vid, String update, String hosName) async {
+    var hosId = await conn
+        .query('select idhospital from hospital where name = ?', [hosName]);
+    for (var row in hosId) {
+      hosId = "${row[0]}";
+    }
     var testId;
+    print("hosName");
+    print(hosName);
+    List<dynamic> lab = [];
+    var labs = await conn.query(
+        'select nationalID from labspecialist where idHospital = ?', [hosId]);
+    for (var row in labs) {
+      lab.add("${row[0]}");
+    }
+    print(lab);
     name.forEach((element) async {
       testId = await conn
           .query('select idlabTest from LabTest where name = ?', [element]);
@@ -208,6 +240,11 @@ class mysqlDatabase {
       var add = await conn.query(
           'insert into VisitLabTest(visitID, labTestID, status,isUpdated) values (?, ?, ?,?)',
           [vid, testId, "active", update]);
+      lab.forEach((element) async {
+        var add = await conn.query(
+            'insert into labspecialistlabtest(idLabSpecialist, idLabTest,visitId) values (?, ?,?)',
+            [element, testId, vid]);
+      });
     });
   }
 

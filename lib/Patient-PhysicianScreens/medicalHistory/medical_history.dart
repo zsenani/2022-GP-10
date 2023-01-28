@@ -81,7 +81,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
   void updatePatientInfo() async {
     if (BloodController.text != "null") {
       var pNewBlood = await conn.query(
-          'update Patient set  bloodType=? where NationalID =?',
+          'update Patient set bloodType=? where NationalID =?',
           [BloodController.text, int.parse(nationalID)]);
     }
   }
@@ -105,6 +105,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
   }
 
   Widget info() {
+    print("_Medical");
     print(_Medical);
 
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -401,7 +402,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                       children: [
                                         Row(
                                           children: [
-                                            bookText("Name   :   ",
+                                            bookText("Name:   ",
                                                 ColorResources.greyA0A, 16),
                                             mediumText(name,
                                                 ColorResources.grey777, 16),
@@ -410,10 +411,19 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                         SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            bookText("Age      :   ",
+                                            bookText("Age   :   ",
                                                 ColorResources.greyA0A, 16),
                                             mediumText('${age}',
                                                 ColorResources.grey777, 16),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            bookText("Nationality: ",
+                                                ColorResources.greyA0A, 15),
+                                            mediumText(nationality + " ",
+                                                ColorResources.grey777, 14),
                                           ],
                                         ),
                                         SizedBox(height: 10),
@@ -423,15 +433,6 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.greyA0A, 16),
                                             mediumText(gender,
                                                 ColorResources.grey777, 16),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          children: [
-                                            bookText("Nationality: ",
-                                                ColorResources.greyA0A, 14),
-                                            mediumText(nationality + " ",
-                                                ColorResources.grey777, 13),
                                           ],
                                         ),
                                       ],
@@ -444,7 +445,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                       children: [
                                         Row(
                                           children: [
-                                            bookText("ID   :   ",
+                                            bookText("ID : ",
                                                 ColorResources.greyA0A, 16),
                                             mediumText(nationalID,
                                                 ColorResources.grey777, 16),
@@ -453,7 +454,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                         SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            bookText("DOB:   ",
+                                            bookText("DOB: ",
                                                 ColorResources.greyA0A, 16),
                                             mediumText(DOB,
                                                 ColorResources.grey777, 16),
@@ -462,149 +463,198 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                         SizedBox(height: 10),
                                         Row(
                                           children: [
-                                            bookText("Marital Status:   ",
+                                            bookText("Marital Status: ",
                                                 ColorResources.greyA0A, 16),
                                             mediumText(maritalStatus,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        if (bloodType != 'null' &&
-                                            bloodType != '')
+                                        if (role != "patient")
                                           SizedBox(height: 10),
                                         Column(
                                           children: [
                                             Row(
                                               children: [
-                                                bookText("Blood Type :  ",
+                                                bookText("Blood Type:  ",
                                                     ColorResources.greyA0A, 16),
-                                                bloodType == 'null' ||
-                                                        bloodType == ''
-                                                    ? Container(
-                                                        width: 80,
-                                                        child: DropdownSearch<
-                                                            String>(
-                                                          selectedItem:
-                                                              BloodController
-                                                                  .text,
-                                                          popupProps:
-                                                              PopupProps.menu(
-                                                            showSelectedItems:
-                                                                true,
-                                                            constraints:
-                                                                BoxConstraints(
-                                                                    maxHeight:
-                                                                        230,
-                                                                    maxWidth:
-                                                                        70),
-                                                            scrollbarProps:
-                                                                ScrollbarProps(
-                                                                    thumbVisibility:
-                                                                        true),
-                                                          ),
-                                                          items: [
-                                                            'O+',
-                                                            'O-',
-                                                            'A+',
-                                                            'A-',
-                                                            'B+',
-                                                            'B-',
-                                                            'AB+',
-                                                            'AB-'
-                                                          ],
-                                                          dropdownDecoratorProps:
-                                                              DropDownDecoratorProps(
-                                                            dropdownSearchDecoration:
-                                                                InputDecoration(
-                                                              hintText: '--',
-                                                              hintStyle: TextStyle(
-                                                                  color: ColorResources
-                                                                      .grey777),
-                                                              enabledBorder:
-                                                                  UnderlineInputBorder(
-                                                                borderSide: errorBlood ==
-                                                                        false
-                                                                    ? const BorderSide(
-                                                                        color: ColorResources
-                                                                            .greyA0A,
-                                                                        width:
-                                                                            1)
-                                                                    : const BorderSide(
-                                                                        color: Colors
-                                                                            .red,
-                                                                        width:
-                                                                            1),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          onChanged: (String
-                                                              selectedValue) {
-                                                            BloodController
-                                                                    .text =
-                                                                selectedValue;
-                                                          },
+                                                if (role == "patient")
+                                                  Container(
+                                                    width: 70,
+                                                    child:
+                                                        DropdownSearch<String>(
+                                                      // selectedItem:
+                                                      //     BloodController.text,
+                                                      popupProps:
+                                                          PopupProps.menu(
+                                                        showSelectedItems: true,
+                                                        constraints:
+                                                            BoxConstraints(
+                                                          maxHeight: 260,
+                                                          //maxWidth: 90
                                                         ),
-                                                      )
-                                                    : bookText(
-                                                        bloodType,
-                                                        ColorResources.grey777,
-                                                        16),
-                                                // mediumText(bloodType,
-                                                //     ColorResources.grey777, 16),
-
-                                                //     Padding(
-                                                //       padding:
-                                                //           const EdgeInsets.only(
-                                                //               top: 9),
-                                                //       child: SizedBox(
-                                                //         height: 13,
-                                                //         width: 35,
-                                                //         child: TextField(
-                                                //           controller:
-                                                //               BloodController,
-                                                //           decoration:
-                                                //               InputDecoration(
-                                                //             hintText:
-                                                //                 bloodType == "null"
-                                                //                     ? "  ---"
-                                                //                     : bloodType,
-                                                //             border:
-                                                //                 UnderlineInputBorder(),
-                                                //             enabledBorder:
-                                                //                 UnderlineInputBorder(
-                                                //               borderSide: errorBlood ==
-                                                //                       false
-                                                //                   ? const BorderSide(
-                                                //                       color: ColorResources
-                                                //                           .grey777,
-                                                //                       width: 1)
-                                                //                   : const BorderSide(
-                                                //                       color: Colors
-                                                //                           .red,
-                                                //                       width: 1),
-                                                //             ),
-                                                //           ),
-                                                //           style: TextStyle(
-                                                //               fontSize: 13),
-                                                //         ),
-                                                //       ),
-                                                //     ),
+                                                        // scrollbarProps:
+                                                        //     ScrollbarProps(
+                                                        //         thumbVisibility:
+                                                        //             true),
+                                                      ),
+                                                      items: [
+                                                        'O+',
+                                                        'O-',
+                                                        'A+',
+                                                        'A-',
+                                                        'B+',
+                                                        'B-',
+                                                        'AB+',
+                                                        'AB-'
+                                                      ],
+                                                      dropdownDecoratorProps:
+                                                          DropDownDecoratorProps(
+                                                        dropdownSearchDecoration:
+                                                            InputDecoration(
+                                                          hintText: bloodType ==
+                                                                      'null' ||
+                                                                  bloodType ==
+                                                                      ''
+                                                              ? '--'
+                                                              : bloodType,
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  ColorResources
+                                                                      .grey777,
+                                                              fontSize: 13),
+                                                          enabledBorder:
+                                                              UnderlineInputBorder(
+                                                            borderSide: errorBlood ==
+                                                                    false
+                                                                ? const BorderSide(
+                                                                    color: ColorResources
+                                                                        .greyA0A,
+                                                                    width: 1)
+                                                                : const BorderSide(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    width: 1),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      onChanged: (String
+                                                          selectedValue) {
+                                                        BloodController.text =
+                                                            selectedValue;
+                                                      },
+                                                    ),
+                                                  ),
+                                                if ((bloodType == 'null' ||
+                                                        bloodType == '') &&
+                                                    role != "patient")
+                                                  bookText(
+                                                      '--',
+                                                      ColorResources.grey777,
+                                                      16),
+                                                if ((bloodType != 'null' &&
+                                                        bloodType != '') &&
+                                                    role != "patient")
+                                                  bookText(
+                                                      bloodType,
+                                                      ColorResources.grey777,
+                                                      16),
+                                                // if (bloodType != 'null' &&
+                                                //     bloodType != '')
+                                                //   SizedBox(height: 10),
+                                                // Column(
+                                                //   children: [
+                                                //     Row(
+                                                //       children: [
+                                                //         bookText("Blood Type :  ",
+                                                //             ColorResources.greyA0A, 16),
+                                                //         bloodType == 'null' ||
+                                                //                 bloodType == ''
+                                                //             ? Container(
+                                                //                 width: 80,
+                                                //                 child: DropdownSearch<
+                                                //                     String>(
+                                                //                   selectedItem:
+                                                //                       BloodController
+                                                //                           .text,
+                                                //                   popupProps:
+                                                //                       PopupProps.menu(
+                                                //                     showSelectedItems:
+                                                //                         true,
+                                                //                     constraints:
+                                                //                         BoxConstraints(
+                                                //                             maxHeight:
+                                                //                                 230,
+                                                //                             maxWidth:
+                                                //                                 70),
+                                                //                     scrollbarProps:
+                                                //                         ScrollbarProps(
+                                                //                             thumbVisibility:
+                                                //                                 true),
+                                                //                   ),
+                                                //                   items: [
+                                                //                     'O+',
+                                                //                     'O-',
+                                                //                     'A+',
+                                                //                     'A-',
+                                                //                     'B+',
+                                                //                     'B-',
+                                                //                     'AB+',
+                                                //                     'AB-'
+                                                //                   ],
+                                                //                   dropdownDecoratorProps:
+                                                //                       DropDownDecoratorProps(
+                                                //                     dropdownSearchDecoration:
+                                                //                         InputDecoration(
+                                                //                       hintText: '--',
+                                                //                       hintStyle: TextStyle(
+                                                //                           color: ColorResources
+                                                //                               .grey777),
+                                                //                       enabledBorder:
+                                                //                           UnderlineInputBorder(
+                                                //                         borderSide: errorBlood ==
+                                                //                                 false
+                                                //                             ? const BorderSide(
+                                                //                                 color: ColorResources
+                                                //                                     .greyA0A,
+                                                //                                 width:
+                                                //                                     1)
+                                                //                             : const BorderSide(
+                                                //                                 color: Colors
+                                                //                                     .red,
+                                                //                                 width:
+                                                //                                     1),
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                   onChanged: (String
+                                                //                       selectedValue) {
+                                                //                     BloodController
+                                                //                             .text =
+                                                //                         selectedValue;
+                                                //                   },
+                                                //                 ),
+                                                //               )
+                                                //             : bookText(
+                                                //                 bloodType,
+                                                //                 ColorResources.grey777,
+                                                //                 16),
+                                                ///////////////////////////////
                                               ],
                                             ),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            bloodType == 'null' ||
-                                                    bloodType == ''
+                                            role == "patient"
                                                 ? Center(
                                                     child: Container(
-                                                      width: 100,
+                                                      width: 80,
                                                       height: 20,
                                                       // margin: EdgeInsets.all(25),
                                                       child: ElevatedButton(
                                                         child: Text(
                                                           'Update',
                                                           style: TextStyle(
-                                                              fontSize: 15),
+                                                              fontSize: 13),
                                                         ),
                                                         onPressed: () {
                                                           validateBlood(
@@ -695,6 +745,8 @@ class MedicalHistoryState extends State<MedicalHistory> {
         ),
       ),
       onPressed: () {
+        print('control');
+        print(BloodController.text);
         updatePatientInfo();
         Navigator.pop(context);
       },
@@ -703,7 +755,9 @@ class MedicalHistoryState extends State<MedicalHistory> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Update"),
-      content: const Text("Are you sure you want to update patient info ?"),
+      content: Text("Are you sure you want to update the blood type to " +
+          BloodController.text +
+          " ?"),
       actions: [
         cancelButton,
         continueButton,

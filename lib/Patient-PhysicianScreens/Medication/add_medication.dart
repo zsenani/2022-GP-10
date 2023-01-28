@@ -63,7 +63,7 @@ class _AddMedicationState extends State<AddMedication> {
 
   DateTime SselectedDate = DateTime.now();
   DateTime EselectedDate = DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+      DateTime.now().year, DateTime.now().month, DateTime.now().day + 2);
   DateTime selectedDate;
   DateTime picked;
   DateTime selectedDate2;
@@ -75,11 +75,11 @@ class _AddMedicationState extends State<AddMedication> {
           initialDate: SselectedDate,
           firstDate: DateTime.now(),
           lastDate: DateTime(DateTime.now().year + 3));
-    } else {
+    } else if (date == 'end') {
       picked2 = await showDatePicker(
           context: context,
           initialDate: EselectedDate,
-          firstDate: DateTime(DateTime.now().day + 1),
+          firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 2),
           lastDate: DateTime(DateTime.now().year + 5));
     }
     if (date == 'start' && picked != null && picked != SselectedDate) {
@@ -528,7 +528,7 @@ class _AddMedicationState extends State<AddMedication> {
 
   bool validateName(String value) {
     print(value);
-    if (value == ''|| value == null) {
+    if (value == '' || value == null) {
       print('Enter valid name');
       setState(() {
         errorName = true;

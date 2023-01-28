@@ -705,7 +705,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Add Diagnose"),
-      content: Text("Are you sure you want to add diagnose?"),
+      content: Text("Are you sure you want to add diagnosis?"),
       actions: [
         cancelButton,
         continueButton,

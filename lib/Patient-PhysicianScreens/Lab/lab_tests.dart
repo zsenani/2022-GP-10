@@ -14,14 +14,17 @@ int idp;
 String idPhysician;
 String roleHome;
 String visitId;
+String hospName;
 
 class labTests extends StatefulWidget {
-  labTests({Key key, String id, String idPhy, String r, String vid})
+  labTests(
+      {Key key, String id, String idPhy, String r, String vid, String hosName})
       : super(key: key) {
     idp = int.parse(id);
     idPhysician = idPhy;
     roleHome = r;
     visitId = vid;
+    hospName = hosName;
   }
   static const String routeName = '/lab_tests';
   @override
