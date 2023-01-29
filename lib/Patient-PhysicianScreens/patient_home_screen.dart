@@ -558,7 +558,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                         const SizedBox(height: 2),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("DoB: ${patientInfor[2]}",
+                          child: heavyText("DOB: ${patientInfor[2]}",
                               ColorResources.grey777, 16),
                         ),
                         const SizedBox(height: 2),
@@ -578,8 +578,13 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                             mediumText("Hieght:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText(patientInfor[4],
-                                  ColorResources.grey777, 12, TextAlign.center),
+                              child: romanText(
+                                  patientInfor[4] == "null"
+                                      ? "---"
+                                      : patientInfor[4],
+                                  ColorResources.grey777,
+                                  12,
+                                  TextAlign.center),
                             ),
                             const SizedBox(width: 10),
                             const Image(
@@ -591,8 +596,13 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                             mediumText("Weight:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText(patientInfor[5],
-                                  ColorResources.grey777, 12, TextAlign.center),
+                              child: romanText(
+                                  patientInfor[5] == "null"
+                                      ? "---"
+                                      : patientInfor[5],
+                                  ColorResources.grey777,
+                                  12,
+                                  TextAlign.center),
                             ),
                             const SizedBox(width: 8),
                             const Image(
@@ -604,8 +614,13 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                                 "Blood pressure:", ColorResources.grey777, 12),
                             SizedBox(
                               width: 28,
-                              child: romanText(patientInfor[6],
-                                  ColorResources.grey777, 12, TextAlign.center),
+                              child: romanText(
+                                  patientInfor[6] == "null"
+                                      ? "---"
+                                      : patientInfor[6],
+                                  ColorResources.grey777,
+                                  12,
+                                  TextAlign.center),
                             ),
                           ],
                         ),
