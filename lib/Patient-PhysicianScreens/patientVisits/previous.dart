@@ -36,8 +36,8 @@ class _PreviousVisitState extends State<PreviousVisit> {
     // print(preVisit[0][5]);
     for (int i = 0; i < preVisit.length; i++) {
       preVisit.sort((b, a) {
-        var adate = a[i][0];
-        var bdate = b[i][0];
+        var adate = a[i];
+        var bdate = b[i];
         return -adate.compareTo(bdate);
       });
     }

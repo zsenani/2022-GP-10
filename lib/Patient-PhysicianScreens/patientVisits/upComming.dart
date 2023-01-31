@@ -35,8 +35,8 @@ class UpCommingVisitState extends State<UpCommingVisit> {
     // print(upVisit[0][5]);
     for (int i = 0; i < upVisit.length; i++) {
       upVisit.sort((b, a) {
-        var adate = a[i][0];
-        var bdate = b[i][0];
+        var adate = a[i];
+        var bdate = b[i];
         return -adate.compareTo(bdate);
       });
     }
