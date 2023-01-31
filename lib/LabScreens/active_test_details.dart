@@ -342,7 +342,9 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                   const SizedBox(height: 30),
                   commonButton(() {
                     Get.to(labResult(
-                        vid: visitID, testnames: tests, labid: LabSpID));
+                        vid: visitID,
+                        lengthController: tests.length.toDouble(),
+                        labid: LabSpID));
                   }, "Add Results", const Color.fromRGBO(19, 156, 140, 1),
                       ColorResources.white),
                   const SizedBox(height: 20),

@@ -1,4 +1,6 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/foundation.dart';
+import 'package:medcore/Patient-PhysicianScreens/Lab/lab_tests.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
@@ -12,15 +14,17 @@ import 'lab_home_screen.dart';
 
 String visitID;
 String LabSpID;
+var idpatient;
 bool _loading = true;
-List<String> testNames;
+double lengthnames;
 List<String> testsIDglobal = [];
 List<String> testUnitglobal = [];
+List<String> testNamesGlabal = [];
 
 class labResult extends StatefulWidget {
-  labResult({String vid, List<String> testnames, String labid}) {
+  labResult({String vid, double lengthController, String labid}) {
     visitID = vid;
-    testNames = testnames;
+    lengthnames = lengthController / 2;
     LabSpID = labid;
   }
   @override
@@ -30,14 +34,22 @@ class labResult extends StatefulWidget {
 class labResultState extends State<labResult> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      testNamesGlabal.clear();
+      testUnitglobal.clear();
+      testsIDglobal.clear();
       labTestID(visitID);
     });
   }
 
   List<TextEditingController> _controller =
-      List.generate(testNames.length, (i) => TextEditingController());
-
+      List.generate(lengthnames.round(), (i) => TextEditingController());
   labTestID(visitid) async {
+    print(visitid);
+    var idpat = await conn
+        .query('select idPatient from Visit where idvisit = ?', [visitid]);
+    for (var row in idpat) {
+      idpatient = '${row[0]}';
+    }
     List<String> testID = [];
     var ID = await conn.query(
         'select labTestID from VisitLabTest where visitID = ?',
@@ -48,32 +60,44 @@ class labResultState extends State<labResult> {
       print('${row[0]}');
       testID.add('${row[0]}');
     }
-    print("testId list cady_zozo:");
-    print(testID);
-    setState(() {
-      testsIDglobal = testID;
-      _loading = false;
-    });
-    for (int i = 0; i < testNames.length; i++) {
-      var units = await conn
-          .query('select unit from LabTest where name = ?', [testNames[i]]);
+    for (int i = 0; i < testID.length; i++) {
+      var units = await conn.query(
+          'select name,unit from LabTest where idlabTest = ?', [testID[i]]);
       for (var un in units) {
-        testUnitglobal.add('${un[0]}');
+        testNamesGlabal.add('${un[0]}');
+        testUnitglobal.add('${un[1]}');
       }
     }
+
+    print("testId list cady_zozo:");
+    print(testID);
+
+    // for (int i = 0; i < testNames.length; i++) {
+    //   var units = await conn
+    //       .query('select unit from LabTest where name = ?', [testNames[i]]);
+    //   for (var un in units) {
+    //     testUnitglobal.add('${un[0]}');
+    //   }
+    // }
     print('units');
     print(testUnitglobal);
     testsIDglobal = testID;
 
     print('global');
     print(testsIDglobal);
+    setState(() {
+      testsIDglobal = testID;
+      _loading = false;
+    });
+    print('ddddddd');
+    print(testNamesGlabal);
   }
 
   List<bool> flagcontroller = [];
   bool isFilled = true;
   addResult() async {
     isFilled = true;
-    for (int index = 0; index < testNames.length; index++) {
+    for (int index = 0; index < testNamesGlabal.length; index++) {
       if (_controller[index].text == '') {
         setState(() {
           flagcontroller[index] = true;
@@ -97,7 +121,7 @@ class labResultState extends State<labResult> {
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < testNames.length; i++) {
+    for (int i = 0; i < testNamesGlabal.length; i++) {
       flagcontroller.add(false);
     }
     return Scaffold(
@@ -223,55 +247,108 @@ class labResultState extends State<labResult> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 12),
-                                    mediumText(testNames[index] + ": ",
+                                    mediumText(testNamesGlabal[index] + ": ",
                                         ColorResources.grey777, 22),
                                   ],
                                 ),
                                 SizedBox(
                                   width: 110,
-                                  child: TextFormField(
-                                    controller: _controller[index],
-                                    decoration: InputDecoration(
-                                      //  floatingLabelStyle: TextStyle(),
+                                  child: testNamesGlabal[index] == 'ABO'
+                                      ? DropdownSearch<String>(
+                                          popupProps: PopupProps.menu(
+                                            showSelectedItems: true,
+                                            constraints:
+                                                BoxConstraints(maxHeight: 199),
+                                          ),
+                                          items: const [
+                                            "A+",
+                                            'A-',
+                                            'B+',
+                                            'B-',
+                                            'AB+',
+                                            'AB-',
+                                            'O+',
+                                            'O-'
+                                          ],
+                                          dropdownDecoratorProps:
+                                              DropDownDecoratorProps(
+                                            dropdownSearchDecoration:
+                                                InputDecoration(
+                                              hintText: 'Select..',
+                                              hintStyle: TextStyle(
+                                                  color:
+                                                      ColorResources.grey777),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide:
+                                                    flagcontroller[index] ==
+                                                            false
+                                                        ? const BorderSide(
+                                                            color:
+                                                                ColorResources
+                                                                    .greyA0A,
+                                                            width: 1)
+                                                        : const BorderSide(
+                                                            color: Colors.red,
+                                                            width: 1),
+                                              ),
+                                            ),
+                                          ),
+                                          onChanged: (String selectedValue) {
+                                            _controller[index].text =
+                                                selectedValue;
+                                          },
+                                        )
+                                      : TextFormField(
+                                          controller: _controller[index],
+                                          decoration: InputDecoration(
+                                            //  floatingLabelStyle: TextStyle(),
 
-                                      hintText: testUnitglobal[index] != 'null'
-                                          ? 'In ' + testUnitglobal[index]
-                                          : 'Enter result',
-                                      border: UnderlineInputBorder(
-                                        borderSide: flagcontroller[index] ==
-                                                false
-                                            ? const BorderSide(
-                                                color: ColorResources.greyA0A,
-                                                width: 2)
-                                            : const BorderSide(
-                                                color: Colors.red, width: 4),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: flagcontroller[index] ==
-                                                false
-                                            ? const BorderSide(
-                                                color: ColorResources.greyA0A,
-                                                width: 2)
-                                            : const BorderSide(
-                                                color: Colors.red, width: 4),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: flagcontroller[index] ==
-                                                false
-                                            ? const BorderSide(
-                                                color: ColorResources.greyA0A,
-                                                width: 2)
-                                            : const BorderSide(
-                                                color: Colors.red, width: 4),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  ),
+                                            hintText: testUnitglobal[index] !=
+                                                    'null'
+                                                ? 'In ' + testUnitglobal[index]
+                                                : 'Enter result',
+                                            border: UnderlineInputBorder(
+                                              borderSide:
+                                                  flagcontroller[index] == false
+                                                      ? const BorderSide(
+                                                          color: ColorResources
+                                                              .greyA0A,
+                                                          width: 2)
+                                                      : const BorderSide(
+                                                          color: Colors.red,
+                                                          width: 4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide:
+                                                  flagcontroller[index] == false
+                                                      ? const BorderSide(
+                                                          color: ColorResources
+                                                              .greyA0A,
+                                                          width: 2)
+                                                      : const BorderSide(
+                                                          color: Colors.red,
+                                                          width: 4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide:
+                                                  flagcontroller[index] == false
+                                                      ? const BorderSide(
+                                                          color: ColorResources
+                                                              .greyA0A,
+                                                          width: 2)
+                                                      : const BorderSide(
+                                                          color: Colors.red,
+                                                          width: 4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                          ),
+                                        ),
                                 ),
                               ],
                             ),
@@ -317,7 +394,14 @@ class labResultState extends State<labResult> {
         ),
       ),
       onPressed: () async {
-        for (int i = 0; i < testNames.length; i++) {
+        for (int i = 0; i < testNamesGlabal.length; i++) {
+          if (testNamesGlabal[i] == 'ABO') {
+            print('cocococ');
+            print(idpatient);
+            var rr = await conn.query(
+                'update Patient set bloodType=? where NationalID=?',
+                [_controller[i].text, idpatient]);
+          }
           var result = await conn.query(
               'update VisitLabTest set status=?, result=? where visitID =? and labTestID =?',
               ['done', _controller[i].text, visitID, testsIDglobal[i]]);

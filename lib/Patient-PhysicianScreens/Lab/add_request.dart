@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../../database/mysqlDatabase.dart';
+import '../home_screen.dart';
 import 'ActiveReq.dart';
+
 import 'lab_tests.dart';
 import 'previousReq.dart';
 import 'tests.dart';
@@ -36,7 +38,7 @@ class TestRequest extends StatefulWidget {
 }
 
 class _TestRequestState extends State<TestRequest> {
-  String back = Get.arguments;
+  var back = Get.arguments;
   final LabTabBarController tabBarController = Get.put(LabTabBarController());
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -347,17 +349,11 @@ class _TestRequestState extends State<TestRequest> {
       ),
       onPressed: () {
         if (back == 'back2') {
+          print('befoooooore');
           Get.back();
         } else {
           Get.back();
-          Get.to(
-            labTests(
-                id: idp.toString(),
-                idPhy: idPhysician,
-                r: 'UPphysician',
-                vid: visitId),
-            arguments: 'patientfile',
-          );
+          Get.back();
         }
       },
     );
