@@ -8,11 +8,11 @@ var conn;
 class mysqlDatabase {
   static connect() async {
     var settings = new ConnectionSettings(
-        host: 'us-cdbr-east-06.cleardb.net',
+        host: 'eu-cdbr-west-03.cleardb.net',
         port: 3306,
-        user: 'be9bcd40989c37',
-        password: '3eb2f82b',
-        db: 'heroku_5e95a2b96c766af');
+        user: 'b71432b615aa7b',
+        password: '4b7ac2e7',
+        db: 'heroku_2c29e35e35b17ca');
     conn = await MySqlConnection.connect(settings);
   }
 
