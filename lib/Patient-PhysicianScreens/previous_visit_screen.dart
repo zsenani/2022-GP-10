@@ -323,14 +323,14 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                           const SizedBox(width: 1),
                           mediumText(" Weight: ", ColorResources.grey777, 12),
                           SizedBox(
-                            width: 35,
+                            width: 30,
                             child: romanText(
                                 patientWeight == "null" ? "---" : patientWeight,
                                 ColorResources.grey777,
                                 12,
                                 TextAlign.center),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 10),
                           const Image(
                             image: AssetImage(Images.pressurIcon),
                             width: 20,
@@ -339,7 +339,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                           mediumText(
                               " Blood pressure: ", ColorResources.grey777, 12),
                           SizedBox(
-                            width: 35,
+                            width: 33,
                             child: romanText(
                                 patientBloodP == "null" ? "---" : patientBloodP,
                                 ColorResources.grey777,

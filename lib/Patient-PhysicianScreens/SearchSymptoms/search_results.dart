@@ -82,17 +82,17 @@ class SearchResultsState extends State<SearchResults> {
                 child: InkWell(
                   onTap: () {
                     loading1 = true;
-                    loadingSearch = false;
+                    loadingSearch = true;
                     Navigator.of(context).pop();
                   },
                   child: const Icon(Icons.arrow_back,
                       color: ColorResources.grey777),
                 ),
               ),
-              const SizedBox(width: 110),
+              const SizedBox(width: 90),
               heavyText(
                   "Search Results", ColorResources.green, 22, TextAlign.center),
-              const SizedBox(width: 80),
+              const SizedBox(width: 70),
               Padding(
                 padding: const EdgeInsets.only(right: 10, top: 3),
                 child: InkWell(
@@ -170,7 +170,7 @@ class SearchResultsState extends State<SearchResults> {
                     height: 20,
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(right: 190),
+                    padding: EdgeInsets.only(right: 165),
                     child: Text(
                       "Patient's Symptoms :",
                       textAlign: TextAlign.left,
@@ -219,7 +219,7 @@ class SearchResultsState extends State<SearchResults> {
                     height: 10,
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(right: 190),
+                    padding: EdgeInsets.only(right: 155),
                     child: Text(
                       "Doctor's Contact Info :",
                       textAlign: TextAlign.left,

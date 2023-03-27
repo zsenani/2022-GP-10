@@ -183,6 +183,12 @@ class SearchScreenState extends State<SearchScreen> {
   // SearchScreen({Key? key}) : super(key: key);
   String greating = '';
   String Id = Get.arguments;
+  @override
+  void initState() {
+    super.initState();
+    loadingSearch = false;
+    loading1 = false;
+  }
 
   PhysicianInfor() async {
     results1 = await mysqlDatabase.PhyContInfo(PhyIds);
@@ -193,11 +199,9 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   Widget loadingPage() {
-    return const AlertDialog(
-      content: Center(
-        child: CircularProgressIndicator(
-          color: ColorResources.grey777,
-        ),
+    return const Center(
+      child: CircularProgressIndicator(
+        color: ColorResources.grey777,
       ),
     );
   }

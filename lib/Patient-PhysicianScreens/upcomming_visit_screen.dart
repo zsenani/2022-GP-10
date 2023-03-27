@@ -522,7 +522,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             padding: const EdgeInsets.only(top: 9),
                             child: SizedBox(
                               height: 13,
-                              width: 35,
+                              width: 30,
                               child: TextField(
                                 controller: weightController,
                                 decoration: InputDecoration(
@@ -555,7 +555,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             padding: const EdgeInsets.only(top: 9),
                             child: SizedBox(
                               height: 13,
-                              width: 35,
+                              width: 30,
                               child: TextField(
                                 controller: bloodPressController,
                                 decoration: InputDecoration(

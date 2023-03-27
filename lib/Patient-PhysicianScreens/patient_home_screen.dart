@@ -553,7 +553,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 20),
+                          const SizedBox(width: 5),
                           const Image(
                               image: AssetImage(Images.height),
                               width: 20,
@@ -587,7 +587,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                                 12,
                                 TextAlign.center),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 5),
                           const Image(
                             image: AssetImage(Images.pressurIcon),
                             width: 20,
