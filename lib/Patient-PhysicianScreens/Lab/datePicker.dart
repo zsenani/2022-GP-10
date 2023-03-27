@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:intl/intl.dart';
 
 import '../../Utiils/common_widgets.dart';
 
@@ -48,7 +44,7 @@ class _DatePicker extends State<DatePicker> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         height: 380,
         child: Stack(
           children: <Widget>[
@@ -65,8 +61,8 @@ class _DatePicker extends State<DatePicker> {
                   // Text('Selected range: $_range'),
                   Text(
                     'Selected ranges count: $_rangeCount',
-                    style:
-                        TextStyle(color: ColorResources.grey777, fontSize: 14),
+                    style: const TextStyle(
+                        color: ColorResources.grey777, fontSize: 14),
                   )
                 ],
               ),
@@ -94,7 +90,7 @@ class _DatePicker extends State<DatePicker> {
                     Navigator.pop(context);
                   }, "Cancel", ColorResources.orange.withOpacity(0.9),
                       ColorResources.white),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Button(() {

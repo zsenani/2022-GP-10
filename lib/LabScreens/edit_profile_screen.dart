@@ -7,9 +7,6 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:medcore/LabScreens/lab_profile_screen.dart';
-
 import '../database/mysqlDatabase.dart';
 
 String Id;
@@ -391,7 +388,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String content = "There is nothing changed";
 
     Widget OKButton = TextButton(
-      child: Text(
+      child: const Text(
         "OK",
         style: TextStyle(
           fontSize: 15,

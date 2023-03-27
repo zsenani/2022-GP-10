@@ -1,5 +1,3 @@
-import 'package:get/get_connect/http/src/utils/utils.dart';
-
 import './singleMedicalReport.dart';
 import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
@@ -9,7 +7,6 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../database/mysqlDatabase.dart';
-import 'home_screen.dart';
 
 String idpatient;
 
@@ -123,18 +120,18 @@ class MedicalReportsState extends State<MedicalReports> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 60,
                     ),
                     HeaderWidget(),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SizedBox(
                       child: ScrollConfiguration(
                         behavior: MyBehavior(),
                         child: ListView.builder(
                           itemCount: arraylength,
                           shrinkWrap: true,
-                          padding: EdgeInsets.only(left: 15, right: 15),
+                          padding: const EdgeInsets.only(left: 15, right: 15),
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) => Stack(
                             alignment: Alignment.topCenter,
@@ -160,7 +157,7 @@ class MedicalReportsState extends State<MedicalReports> {
                                     ),
                                   ),
                                   child: Padding(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 7),
                                       child: Row(
                                         mainAxisAlignment:
@@ -175,7 +172,7 @@ class MedicalReportsState extends State<MedicalReports> {
                                                   Images.medical2,
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 10,
                                               ),
                                               Column(
@@ -261,11 +258,11 @@ class MedicalReportsState extends State<MedicalReports> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 60,
                       ),
                       HeaderWidget(),
-                      SizedBox(height: 230),
+                      const SizedBox(height: 230),
                       empty
                           ? Align(
                               alignment: Alignment.center,
@@ -281,7 +278,7 @@ class MedicalReportsState extends State<MedicalReports> {
                                       alignment: Alignment.center,
                                     ),
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   romanText(
                                       "There is no medical report",
                                       ColorResources.grey777,
@@ -325,12 +322,12 @@ class MedicalReportsState extends State<MedicalReports> {
                   width: 1,
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
             ),
           ),
-          SizedBox(width: 3),
+          const SizedBox(width: 3),
           heavyText("Medical Reports", ColorResources.green009, 30),
           if (role != "patient")
             InkWell(
@@ -338,9 +335,9 @@ class MedicalReportsState extends State<MedicalReports> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.only(top: 0, left: 0),
-                child: Container(
+                child: SizedBox(
                   height: 60,
                   width: 60,
                   child: Center(

@@ -1,5 +1,3 @@
-import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
@@ -7,10 +5,7 @@ import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Utiils/images.dart';
 import '../database/mysqlDatabase.dart';
-import 'Physician_profile_screen.dart';
-import 'home_screen.dart';
 import 'previous_visit_screen.dart';
 
 int idPhysician;
@@ -37,7 +32,7 @@ class _SearchPatientState extends State<SearchPatient> {
             height: 160,
             width: Get.width,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(80),
                 bottomRight: Radius.circular(80),
               ),
@@ -51,7 +46,7 @@ class _SearchPatientState extends State<SearchPatient> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 60),
               child: ListTile(
                 title: heavyText("Patient Search", ColorResources.green, 22,
                     TextAlign.center),
@@ -84,10 +79,11 @@ class _SearchPatientState extends State<SearchPatient> {
                   fontSize: 15,
                   fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
                 ),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   suffixIcon: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: InkWell(
                           onTap: () {
                             setState(() {
@@ -99,7 +95,7 @@ class _SearchPatientState extends State<SearchPatient> {
                             searchPatientinfo(
                                 idPhysician, int.parse(idPatient.text));
                           },
-                          child: Icon(Icons.search_outlined,
+                          child: const Icon(Icons.search_outlined,
                               color: ColorResources.green, size: 30))),
                   hintText: "Patient national/resident ID..",
                   hintStyle: TextStyle(
@@ -133,7 +129,7 @@ class _SearchPatientState extends State<SearchPatient> {
           ),
         ],
       ),
-      SizedBox(height: 30),
+      const SizedBox(height: 30),
       if (idPatient.text.length != 10 && idPatient.text != "")
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           mediumText("       The ID should be 10 digits", Colors.red, 16),
@@ -213,7 +209,7 @@ class _SearchPatientState extends State<SearchPatient> {
     print('%%%%%%%%%%%%%%%55');
     print(load);
     print(returnedPatient);
-    print(returnedPatient[0]);
+    // print(returnedPatient[0]);
   }
 
   @override
@@ -234,7 +230,7 @@ class _SearchPatientState extends State<SearchPatient> {
                   children: [
                     HeaderWidget(),
                     const SizedBox(height: 50),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),
                     ),
                     Align(
@@ -243,11 +239,11 @@ class _SearchPatientState extends State<SearchPatient> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 160,
                             width: 160,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           romanText(
                               first ||
                                       idPatient.text.length != 10 &&
@@ -286,13 +282,13 @@ class _SearchPatientState extends State<SearchPatient> {
                 children: [
                   HeaderWidget(),
                   const SizedBox(height: 50),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
                   ),
                   ScrollConfiguration(
                     behavior: MyBehavior(),
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () {
                           Get.to(
@@ -317,21 +313,21 @@ class _SearchPatientState extends State<SearchPatient> {
                             color: ColorResources.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       mediumText(
                                           "Patient: " + returnedPatient[3],
                                           ColorResources.grey777,
                                           18),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       romanText("ID: " + returnedPatient[9],
                                           ColorResources.grey777, 12),
                                     ],

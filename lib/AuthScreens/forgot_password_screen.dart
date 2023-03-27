@@ -1,6 +1,3 @@
-import 'package:medcore/AuthScreens/forgetEmail.dart';
-import 'package:medcore/AuthScreens/signin_screen.dart';
-
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';

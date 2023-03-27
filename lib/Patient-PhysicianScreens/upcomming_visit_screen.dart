@@ -2,7 +2,6 @@ import 'package:medcore/Patient-PhysicianScreens/Lab/add_request.dart';
 import 'package:medcore/Patient-PhysicianScreens/Lab/lab_tests.dart';
 import 'package:medcore/Patient-PhysicianScreens/Medication/medication_list.dart';
 import 'package:medcore/Patient-PhysicianScreens/active_visit.dart';
-import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/medicalHistory/medical_history.dart';
 import 'package:medcore/Patient-PhysicianScreens/medical_reports.dart';
 import 'package:medcore/Patient-PhysicianScreens/write_diagnose.dart';
@@ -104,8 +103,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
         if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
-          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day)
+          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
+          }
         }
       });
     }
@@ -494,7 +494,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   hintText: patientHeight == "null"
                                       ? "---"
                                       : patientHeight,
-                                  border: UnderlineInputBorder(),
+                                  border: const UnderlineInputBorder(),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: errorH == false
                                         ? const BorderSide(
@@ -504,7 +504,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                             color: Colors.red, width: 1),
                                   ),
                                 ),
-                                style: TextStyle(fontSize: 13),
+                                style: const TextStyle(fontSize: 13),
                               ),
                               // romanText(patientHeight,
                               //     ColorResources.grey777, 12, TextAlign.center),
@@ -517,7 +517,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             height: 17,
                           ),
                           const SizedBox(width: 1),
-                          mediumText("Weight: ", ColorResources.grey777, 12),
+                          mediumText(" Weight: ", ColorResources.grey777, 12),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: SizedBox(
@@ -529,7 +529,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   hintText: patientWeight == "null"
                                       ? "---"
                                       : patientWeight,
-                                  border: UnderlineInputBorder(),
+                                  border: const UnderlineInputBorder(),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: errorW == false
                                         ? const BorderSide(
@@ -539,7 +539,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                             color: Colors.red, width: 1),
                                   ),
                                 ),
-                                style: TextStyle(fontSize: 13),
+                                style: const TextStyle(fontSize: 13),
                               ),
                             ),
                           ),
@@ -550,7 +550,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                             height: 20,
                           ),
                           mediumText(
-                              "Blood pressure: ", ColorResources.grey777, 12),
+                              " Blood pressure: ", ColorResources.grey777, 12),
                           Padding(
                             padding: const EdgeInsets.only(top: 9),
                             child: SizedBox(
@@ -562,7 +562,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   hintText: patientBloodP == "null"
                                       ? "---"
                                       : patientBloodP,
-                                  border: UnderlineInputBorder(),
+                                  border: const UnderlineInputBorder(),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: errorP == false
                                         ? const BorderSide(
@@ -572,7 +572,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                             color: Colors.red, width: 1),
                                   ),
                                 ),
-                                style: TextStyle(fontSize: 13),
+                                style: const TextStyle(fontSize: 13),
                               ),
                             ),
                           ),

@@ -20,7 +20,7 @@ class DiagnosisDetails extends StatelessWidget {
         elevation: 0,
         title: Container(
           child: Row(children: [
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
             mediumText("Diagnostic Details", ColorResources.grey777, 24),
           ]),
         ),
@@ -45,7 +45,7 @@ class DiagnosisDetails extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10, top: 15),
+            padding: const EdgeInsets.only(right: 10, top: 15),
             child: InkWell(
               onTap: () {
                 Get.to(HomeScreen(id: Id));
@@ -68,18 +68,18 @@ class DiagnosisDetails extends StatelessWidget {
         ],
       ),
       body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ScrollConfiguration(
               behavior: MyBehavior(),
               child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           children: [
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Expanded(
                               child: Container(
                                 alignment: Alignment.centerLeft,
@@ -91,7 +91,7 @@ class DiagnosisDetails extends StatelessWidget {
                                       children: [
                                         mediumText("Successful diagnosis",
                                             ColorResources.green009, 22),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   ],
@@ -104,12 +104,12 @@ class DiagnosisDetails extends StatelessWidget {
                           color: ColorResources.greyD4D.withOpacity(0.4),
                           thickness: 1,
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 3),
+                              padding: const EdgeInsets.only(left: 3),
                               child: Image.asset(
                                 'assets/images/doctor.png',
                                 height: 27,
@@ -117,13 +117,13 @@ class DiagnosisDetails extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                               ),
                             ),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText("Physician information",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Name   :   ",
@@ -132,7 +132,7 @@ class DiagnosisDetails extends StatelessWidget {
                                         ColorResources.grey777, 16),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Phone  :   ",
@@ -141,7 +141,7 @@ class DiagnosisDetails extends StatelessWidget {
                                         ColorResources.grey777, 16),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 romanText(
                                     "Cardiologist - Accra Medical College Hospital",
                                     ColorResources.greyA0A,
@@ -150,7 +150,7 @@ class DiagnosisDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -160,20 +160,20 @@ class DiagnosisDetails extends StatelessWidget {
                               width: 27,
                               alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(width: 18),
+                            const SizedBox(width: 18),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText("Diagnosis date",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 romanText("10 June, 2022",
                                     ColorResources.grey777, 16),
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -183,13 +183,13 @@ class DiagnosisDetails extends StatelessWidget {
                               width: 27,
                               alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText("Patient information",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Gender   :   ",
@@ -198,7 +198,7 @@ class DiagnosisDetails extends StatelessWidget {
                                         "John Doe", ColorResources.grey777, 16),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Age      :   ",
@@ -211,7 +211,7 @@ class DiagnosisDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -221,13 +221,13 @@ class DiagnosisDetails extends StatelessWidget {
                               width: 27,
                               alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText("Patient's medical information",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Chronic diseases   :   ",
@@ -236,7 +236,7 @@ class DiagnosisDetails extends StatelessWidget {
                                         "none", ColorResources.grey777, 16),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     bookText("Genetic diseases      :   ",
@@ -249,12 +249,12 @@ class DiagnosisDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Divider(
                           color: ColorResources.greyD4D.withOpacity(0.4),
                           thickness: 1,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -264,13 +264,13 @@ class DiagnosisDetails extends StatelessWidget {
                               width: 27,
                               alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText(
                                     "Symptoms", ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Container(
@@ -286,7 +286,7 @@ class DiagnosisDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -296,13 +296,13 @@ class DiagnosisDetails extends StatelessWidget {
                               width: 27,
                               alignment: Alignment.centerLeft,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 mediumText(
                                     "Diagnosis", ColorResources.grey777, 18),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Container(
@@ -314,39 +314,43 @@ class DiagnosisDetails extends StatelessWidget {
                                         children: [
                                           mediumText(
                                               "Subject",
-                                              Color.fromRGBO(241, 94, 34, 1),
+                                              const Color.fromRGBO(
+                                                  241, 94, 34, 1),
                                               18),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           romanText(
                                               "Chronic obstructive pulmonary disease (COPD) is a chronic inflammatory lung disease that causes obstructed airflow from the lungs. Symptoms include breathing difficulty, cough, mucus (sputum) production and wheezing. It's typically caused by long-term exposure to irritating gases or particulate matter, most often from cigarette smoke. People with COPD are at increased risk of developing heart disease, lung cancer and a variety of other conditions.",
                                               ColorResources.greyA0A,
                                               15),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           mediumText(
                                               "Object",
-                                              Color.fromRGBO(241, 94, 34, 1),
+                                              const Color.fromRGBO(
+                                                  241, 94, 34, 1),
                                               18),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           romanText(
                                               "Emphysema and chronic bronchitis are the two most common conditions that contribute to COPD. These two conditions usually occur together and can vary in severity among individuals with COPD",
                                               ColorResources.greyA0A,
                                               15),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           mediumText(
                                               "Assessment",
-                                              Color.fromRGBO(241, 94, 34, 1),
+                                              const Color.fromRGBO(
+                                                  241, 94, 34, 1),
                                               18),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           romanText(
                                               "Emphysema and chronic bronchitis are the two most common conditions that contribute to COPD. These two conditions usually occur together and can vary in severity among individuals with COPD",
                                               ColorResources.greyA0A,
                                               15),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           mediumText(
                                               "Plan",
-                                              Color.fromRGBO(241, 94, 34, 1),
+                                              const Color.fromRGBO(
+                                                  241, 94, 34, 1),
                                               18),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           romanText(
                                               "Emphysema and chronic bronchitis are the two most common conditions that contribute to COPD. These two conditions usually occur together and can vary in severity among individuals with COPD",
                                               ColorResources.greyA0A,

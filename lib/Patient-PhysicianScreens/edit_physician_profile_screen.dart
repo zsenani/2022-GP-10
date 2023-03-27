@@ -100,10 +100,10 @@ class _EditPhysicianProfileScreen extends State<EditPhysicianProfileScreen> {
               onTap: () {
                 Get.back();
               },
-              child: Container(
+              child: const SizedBox(
                 height: 40,
                 width: 40,
-                child: const Center(
+                child: Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -414,7 +414,7 @@ class _EditPhysicianProfileScreen extends State<EditPhysicianProfileScreen> {
     String content = "There is nothing changed";
 
     Widget OKButton = TextButton(
-      child: Text(
+      child: const Text(
         "OK",
         style: TextStyle(
           fontSize: 15,

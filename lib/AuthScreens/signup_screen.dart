@@ -423,20 +423,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               decoration: InputDecoration(
                                 contentPadding:
                                     const EdgeInsets.fromLTRB(12, 10, 20, 20),
-                                border: UnderlineInputBorder(
-                                  borderSide: const BorderSide(
+                                border: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
                                       color: ColorResources.greyA0A, width: 2),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(
+                                focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
                                       color: ColorResources.greyA0A, width: 2),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: errorRole == false
-                                      ? BorderSide(
+                                      ? const BorderSide(
                                           color: ColorResources.greyA0A,
                                           width: 1)
-                                      : BorderSide(color: Colors.red, width: 1),
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
                                 ),
                               ),
                               child: GetBuilder<RoleLocationController>(
@@ -779,10 +780,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ScrollConfiguration SecondStep(context) {
     if (ArrayOfHospitals.isEmpty == true) Hospitals();
     if (role == 'hospital') {
-      if (RolelocationController.selectedValue == "Physician")
+      if (RolelocationController.selectedValue == "Physician") {
         role = "Physician";
-      else if (RolelocationController.selectedValue == "Lab specialist")
+      } else if (RolelocationController.selectedValue == "Lab specialist") {
         role = "Lab specialist";
+      }
     }
 
     return ScrollConfiguration(
@@ -833,7 +835,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 'Lab specialist')
                           DropdownSearch<String>(
                             selectedItem: hospital,
-                            popupProps: PopupProps.menu(
+                            popupProps: const PopupProps.menu(
                               showSearchBox: true,
                               showSelectedItems: true,
                               searchFieldProps: TextFieldProps(
@@ -849,8 +851,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                                 hintText: "Choose your hospital",
-                                hintStyle:
-                                    TextStyle(color: ColorResources.grey777),
+                                hintStyle: const TextStyle(
+                                    color: ColorResources.grey777),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: errorHospital == false
                                       ? const BorderSide(
@@ -883,7 +885,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: DropdownSearch<String>.multiSelection(
                                 selectedItems: hospitalsll,
                                 items: ArrayOfHospitals,
-                                popupProps: PopupPropsMultiSelection.menu(
+                                popupProps: const PopupPropsMultiSelection.menu(
                                   showSearchBox: true,
                                   showSelectedItems: true,
                                   searchFieldProps: TextFieldProps(
@@ -898,7 +900,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 dropdownDecoratorProps: DropDownDecoratorProps(
                                   dropdownSearchDecoration: InputDecoration(
                                     hintText: "Select your hospital",
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                         color: ColorResources.grey777),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: errorHospitals == false
@@ -973,7 +975,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                         DropdownSearch<String>(
-                          popupProps: PopupProps.menu(
+                          popupProps: const PopupProps.menu(
                             showSearchBox: true,
                             showSelectedItems: true,
                             searchFieldProps: TextFieldProps(
@@ -1225,11 +1227,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               hintText: nationalityController.text,
-                              hintStyle:
-                                  TextStyle(color: ColorResources.grey777),
-                              enabledBorder: UnderlineInputBorder(
+                              hintStyle: const TextStyle(
+                                  color: ColorResources.grey777),
+                              enabledBorder: const UnderlineInputBorder(
                                   borderSide: //errorGender == false
-                                      const BorderSide(
+                                      BorderSide(
                                           color: ColorResources.greyA0A,
                                           width: 1)
                                   // : const BorderSide(
@@ -1280,7 +1282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                         DropdownSearch<String>(
-                          popupProps: PopupProps.menu(
+                          popupProps: const PopupProps.menu(
                             showSelectedItems: true,
                             constraints: BoxConstraints(maxHeight: 120),
                           ),
@@ -1291,8 +1293,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               hintText: GenderlocationController.text,
-                              hintStyle:
-                                  TextStyle(color: ColorResources.grey777),
+                              hintStyle: const TextStyle(
+                                  color: ColorResources.grey777),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: errorGender == false
                                     ? const BorderSide(
@@ -1325,7 +1327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         if (role == 'patient')
                           DropdownSearch<String>(
-                            popupProps: PopupProps.menu(
+                            popupProps: const PopupProps.menu(
                               showSelectedItems: true,
                               constraints: BoxConstraints(maxHeight: 280),
                             ),
@@ -1373,11 +1375,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         if (role == 'patient')
                           DropdownSearch<String>(
-                            popupProps: PopupProps.menu(
+                            popupProps: const PopupProps.menu(
                               showSelectedItems: true,
                               constraints: BoxConstraints(maxHeight: 160),
                             ),
-                            items: [
+                            items: const [
                               'O+',
                               'O-',
                               'A+',
@@ -1391,8 +1393,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                                 hintText: 'Select your blood type',
-                                hintStyle:
-                                    TextStyle(color: ColorResources.grey777),
+                                hintStyle: const TextStyle(
+                                    color: ColorResources.grey777),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: errorBloodType == false
                                       ? const BorderSide(
@@ -1665,8 +1667,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       validateHospitals(hospitals);
       validateSpecialization(specializationController.text);
     }
-    if (RolelocationController.selectedValue == 'Lab specialist')
+    if (RolelocationController.selectedValue == 'Lab specialist') {
       validateHospital(hospital);
+    }
     if (!errorEmail &&
         emailController.text == confirmEmailController.text &&
         !errorGender &&

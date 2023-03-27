@@ -1,5 +1,3 @@
-import 'package:medcore/Patient-PhysicianScreens/medical_reports.dart';
-
 import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
 import '../Utiils/text_font_family.dart';
@@ -148,10 +146,10 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
 
   Widget DoctorHeader(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(top: 30),
         height: 340,
         width: Get.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -174,11 +172,11 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                   Navigator.of(context).pop();
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 200),
+                  padding: const EdgeInsets.only(bottom: 200),
                   child: Container(
                     height: 40,
                     width: 40,
-                    child: Center(
+                    child: const Center(
                       child:
                           Icon(Icons.arrow_back, color: ColorResources.white),
                     ),
@@ -190,7 +188,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 70,
                     ),
                     child: Align(
@@ -251,11 +249,11 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                 },
                 child: Padding(
                   /////////////////////////////////////
-                  padding: EdgeInsets.only(right: 5, bottom: 180),
+                  padding: const EdgeInsets.only(right: 5, bottom: 180),
                   child: Container(
                     height: 60,
                     width: 60,
-                    child: Center(
+                    child: const Center(
                       // heightFactor: 100,
                       child: Icon(Icons.home_outlined,
                           color: ColorResources.white),
@@ -270,11 +268,11 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
 
   Widget DoctorDetailsContainer() {
     return Padding(
-      padding: EdgeInsets.only(top: 210),
+      padding: const EdgeInsets.only(top: 210),
       child: Container(
         height: 950,
         width: Get.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -298,7 +296,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: SingleChildScrollView(
@@ -308,73 +306,73 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 24,
                           ),
-                          child: heavyText(
-                              "Subject", Color.fromRGBO(241, 94, 34, 1), 18),
+                          child: heavyText("Subject",
+                              const Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
                               toDayList[0]['subject'] != "null"
                                   ? toDayList[0]['subject']
                                   : '',
-                              Color.fromARGB(212, 0, 0, 0),
+                              const Color.fromARGB(212, 0, 0, 0),
                               16),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: mediumText(
-                              "Object", Color.fromRGBO(241, 94, 34, 1), 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: mediumText("Object",
+                              const Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
                               toDayList[0]['object'] != "null"
                                   ? toDayList[0]['object']
                                       .replaceAll("[", "")
                                       .replaceAll("]", "")
                                   : '',
-                              Color.fromARGB(212, 0, 0, 0),
+                              const Color.fromARGB(212, 0, 0, 0),
                               16),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: mediumText(
-                              "Assessment", Color.fromRGBO(241, 94, 34, 1), 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: mediumText("Assessment",
+                              const Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
                               toDayList[0]['assessment'] != 'null'
                                   ? toDayList[0]['assessment']
                                   : '',
-                              Color.fromARGB(212, 0, 0, 0),
+                              const Color.fromARGB(212, 0, 0, 0),
                               16),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: mediumText(
-                              "Plan", Color.fromRGBO(241, 94, 34, 1), 18),
+                              "Plan", const Color.fromRGBO(241, 94, 34, 1), 18),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: romanText(
                               toDayList[0]['plan'] != "null"
                                   ? toDayList[0]['plan']
                                   : '',
-                              Color.fromARGB(212, 0, 0, 0),
+                              const Color.fromARGB(212, 0, 0, 0),
                               16),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),

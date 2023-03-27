@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/Utiils/common_widgets.dart';
 
 class LabTabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final List<Tab> myTabs = <Tab>[
-    Tab(text: 'Active'),
-    Tab(text: 'Previous'),
+    const Tab(text: 'Active'),
+    const Tab(text: 'Previous'),
   ];
 
 //  late TabController controller;

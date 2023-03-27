@@ -53,7 +53,7 @@ class _ActiveVisitState extends State<ActiveVisit> {
     for (int i = 0; i < activeVisit.length; i++) {
       print("loop today list");
       print(i);
-      var visitDate = activeVisit[i][1] + "00:00:00";
+      var visitDate = "${activeVisit[i][1]}00:00:00";
       var dateVisit = DateTime.parse(visitDate);
       if (dateVisit.year == DateTime.now().year &&
           dateVisit.month == DateTime.now().month &&
@@ -108,11 +108,11 @@ class _ActiveVisitState extends State<ActiveVisit> {
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: todayVisits.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   onTap: () async {
                     Get.to(UpCommingVisitScreen(
@@ -146,10 +146,10 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,11 +172,11 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
-                                SizedBox(height: 5),
-                                mediumText("Patient: " + todayVisits[index][3],
+                                const SizedBox(height: 5),
+                                mediumText("Patient: ${todayVisits[index][3]}",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 5),
-                                romanText("Visit ID: " + todayVisits[index][0],
+                                const SizedBox(height: 5),
+                                romanText("Visit ID: ${todayVisits[index][0]}",
                                     ColorResources.grey777, 12),
                               ],
                             ),
@@ -206,18 +206,18 @@ class _ActiveVisitState extends State<ActiveVisit> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //upcomming visit
-          SizedBox(height: 5),
+          const SizedBox(height: 10),
           mediumText("      Upcomming Visits ", ColorResources.grey777, 15),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: upcommingVisits.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   // onTap: () {
                   //   Get.to(UpCommingVisitScreen(
@@ -240,10 +240,10 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,19 +261,19 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 53),
+                                    const SizedBox(width: 120),
                                     romanText(upcommingVisits[index][1],
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 mediumText(
-                                    "Patient: " + upcommingVisits[index][3],
+                                    "Patient: ${upcommingVisits[index][3]}",
                                     ColorResources.grey777,
                                     18),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 romanText(
-                                    "Visit ID: " + upcommingVisits[index][0],
+                                    "Visit ID: ${upcommingVisits[index][0]}",
                                     ColorResources.grey777,
                                     12),
                               ],
@@ -304,18 +304,18 @@ class _ActiveVisitState extends State<ActiveVisit> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //today visit
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           mediumText("      Today Visits ", ColorResources.grey777, 15),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: todayVisits.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   onTap: () async {
                     Get.to(UpCommingVisitScreen(
@@ -349,10 +349,10 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,11 +375,11 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
-                                SizedBox(height: 5),
-                                mediumText("Patient: " + todayVisits[index][3],
+                                const SizedBox(height: 5),
+                                mediumText("Patient: ${todayVisits[index][3]}",
                                     ColorResources.grey777, 18),
-                                SizedBox(height: 5),
-                                romanText("Visit ID: " + todayVisits[index][0],
+                                const SizedBox(height: 5),
+                                romanText("Visit ID: ${todayVisits[index][0]}",
                                     ColorResources.grey777, 12),
                               ],
                             ),
@@ -399,18 +399,18 @@ class _ActiveVisitState extends State<ActiveVisit> {
             ),
           ),
           //upcomming visit
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           mediumText("      Upcomming Visits ", ColorResources.grey777, 15),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: upcommingVisits.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   // onTap: () {
                   //   Get.to(UpCommingVisitScreen(
@@ -433,10 +433,10 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -454,19 +454,19 @@ class _ActiveVisitState extends State<ActiveVisit> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 53),
+                                    const SizedBox(width: 105),
                                     romanText(upcommingVisits[index][1],
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 mediumText(
-                                    "Patient: " + upcommingVisits[index][3],
+                                    "Patient: ${upcommingVisits[index][3]}",
                                     ColorResources.grey777,
                                     18),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 romanText(
-                                    "Visit ID: " + upcommingVisits[index][0],
+                                    "Visit ID: ${upcommingVisits[index][0]}",
                                     ColorResources.grey777,
                                     12),
                               ],
@@ -506,7 +506,7 @@ class _ActiveVisitState extends State<ActiveVisit> {
               alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           romanText("There is no UpComming Visits", ColorResources.grey777, 18,
               TextAlign.center),
         ],

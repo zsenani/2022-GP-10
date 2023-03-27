@@ -1,13 +1,6 @@
-import 'dart:developer';
-import 'package:dbcrypt/dbcrypt.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:medcore/AuthScreens/forgetEmail.dart';
-import 'package:medcore/AuthScreens/forgot_password_screen.dart';
 import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/Controller/variable_controller.dart';
-import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
-import 'package:medcore/LabScreens/lab_home_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
@@ -66,10 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
             onTap: () {
               Navigator.of(context).pushNamed(index.routeName);
             },
-            child: Container(
-              child:
-                  const Icon(Icons.arrow_back, color: ColorResources.grey777),
-            ),
+            child: const Icon(Icons.arrow_back, color: ColorResources.grey777),
           ),
         ),
         actions: [
@@ -79,11 +69,10 @@ class _SignInScreenState extends State<SignInScreen> {
               onTap: () {
                 Navigator.of(context).pushNamed(index.routeName);
               },
-              child: Container(
+              child: const SizedBox(
                 height: 40,
                 width: 40,
-                child: const Icon(Icons.home_outlined,
-                    color: ColorResources.grey777),
+                child: Icon(Icons.home_outlined, color: ColorResources.grey777),
               ),
             ),
           ),
@@ -301,7 +290,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               decoration: InputDecoration(
                                 hintText: " Enter password",
                                 contentPadding:
-                                    EdgeInsets.only(top: 15, left: 12),
+                                    const EdgeInsets.only(top: 15, left: 12),
                                 suffixIcon: IconButton(
                                   onPressed: () => updatePasswordStatus(),
                                   icon: Icon(_isVisiblePassword
@@ -359,78 +348,79 @@ class _SignInScreenState extends State<SignInScreen> {
                             commonButton(() {
                               if (passwordController.text != '' &&
                                   idController.text != '' &&
-                                  widget.role != "hospital")
+                                  widget.role != "hospital") {
                                 setState(() {
                                   errorRoleSelect = false;
                                   errorPassword = false;
                                   errorID = false;
                                 });
+                              }
 
                               if (passwordController.text == '' &&
                                   idController.text == '' &&
-                                  widget.role == "hospital")
+                                  widget.role == "hospital") {
                                 setState(() {
                                   errorRoleSelect = true;
                                   errorPassword = true;
                                   errorID = true;
                                 });
-                              else if (passwordController.text == '' &&
+                              } else if (passwordController.text == '' &&
                                   idController.text == '' &&
-                                  widget.role != "hospital")
+                                  widget.role != "hospital") {
                                 setState(() {
                                   errorRoleSelect = false;
                                   errorPassword = true;
                                   errorID = true;
                                 });
-                              else if (passwordController.text != '' &&
+                              } else if (passwordController.text != '' &&
                                   idController.text == '' &&
-                                  widget.role != "hospital")
+                                  widget.role != "hospital") {
                                 setState(() {
                                   errorRoleSelect = false;
                                   errorPassword = false;
                                   errorID = true;
                                 });
-                              else if (passwordController.text == '' &&
+                              } else if (passwordController.text == '' &&
                                   idController.text != '' &&
-                                  widget.role != "hospital")
+                                  widget.role != "hospital") {
                                 setState(() {
                                   errorRoleSelect = false;
                                   errorPassword = true;
                                   errorID = false;
                                 });
-                              else if (passwordController.text == '' &&
+                              } else if (passwordController.text == '' &&
                                   idController.text == '' &&
-                                  widget.role == "hospital")
+                                  widget.role == "hospital") {
                                 setState(() {
                                   errorRoleSelect = true;
                                   errorPassword = true;
                                   errorID = true;
                                 });
-                              else if (passwordController.text != '' &&
+                              } else if (passwordController.text != '' &&
                                   idController.text == '' &&
-                                  widget.role == "hospital")
+                                  widget.role == "hospital") {
                                 setState(() {
                                   errorRoleSelect = true;
                                   errorPassword = false;
                                   errorID = true;
                                 });
-                              else if (passwordController.text == '' &&
+                              } else if (passwordController.text == '' &&
                                   idController.text != '' &&
-                                  widget.role == "hospital")
+                                  widget.role == "hospital") {
                                 setState(() {
                                   errorRoleSelect = true;
                                   errorPassword = true;
                                   errorID = false;
                                 });
-                              else if (passwordController.text != '' &&
+                              } else if (passwordController.text != '' &&
                                   idController.text != '' &&
-                                  widget.role == "hospital")
+                                  widget.role == "hospital") {
                                 setState(() {
                                   errorRoleSelect = true;
                                   errorPassword = false;
                                   errorID = false;
                                 });
-                              else if (widget.role == 'Lab specialist') {
+                              } else if (widget.role == 'Lab specialist') {
                                 AuthlogIn1("Lab specialist", idController,
                                     passwordController);
                               } else if (widget.role == 'Physician') {

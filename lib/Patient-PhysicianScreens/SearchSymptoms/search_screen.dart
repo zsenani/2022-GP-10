@@ -1,20 +1,25 @@
 import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:chip_list/chip_list.dart';
-import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
-import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../AuthScreens/signin_screen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
+import 'package:medcore/database/mysqlDatabase.dart';
+
+var diagnosis;
+var PhyIds = [];
+Map<String, dynamic> pieChart;
+Map<String, double> pieCH;
+bool loadingSearch = true;
+List<List<String>> results1;
+bool loading1 = true;
+bool pressed = false;
 
 var symptoms = const [
   "itching",
@@ -157,7 +162,7 @@ List<int> commonSymptoms = [];
 
 class SearchScreen extends StatefulWidget {
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchScreen> createState() => SearchScreenState();
 }
 
 Future<http.Response> postData(vector) {
@@ -174,10 +179,29 @@ Future<http.Response> postData(vector) {
   );
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class SearchScreenState extends State<SearchScreen> {
   // SearchScreen({Key? key}) : super(key: key);
   String greating = '';
   String Id = Get.arguments;
+
+  PhysicianInfor() async {
+    results1 = await mysqlDatabase.PhyContInfo(PhyIds);
+    setState(() {
+      loading1 = false;
+    });
+    Get.to(SearchResults(), arguments: Id);
+  }
+
+  Widget loadingPage() {
+    return const AlertDialog(
+      content: Center(
+        child: CircularProgressIndicator(
+          color: ColorResources.grey777,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // selectedSymptoms.add('fever');
@@ -207,12 +231,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   //     spacing: 8.0, // gap between adjacent chips
                   //     runSpacing: 4.0, // gap between lines
                   // children: [
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   ChipList(
                     mainAxisAlignment: MainAxisAlignment.start,
                     shouldWrap: true,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    listOfChipNames: [
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    listOfChipNames: const [
                       'high fever',
                       'headache',
                       'breathlessness',
@@ -221,25 +245,25 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                     supportsMultiSelect: true,
                     activeBgColorList: [
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
                     ],
-                    inactiveBgColorList: [ColorResources.whiteF6F],
-                    activeTextColorList: [Colors.black],
-                    inactiveTextColorList: [Colors.black],
+                    inactiveBgColorList: const [ColorResources.whiteF6F],
+                    activeTextColorList: const [Colors.black],
+                    inactiveTextColorList: const [Colors.black],
 
                     listOfChipIndicesCurrentlySeclected: commonSymptoms,
                     inactiveBorderColorList: [
-                      Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
+                      const Color.fromARGB(183, 117, 197, 197).withOpacity(0.6),
                     ],
                     //  borderColorList: const [Colors.pink, Colors.yellow, Colors.green,Colors.yellow, Colors.green],
                   ),
                   //  ]),
 
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Container(
                     width: 360,
                     child: Theme(
@@ -252,7 +276,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: DropdownSearch<String>.multiSelection(
                           enabled: true,
                           selectedItems: selectedSymptoms,
-                          items: [
+                          items: const [
                             "itching",
                             "skin rash",
                             "nodal skin eruptions",
@@ -381,7 +405,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             "red sore around nose",
                             "yellow crust ooze"
                           ],
-                          popupProps: PopupPropsMultiSelection.menu(
+                          popupProps: const PopupPropsMultiSelection.menu(
                             showSearchBox: true,
                             showSelectedItems: true,
                             searchFieldProps: TextFieldProps(
@@ -396,8 +420,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               hintText: "Select symptoms",
-                              hintStyle:
-                                  TextStyle(color: ColorResources.grey777),
+                              hintStyle: const TextStyle(
+                                  color: ColorResources.grey777),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: empty == false
                                     ? const BorderSide(
@@ -414,7 +438,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           },
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 3,
                   ),
                   if (empty)
@@ -426,10 +450,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         ]),
                   // Spacer(),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 40),
                     child: InkWell(
                       onTap: () async {
                         setState(() {
+                          pressed = true;
                           selectedSymptoms.length == 0 &&
                                   commonSymptoms.length == 0
                               ? empty = true
@@ -437,24 +463,50 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                         if (empty == false) {
                           onsubmit();
-                          Get.to(SearchResults(), arguments: Id);
                         }
 
                         var data = await postData(zero);
                         log(data.body);
-                      },
-                      child: Container(
-                        height: 50,
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                          color: ColorResources.green,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Center(
-                          child: heavyText(
-                              "Show a Diagnosis", ColorResources.white, 18),
-                        ),
-                      ),
+                        var jsonD = jsonDecode(data.body);
+                        print("jsonD+++++++++++");
+
+                        diagnosis = jsonD["vector"];
+                        PhyIds = jsonD["physID"];
+                        PhysicianInfor();
+                        pieChart = jsonD["symptomsDic"];
+                        pieCH = Map.fromIterables(
+                          pieChart.keys,
+                          pieChart.values.map(
+                              (e) => (double.tryParse(e.toString()) ?? 0.0)),
+                        );
+//loading1 == true || loadingSearch == true
+                        //  ? loadingPage()
+                        //  :
+                        setState(() {
+                          loadingSearch = false;
+                        });
+                        // if (loading1 == false && loadingSearch == false) {
+                        //   Get.to(SearchResults(), arguments: Id);
+                        // }
+                        print(diagnosis);
+                        print(PhyIds);
+                        print(pieChart);
+                      }, //loadingPage()
+                      child: (loading1 == true || loadingSearch == true) &&
+                              pressed == true
+                          ? loadingPage()
+                          : Container(
+                              height: 50,
+                              width: Get.width,
+                              decoration: BoxDecoration(
+                                color: ColorResources.green,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Center(
+                                child: heavyText("Show a Diagnosis",
+                                    ColorResources.white, 18),
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -623,6 +675,9 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
     log(zero.toString());
+    // if (loadingSearch == true || loading1 == true) {
+    //   loadingPage();
+    // }
   }
 
   Widget HeaderWidget() {
@@ -634,7 +689,7 @@ class _SearchScreenState extends State<SearchScreen> {
           height: 160,
           width: Get.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(80),
               bottomRight: Radius.circular(80),
             ),
@@ -650,7 +705,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: InkWell(
                   onTap: () {
                     setState(() {
@@ -668,24 +723,6 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(width: 83),
               heavyText("Symptoms Search", ColorResources.green, 22,
                   TextAlign.center),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, top: 1),
-                child: InkWell(
-                  onTap: () => () {
-                    setState(() {
-                      selectedSymptoms = [];
-                      commonSymptoms = [];
-                    });
-                    Get.to(SignInScreen());
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    child: const Icon(Icons.logout_outlined,
-                        color: ColorResources.grey777),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

@@ -222,9 +222,7 @@ AppBar appBar(BuildContext context, color) {
         onTap: () {
           Navigator.of(context).pop();
         },
-        child: Container(
-          child: const Icon(Icons.arrow_back, color: ColorResources.grey777),
-        ),
+        child: const Icon(Icons.arrow_back, color: ColorResources.grey777),
       ),
     ),
     actions: [

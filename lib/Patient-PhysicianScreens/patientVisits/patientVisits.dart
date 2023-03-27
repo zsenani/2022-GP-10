@@ -1,8 +1,6 @@
 import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
 
-import '../../AuthScreens/signin_screen.dart';
 import '../../Controller/patient_visit_tab_controller.dart';
-import '../../Controller/tab_controller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import '../../Utiils/text_font_family.dart';
@@ -31,7 +29,7 @@ class PatientVisit extends StatelessWidget {
             padding: const EdgeInsets.only(top: 60),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 InkWell(
@@ -42,7 +40,7 @@ class PatientVisit extends StatelessWidget {
                   child: Container(
                     height: 40,
                     width: 40,
-                    child: Center(
+                    child: const Center(
                       child:
                           Icon(Icons.arrow_back, color: ColorResources.grey777),
                     ),
@@ -70,7 +68,7 @@ class PatientVisit extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -83,7 +81,7 @@ class PatientVisit extends StatelessWidget {
                 BoxShadow(
                   blurRadius: 10,
                   spreadRadius: 0,
-                  offset: Offset(0, 0),
+                  offset: const Offset(0, 0),
                   color: ColorResources.black.withOpacity(0.1),
                 ),
               ],
@@ -95,11 +93,11 @@ class PatientVisit extends StatelessWidget {
                   fontSize: 16,
                   fontFamily: TextFontFamily.AVENIR_LT_PRO_MEDIUM),
               unselectedLabelStyle:
-                  TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
+                  const TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
               labelColor: ColorResources.white,
               controller: tabBarController.controller,
               indicator: BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                   color: ColorResources.green009.withOpacity(0.8)),
@@ -132,7 +130,7 @@ class PatientVisit extends StatelessWidget {
         Container(
           height: 50,
           width: Get.width,
-          padding: EdgeInsets.only(top: 10, left: 118),
+          padding: const EdgeInsets.only(top: 10, left: 118),
           child: heavyText("Visits", ColorResources.green009, 30),
         ),
       ],

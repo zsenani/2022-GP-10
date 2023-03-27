@@ -1,10 +1,8 @@
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/LabScreens/lab_home_screen.dart';
 import 'package:medcore/Utiils/images.dart';
 import '../AuthScreens/signin_screen.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
@@ -98,10 +96,10 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                           fontSize: 19, color: ColorResources.orange),
                     ),
                   )
-                : DataCell(
+                : const DataCell(
                     Text(
                       "",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 19,
                       ),
                     ),
@@ -237,11 +235,11 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                         children: [
                           bookText("Name   :   ", ColorResources.greyA0A, 16),
                           mediumText(
-                              "Dr. " + testInfo[4], ColorResources.grey777, 16),
+                              "Dr. ${testInfo[4]}", ColorResources.grey777, 16),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      romanText(testInfo[5] + " - " + testInfo[6],
+                      romanText("${testInfo[5]} - ${testInfo[6]}",
                           ColorResources.greyA0A, 14),
                     ],
                   ),
@@ -264,10 +262,10 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                       mediumText("Visit time", ColorResources.grey777, 18),
                       const SizedBox(height: 10),
                       romanText(
-                          "Date: " + testInfo[0], ColorResources.green009, 16),
+                          "Date: ${testInfo[0]}", ColorResources.green009, 16),
                       const SizedBox(height: 10),
                       romanText(
-                          "Time: " + testInfo[1], ColorResources.green009, 16),
+                          "Time: ${testInfo[1]}", ColorResources.green009, 16),
                     ],
                   ),
                 ],
@@ -282,20 +280,20 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                     width: 27,
                     alignment: Alignment.centerLeft,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       mediumText(
                           "Patient information", ColorResources.grey777, 18),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           bookText("Name   :   ", ColorResources.greyA0A, 16),
                           mediumText(testInfo[2], ColorResources.grey777, 16),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           bookText("Age      :   ", ColorResources.greyA0A, 16),
@@ -338,7 +336,7 @@ class ActiveTestDetailsState extends State<ActiveTestDetails> {
                     ],
                   ),
                   DataTable(columns: column, rows: rows),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   const SizedBox(height: 30),
                   commonButton(() {
                     Get.to(labResult(

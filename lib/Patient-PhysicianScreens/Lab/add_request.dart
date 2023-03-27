@@ -1,8 +1,4 @@
-import 'dart:developer';
-
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
-
 import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
@@ -10,14 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../../database/mysqlDatabase.dart';
-import '../home_screen.dart';
 import 'ActiveReq.dart';
-
-import 'lab_tests.dart';
 import 'previousReq.dart';
-import 'tests.dart';
-import 'package:flutter_platform_alert/flutter_platform_alert.dart';
-import 'package:parent_child_checkbox/parent_child_checkbox.dart';
 
 bool loading = true;
 String visitId;
@@ -50,12 +40,13 @@ class _TestRequestState extends State<TestRequest> {
   }
 
   void add() {
-    if (allArrayLength > _tests.length)
+    if (allArrayLength > _tests.length) {
       mysqlDatabase.addTest(
           selectedTest, int.parse(visitId), 'yes', hospitalName);
-    else
+    } else {
       mysqlDatabase.addTest(
           selectedTest, int.parse(visitId), 'no', hospitalName);
+    }
 
     selectedTest.forEach((element) {
       _tests.remove(element);
@@ -137,10 +128,11 @@ class _TestRequestState extends State<TestRequest> {
         int testNo1 = int.parse('${row[1]}');
         if (testIds.length != 0) {
           testIds.forEach((element) {
-            if (element == testNo1)
+            if (element == testNo1) {
               setState(() {
                 exist = true;
               });
+            }
           });
         }
         if (!exist) _tests.add(testName);
@@ -152,9 +144,10 @@ class _TestRequestState extends State<TestRequest> {
       loading = false;
     });
     //}
-    if (loading == false)
+    if (loading == false) {
       _items =
           _tests.map((tests) => MultiSelectItem<String>(tests, tests)).toList();
+    }
     // for (var lab in _tests)
     //   listItemSelected.add(ItemSelect(value: index++, label: '${lab[index]}'));
   }
@@ -163,8 +156,8 @@ class _TestRequestState extends State<TestRequest> {
   final old = Get.previousRoute;
 
   Widget loadingPage() {
-    return Center(
-      child: const CircularProgressIndicator(
+    return const Center(
+      child: CircularProgressIndicator(
         color: ColorResources.grey777,
       ),
     );
@@ -182,7 +175,7 @@ class _TestRequestState extends State<TestRequest> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               old != '/lab_tests'
@@ -190,9 +183,9 @@ class _TestRequestState extends State<TestRequest> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20, top: 50),
-                        child: Container(
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 20, top: 50),
+                        child: SizedBox(
                           height: 40,
                           width: 40,
                           child: Center(
@@ -215,9 +208,9 @@ class _TestRequestState extends State<TestRequest> {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(top: 60, left: 0, bottom: 10),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
                       child: Center(
@@ -230,7 +223,7 @@ class _TestRequestState extends State<TestRequest> {
                 ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           loading == true
@@ -240,12 +233,12 @@ class _TestRequestState extends State<TestRequest> {
                   initialChildSize: 0.7,
                   maxChildSize: 0.95,
                   title: _tests.length == 0
-                      ? Text(
+                      ? const Text(
                           " You have requested all the lab tests",
                           style: TextStyle(fontSize: 20, color: Colors.red),
                         )
-                      : Text("Lab Tests"),
-                  buttonText: Text("Choose Lab Tests"),
+                      : const Text("Lab Tests"),
+                  buttonText: const Text("Choose Lab Tests"),
                   items: _items,
                   searchable: true,
                   confirmText: const Text(
@@ -260,7 +253,7 @@ class _TestRequestState extends State<TestRequest> {
                       color: ColorResources.green009,
                     ),
                   ),
-                  selectedColor: Color.fromRGBO(241, 94, 34, 0.8),
+                  selectedColor: const Color.fromRGBO(241, 94, 34, 0.8),
                   validator: (values) {
                     if (values == null || values.isEmpty) {
                       return "Required";
@@ -275,7 +268,7 @@ class _TestRequestState extends State<TestRequest> {
                     _multiSelectKey.currentState.validate();
                   },
                   chipDisplay: MultiSelectChipDisplay(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.close,
                       color: Color.fromRGBO(241, 94, 34, 0.8),
                     ),
@@ -287,11 +280,11 @@ class _TestRequestState extends State<TestRequest> {
                     },
                   ),
                 ),
-          Spacer(),
+          const Spacer(),
           if (loading == false)
             Row(
               children: [
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
 //&&  allArrayLength > _tests.length
                 if (!isFirst)
                   commonButton(() {
@@ -304,7 +297,7 @@ class _TestRequestState extends State<TestRequest> {
                   }, "SEND", ColorResources.green009, ColorResources.white),
               ],
             ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
         ],
       ),
     );
@@ -316,7 +309,7 @@ class _TestRequestState extends State<TestRequest> {
         Container(
           height: 80,
           width: 500,
-          padding: EdgeInsets.only(top: 50, left: 0),
+          padding: const EdgeInsets.only(top: 50, left: 0),
           child: heavyText("Request Lab Tests", ColorResources.green009, 30),
         ),
       ],
@@ -341,7 +334,7 @@ class _TestRequestState extends State<TestRequest> {
               visitId;
     }
     Widget OKButton = TextButton(
-      child: Text(
+      child: const Text(
         "OK",
         style: TextStyle(
           fontSize: 15,
@@ -377,7 +370,7 @@ class _TestRequestState extends State<TestRequest> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-        child: Text(
+        child: const Text(
           "CANCEL",
           style: TextStyle(
             fontSize: 15,
@@ -390,7 +383,7 @@ class _TestRequestState extends State<TestRequest> {
         // Navigator.pop(context),
         );
     Widget oKButton = TextButton(
-        child: Text(
+        child: const Text(
           "Ok",
           style: TextStyle(
             fontSize: 15,
@@ -405,7 +398,7 @@ class _TestRequestState extends State<TestRequest> {
     Widget continueButton;
     if (!isFirst) {
       continueButton = TextButton(
-        child: Text(
+        child: const Text(
           "UPDATE",
           style: TextStyle(
             fontSize: 15,
@@ -421,7 +414,7 @@ class _TestRequestState extends State<TestRequest> {
       );
     } else {
       continueButton = TextButton(
-        child: Text(
+        child: const Text(
           "SEND",
           style: TextStyle(
             fontSize: 15,
@@ -439,32 +432,33 @@ class _TestRequestState extends State<TestRequest> {
 
     AlertDialog alert;
     // set up the AlertDialog
-    if (selectedTest.length == 0)
+    if (selectedTest.length == 0) {
       alert = AlertDialog(
-        title: Text("Oops"),
-        content: Text("Please choose at least one test"),
+        title: const Text("Oops"),
+        content: const Text("Please choose at least one test"),
         actions: [
           oKButton,
         ],
       );
-    else if (!isFirst)
+    } else if (!isFirst) {
       alert = AlertDialog(
-        title: Text("Update Request"),
-        content: Text("Are you sure you want to update the request?"),
+        title: const Text("Update Request"),
+        content: const Text("Are you sure you want to update the request?"),
         actions: [
           cancelButton,
           continueButton,
         ],
       );
-    else
+    } else {
       alert = AlertDialog(
-        title: Text("Send Request"),
-        content: Text("Are you sure you want to send request?"),
+        title: const Text("Send Request"),
+        content: const Text("Are you sure you want to send request?"),
         actions: [
           cancelButton,
           continueButton,
         ],
       );
+    }
     // show the dialog
     showDialog(
       context: context,

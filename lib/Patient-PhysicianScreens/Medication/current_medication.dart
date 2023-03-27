@@ -197,18 +197,18 @@ class _currentMedicationState extends State<currentMedication> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Container(
                         height: Get.height - 280,
                         child: ScrollConfiguration(
                           behavior: MyBehavior(),
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: load ? 0 : glopalMedication.length,
                             itemBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.only(bottom: 16),
+                              padding: const EdgeInsets.only(bottom: 16),
                               child: Container(
                                 //height: 122,
                                 decoration: BoxDecoration(
@@ -216,7 +216,7 @@ class _currentMedicationState extends State<currentMedication> {
                                   color: ColorResources.white,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(15),
                                   child: Row(
                                     children: [
                                       Stack(
@@ -224,8 +224,9 @@ class _currentMedicationState extends State<currentMedication> {
                                         alignment: Alignment.bottomRight,
                                         children: [
                                           CircleAvatar(
-                                            backgroundColor: Color.fromARGB(
-                                                255, 255, 255, 255),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 255, 255, 255),
                                             radius: 20,
                                             backgroundImage: AssetImage(
                                               toDayList[index]["image"],
@@ -233,7 +234,7 @@ class _currentMedicationState extends State<currentMedication> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(width: 20),
+                                      const SizedBox(width: 20),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -260,7 +261,7 @@ class _currentMedicationState extends State<currentMedication> {
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(height: 3),
+                                            const SizedBox(height: 3),
                                             RichText(
                                               text: TextSpan(
                                                 text: "Dr. " +
@@ -274,13 +275,13 @@ class _currentMedicationState extends State<currentMedication> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: 5),
+                                            const SizedBox(height: 5),
                                             mediumText(
                                                 glopalMedication[index]
                                                     ["medicationname"],
                                                 ColorResources.green009,
                                                 20),
-                                            SizedBox(height: 4),
+                                            const SizedBox(height: 4),
                                             romanText(
                                                 "Dosage: " +
                                                     glopalMedication[index]
@@ -290,7 +291,7 @@ class _currentMedicationState extends State<currentMedication> {
                                             if (glopalMedication[index]
                                                     ["description"] !=
                                                 null)
-                                              SizedBox(height: 4),
+                                              const SizedBox(height: 4),
                                             if (glopalMedication[index]
                                                     ["description"] !=
                                                 null)
@@ -300,7 +301,7 @@ class _currentMedicationState extends State<currentMedication> {
                                                           ["description"],
                                                   ColorResources.grey777,
                                                   12),
-                                            SizedBox(height: 4),
+                                            const SizedBox(height: 4),
                                             romanText(
                                                 "Start date: " +
                                                     glopalMedication[index]
@@ -345,12 +346,12 @@ class _currentMedicationState extends State<currentMedication> {
                         _startAdd(context);
                       },
                       child: Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           right: 20,
                           left: 320,
                         ),
                         child: Container(
-                          padding: EdgeInsets.only(right: 24, left: 7),
+                          padding: const EdgeInsets.only(right: 24, left: 7),
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
@@ -361,7 +362,7 @@ class _currentMedicationState extends State<currentMedication> {
                               width: 1,
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(Icons.add, color: ColorResources.white),
                           ),
                         ),
@@ -394,7 +395,7 @@ class _currentMedicationState extends State<currentMedication> {
                                   alignment: Alignment.center,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               romanText("There is no medication",
                                   ColorResources.grey777, 18, TextAlign.center),
                             ],
@@ -409,12 +410,13 @@ class _currentMedicationState extends State<currentMedication> {
                                 _startAdd(context);
                               },
                               child: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                   right: 20,
                                   left: 320,
                                 ),
                                 child: Container(
-                                  padding: EdgeInsets.only(right: 24, left: 7),
+                                  padding:
+                                      const EdgeInsets.only(right: 24, left: 7),
                                   height: 40,
                                   width: 40,
                                   decoration: BoxDecoration(
@@ -427,7 +429,7 @@ class _currentMedicationState extends State<currentMedication> {
                                       width: 1,
                                     ),
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Icon(Icons.add,
                                         color: ColorResources.white),
                                   ),

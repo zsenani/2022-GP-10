@@ -1,5 +1,4 @@
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
@@ -81,10 +80,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               onTap: () {
                 Get.back();
               },
-              child: Container(
+              child: const SizedBox(
                 height: 40,
                 width: 40,
-                child: const Center(
+                child: Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -138,7 +137,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   const SizedBox(height: 5),
                   if (errorCurrentPass == true)
                     Padding(
-                      padding: EdgeInsets.only(right: 225),
+                      padding: const EdgeInsets.only(right: 225),
                       child: mediumText("Wrong password", Colors.red, 16),
                     ),
                   const SizedBox(height: 30),
@@ -156,13 +155,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   const SizedBox(height: 5),
                   if (errorPass == true)
                     Padding(
-                      padding: EdgeInsets.only(right: 185),
+                      padding: const EdgeInsets.only(right: 185),
                       child:
                           mediumText("Enter a valid password", Colors.red, 16),
                     ),
                   if (errorEq == true)
                     Padding(
-                      padding: EdgeInsets.only(right: 50),
+                      padding: const EdgeInsets.only(right: 50),
                       child: mediumText(
                           "new password and the confirmation password doesn't match",
                           Colors.red,
@@ -170,7 +169,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   if (errorEqOld == true)
                     Padding(
-                      padding: EdgeInsets.only(right: 50),
+                      padding: const EdgeInsets.only(right: 50),
                       child: mediumText(
                           "New password and the Old password are matching",
                           Colors.red,

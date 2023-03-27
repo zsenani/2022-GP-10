@@ -1,16 +1,9 @@
 import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medcore/MongoDBModel.dart';
 import 'package:medcore/database/constant.dart';
 import 'package:medcore/mongoDBModel2.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import '../LabScreens/lab_home_screen.dart';
-import '../Patient-PhysicianScreens/home_screen.dart';
-import '../Patient-PhysicianScreens/patient_home_screen.dart';
 import '../mongoDBModel3.dart';
 
 var db;
@@ -80,11 +73,13 @@ class DBConnection {
 
   static update(role, email, pass) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var u = await collection.findOne({"email": email});
     u["password"] = pass;
@@ -93,11 +88,13 @@ class DBConnection {
 
   static resetPassword(role, id, pass) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var u = await collection.findOne({"nationalId": id});
     u["password"] = pass;
@@ -106,29 +103,34 @@ class DBConnection {
 
   static checkEmailExsist(role, email) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var u = await collection.findOne({"email": email});
     print(u);
 
-    if (u == null)
+    if (u == null) {
       return null;
-    else
+    } else {
       return u["email"];
+    }
   }
 
   static Future<bool> checkExisting(controler, role, type) async {
     var table = '';
     var result;
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     if (role == "hospital") {
       return false;
     }
@@ -158,11 +160,13 @@ class DBConnection {
 
   static checkOldPass(role, id) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var u = await collection.findOne({"nationalId": id});
     return u["password"];
@@ -198,11 +202,13 @@ class DBConnection {
     print(idController);
     print(passwordController);
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var user = await collection.findOne({"nationalId": idController});
 
@@ -215,21 +221,25 @@ class DBConnection {
       print(isCorrect);
       if (isCorrect) {
         return false;
-      } else
+      } else {
         print('Sorry user name or password not correct');
+      }
       return true;
-    } else
+    } else {
       print('the user not exisit');
+    }
     return true;
   }
 
   static getEmail(role, id) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var collection = db.collection(table);
     var u = await collection.findOne({"nationalId": id});
     return u["email"];

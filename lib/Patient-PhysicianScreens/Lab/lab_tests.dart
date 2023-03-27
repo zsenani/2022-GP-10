@@ -1,4 +1,3 @@
-import '../../database/mysqlDatabase.dart';
 import './previousReq.dart';
 import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
@@ -8,7 +7,6 @@ import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'ActiveReq.dart';
-import 'add_request.dart';
 
 int idp;
 String idPhysician;
@@ -43,20 +41,20 @@ class _labTestsState extends State<labTests> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               InkWell(
                 onTap: () {
                   Get.back();
                 },
-                child: Container(
+                child: const SizedBox(
                   height: 40,
                   width: 40,
                   child: Center(
@@ -76,9 +74,9 @@ class _labTestsState extends State<labTests> {
 
                     Navigator.of(context).pop();
                   },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(top: 10, left: 35, bottom: 10),
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       width: 60,
                       child: Center(
@@ -101,7 +99,7 @@ class _labTestsState extends State<labTests> {
                 BoxShadow(
                   blurRadius: 10,
                   spreadRadius: 0,
-                  offset: Offset(0, 0),
+                  offset: const Offset(0, 0),
                   color: ColorResources.black.withOpacity(0.1),
                 ),
               ],
@@ -113,11 +111,11 @@ class _labTestsState extends State<labTests> {
                   fontSize: 16,
                   fontFamily: TextFontFamily.AVENIR_LT_PRO_MEDIUM),
               unselectedLabelStyle:
-                  TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
+                  const TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
               labelColor: ColorResources.white,
               controller: tabBarController.controller,
               indicator: BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                   color: ColorResources.green009.withOpacity(0.8)),
@@ -146,7 +144,7 @@ class _labTestsState extends State<labTests> {
         Container(
           height: 80,
           width: Get.width,
-          padding: EdgeInsets.only(top: 25, left: 80),
+          padding: const EdgeInsets.only(top: 25, left: 80),
           child: heavyText("Lab Results", ColorResources.green009, 30),
         ),
       ],

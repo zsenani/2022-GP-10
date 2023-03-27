@@ -57,12 +57,12 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                               Navigator.of(context).pop();
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 45, left: 10, bottom: 10),
                               child: Container(
                                 height: 40,
                                 width: 40,
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.arrow_back,
                                       color: ColorResources.grey777),
                                 ),
@@ -72,9 +72,9 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                           Column(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     left: 60, top: 60, right: 20, bottom: 0),
-                                child: Align(
+                                child: const Align(
                                   alignment: Alignment.center,
                                   child: Text(
                                     ' Diagnosis',
@@ -95,12 +95,12 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                               Navigator.of(context).pop();
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 50, left: 35, bottom: 10),
                               child: Container(
                                 height: 60,
                                 width: 60,
-                                child: Center(
+                                child: const Center(
                                   // heightFactor: 100,
                                   child: Icon(Icons.home_outlined,
                                       color: ColorResources.grey777),
@@ -115,18 +115,20 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 15, right: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30),
-                    heavyText(" Subject", Color.fromRGBO(241, 94, 34, 1), 18),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 30),
+                    heavyText(
+                        " Subject", const Color.fromRGBO(241, 94, 34, 1), 18),
+                    const SizedBox(height: 15),
                     textField2("Enter Description...", descriptionControllerS,
                         TextInputType.text),
-                    SizedBox(height: 20),
-                    heavyText(" Object", Color.fromRGBO(241, 94, 34, 1), 18),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 20),
+                    heavyText(
+                        " Object", const Color.fromRGBO(241, 94, 34, 1), 18),
+                    const SizedBox(height: 15),
                     Container(
                       width: 360,
                       decoration: BoxDecoration(
@@ -281,7 +283,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                                 "red sore around nose",
                                 "yellow crust ooze"
                               ],
-                              popupProps: PopupPropsMultiSelection.menu(
+                              popupProps: const PopupPropsMultiSelection.menu(
                                 showSearchBox: true,
                                 showSelectedItems: true,
                                 searchFieldProps: TextFieldProps(
@@ -293,7 +295,8 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                                 scrollbarProps:
                                     ScrollbarProps(thumbVisibility: true),
                               ),
-                              dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   hintText: "Select symptoms",
                                   hintStyle:
@@ -301,7 +304,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                                   enabledBorder: UnderlineInputBorder(
                                       borderSide: //empty == false
                                           //?
-                                          const BorderSide(
+                                          BorderSide(
                                               color: ColorResources.whiteF6F,
                                               width: 0)
                                       // : const BorderSide(
@@ -317,26 +320,27 @@ class _writeDiagnoseState extends State<writeDiagnose> {
                             ),
                           )),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     heavyText(
                       " Assessment",
-                      Color.fromRGBO(241, 94, 34, 1),
+                      const Color.fromRGBO(241, 94, 34, 1),
                       18,
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     textField4("Enter Description...", descriptionControllerA,
                         TextInputType.text),
-                    SizedBox(height: 20),
-                    heavyText(" Plan", Color.fromRGBO(241, 94, 34, 1), 18),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 20),
+                    heavyText(
+                        " Plan", const Color.fromRGBO(241, 94, 34, 1), 18),
+                    const SizedBox(height: 15),
                     textField2("Enter Description...", descriptionControllerP,
                         TextInputType.text),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     commonButton(() {
                       showAlertDialog(context);
                     }, "Add Diagnose", ColorResources.green009,
                         ColorResources.white),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -367,7 +371,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
 ///////////////////////////////////
     Widget OKButton = title == 'Oops'
         ? TextButton(
-            child: Text(
+            child: const Text(
               "OK",
               style: TextStyle(
                 fontSize: 15,
@@ -378,7 +382,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
             },
           )
         : TextButton(
-            child: Text(
+            child: const Text(
               "OK",
               style: TextStyle(
                 fontSize: 15,
@@ -410,7 +414,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text(
+      child: const Text(
         "CANCEL",
         style: TextStyle(
           fontSize: 15,
@@ -419,7 +423,7 @@ class _writeDiagnoseState extends State<writeDiagnose> {
       onPressed: () => Navigator.pop(context),
     );
     Widget continueButton = TextButton(
-      child: Text(
+      child: const Text(
         "ADD",
         style: TextStyle(
           fontSize: 15,
@@ -432,8 +436,8 @@ class _writeDiagnoseState extends State<writeDiagnose> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Add Diagnose"),
-      content: Text("Are you sure you want to add diagnosis?"),
+      title: const Text("Add Diagnose"),
+      content: const Text("Are you sure you want to add diagnosis?"),
       actions: [
         cancelButton,
         continueButton,

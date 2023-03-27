@@ -1,6 +1,4 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:medcore/Controller/gender_location_controller.dart';
-import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -90,10 +88,10 @@ class _EditPatientProfile extends State<EditPatientProfile> {
               onTap: () {
                 Get.back();
               },
-              child: Container(
+              child: const SizedBox(
                 height: 40,
                 width: 40,
-                child: const Center(
+                child: Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -399,7 +397,7 @@ class _EditPatientProfile extends State<EditPatientProfile> {
     String content = "There is nothing changed";
 
     Widget OKButton = TextButton(
-      child: Text(
+      child: const Text(
         "OK",
         style: TextStyle(
           fontSize: 15,

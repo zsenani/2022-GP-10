@@ -1,7 +1,5 @@
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 
-import '../../AuthScreens/signin_screen.dart';
-import 'add_medication.dart';
 import 'current_medication.dart';
 import './past_medication.dart';
 import '../../Controller/tab_controller.dart';
@@ -48,7 +46,7 @@ class MedicationList extends StatelessWidget {
                 BoxShadow(
                   blurRadius: 10,
                   spreadRadius: 0,
-                  offset: Offset(0, 0),
+                  offset: const Offset(0, 0),
                   color: ColorResources.black.withOpacity(0.1),
                 ),
               ],
@@ -60,11 +58,11 @@ class MedicationList extends StatelessWidget {
                   fontSize: 16,
                   fontFamily: TextFontFamily.AVENIR_LT_PRO_MEDIUM),
               unselectedLabelStyle:
-                  TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
+                  const TextStyle(fontSize: 15, fontFamily: "RobotoRegular"),
               labelColor: ColorResources.white,
               controller: tabBarController.controller,
               indicator: BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                   color: ColorResources.green009.withOpacity(0.8)),
@@ -101,15 +99,16 @@ class MedicationList extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              if (role == 'patient')
+              if (role == 'patient') {
                 Get.back();
-              else if (patientfile == "patientfile") {
-                Get.back();
-                Get.back();
+              } else if (patientfile == "patientfile") {
                 Get.back();
                 Get.back();
-              } else
                 Get.back();
+                Get.back();
+              } else {
+                Get.back();
+              }
             },
             child: Container(
               height: 40,
@@ -122,12 +121,12 @@ class MedicationList extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
             ),
           ),
-          SizedBox(width: 3),
+          const SizedBox(width: 3),
           heavyText("Medication List", ColorResources.green009, 30),
           if (role != "patient")
             InkWell(
@@ -135,11 +134,11 @@ class MedicationList extends StatelessWidget {
                 Get.to(HomeScreen(id: idPhysician));
               },
               child: Padding(
-                padding: EdgeInsets.only(top: 0, left: 0),
+                padding: const EdgeInsets.only(top: 0, left: 0),
                 child: Container(
                   height: 60,
                   width: 60,
-                  child: Center(
+                  child: const Center(
                     child: Icon(Icons.home_outlined,
                         color: ColorResources.grey777),
                   ),

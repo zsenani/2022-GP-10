@@ -4,9 +4,7 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/LabScreens/previose_test_details.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-import '';
 import '../../LabScreens/active_test_details.dart';
 import '../../Utiils/images.dart';
 
@@ -88,11 +86,11 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           TextFormField(
             keyboardType: TextInputType.number,
             controller: idPatientactive,
-            cursorColor: Color.fromRGBO(19, 156, 140, 1),
+            cursorColor: const Color.fromRGBO(19, 156, 140, 1),
             style: TextStyle(
               color: ColorResources.black,
               fontSize: 15,
@@ -106,7 +104,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                     searchPatientActive(idPatientactive.text);
                   });
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                 ),
               ),
@@ -140,7 +138,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
               });
             },
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           if (idPatientactive.text.length != 10 && idPatientactive.text != "")
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               mediumText("   The ID should be 10 digits", Colors.red, 16),
@@ -150,17 +148,17 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               mediumText(message, Colors.grey, 16),
             ]),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           idPatientactive.text == ''
               ? ScrollConfiguration(
                   behavior: MyBehavior(),
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: ActiveTest1.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () {
                           Get.to(ActiveTestDetails(
@@ -174,10 +172,10 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                             color: ColorResources.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -198,14 +196,14 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: " + ActiveTest1[index][4],
+                                          "Patient: ${ActiveTest1[index][4]}",
                                           ColorResources.grey777,
                                           18),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: " + ActiveTest1[index][1],
+                                          "Visit ID: ${ActiveTest1[index][1]}",
                                           ColorResources.grey777,
                                           12),
                                     ],
@@ -229,13 +227,13 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                   behavior: MyBehavior(),
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: activepatientList.length == 0
                         ? 0
                         : activepatientList.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () {
                           Get.to(ActiveTestDetails(
@@ -249,10 +247,10 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                             color: ColorResources.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -273,16 +271,14 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: " +
-                                              activepatientList[index][4],
+                                          "Patient: ${activepatientList[index][4]}",
                                           ColorResources.grey777,
                                           18),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: " +
-                                              activepatientList[index][1],
+                                          "Visit ID: ${activepatientList[index][1]}",
                                           ColorResources.grey777,
                                           12),
                                     ],
@@ -322,7 +318,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
               alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           romanText("There is no active test requests", ColorResources.grey777,
               18, TextAlign.center),
         ],

@@ -50,7 +50,7 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
           elevation: 0,
           centerTitle: true,
           leading: Padding(
-            padding: EdgeInsets.only(left: 18, top: 8, bottom: 8),
+            padding: const EdgeInsets.only(left: 18, top: 8, bottom: 8),
             child: InkWell(
               onTap: () {
                 Get.back();
@@ -66,7 +66,7 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                     width: 1,
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -103,17 +103,17 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
 
   Widget labTestinfo() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ScrollConfiguration(
         behavior: MyBehavior(),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Expanded(
                     child: Container(
                       alignment: Alignment.centerLeft,
@@ -124,7 +124,7 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                             children: [
                               mediumText("Visit No. $visitID",
                                   ColorResources.grey777, 24),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                             ],
                           ),
                         ],
@@ -133,12 +133,12 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Divider(
                 color: ColorResources.greyD4D.withOpacity(0.4),
                 thickness: 1,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -165,14 +165,14 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                               "Dr. " + testInfo[4], ColorResources.grey777, 16),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       romanText(testInfo[5] + " - " + testInfo[6],
                           ColorResources.greyA0A, 14),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -182,22 +182,22 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                     width: 27,
                     alignment: Alignment.centerLeft,
                   ),
-                  SizedBox(width: 18),
+                  const SizedBox(width: 18),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       mediumText("Visit time", ColorResources.grey777, 18),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       romanText(
                           "Date: " + testInfo[0], ColorResources.green009, 16),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       romanText(
                           "Time: " + testInfo[1], ColorResources.green009, 16),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -207,7 +207,7 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                     width: 27,
                     alignment: Alignment.centerLeft,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

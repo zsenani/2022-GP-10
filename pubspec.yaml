@@ -59,6 +59,7 @@ dependencies:
   http: ^0.13.5
   chip_list: ^2.2.3+7
   parent_child_checkbox: ^0.0.3
+  pie_chart: ^5.3.2
 
 
 dev_dependencies:

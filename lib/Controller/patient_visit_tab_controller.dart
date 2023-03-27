@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 class PatientTabBarController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final List<Tab> myTabs = <Tab>[
-    Tab(text: 'Upcomming'),
-    Tab(text: 'Previous'),
+    const Tab(text: 'Upcomming'),
+    const Tab(text: 'Previous'),
   ];
 
 //  late TabController controller;

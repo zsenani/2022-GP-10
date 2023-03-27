@@ -8,7 +8,6 @@ import './lab_tests.dart';
 import '/../Utiils/colors.dart';
 import '/../Utiils/common_widgets.dart';
 import '/../Utiils/images.dart';
-import '/../Utiils/text_font_family.dart';
 import '/../main.dart';
 import 'package:flutter/material.dart';
 
@@ -208,24 +207,26 @@ class PreviousReqState extends State<PreviousReq> {
                     Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(top: 0),
+                          padding: const EdgeInsets.only(top: 0),
                           height: Get.height - 250,
                           child: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                                 ScrollConfiguration(
                                   behavior: MyBehavior(),
                                   child: ListView.builder(
                                     padding: EdgeInsets.zero,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: setRange == false
                                         ? arraylength
                                         : toDayListFilttered.length,
                                     itemBuilder: (context, index) => Padding(
-                                      padding: EdgeInsets.only(bottom: 16),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
                                       child: Container(
                                         height: 90,
                                         decoration: BoxDecoration(
@@ -234,7 +235,7 @@ class PreviousReqState extends State<PreviousReq> {
                                           color: ColorResources.white,
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(15),
+                                          padding: const EdgeInsets.all(15),
                                           child: Row(
                                             children: [
                                               Stack(
@@ -244,7 +245,7 @@ class PreviousReqState extends State<PreviousReq> {
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                        Color.fromARGB(
+                                                        const Color.fromARGB(
                                                             255, 255, 255, 255),
                                                     radius: 20,
                                                     backgroundImage: AssetImage(
@@ -257,7 +258,7 @@ class PreviousReqState extends State<PreviousReq> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(width: 20),
+                                              const SizedBox(width: 20),
                                               Expanded(
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -287,7 +288,8 @@ class PreviousReqState extends State<PreviousReq> {
                                                                 ColorResources
                                                                     .green009,
                                                                 20),
-                                                        SizedBox(height: 2),
+                                                        const SizedBox(
+                                                            height: 2),
                                                         setRange == false
                                                             ? romanText(
                                                                 hospitalname[
@@ -303,7 +305,8 @@ class PreviousReqState extends State<PreviousReq> {
                                                                 ColorResources
                                                                     .grey777,
                                                                 12),
-                                                        SizedBox(height: 4),
+                                                        const SizedBox(
+                                                            height: 4),
                                                         setRange == false
                                                             ? romanText(
                                                                 toDayList[index]
@@ -355,7 +358,7 @@ class PreviousReqState extends State<PreviousReq> {
                                                                   'prev');
                                                     },
                                                         "View",
-                                                        Color.fromRGBO(
+                                                        const Color.fromRGBO(
                                                             241, 94, 34, 0.7),
                                                         //ColorResources.green009,
                                                         ColorResources.white),
@@ -374,8 +377,8 @@ class PreviousReqState extends State<PreviousReq> {
                           ),
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 320, bottom: 0, right: 0),
+                          padding: const EdgeInsets.only(
+                              left: 320, bottom: 0, right: 0),
                           child: InkWell(
                             onTap: () {
                               _startAdd2(context);
@@ -394,7 +397,7 @@ class PreviousReqState extends State<PreviousReq> {
                                   width: 1,
                                 ),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Icon(Icons.filter_alt,
                                     color: ColorResources.white),
                               ),
@@ -429,14 +432,14 @@ class PreviousReqState extends State<PreviousReq> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       romanText(
                           "There is no test request at \nthis time you selected",
                           ColorResources.grey777,
                           18,
                           TextAlign.center),
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             left: 320, bottom: 0, right: 0, top: 150),
                         child: InkWell(
                           onTap: () {
@@ -456,7 +459,7 @@ class PreviousReqState extends State<PreviousReq> {
                                 width: 1,
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(Icons.filter_alt,
                                   color: ColorResources.white),
                             ),
@@ -485,7 +488,7 @@ class PreviousReqState extends State<PreviousReq> {
                                 alignment: Alignment.center,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             romanText("There is no test request",
                                 ColorResources.grey777, 18, TextAlign.center),
                           ],
@@ -522,7 +525,7 @@ class PreviousReqState extends State<PreviousReq> {
   Widget DatePicker() {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         height: 380,
         child: Stack(
           children: <Widget>[
@@ -568,7 +571,7 @@ class PreviousReqState extends State<PreviousReq> {
                     Navigator.pop(context);
                   }, "Cancel", ColorResources.orange.withOpacity(0.9),
                       ColorResources.white),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Button(() {

@@ -1,9 +1,5 @@
-import 'package:email_auth/email_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
-import 'package:medcore/auth.config.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -11,7 +7,6 @@ import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
 import '../Utiils/text_font_family.dart';
 import '../main.dart';
-import 'signup_screen.dart';
 
 String emailController;
 String role;
@@ -63,47 +58,45 @@ class _otpMailState extends State<otpMail> {
               ColorResources.greyA0A,
               16),
           const SizedBox(height: 50),
-          Container(
-            child: PinPut(
-              fieldsCount: 6,
-              fieldsAlignment: MainAxisAlignment.spaceBetween,
-              textStyle: TextStyle(
-                fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                fontSize: 24,
-                color: ColorResources.grey777,
+          PinPut(
+            fieldsCount: 6,
+            fieldsAlignment: MainAxisAlignment.spaceBetween,
+            textStyle: TextStyle(
+              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+              fontSize: 24,
+              color: ColorResources.grey777,
+            ),
+            cursorColor: ColorResources.green009,
+            eachFieldHeight: 50,
+            eachFieldWidth: 50,
+            focusNode: pinPutFocusNode,
+            controller: pinPutController,
+            submittedFieldDecoration: pinPutDecoration.copyWith(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color.fromARGB(255, 16, 30, 161).withOpacity(0.2),
               ),
-              cursorColor: ColorResources.green009,
-              eachFieldHeight: 50,
-              eachFieldWidth: 50,
-              focusNode: pinPutFocusNode,
-              controller: pinPutController,
-              submittedFieldDecoration: pinPutDecoration.copyWith(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Color.fromARGB(255, 16, 30, 161).withOpacity(0.2),
-                ),
-                color: ColorResources.white,
+              color: ColorResources.white,
+            ),
+            selectedFieldDecoration: pinPutDecoration.copyWith(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color.fromARGB(255, 11, 17, 73).withOpacity(0.2),
               ),
-              selectedFieldDecoration: pinPutDecoration.copyWith(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Color.fromARGB(255, 11, 17, 73).withOpacity(0.2),
-                ),
-                color: ColorResources.white,
+              color: ColorResources.white,
+            ),
+            followingFieldDecoration: pinPutDecoration.copyWith(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color.fromARGB(255, 18, 30, 141).withOpacity(0.2),
               ),
-              followingFieldDecoration: pinPutDecoration.copyWith(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Color.fromARGB(255, 18, 30, 141).withOpacity(0.2),
-                ),
-                color: ColorResources.white,
-              ),
-              disabledDecoration: pinPutDecoration.copyWith(
-                borderRadius: BorderRadius.circular(12),
-                color: ColorResources.white,
-                border: Border.all(
-                  color: ColorResources.greyA0A.withOpacity(0.2),
-                ),
+              color: ColorResources.white,
+            ),
+            disabledDecoration: pinPutDecoration.copyWith(
+              borderRadius: BorderRadius.circular(12),
+              color: ColorResources.white,
+              border: Border.all(
+                color: ColorResources.greyA0A.withOpacity(0.2),
               ),
             ),
           ),
@@ -117,7 +110,7 @@ class _otpMailState extends State<otpMail> {
                 controller: controller,
                 build: (_, double time) => Text(
                   time.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                     color: ColorResources.grey777,
                   ),

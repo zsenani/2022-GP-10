@@ -121,7 +121,7 @@ class mysqlDatabase {
     int fnationalId,
   ) async {
     var result;
-    if (bloodType != 'I\'m not sure')
+    if (bloodType != 'I\'m not sure') {
       result = await conn.query(
           'insert into Patient (nationalId, name, password,DOB,gender,mobileNo,email,nationality,maritalStatus,bloodType) values (?, ?, ?,?, ?, ?,?, ?, ?,?)',
           [
@@ -136,7 +136,7 @@ class mysqlDatabase {
             fmaritalStatus,
             bloodType
           ]);
-    else
+    } else {
       result = await conn.query(
           'insert into Patient (nationalId, name, password,DOB,gender,mobileNo,email,nationality,maritalStatus) values (?, ?, ?,?, ?, ?,?, ?, ?)',
           [
@@ -150,6 +150,7 @@ class mysqlDatabase {
             fnationality,
             fmaritalStatus,
           ]);
+    }
     try {
       if (result.isSuccess) {
         print("Data Inserted");
@@ -170,37 +171,46 @@ class mysqlDatabase {
 
   static editProfile(role, name, email, phone, id) async {
     if (role.compareTo('patient') == 0) {
-      if (name != "")
+      if (name != "") {
         var editP = await conn
             .query('update Patient set name=? where NationalID =?', [name, id]);
-      if (email != "")
+      }
+      if (email != "") {
         var editP = await conn.query(
             'update Patient set  email=? where NationalID =?', [email, id]);
-      if (phone != "")
+      }
+      if (phone != "") {
         var editP = await conn.query(
             'update Patient set mobileNo=? where NationalID =?', [phone, id]);
+      }
     } else if (role.compareTo('Physician') == 0) {
-      if (name != "")
+      if (name != "") {
         var editP = await conn.query(
             'update Physician set name=? where nationalId =?', [name, id]);
-      if (email != "")
+      }
+      if (email != "") {
         var editP = await conn.query(
             'update Physician set  email=? where nationalId =?', [email, id]);
-      if (phone != "")
+      }
+      if (phone != "") {
         var editP = await conn.query(
             'update Physician set mobileNo=? where nationalId =?', [phone, id]);
+      }
     } else if (role.compareTo('Lab specialist') == 0) {
-      if (name != "")
+      if (name != "") {
         var editP = await conn.query(
             'update LabSpecialist set name=? where nationalId =?', [name, id]);
-      if (email != "")
+      }
+      if (email != "") {
         var editP = await conn.query(
             'update LabSpecialist set  email=? where nationalId =?',
             [email, id]);
-      if (phone != "")
+      }
+      if (phone != "") {
         var editP = await conn.query(
             'update LabSpecialist set mobileNo=? where nationalId =?',
             [phone, id]);
+      }
     }
   }
 
@@ -251,10 +261,11 @@ class mysqlDatabase {
   static editHistory(type, List<String> row, pid) async {
     var data = '';
     row.forEach((element) {
-      if (row.last == element)
+      if (row.last == element) {
         data += element;
-      else
+      } else {
         data += element + ',';
+      }
     });
     print(data);
     var edit = await conn.query(
@@ -265,10 +276,11 @@ class mysqlDatabase {
     var data = row.first + ",";
     row.forEach((element) {
       if (row.first != element) {
-        if (row.last == element)
+        if (row.last == element) {
           data += element;
-        else
+        } else {
           data += element + ',';
+        }
       }
     });
     print(data);
@@ -278,11 +290,13 @@ class mysqlDatabase {
 
   static checkEmailExsist(role, email) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var s;
     var res = await conn
         .query('select email from ' + table + ' where email = ?', [email]);
@@ -291,19 +305,22 @@ class mysqlDatabase {
       s = '${row[0]}';
     }
 
-    if (res.isEmpty == true)
+    if (res.isEmpty == true) {
       return null;
-    else
+    } else {
       return s;
+    }
   }
 
   static checkOldPass(role, id) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var rr;
     rr = await conn
         .query('select password from ' + table + ' where NationalID = ?', [id]);
@@ -839,29 +856,31 @@ class mysqlDatabase {
   static resetPassword(role, id, pass, type) async {
     var r;
     if (type == 'nationalID') {
-      if (role.compareTo('patient') == 0)
+      if (role.compareTo('patient') == 0) {
         r = await conn.query(
             'update Patient set password=? where NationalID =?', [pass, id]);
-      else if (role.compareTo('Physician') == 0)
+      } else if (role.compareTo('Physician') == 0) {
         r = await conn.query(
             'update Physician set password=? where NationalID =?', [pass, id]);
-      else if (role.compareTo('Lab specialist') == 0)
+      } else if (role.compareTo('Lab specialist') == 0) {
         r = await conn.query(
             'update LabSpecialist set password=? where NationalID =?',
             [pass, id]);
+      }
 
       print(r.affectedRows);
       print("nationaid");
     } else if (type == 'email') {
-      if (role.compareTo('patient') == 0)
+      if (role.compareTo('patient') == 0) {
         r = await conn
             .query('update Patient set password=? where email =?', [pass, id]);
-      else if (role.compareTo('Physician') == 0)
+      } else if (role.compareTo('Physician') == 0) {
         r = await conn.query(
             'update Physician set password=? where email =?', [pass, id]);
-      else if (role.compareTo('Lab specialist') == 0)
+      } else if (role.compareTo('Lab specialist') == 0) {
         r = await conn.query(
             'update LabSpecialist set password=? where email =?', [pass, id]);
+      }
       print(id);
       print(r.affectedRows);
       print("email");
@@ -871,11 +890,13 @@ class mysqlDatabase {
   static Future<bool> checkExisting(controler, role, type) async {
     var table = '';
     var result;
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     if (role == "hospital") {
       return false;
     }
@@ -905,11 +926,13 @@ class mysqlDatabase {
     print(idController);
     print(passwordController);
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var userPassword = await conn.query(
         'select password from ' + table + ' where nationalId=?',
         [idController]);
@@ -928,26 +951,65 @@ class mysqlDatabase {
       print(isCorrect);
       if (isCorrect) {
         return false;
-      } else
+      } else {
         print('Sorry user name or password not correct');
+      }
       return true;
-    } else
+    } else {
       print('the user not exisit');
+    }
     return true;
   }
 
   static getEmail(role, id) async {
     var table = "";
-    if (role.compareTo('patient') == 0)
+    if (role.compareTo('patient') == 0) {
       table = 'Patient';
-    else if (role.compareTo('Physician') == 0)
+    } else if (role.compareTo('Physician') == 0) {
       table = 'Physician';
-    else if (role.compareTo('Lab specialist') == 0) table = 'LabSpecialist';
+    } else if (role.compareTo('Lab specialist') == 0) {
+      table = 'LabSpecialist';
+    }
     var email = await conn
         .query('select email from ' + table + ' where nationalId=?', [id]);
     for (var row in email) {
       email = '${row[0]}';
     }
     return email;
+  }
+
+  static PhyContInfo(id) async {
+    print("id+++++++++++==");
+    print(id);
+    List<String> stringList = [];
+    for (int i = 0; i < id.length; i++) {
+      stringList.add(id[i].toString());
+    }
+    print("gggfjfjfjfjfjjfjfjjfjfjf");
+    print(stringList.runtimeType);
+    print(stringList);
+    List<List<String>> contactInfo = [];
+
+    for (int i = 0; i < id.length; i++) {
+      List<String> oneRow = [];
+      var PhyIn = await conn.query(
+          'select name,email,mobileNo from Physician where nationalId=?',
+          [int.parse(stringList[i])]);
+      print(stringList[i]);
+      for (var row in PhyIn) {
+        oneRow.clear();
+        oneRow.add('${row[0]}');
+        oneRow.add('${row[1]}');
+        oneRow.add('${row[2]}');
+        print(oneRow);
+        contactInfo.add(oneRow);
+        print("kkkkkkkkkk");
+        print(contactInfo);
+      }
+    }
+
+    print("contactInfo================");
+    print(contactInfo);
+    return contactInfo;
   }
 }

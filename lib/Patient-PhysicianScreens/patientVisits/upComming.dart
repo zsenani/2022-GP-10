@@ -1,5 +1,3 @@
-import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
-
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import '../../Utiils/images.dart';
@@ -71,16 +69,16 @@ class UpCommingVisitState extends State<UpCommingVisit> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: upVisit.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: Container(
                   height: 90,
                   decoration: BoxDecoration(
@@ -88,7 +86,7 @@ class UpCommingVisitState extends State<UpCommingVisit> {
                     color: ColorResources.white,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       children: [
                         Stack(
@@ -104,7 +102,7 @@ class UpCommingVisitState extends State<UpCommingVisit> {
                             ),
                           ],
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,10 +146,10 @@ class UpCommingVisitState extends State<UpCommingVisit> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               mediumText(upVisit[index][1],
                                   ColorResources.green009, 20),
-                              SizedBox(height: 2),
+                              const SizedBox(height: 2),
                               romanText(
                                   // "Dosage: " +
                                   //     preVisit[index][4] +
@@ -188,7 +186,7 @@ class UpCommingVisitState extends State<UpCommingVisit> {
               alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           romanText("There is no UpComming Visits", ColorResources.grey777, 18,
               TextAlign.center),
         ],

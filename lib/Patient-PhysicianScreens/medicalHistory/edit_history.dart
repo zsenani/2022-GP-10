@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/Patient-PhysicianScreens/patient_home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
 import '../../Utiils/common_widgets.dart';
-import '../../main.dart';
-import '../upcomming_visit_screen.dart';
-import 'medical_history.dart';
 
 String Pid;
 
@@ -134,7 +129,7 @@ class _EditHistory extends State<EditHistory> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 130,
               width: Get.width,
               child: Stack(
@@ -147,12 +142,12 @@ class _EditHistory extends State<EditHistory> {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Padding(
+                          child: const Padding(
                             padding: EdgeInsets.only(
                               left: 10,
                               bottom: 100,
                             ),
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               width: 40,
                               child: Center(
@@ -165,11 +160,11 @@ class _EditHistory extends State<EditHistory> {
                         Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                 left: 20,
                                 right: 20,
                               ),
-                              child: Align(
+                              child: const Align(
                                 alignment: Alignment.center,
                                 child: Text(
                                   ' Edit Medical History',
@@ -190,11 +185,11 @@ class _EditHistory extends State<EditHistory> {
                             //////////////////////////////
                             Navigator.of(context).pop();
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
+                          child: const Padding(
+                            padding: EdgeInsets.only(
                               bottom: 100,
                             ),
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               width: 40,
                               child: Center(
@@ -217,16 +212,16 @@ class _EditHistory extends State<EditHistory> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6, left: 10),
+                    padding: const EdgeInsets.only(top: 6, left: 10),
                     child: mediumText("Allergies", ColorResources.orange, 18),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
                     //width: 200,
                     child: txtfield(AllergyController),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     child: Column(
                       children: [
@@ -236,12 +231,12 @@ class _EditHistory extends State<EditHistory> {
                               "${index}" != 'null')
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 if (index != "" && "${index}" != 'null')
                                   Text('${index}'),
                                 if (index != "" && "${index}" != 'null')
                                   IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         setState(() {
                                           _Allergy1.remove(index);
@@ -257,23 +252,23 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6, left: 10),
+                    padding: const EdgeInsets.only(top: 6, left: 10),
                     child:
                         mediumText("Social History", ColorResources.orange, 18),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
                     child: txtfield(SocialController),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     child: Column(
                       children: [
@@ -283,12 +278,12 @@ class _EditHistory extends State<EditHistory> {
                               "${index}" != 'null')
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 if (index != "" && "${index}" != 'null')
                                   Text('${index}'),
                                 if (index != "" && "${index}" != 'null')
                                   IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         setState(() {
                                           _social1.remove(index);
@@ -304,23 +299,23 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6, left: 10),
+                    padding: const EdgeInsets.only(top: 6, left: 10),
                     child:
                         mediumText("Family History", ColorResources.orange, 18),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
                     child: txtfield(FamilyController),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     child: Column(
                       children: [
@@ -330,14 +325,14 @@ class _EditHistory extends State<EditHistory> {
                               "${index}" != 'null')
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 if (index != "" && "${index}" != 'null')
                                   Text('${index}'
                                       // _family1,
                                       ),
                                 if (index != "" && "${index}" != 'null')
                                   IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         setState(() {
                                           _family1.remove(index);
@@ -353,23 +348,23 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6, left: 10),
+                    padding: const EdgeInsets.only(top: 6, left: 10),
                     child: mediumText(
                         "Surgical History", ColorResources.orange, 18),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
                     child: txtfield(SurgicalController),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     child: Column(
                       children: [
@@ -379,12 +374,12 @@ class _EditHistory extends State<EditHistory> {
                               "${index}" != 'null')
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 if (index != "" && "${index}" != 'null')
                                   Text('${index}'),
                                 if (index != "" && "${index}" != 'null')
                                   IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         setState(() {
                                           _surgery1.remove(index);
@@ -400,23 +395,23 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6, left: 10),
+                    padding: const EdgeInsets.only(top: 6, left: 10),
                     child: mediumText(
                         "Medical Illnesses", ColorResources.orange, 18),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
                     child: txtfield(MedicalController),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     child: Column(
                       children: [
@@ -426,12 +421,12 @@ class _EditHistory extends State<EditHistory> {
                               "${index}" != 'null')
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 if (index != "" && "${index}" != 'null')
                                   Text('${index}'),
                                 if (index != "" && "${index}" != 'null')
                                   IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         setState(() {
                                           _Medical1.remove(index);
@@ -447,10 +442,10 @@ class _EditHistory extends State<EditHistory> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Row(
               children: [
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 commonButton(
                   () {
                     showAlertDialog(context);
@@ -459,10 +454,10 @@ class _EditHistory extends State<EditHistory> {
                   ColorResources.green009,
                   ColorResources.white,
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -471,7 +466,7 @@ class _EditHistory extends State<EditHistory> {
 
   Widget txtfield(_controller) {
     return TextField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
       ),
       controller: _controller,
@@ -481,7 +476,7 @@ class _EditHistory extends State<EditHistory> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text(
+      child: const Text(
         "CANCEL",
         style: TextStyle(
           fontSize: 15,
@@ -492,7 +487,7 @@ class _EditHistory extends State<EditHistory> {
       // Navigator.pop(context),
     );
     Widget continueButton = TextButton(
-      child: Text(
+      child: const Text(
         "SAVE",
         style: TextStyle(
           fontSize: 15,
@@ -520,8 +515,8 @@ class _EditHistory extends State<EditHistory> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Save Changes"),
-      content: Text("Are you sure you want to save changes?"),
+      title: const Text("Save Changes"),
+      content: const Text("Are you sure you want to save changes?"),
       actions: [
         cancelButton,
         continueButton,

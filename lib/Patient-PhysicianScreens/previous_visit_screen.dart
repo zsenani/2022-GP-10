@@ -1,6 +1,5 @@
 import 'package:medcore/Patient-PhysicianScreens/medicalHistory/medical_history.dart';
 import 'package:medcore/Patient-PhysicianScreens/prev_visit.dart';
-import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Patient-PhysicianScreens/singleMedicalReport.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
@@ -8,7 +7,6 @@ import 'package:medcore/Utiils/images.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 
 import '../database/mysqlDatabase.dart';
 import 'Lab/lab_tests.dart';
@@ -120,8 +118,9 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
         if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
-          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day)
+          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
+          }
         }
       });
     }
@@ -157,27 +156,27 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderWidget(),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: heavyText("Patient Files", ColorResources.grey777, 18),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SizedBox(
                 height: 150,
                 width: Get.width,
                 child: Specialist(),
               ),
-              SizedBox(height: 35),
+              const SizedBox(height: 35),
               if (searchPatient != 'searchPatient')
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: heavyText("Services", ColorResources.grey777, 18),
                 ),
-              if (searchPatient != 'searchPatient') SizedBox(height: 10),
+              if (searchPatient != 'searchPatient') const SizedBox(height: 10),
               if (searchPatient != 'searchPatient')
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: InkWell(
                     onTap: () {
                       Get.to(singleMedicalReport(
@@ -215,7 +214,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
           height: 320,
           width: Get.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(240),
               bottomRight: Radius.circular(240),
             ),
@@ -229,7 +228,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: EdgeInsets.only(top: 35),
+              padding: const EdgeInsets.only(top: 35),
               child: ListTile(
                   title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,10 +248,10 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                           children: [
                             heavyText(hospitalName, ColorResources.green, 20,
                                 TextAlign.center),
-                            SizedBox(height: 0.5),
+                            const SizedBox(height: 0.5),
                             bookText("Date: " + visitDate,
                                 ColorResources.grey777, 20, TextAlign.center),
-                            SizedBox(height: 0.5),
+                            const SizedBox(height: 0.5),
                             bookText("Time: " + visitTime,
                                 ColorResources.orange, 20, TextAlign.center),
                           ]),
@@ -265,7 +264,8 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             right: 0.5,
             child: Container(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Container(
                   height: 140,
                   width: Get.width,
@@ -280,36 +280,39 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 13),
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
                         child: heavyText("Patient Name: " + patientName,
                             ColorResources.grey777, 16),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 13),
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
                         child: heavyText("Patient ID: " + patientId,
                             ColorResources.grey777, 16),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 13),
+                          padding: const EdgeInsets.symmetric(horizontal: 13),
                           child: heavyText(patientGender + ", $patientDob y",
                               ColorResources.grey777, 16)),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image(
+                          const Image(
                               image: AssetImage(Images.height),
                               width: 20,
                               height: 20),
                           mediumText("Hieght: ", ColorResources.grey777, 12),
                           SizedBox(
-                            width: 28,
-                            child: romanText(patientHeight,
-                                ColorResources.grey777, 12, TextAlign.center),
+                            width: 35,
+                            child: romanText(
+                                patientHeight == "null" ? "---" : patientHeight,
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -318,11 +321,14 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                             height: 17,
                           ),
                           const SizedBox(width: 1),
-                          mediumText("Weight: ", ColorResources.grey777, 12),
+                          mediumText(" Weight: ", ColorResources.grey777, 12),
                           SizedBox(
-                            width: 28,
-                            child: romanText(patientWeight,
-                                ColorResources.grey777, 12, TextAlign.center),
+                            width: 35,
+                            child: romanText(
+                                patientWeight == "null" ? "---" : patientWeight,
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
                           ),
                           const SizedBox(width: 12),
                           const Image(
@@ -331,11 +337,14 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                             height: 20,
                           ),
                           mediumText(
-                              "Blood pressure: ", ColorResources.grey777, 12),
+                              " Blood pressure: ", ColorResources.grey777, 12),
                           SizedBox(
-                            width: 28,
-                            child: romanText(patientBloodP,
-                                ColorResources.grey777, 12, TextAlign.center),
+                            width: 35,
+                            child: romanText(
+                                patientBloodP == "null" ? "---" : patientBloodP,
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
                           ),
                         ],
                       ),
@@ -354,10 +363,10 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
       child: ListView.builder(
         itemCount: specialistList.length,
         shrinkWrap: true,
-        padding: EdgeInsets.only(left: 24, right: 8),
+        padding: const EdgeInsets.only(left: 24, right: 8),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(right: 16),
+          padding: const EdgeInsets.only(right: 16),
           child: InkWell(
             onTap: () {
               Get.to(specialistList[index]["caller"],
@@ -375,7 +384,8 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -386,7 +396,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                       width: 60,
                       height: 60,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     heavyText(specialistList[index]["text1"],
                         ColorResources.blue0C1, 15, TextAlign.center),
                   ],

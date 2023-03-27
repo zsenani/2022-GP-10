@@ -1,17 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
-import 'package:medcore/Utiils/images.dart';
 import 'package:get/get.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-import '../AuthScreens/signin_screen.dart';
 import '../Patient-PhysicianScreens/home_screen.dart';
 import '../Patient-PhysicianScreens/patient_home_screen.dart';
-import '../Utiils/text_font_family.dart';
 import 'lab_home_screen.dart';
-import 'previouse_test_request.dart';
 
 String visitID;
 String ID;
@@ -112,7 +107,7 @@ class showlabResultState extends State<showlabResult> {
           elevation: 0,
           centerTitle: true,
           leading: Padding(
-            padding: EdgeInsets.only(left: 18, top: 8, bottom: 8),
+            padding: const EdgeInsets.only(left: 18, top: 8, bottom: 8),
             child: InkWell(
               onTap: () {
                 testNameglobal.clear();
@@ -131,7 +126,7 @@ class showlabResultState extends State<showlabResult> {
                     width: 1,
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -156,10 +151,10 @@ class showlabResultState extends State<showlabResult> {
                           : Get.to(HomeScreen(id: ID));
                   //Role=='patient'?Get.to();
                 },
-                child: Container(
+                child: const SizedBox(
                   height: 40,
                   width: 40,
-                  child: const Icon(Icons.home, color: ColorResources.grey777),
+                  child: Icon(Icons.home, color: ColorResources.grey777),
                 ),
               ),
             ),
@@ -181,7 +176,7 @@ class showlabResultState extends State<showlabResult> {
       behavior: MyBehavior(),
       child: Column(
         children: [
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           SizedBox(
             height: 60,
             child: Container(
@@ -191,7 +186,7 @@ class showlabResultState extends State<showlabResult> {
               //     bottomRight: Radius.circular(10),
               //   ),
               // ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(13),
                   bottomRight: Radius.circular(13),
@@ -213,24 +208,25 @@ class showlabResultState extends State<showlabResult> {
               ),
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           testsIDglobal.length == 0
               ? SizedBox(height: 400, child: loadingPage())
               : Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: testsIDglobal.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(left: 22, bottom: 16, right: 22),
+                      padding: const EdgeInsets.only(
+                          left: 22, bottom: 16, right: 22),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: ColorResources.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           child: Row(
                             children: [
                               Expanded(
@@ -250,7 +246,7 @@ class showlabResultState extends State<showlabResult> {
                                                 : testsResultglobal[index],
                                             ColorResources.grey777,
                                             22),
-                                        SizedBox(width: 3),
+                                        const SizedBox(width: 3),
                                         mediumText(
                                             page == 'active'
                                                 ? '-'

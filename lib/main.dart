@@ -1,7 +1,6 @@
 import 'package:email_auth/email_auth.dart';
 import 'package:medcore/AuthScreens/change_password_screen.dart';
 import 'package:medcore/AuthScreens/forgot_password_screen.dart';
-import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/AuthScreens/signin_screen.dart';
 import 'package:medcore/auth.config.dart';

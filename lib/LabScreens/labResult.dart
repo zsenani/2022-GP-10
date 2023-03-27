@@ -1,15 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/foundation.dart';
-import 'package:medcore/Patient-PhysicianScreens/Lab/lab_tests.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
-import 'package:medcore/Utiils/images.dart';
 import 'package:get/get.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-import '../AuthScreens/signin_screen.dart';
-import '../Utiils/text_font_family.dart';
 import 'lab_home_screen.dart';
 
 String visitID;
@@ -104,10 +99,11 @@ class labResultState extends State<labResult> {
         });
 
         isFilled = false;
-      } else
+      } else {
         setState(() {
           flagcontroller[index] = false;
         });
+      }
     }
     if (isFilled) {
       showAlertDialog(context);
@@ -132,7 +128,7 @@ class labResultState extends State<labResult> {
           elevation: 0,
           centerTitle: true,
           leading: Padding(
-            padding: EdgeInsets.only(left: 18, top: 8, bottom: 8),
+            padding: const EdgeInsets.only(left: 18, top: 8, bottom: 8),
             child: InkWell(
               onTap: () {
                 Get.back();
@@ -148,7 +144,7 @@ class labResultState extends State<labResult> {
                     width: 1,
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
                 ),
               ),
@@ -164,10 +160,10 @@ class labResultState extends State<labResult> {
                     id: LabSpID,
                   ));
                 },
-                child: Container(
+                child: const SizedBox(
                   height: 40,
                   width: 40,
-                  child: const Icon(Icons.home, color: ColorResources.grey777),
+                  child: Icon(Icons.home, color: ColorResources.grey777),
                 ),
               ),
             ),
@@ -191,11 +187,11 @@ class labResultState extends State<labResult> {
       behavior: MyBehavior(),
       child: Column(
         children: [
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           SizedBox(
             height: 60,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(13),
                   bottomRight: Radius.circular(13),
@@ -216,18 +212,18 @@ class labResultState extends State<labResult> {
               ),
             ),
           ),
-          if (isFilled == false) SizedBox(height: 15),
+          if (isFilled == false) const SizedBox(height: 15),
           if (isFilled == false)
             mediumText('All the fields should be filled ', Colors.red, 17),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: testsIDglobal.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(left: 20, bottom: 16, right: 20),
+                padding: const EdgeInsets.only(left: 20, bottom: 16, right: 20),
                 child: InkWell(
                   child: Container(
                     decoration: BoxDecoration(
@@ -235,7 +231,7 @@ class labResultState extends State<labResult> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
                           Expanded(
@@ -246,7 +242,7 @@ class labResultState extends State<labResult> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: 12),
+                                    const SizedBox(height: 12),
                                     mediumText(testNamesGlabal[index] + ": ",
                                         ColorResources.grey777, 22),
                                   ],
@@ -255,7 +251,7 @@ class labResultState extends State<labResult> {
                                   width: 110,
                                   child: testNamesGlabal[index] == 'ABO'
                                       ? DropdownSearch<String>(
-                                          popupProps: PopupProps.menu(
+                                          popupProps: const PopupProps.menu(
                                             showSelectedItems: true,
                                             constraints:
                                                 BoxConstraints(maxHeight: 199),
@@ -275,7 +271,7 @@ class labResultState extends State<labResult> {
                                             dropdownSearchDecoration:
                                                 InputDecoration(
                                               hintText: 'Select..',
-                                              hintStyle: TextStyle(
+                                              hintStyle: const TextStyle(
                                                   color:
                                                       ColorResources.grey777),
                                               enabledBorder:
@@ -369,7 +365,7 @@ class labResultState extends State<labResult> {
             }, "Upload", const Color.fromRGBO(19, 156, 140, 1),
                 ColorResources.white),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
         ],
       ),
     );

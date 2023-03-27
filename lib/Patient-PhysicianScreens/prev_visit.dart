@@ -73,16 +73,16 @@ class _PreVisitListState extends State<PreVisitList> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: previouseVisit.length,
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   onTap: () {
                     Get.to(PreviousVisitScreen(
@@ -105,10 +105,10 @@ class _PreVisitListState extends State<PreVisitList> {
                       color: ColorResources.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Row(
                         children: [
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,12 +131,12 @@ class _PreVisitListState extends State<PreVisitList> {
                                         ColorResources.grey777, 14),
                                   ],
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 mediumText(
                                     "Patient: " + previouseVisit[index][3],
                                     ColorResources.grey777,
                                     18),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 romanText(
                                     "Visit ID: " + previouseVisit[index][0],
                                     ColorResources.grey777,
@@ -178,7 +178,7 @@ class _PreVisitListState extends State<PreVisitList> {
               alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           romanText("There is no Previous Visits", ColorResources.grey777, 18,
               TextAlign.center),
         ],

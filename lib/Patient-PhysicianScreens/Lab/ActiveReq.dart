@@ -8,7 +8,6 @@ import './lab_tests.dart';
 import '/../Utiils/colors.dart';
 import '/../Utiils/common_widgets.dart';
 import '/../Utiils/images.dart';
-import '/../Utiils/text_font_family.dart';
 import '/../main.dart';
 import 'package:flutter/material.dart';
 
@@ -188,24 +187,26 @@ class _ActiveReqState extends State<ActiveReq> {
                     Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(top: 0),
+                          padding: const EdgeInsets.only(top: 0),
                           height: Get.height - 250,
                           child: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                                 ScrollConfiguration(
                                   behavior: MyBehavior(),
                                   child: ListView.builder(
                                     padding: EdgeInsets.zero,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: setRange == false
                                         ? arraylength
                                         : toDayListFilttered.length,
                                     itemBuilder: (context, index) => Padding(
-                                      padding: EdgeInsets.only(bottom: 16),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
                                       child: Container(
                                         height: 90,
                                         decoration: BoxDecoration(
@@ -214,7 +215,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                           color: ColorResources.white,
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(15),
+                                          padding: const EdgeInsets.all(15),
                                           child: Row(
                                             children: [
                                               Stack(
@@ -224,7 +225,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor:
-                                                        Color.fromARGB(
+                                                        const Color.fromARGB(
                                                             255, 255, 255, 255),
                                                     radius: 20,
                                                     backgroundImage: AssetImage(
@@ -237,7 +238,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(width: 20),
+                                              const SizedBox(width: 20),
                                               Expanded(
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -267,7 +268,8 @@ class _ActiveReqState extends State<ActiveReq> {
                                                                 ColorResources
                                                                     .green009,
                                                                 20),
-                                                        SizedBox(height: 2),
+                                                        const SizedBox(
+                                                            height: 2),
                                                         setRange == false
                                                             ? romanText(
                                                                 hospitalname[
@@ -283,7 +285,8 @@ class _ActiveReqState extends State<ActiveReq> {
                                                                 ColorResources
                                                                     .grey777,
                                                                 12),
-                                                        SizedBox(height: 4),
+                                                        const SizedBox(
+                                                            height: 4),
                                                         setRange == false
                                                             ? romanText(
                                                                 toDayList[index]
@@ -336,7 +339,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                                                   'active');
                                                     },
                                                         "View",
-                                                        Color.fromRGBO(
+                                                        const Color.fromRGBO(
                                                             241, 94, 34, 0.7),
                                                         //ColorResources.green009,
                                                         ColorResources.white),
@@ -357,9 +360,9 @@ class _ActiveReqState extends State<ActiveReq> {
                         Row(children: [
                           Padding(
                             padding: roleHome == 'UPphysician'
-                                ? EdgeInsets.only(
+                                ? const EdgeInsets.only(
                                     left: 300, bottom: 0, right: 7)
-                                : EdgeInsets.only(left: 350, bottom: 0),
+                                : const EdgeInsets.only(left: 350, bottom: 0),
                             child: InkWell(
                               onTap: () {
                                 _startAdd2(context);
@@ -375,7 +378,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                     width: 1,
                                   ),
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.filter_alt,
                                       color: ColorResources.white),
                                 ),
@@ -387,7 +390,8 @@ class _ActiveReqState extends State<ActiveReq> {
 
                           if (roleHome == 'UPphysician')
                             Padding(
-                              padding: EdgeInsets.only(bottom: 0, right: 0),
+                              padding:
+                                  const EdgeInsets.only(bottom: 0, right: 0),
                               child: InkWell(
                                 onTap: () {
                                   _startAdd(context);
@@ -403,7 +407,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                       width: 1,
                                     ),
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Icon(Icons.add,
                                         color: ColorResources.white),
                                   ),
@@ -455,7 +459,7 @@ class _ActiveReqState extends State<ActiveReq> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           height: Get.height - 280,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -479,8 +483,8 @@ class _ActiveReqState extends State<ActiveReq> {
 
                         if (roleHome == 'UPphysician')
                           Padding(
-                            padding:
-                                EdgeInsets.only(left: 320, bottom: 0, right: 0),
+                            padding: const EdgeInsets.only(
+                                left: 320, bottom: 0, right: 0),
                             child: InkWell(
                               onTap: () {
                                 _startAdd(context);
@@ -496,7 +500,7 @@ class _ActiveReqState extends State<ActiveReq> {
                                     width: 1,
                                   ),
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.add,
                                       color: ColorResources.white),
                                 ),
@@ -550,7 +554,7 @@ class _ActiveReqState extends State<ActiveReq> {
   Widget DatePicker() {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         height: 380,
         child: Stack(
           children: <Widget>[
@@ -596,7 +600,7 @@ class _ActiveReqState extends State<ActiveReq> {
                     Navigator.pop(context);
                   }, "Cancel", ColorResources.orange.withOpacity(0.9),
                       ColorResources.white),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Button(() {

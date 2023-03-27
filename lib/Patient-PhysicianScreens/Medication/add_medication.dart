@@ -1,20 +1,13 @@
 import 'package:dropdown_search/dropdown_search.dart';
 
-import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../../Utiils/text_font_family.dart';
 import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
-import '../Lab/tests.dart';
-import 'current_medication.dart';
 import 'medication_list.dart';
-import 'past_medication.dart';
-
-import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
 String visitId;
 int patientId;
@@ -79,7 +72,8 @@ class _AddMedicationState extends State<AddMedication> {
       picked2 = await showDatePicker(
           context: context,
           initialDate: EselectedDate,
-          firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 2),
+          firstDate: DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 2),
           lastDate: DateTime(DateTime.now().year + 5));
     }
     if (date == 'start' && picked != null && picked != SselectedDate) {
@@ -97,8 +91,8 @@ class _AddMedicationState extends State<AddMedication> {
   }
 
   Widget loadingPage() {
-    return Center(
-      child: const CircularProgressIndicator(
+    return const Center(
+      child: CircularProgressIndicator(
         color: ColorResources.grey777,
       ),
     );
@@ -118,7 +112,7 @@ class _AddMedicationState extends State<AddMedication> {
                   Row(
                     //  mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       InkWell(
@@ -138,7 +132,7 @@ class _AddMedicationState extends State<AddMedication> {
                                 width: 1,
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(Icons.arrow_back,
                                   color: ColorResources.grey777),
                             ),
@@ -156,14 +150,14 @@ class _AddMedicationState extends State<AddMedication> {
                           Navigator.of(context).pop();
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: 40,
                             left: 25,
                           ),
                           child: Container(
                             height: 60,
                             width: 60,
-                            child: Center(
+                            child: const Center(
                               // heightFactor: 100,
                               child: Icon(Icons.home_outlined,
                                   color: ColorResources.grey777),
@@ -177,23 +171,23 @@ class _AddMedicationState extends State<AddMedication> {
                     color: ColorResources.greyD4D.withOpacity(0.4),
                     thickness: 1,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     child: loading == true
                         ? loadingPage()
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                SizedBox(height: 20),
-                                heavyText(
-                                    "Name", Color.fromRGBO(241, 94, 34, 1), 18),
+                                const SizedBox(height: 20),
+                                heavyText("Name",
+                                    const Color.fromRGBO(241, 94, 34, 1), 18),
                                 // textField1("Enter Medication name...", ControllerName,
                                 //     TextInputType.text,
                                 //     error: errorName),
                                 DropdownSearch<String>(
                                   selectedItem: medication,
-                                  popupProps: PopupProps.menu(
+                                  popupProps: const PopupProps.menu(
                                     showSearchBox: true,
                                     showSelectedItems: true,
                                     searchFieldProps: TextFieldProps(
@@ -210,7 +204,7 @@ class _AddMedicationState extends State<AddMedication> {
                                       DropDownDecoratorProps(
                                     dropdownSearchDecoration: InputDecoration(
                                       hintText: "Choose medication",
-                                      hintStyle: TextStyle(
+                                      hintStyle: const TextStyle(
                                           color: ColorResources.grey777),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: errorName == false
@@ -230,9 +224,9 @@ class _AddMedicationState extends State<AddMedication> {
                                 if (errorName == true)
                                   mediumText(
                                       "Choose medication", Colors.red, 16),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 heavyText("Dosage",
-                                    Color.fromRGBO(241, 94, 34, 1), 18),
+                                    const Color.fromRGBO(241, 94, 34, 1), 18),
                                 textField1("Enter Dosage...", ControllerDosage,
                                     TextInputType.text,
                                     error: errorDosage),
@@ -249,8 +243,11 @@ class _AddMedicationState extends State<AddMedication> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        mediumText("Start date",
-                                            Color.fromRGBO(241, 94, 34, 1), 20),
+                                        mediumText(
+                                            "Start date",
+                                            const Color.fromRGBO(
+                                                241, 94, 34, 1),
+                                            20),
                                         if (selectedDate == null)
                                           InkWell(
                                             onTap: () {
@@ -348,8 +345,11 @@ class _AddMedicationState extends State<AddMedication> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        mediumText("End date",
-                                            Color.fromRGBO(241, 94, 34, 1), 20),
+                                        mediumText(
+                                            "End date",
+                                            const Color.fromRGBO(
+                                                241, 94, 34, 1),
+                                            20),
                                         if (selectedDate2 == null)
                                           InkWell(
                                             onTap: () {
@@ -454,13 +454,13 @@ class _AddMedicationState extends State<AddMedication> {
                                 const SizedBox(height: 15),
                                 heavyText(
                                   "Description",
-                                  Color.fromRGBO(241, 94, 34, 1),
+                                  const Color.fromRGBO(241, 94, 34, 1),
                                   18,
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 textField2("Enter Description...",
                                     ControllerDescription, TextInputType.text),
-                                SizedBox(height: 60),
+                                const SizedBox(height: 60),
                                 commonButton(() {
                                   showAlertDialog(context);
                                 }, "ADD", ColorResources.green009,
@@ -478,7 +478,7 @@ class _AddMedicationState extends State<AddMedication> {
       //alignment: Alignment.center,
       height: 80,
       width: Get.width,
-      padding: EdgeInsets.only(top: 50, left: 15),
+      padding: const EdgeInsets.only(top: 50, left: 15),
       child: heavyText("Add Medication", ColorResources.green009, 25),
     );
   }
@@ -616,10 +616,11 @@ class _AddMedicationState extends State<AddMedication> {
           int medNo1 = int.parse('${row[1]}');
           if (ArrayLength != 0) {
             medIds.forEach((element) {
-              if (element == medNo1)
+              if (element == medNo1) {
                 setState(() {
                   exist = true;
                 });
+              }
             });
           }
           if (!exist) ArrayOfMedication.add(medication);
@@ -656,7 +657,7 @@ class _AddMedicationState extends State<AddMedication> {
       done = 'true';
     }
     Widget OKButton = TextButton(
-        child: Text(
+        child: const Text(
           "OK",
           style: TextStyle(
             fontSize: 15,
@@ -673,8 +674,9 @@ class _AddMedicationState extends State<AddMedication> {
                   idPHy: idPhysician,
                 ),
                 arguments: 'patientfile');
-          } else
+          } else {
             Navigator.pop(context);
+          }
         });
 
     // set up the AlertDialog
@@ -696,7 +698,7 @@ class _AddMedicationState extends State<AddMedication> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-        child: Text(
+        child: const Text(
           "CANCEL",
           style: TextStyle(
             fontSize: 15,
@@ -709,7 +711,7 @@ class _AddMedicationState extends State<AddMedication> {
         // Navigator.pop(context),
         );
     Widget continueButton = TextButton(
-      child: Text(
+      child: const Text(
         "ADD",
         style: TextStyle(
           fontSize: 15,
@@ -722,8 +724,8 @@ class _AddMedicationState extends State<AddMedication> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Add Medication"),
-      content: Text("Are you sure you want to Add this medication?"),
+      title: const Text("Add Medication"),
+      content: const Text("Are you sure you want to Add this medication?"),
       actions: [
         cancelButton,
         continueButton,

@@ -9,7 +9,6 @@ import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../upcomming_visit_screen.dart';
 import 'edit_history.dart';
 import '../patient_home_screen.dart';
 
@@ -71,8 +70,8 @@ class MedicalHistoryState extends State<MedicalHistory> {
   }
 
   Widget loadingPage() {
-    return Center(
-      child: const CircularProgressIndicator(
+    return const Center(
+      child: CircularProgressIndicator(
         color: ColorResources.grey777,
       ),
     );
@@ -122,10 +121,10 @@ class MedicalHistoryState extends State<MedicalHistory> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 6),
+                padding: const EdgeInsets.only(top: 6),
                 child: mediumText("Allergies", ColorResources.grey777, 18),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               for (var index in _Allergy) ...[
                 if (index != null && index != ' ')
                   Column(
@@ -137,28 +136,28 @@ class MedicalHistoryState extends State<MedicalHistory> {
                       if ("${index}" != '' &&
                           "${index}" != ' ' &&
                           "${index}" != 'null')
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                     ],
                   ),
               ],
             ],
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.group,
+              const Icon(Icons.group,
                   color: Color.fromRGBO(241, 94, 34, 0.7), size: 30),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6),
+                    padding: const EdgeInsets.only(top: 6),
                     child: mediumText(
                         "Social History", ColorResources.grey777, 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   for (var index in _social) ...[
                     Column(
                       children: [
@@ -169,7 +168,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                         if ("${index}" != '' &&
                             "${index}" != ' ' &&
                             "${index}" != 'null')
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                       ],
                     ),
                   ],
@@ -179,7 +178,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
           ),
         ],
       ),
-      SizedBox(height: 30),
+      const SizedBox(height: 30),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,11 +192,11 @@ class MedicalHistoryState extends State<MedicalHistory> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 6),
+                padding: const EdgeInsets.only(top: 6),
                 child: mediumText("Family History", ColorResources.grey777, 18),
               ),
-              SizedBox(height: 10),
-              SizedBox(width: 10),
+              const SizedBox(height: 10),
+              const SizedBox(width: 10),
               for (var index in _family) ...[
                 Column(
                   children: [
@@ -208,13 +207,13 @@ class MedicalHistoryState extends State<MedicalHistory> {
                     if ("${index}" != '' &&
                         "${index}" != ' ' &&
                         "${index}" != 'null')
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                   ],
                 ),
               ],
             ],
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -223,16 +222,16 @@ class MedicalHistoryState extends State<MedicalHistory> {
                 width: 25,
                 height: 25,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 6),
+                    padding: const EdgeInsets.only(top: 6),
                     child: mediumText(
                         "Surgical History", ColorResources.grey777, 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   for (var index in _surgery) ...[
                     Column(
                       children: [
@@ -249,7 +248,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
           ),
         ],
       ),
-      SizedBox(height: 30),
+      const SizedBox(height: 30),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -258,16 +257,16 @@ class MedicalHistoryState extends State<MedicalHistory> {
             width: 25,
             height: 25,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 6),
+                padding: const EdgeInsets.only(top: 6),
                 child:
                     mediumText("Medical Illnesses", ColorResources.grey777, 18),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               for (var index in _Medical) ...[
                 Column(
                   children: [
@@ -278,7 +277,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                     if ("${index}" != '' &&
                         "${index}" != ' ' &&
                         "${index}" != 'null')
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                   ],
                 ),
               ],
@@ -299,13 +298,13 @@ class MedicalHistoryState extends State<MedicalHistory> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 InkWell(
@@ -323,7 +322,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                         width: 1,
                       ),
                     ),
-                    child: Center(
+                    child: const Center(
                       child:
                           Icon(Icons.arrow_back, color: ColorResources.grey777),
                     ),
@@ -341,11 +340,11 @@ class MedicalHistoryState extends State<MedicalHistory> {
                       Navigator.of(context).pop();
                     },
                     child: Padding(
-                      padding: EdgeInsets.only(top: 3, bottom: 0),
+                      padding: const EdgeInsets.only(top: 3, bottom: 0),
                       child: Container(
                         height: 60,
                         width: 60,
-                        child: Center(
+                        child: const Center(
                           // heightFactor: 100,
                           child: Icon(Icons.home_outlined,
                               color: ColorResources.grey777),
@@ -360,7 +359,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                 : Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: ScrollConfiguration(
                           behavior: MyBehavior(),
                           child: SingleChildScrollView(
@@ -371,24 +370,24 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.person_outline,
+                                    const Icon(Icons.person_outline,
                                         color: Color.fromRGBO(241, 94, 34, 1),
                                         size: 30),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 6),
+                                      padding: const EdgeInsets.only(top: 6),
                                       child: mediumText("Personal information",
                                           ColorResources.grey777, 18),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Divider(
                                   color:
                                       ColorResources.greyD4D.withOpacity(0.4),
                                   thickness: 1,
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
@@ -408,7 +407,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Row(
                                           children: [
                                             bookText("Age   :   ",
@@ -417,7 +416,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Row(
                                           children: [
                                             bookText("Nationality: ",
@@ -426,7 +425,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 14),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Row(
                                           children: [
                                             bookText("Gender :   ",
@@ -451,7 +450,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Row(
                                           children: [
                                             bookText("DOB: ",
@@ -460,7 +459,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Row(
                                           children: [
                                             bookText("Marital Status: ",
@@ -470,7 +469,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           ],
                                         ),
                                         if (role != "patient")
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                         Column(
                                           children: [
                                             Row(
@@ -485,7 +484,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                       // selectedItem:
                                                       //     BloodController.text,
                                                       popupProps:
-                                                          PopupProps.menu(
+                                                          const PopupProps.menu(
                                                         showSelectedItems: true,
                                                         constraints:
                                                             BoxConstraints(
@@ -497,7 +496,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                         //         thumbVisibility:
                                                         //             true),
                                                       ),
-                                                      items: [
+                                                      items: const [
                                                         'O+',
                                                         'O-',
                                                         'A+',
@@ -517,7 +516,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                                       ''
                                                               ? '--'
                                                               : bloodType,
-                                                          hintStyle: TextStyle(
+                                                          hintStyle: const TextStyle(
                                                               color:
                                                                   ColorResources
                                                                       .grey777,
@@ -641,7 +640,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                 ///////////////////////////////
                                               ],
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 10,
                                             ),
                                             role == "patient"
@@ -651,7 +650,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                       height: 20,
                                                       // margin: EdgeInsets.all(25),
                                                       child: ElevatedButton(
-                                                        child: Text(
+                                                        child: const Text(
                                                           'Update',
                                                           style: TextStyle(
                                                               fontSize: 13),
@@ -680,17 +679,17 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Divider(
                                   color:
                                       ColorResources.greyD4D.withOpacity(0.4),
                                   thickness: 1,
                                 ),
 
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                                 info(),
 
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                                 role == "UPphysician"
                                     ? Column(
                                         children: [
@@ -709,7 +708,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                             }
                                           }, "Edit", ColorResources.green009,
                                               ColorResources.white),
-                                          SizedBox(height: 30),
+                                          const SizedBox(height: 30),
                                         ],
                                       )
                                     : Container(),
@@ -812,7 +811,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
         Container(
           height: 80,
           width: Get.width,
-          padding: EdgeInsets.only(top: 23, left: 35),
+          padding: const EdgeInsets.only(top: 23, left: 35),
           child: heavyText("Medical History ", ColorResources.green009, 30),
         ),
       ],

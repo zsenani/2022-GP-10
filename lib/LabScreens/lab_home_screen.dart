@@ -10,8 +10,6 @@ import 'package:medcore/LabScreens/active_test_request.dart';
 import 'package:medcore/LabScreens/previouse_test_request.dart';
 import 'package:medcore/LabScreens/lab_profile_screen.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-import '../AuthScreens/signin_screen.dart';
-import '../index.dart';
 
 String Id;
 bool _loading = true;
@@ -42,10 +40,11 @@ class _LabHomePage1State extends State<LabHomePage1> {
     print(Page);
     super.initState();
     setState(() {
-      if (Page == 'edit')
+      if (Page == 'edit') {
         _selectedScreenIndex = 1;
-      else
+      } else {
         _selectedScreenIndex = 0;
+      }
     });
   }
 
@@ -214,7 +213,7 @@ class _LabHomePage2State extends State<LabHomePage2> {
             Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                  padding: const EdgeInsets.only(left: 25, top: 70, bottom: 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -229,7 +228,7 @@ class _LabHomePage2State extends State<LabHomePage2> {
                 ),
                 // padding: const EdgeInsets.only(left: 25, top: 24, right: 5),
                 Container(
-                  padding: EdgeInsets.only(left: 25, top: 24, right: 5),
+                  padding: const EdgeInsets.only(left: 25, top: 24, right: 5),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(

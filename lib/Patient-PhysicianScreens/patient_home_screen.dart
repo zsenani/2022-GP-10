@@ -1,32 +1,15 @@
-import 'package:medcore/AuthScreens/reset_password_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/patientVisits/previous.dart';
-import 'package:medcore/Patient-PhysicianScreens/search_patient.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/images.dart';
-import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medcore/Controller/tab_controller.dart';
-import 'package:medcore/Patient-PhysicianScreens/previous_visit_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/upcomming_visit_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/prev_visit.dart';
-import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_results.dart';
-import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
-import '../AuthScreens/signin_screen.dart';
-import 'Lab/add_request.dart';
 import 'Lab/lab_tests.dart';
 import 'Medication/medication_list.dart';
-import 'SearchSymptoms/diagnosis_details.dart';
-import 'active_visit.dart';
 import 'medicalHistory/medical_history.dart';
 import 'medical_reports.dart';
 import 'pateint_profile_screen.dart';
 import 'patientVisits/patientVisits.dart';
-import 'patientVisits/upComming.dart';
-import 'singleMedicalReport.dart';
-import 'write_diagnose.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
@@ -49,10 +32,11 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
     print(Page);
     super.initState();
     setState(() {
-      if (Page == 'edit')
+      if (Page == 'edit') {
         _selectedScreenIndex = 1;
-      else
+      } else {
         _selectedScreenIndex = 0;
+      }
     });
   }
 
@@ -150,8 +134,9 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
         //age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
         if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
-          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day)
+          if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
+          }
         }
       });
     }
@@ -250,9 +235,9 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: heavyText("Service:", ColorResources.grey777, 18),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: InkWell(
                 onTap: () {
                   Get.to(PatientVisit(
@@ -272,7 +257,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: heavyText("My Files", ColorResources.grey777, 18),
@@ -472,7 +457,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
           height: 320,
           width: Get.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(240),
               bottomRight: Radius.circular(240),
             ),
@@ -532,100 +517,97 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
             bottom: 20,
             left: 0.5,
             right: 0.5,
-            child: Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Container(
-                  height: 150,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    color: ColorResources.whiteF6F,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: ColorResources.grey9AA.withOpacity(0.25),
-                      width: 1,
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Container(
+                height: 150,
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: ColorResources.whiteF6F,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: ColorResources.grey9AA.withOpacity(0.25),
+                    width: 1,
                   ),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 13),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child:
-                              heavyText("ID: $Id", ColorResources.grey777, 16),
-                        ),
-                        const SizedBox(height: 2),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("DOB: ${patientInfor[2]}",
-                              ColorResources.grey777, 16),
-                        ),
-                        const SizedBox(height: 2),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 13),
-                            child: heavyText("${patientInfor[3]}, $ageNow y",
-                                ColorResources.grey777, 16)),
-                        const SizedBox(height: 20),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: 20),
-                            const Image(
-                                image: AssetImage(Images.height),
-                                width: 20,
-                                height: 20),
-                            mediumText("Hieght:", ColorResources.grey777, 12),
-                            SizedBox(
-                              width: 28,
-                              child: romanText(
-                                  patientInfor[4] == "null"
-                                      ? "---"
-                                      : patientInfor[4],
-                                  ColorResources.grey777,
-                                  12,
-                                  TextAlign.center),
-                            ),
-                            const SizedBox(width: 10),
-                            const Image(
-                              image: AssetImage(Images.weight),
-                              width: 18,
-                              height: 18,
-                            ),
-                            const SizedBox(width: 1),
-                            mediumText("Weight:", ColorResources.grey777, 12),
-                            SizedBox(
-                              width: 28,
-                              child: romanText(
-                                  patientInfor[5] == "null"
-                                      ? "---"
-                                      : patientInfor[5],
-                                  ColorResources.grey777,
-                                  12,
-                                  TextAlign.center),
-                            ),
-                            const SizedBox(width: 8),
-                            const Image(
-                              image: AssetImage(Images.pressurIcon),
-                              width: 20,
-                              height: 20,
-                            ),
-                            mediumText(
-                                "Blood pressure:", ColorResources.grey777, 12),
-                            SizedBox(
-                              width: 28,
-                              child: romanText(
-                                  patientInfor[6] == "null"
-                                      ? "---"
-                                      : patientInfor[6],
-                                  ColorResources.grey777,
-                                  12,
-                                  TextAlign.center),
-                            ),
-                          ],
-                        ),
-                      ]),
                 ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 13),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("ID: $Id", ColorResources.grey777, 16),
+                      ),
+                      const SizedBox(height: 2),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("DOB: ${patientInfor[2]}",
+                            ColorResources.grey777, 16),
+                      ),
+                      const SizedBox(height: 2),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 13),
+                          child: heavyText("${patientInfor[3]}, $ageNow y",
+                              ColorResources.grey777, 16)),
+                      const SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 20),
+                          const Image(
+                              image: AssetImage(Images.height),
+                              width: 20,
+                              height: 20),
+                          mediumText(" Hieght:", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 35,
+                            child: romanText(
+                                patientInfor[4] == "null"
+                                    ? "---"
+                                    : patientInfor[4],
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
+                          ),
+                          const SizedBox(width: 10),
+                          const Image(
+                            image: AssetImage(Images.weight),
+                            width: 18,
+                            height: 18,
+                          ),
+                          const SizedBox(width: 1),
+                          mediumText(" Weight:", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 35,
+                            child: romanText(
+                                patientInfor[5] == "null"
+                                    ? "---"
+                                    : patientInfor[5],
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
+                          ),
+                          const SizedBox(width: 8),
+                          const Image(
+                            image: AssetImage(Images.pressurIcon),
+                            width: 20,
+                            height: 20,
+                          ),
+                          mediumText(
+                              " Blood pressure:", ColorResources.grey777, 12),
+                          SizedBox(
+                            width: 35,
+                            child: romanText(
+                                patientInfor[6] == "null"
+                                    ? "---"
+                                    : patientInfor[6],
+                                ColorResources.grey777,
+                                12,
+                                TextAlign.center),
+                          ),
+                        ],
+                      ),
+                    ]),
               ),
             ))
       ],

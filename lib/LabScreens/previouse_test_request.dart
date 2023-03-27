@@ -80,10 +80,10 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           TextFormField(
             controller: idPatientprev,
-            cursorColor: Color.fromRGBO(19, 156, 140, 1),
+            cursorColor: const Color.fromRGBO(19, 156, 140, 1),
             style: TextStyle(
               color: ColorResources.black,
               fontSize: 15,
@@ -97,7 +97,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                     searchPatientPrev(idPatientprev.text);
                   });
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                 ),
               ),
@@ -126,7 +126,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
               ),
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           if (idPatientprev.text.length != 10 && idPatientprev.text != "")
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               mediumText("   The ID should be 10 digits", Colors.red, 16),
@@ -138,17 +138,17 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
               mediumText("   The patient dosn't have any previouse requests",
                   Colors.grey, 16),
             ]),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           idPatientprev.text == ''
               ? ScrollConfiguration(
                   behavior: MyBehavior(),
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: prevTest.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () {
                           Get.to(PreviouseTestDetails(
@@ -162,10 +162,10 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                             color: ColorResources.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -175,8 +175,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: "Visit ID: " +
-                                                  prevTest[index][1],
+                                              text:
+                                                  "Visit ID: ${prevTest[index][1]}",
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -187,14 +187,14 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: " + prevTest[index][4],
+                                          "Patient: ${prevTest[index][4]}",
                                           ColorResources.grey777,
                                           18),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       romanText(
-                                          "Physician: " + prevTest[index][6],
+                                          "Physician: ${prevTest[index][6]}",
                                           ColorResources.grey777,
                                           12),
                                     ],
@@ -218,13 +218,13 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                   behavior: MyBehavior(),
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: prevpatientList.length == 0
                         ? 0
                         : prevpatientList.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         onTap: () {
                           Get.to(PreviouseTestDetails(
@@ -238,10 +238,10 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                             color: ColorResources.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -251,8 +251,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: "Visit ID: " +
-                                                  prevpatientList[index][1],
+                                              text:
+                                                  "Visit ID: ${prevpatientList[index][1]}",
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -263,16 +263,14 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: " +
-                                              prevpatientList[index][4],
+                                          "Patient: ${prevpatientList[index][4]}",
                                           ColorResources.grey777,
                                           18),
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: " +
-                                              prevpatientList[index][6],
+                                          "Visit ID: ${prevpatientList[index][6]}",
                                           ColorResources.grey777,
                                           15),
                                     ],
@@ -312,7 +310,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
               alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           romanText("There is no previous test requests",
               ColorResources.grey777, 18, TextAlign.center),
         ],
