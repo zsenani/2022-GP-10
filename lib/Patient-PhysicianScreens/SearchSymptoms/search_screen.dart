@@ -186,16 +186,30 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    loadingSearch = false;
-    loading1 = false;
+    setState(() {
+      loadingSearch = false;
+      loading1 = false;
+      pressed = false;
+    });
   }
 
   PhysicianInfor() async {
+    setState(() {
+      loading1 = true;
+    });
     results1 = await mysqlDatabase.PhyContInfo(PhyIds);
     setState(() {
       loading1 = false;
     });
-    Get.to(SearchResults(), arguments: Id);
+    if (empty == false) {
+      Get.to(SearchResults(), arguments: Id);
+    } else {
+      setState(() {
+        loading1 = false;
+        loadingSearch = false;
+        pressed = false;
+      });
+    }
   }
 
   Widget loadingPage() {
@@ -459,6 +473,7 @@ class SearchScreenState extends State<SearchScreen> {
                     child: InkWell(
                       onTap: () async {
                         setState(() {
+                          //loadingSearch = true;
                           pressed = true;
                           selectedSymptoms.length == 0 &&
                                   commonSymptoms.length == 0
@@ -483,19 +498,20 @@ class SearchScreenState extends State<SearchScreen> {
                           pieChart.values.map(
                               (e) => (double.tryParse(e.toString()) ?? 0.0)),
                         );
-//loading1 == true || loadingSearch == true
-                        //  ? loadingPage()
-                        //  :
+
                         setState(() {
                           loadingSearch = false;
                         });
-                        // if (loading1 == false && loadingSearch == false) {
-                        //   Get.to(SearchResults(), arguments: Id);
-                        // }
+
                         print(diagnosis);
                         print(PhyIds);
                         print(pieChart);
-                      }, //loadingPage()
+                        print("kkkkkkkkkxhxhhxhxhxhxhxhxhh");
+                        print(loading1);
+                        print(loadingSearch);
+                        print(pressed);
+                      }, //loadingPage()  (loading1 == true || loadingSearch == true) &&
+                      //pressed == true
                       child: (loading1 == true || loadingSearch == true) &&
                               pressed == true
                           ? loadingPage()
