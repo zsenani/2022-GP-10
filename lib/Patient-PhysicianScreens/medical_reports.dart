@@ -40,6 +40,7 @@ class MedicalReportsState extends State<MedicalReports> {
     results = await conn.query(
         'select * from Visit where idPatient=? and assessment is Not null and date<? ORDER BY date DESC, time DESC',
         [idpatient, DateTime.now().toUtc()]);
+    print("################33333");
     print(results);
     arraylength = results.length;
     setlength = results.length;
@@ -66,9 +67,9 @@ class MedicalReportsState extends State<MedicalReports> {
       day = {
         "idvisit": "${row[0]}",
         "time": "${row[1]}",
-        "date": "${row[2]}",
-        "idHospital": "${row[3]}",
-        "idPhysician": "${row[4]}",
+        "date": "${row[4]}",
+        "idHospital": "${row[2]}",
+        "idPhysician": "${row[3]}",
         "idPatient": "${row[5]}",
         "subject": "${row[6]}",
         "object": "${row[7]}",
@@ -76,10 +77,13 @@ class MedicalReportsState extends State<MedicalReports> {
         "plan": "${row[9]}",
         "Department": "${row[10]}",
       };
-
+      print('row2');
+      print("${row[2]}");
+      print('row3');
+      print("${row[3]}");
       if (isFilled != arraylength) {
         doctor = await conn.query(
-            'select name from Physician where nationalID=?', ['${row[4]}']);
+            'select name from Physician where nationalID=?', ['${row[3]}']);
         print(doctor.length);
         for (var d in doctor) {
           nameD = {"name": "${d[0]}"};
@@ -87,7 +91,7 @@ class MedicalReportsState extends State<MedicalReports> {
         }
 
         hospital = await conn.query(
-            'select name from Hospital where idhospital=?', ['${row[3]}']);
+            'select name from Hospital where idhospital=?', ['${row[2]}']);
         print(hospital.length);
         for (var h in hospital) {
           nameH = {"name": "${h[0]}"};
@@ -101,16 +105,16 @@ class MedicalReportsState extends State<MedicalReports> {
     setState(() {
       arraylength = setlength;
     });
+    print('1111111111111111111111111111');
     print(toDayList);
+    print('2222222222222222222222');
     print(drName);
+    print("333333333333333333");
     print(hospitalname);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(toDayList);
-    print(drName);
-    print(hospitalname);
     return toDayList.isEmpty != true && arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF6F,

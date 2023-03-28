@@ -84,9 +84,9 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
       day = {
         "idvisit": "${row[0]}",
         "time": "${row[1]}",
-        "date": "${row[2]}",
-        "idHospital": "${row[3]}",
-        "idPhysician": "${row[4]}",
+        "date": "${row[4]}",
+        "idHospital": "${row[2]}",
+        "idPhysician": "${row[3]}",
         "idPatient": "${row[5]}",
         "subject": "${row[6]}",
         "object": "${row[7]}",
@@ -97,7 +97,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
 
       if (isFilled != arraylength) {
         doctor = await conn.query(
-            'select name from Physician where nationalID=?', ['${row[4]}']);
+            'select name from Physician where nationalID=?', ['${row[3]}']);
         print(doctor.length);
         for (var d in doctor) {
           nameD = {"name": "${d[0]}"};
@@ -105,7 +105,7 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
         }
 
         hospital = await conn.query(
-            'select name from Hospital where idhospital=?', ['${row[3]}']);
+            'select name from Hospital where idhospital=?', ['${row[2]}']);
         print(hospital.length);
         for (var h in hospital) {
           nameH = {"name": "${h[0]}"};
