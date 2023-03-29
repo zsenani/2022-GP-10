@@ -1,3 +1,7 @@
+import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
+import 'package:medcore/Patient-PhysicianScreens/edit_patient_profile.dart';
+import 'package:medcore/Patient-PhysicianScreens/pateint_profile_screen.dart';
+
 import '../Utiils/colors.dart';
 import '../Utiils/common_widgets.dart';
 import '../Utiils/text_font_family.dart';
@@ -6,7 +10,8 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-int idddd;
+import 'home_screen.dart';
+
 bool _loading = true;
 String Page;
 
@@ -238,13 +243,11 @@ class _singleMedicalReportState extends State<singleMedicalReport> {
               InkWell(
                 onTap: () {
                   ///////////////////////////////
-                  if (role == 'patient' || Page == 'prePhysician') {
+                  if (role == 'patient') {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   } else {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    Get.to(HomeScreen(id: idPhysician));
                   }
                 },
                 child: Padding(

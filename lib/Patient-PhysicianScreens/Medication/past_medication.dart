@@ -66,9 +66,9 @@ class _PastMedicationState extends State<PastMedication> {
       day = {
         "idvisit": "${row[0]}",
         "time": "${row[1]}",
-        "date": "${row[2]}",
-        "idHospital": "${row[3]}",
-        "idPhysician": "${row[4]}",
+        "date": "${row[4]}",
+        "idHospital": "${row[2]}",
+        "idPhysician": "${row[3]}",
         "idPatient": "${row[5]}",
         "subject": "${row[6]}",
         "object": "${row[7]}",
@@ -102,7 +102,7 @@ class _PastMedicationState extends State<PastMedication> {
           global["startDate"] = Med["startDate"];
           global["endDate"] = Med["endDate"];
           doctor = await conn.query(
-              'select name from Physician where nationalID=?', ['${row[4]}']);
+              'select name from Physician where nationalID=?', ['${row[3]}']);
           print("%%%%%%%%%% doctor name");
           print(doctor);
           print(doctor.length);
@@ -111,7 +111,7 @@ class _PastMedicationState extends State<PastMedication> {
           }
           global["drname"] = nameD["name"];
           hospital = await conn.query(
-              'select name from Hospital where idhospital=?', ['${row[3]}']);
+              'select name from Hospital where idhospital=?', ['${row[2]}']);
           print('^^^^^^^^6hospital name');
           print(hospital);
           print(hospital.length);

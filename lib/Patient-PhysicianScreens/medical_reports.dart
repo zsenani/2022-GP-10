@@ -7,6 +7,7 @@ import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../database/mysqlDatabase.dart';
+import 'home_screen.dart';
 
 String idpatient;
 
@@ -336,8 +337,7 @@ class MedicalReportsState extends State<MedicalReports> {
           if (role != "patient")
             InkWell(
               onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Get.to(HomeScreen(id: idPhysician));
               },
               child: const Padding(
                 padding: EdgeInsets.only(top: 0, left: 0),
@@ -351,6 +351,7 @@ class MedicalReportsState extends State<MedicalReports> {
                 ),
               ),
             ),
+          if (role == "patient") const SizedBox(width: 60),
         ],
       ),
     );

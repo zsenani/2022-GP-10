@@ -18,6 +18,7 @@ import 'package:medcore/Patient-PhysicianScreens/Physician_profile_screen.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
 
 String Id;
+String idPhysician;
 bool _loading = true;
 String Page;
 String PHname = "";
@@ -31,6 +32,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, String id, String page}) : super(key: key) {
     Id = id;
     Page = page;
+    idPhysician = id;
   }
 
   @override

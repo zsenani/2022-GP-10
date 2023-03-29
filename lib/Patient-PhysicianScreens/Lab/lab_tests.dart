@@ -1,3 +1,4 @@
+import '../home_screen.dart';
 import './previousReq.dart';
 import '../../Controller/test_tab_conroller.dart';
 import '../../Utiils/colors.dart';
@@ -70,9 +71,7 @@ class _labTestsState extends State<labTests> {
               if (role != 'patient')
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
-
-                    Navigator.of(context).pop();
+                    Get.to(HomeScreen(id: idPhysician));
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(top: 10, left: 35, bottom: 10),
@@ -87,6 +86,7 @@ class _labTestsState extends State<labTests> {
                     ),
                   ),
                 ),
+              if (role == "patient") const SizedBox(width: 60),
             ],
           ),
           Container(

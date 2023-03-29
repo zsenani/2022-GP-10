@@ -162,12 +162,13 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                 child: heavyText("Patient Files", ColorResources.grey777, 18),
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                height: 150,
-                width: Get.width,
-                child: Specialist(),
-              ),
-              const SizedBox(height: 35),
+              if (searchPatient != 'searchPatient')
+                SizedBox(
+                  height: 150,
+                  width: Get.width,
+                  child: Specialist(),
+                ),
+              if (searchPatient != 'searchPatient') const SizedBox(height: 35),
               if (searchPatient != 'searchPatient')
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -198,6 +199,179 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                     ),
                   ),
                 ),
+              if (searchPatient == "searchPatient")
+                Container(
+                  child: Column(children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      InkWell(
+                        onTap: () {
+                          getData();
+                          Get.to(specialistList[0]["caller"],
+                              arguments: "PREphysician");
+                        },
+                        child: Container(
+                          height: 170,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: ColorResources.whiteF6F,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: ColorResources.grey9AA.withOpacity(0.25),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    specialistList[0]["image"],
+                                  ),
+                                  width: 65,
+                                  height: 65,
+                                ),
+                                const SizedBox(height: 10),
+                                heavyText(
+                                    specialistList[0]["text1"],
+                                    ColorResources.blue0C1,
+                                    15,
+                                    TextAlign.center),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          Get.to(specialistList[1]["caller"],
+                              arguments: "PREphysician");
+                        },
+                        child: Container(
+                          height: 170,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: ColorResources.whiteF6F,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: ColorResources.grey9AA.withOpacity(0.25),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    specialistList[1]["image"],
+                                  ),
+                                  width: 65,
+                                  height: 65,
+                                ),
+                                const SizedBox(height: 10),
+                                heavyText(
+                                    specialistList[1]["text1"],
+                                    ColorResources.blue0C1,
+                                    15,
+                                    TextAlign.center),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                    const SizedBox(height: 8),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(specialistList[2]["caller"],
+                              arguments: "PREphysician");
+                        },
+                        child: Container(
+                          height: 170,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: ColorResources.whiteF6F,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: ColorResources.grey9AA.withOpacity(0.25),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    specialistList[2]["image"],
+                                  ),
+                                  width: 65,
+                                  height: 65,
+                                ),
+                                const SizedBox(height: 10),
+                                heavyText(
+                                    specialistList[2]["text1"],
+                                    ColorResources.blue0C1,
+                                    15,
+                                    TextAlign.center),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          Get.to(specialistList[3]["caller"],
+                              arguments: "PREphysician");
+                        },
+                        child: Container(
+                          height: 170,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: ColorResources.whiteF6F,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: ColorResources.grey9AA.withOpacity(0.25),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    specialistList[3]["image"],
+                                  ),
+                                  width: 65,
+                                  height: 65,
+                                ),
+                                const SizedBox(height: 10),
+                                heavyText(
+                                    specialistList[3]["text1"],
+                                    ColorResources.blue0C1,
+                                    15,
+                                    TextAlign.center),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ]),
+                )
             ],
           ),
         ),

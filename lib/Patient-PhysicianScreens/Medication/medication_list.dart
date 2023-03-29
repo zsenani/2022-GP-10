@@ -145,6 +145,7 @@ class MedicationList extends StatelessWidget {
                 ),
               ),
             ),
+          if (role == "patient") const SizedBox(width: 60),
         ],
       ),
     );
