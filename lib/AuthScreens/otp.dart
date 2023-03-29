@@ -45,123 +45,138 @@ class _otpMailState extends State<otpMail> {
     } else {
       print("third: " + role);
     }
-    return Padding(
-      padding: const EdgeInsets.only(top: 60, bottom: 60),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 40),
-          heavyText("OTP", ColorResources.green009, 24),
-          const SizedBox(height: 15),
-          bookText(
-              "Your OTP has been send to your email. Please enter the number below",
-              ColorResources.greyA0A,
-              16),
-          const SizedBox(height: 50),
-          PinPut(
-            fieldsCount: 6,
-            fieldsAlignment: MainAxisAlignment.spaceBetween,
-            textStyle: TextStyle(
-              fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-              fontSize: 24,
-              color: ColorResources.grey777,
-            ),
-            cursorColor: ColorResources.green009,
-            eachFieldHeight: 50,
-            eachFieldWidth: 50,
-            focusNode: pinPutFocusNode,
-            controller: pinPutController,
-            submittedFieldDecoration: pinPutDecoration.copyWith(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 16, 30, 161).withOpacity(0.2),
-              ),
-              color: ColorResources.white,
-            ),
-            selectedFieldDecoration: pinPutDecoration.copyWith(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 11, 17, 73).withOpacity(0.2),
-              ),
-              color: ColorResources.white,
-            ),
-            followingFieldDecoration: pinPutDecoration.copyWith(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 18, 30, 141).withOpacity(0.2),
-              ),
-              color: ColorResources.white,
-            ),
-            disabledDecoration: pinPutDecoration.copyWith(
-              borderRadius: BorderRadius.circular(12),
-              color: ColorResources.white,
-              border: Border.all(
-                color: ColorResources.greyA0A.withOpacity(0.2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 60, bottom: 60),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              bookText("Code send in ", ColorResources.grey777, 13),
-              Countdown(
-                seconds: 60,
-                controller: controller,
-                build: (_, double time) => Text(
-                  time.toString(),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: ColorResources.grey777,
+              const SizedBox(height: 40),
+              heavyText("OTP", ColorResources.green009, 24),
+              const SizedBox(height: 15),
+              bookText(
+                  "Your OTP has been send to your email. Please enter the number below",
+                  ColorResources.greyA0A,
+                  16),
+              const SizedBox(height: 50),
+              PinPut(
+                fieldsCount: 6,
+                fieldsAlignment: MainAxisAlignment.spaceBetween,
+                textStyle: TextStyle(
+                  fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                  fontSize: 24,
+                  color: ColorResources.grey777,
+                ),
+                cursorColor: ColorResources.green009,
+                eachFieldHeight: 50,
+                eachFieldWidth: 50,
+                focusNode: pinPutFocusNode,
+                controller: pinPutController,
+                submittedFieldDecoration: pinPutDecoration.copyWith(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color:
+                        const Color.fromARGB(255, 16, 30, 161).withOpacity(0.2),
+                  ),
+                  color: ColorResources.white,
+                ),
+                selectedFieldDecoration: pinPutDecoration.copyWith(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color:
+                        const Color.fromARGB(255, 11, 17, 73).withOpacity(0.2),
+                  ),
+                  color: ColorResources.white,
+                ),
+                followingFieldDecoration: pinPutDecoration.copyWith(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color:
+                        const Color.fromARGB(255, 18, 30, 141).withOpacity(0.2),
+                  ),
+                  color: ColorResources.white,
+                ),
+                disabledDecoration: pinPutDecoration.copyWith(
+                  borderRadius: BorderRadius.circular(12),
+                  color: ColorResources.white,
+                  border: Border.all(
+                    color: ColorResources.greyA0A.withOpacity(0.2),
                   ),
                 ),
-                onFinished: () {
-                  setState(() {
-                    finishTimer = true;
-                    // startAgain = false;
-                  });
-                },
-
-                // interval: Duration(minutes: 1),
               ),
-              finishTimer == false
-                  ? TextButton(
-                      child: const Text(
-                        "Resend code",
-                        style: TextStyle(
-                            fontSize: 13, color: ColorResources.grey777),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  bookText("Code send in ", ColorResources.grey777, 13),
+                  Countdown(
+                    seconds: 60,
+                    controller: controller,
+                    build: (_, double time) => Text(
+                      time.toString(),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: ColorResources.grey777,
                       ),
-                      onPressed: () {
-                        print(finishTimer);
-                        if (finishTimer == true) {
-                          sendOtp(emailController);
-                          controller.restart();
-                          setState(() {
-                            finishTimer = false;
-                          });
-                        }
-                      },
-                    )
-                  : TextButton(
-                      child: const Text(
-                        "Resend code",
-                        style: TextStyle(
-                            fontSize: 13, color: ColorResources.green009),
-                      ),
-                      onPressed: () {
-                        print(finishTimer);
-                        if (finishTimer == true) {
-                          sendOtp(emailController);
-                          controller.restart();
-                          setState(() {
-                            finishTimer = false;
-                          });
-                        }
-                      },
-                    )
+                    ),
+                    onFinished: () {
+                      setState(() {
+                        finishTimer = true;
+                        // startAgain = false;
+                      });
+                    },
+
+                    // interval: Duration(minutes: 1),
+                  ),
+                  finishTimer == false
+                      ? TextButton(
+                          child: const Text(
+                            "Resend code",
+                            style: TextStyle(
+                                fontSize: 13, color: ColorResources.grey777),
+                          ),
+                          onPressed: () {
+                            print(finishTimer);
+                            if (finishTimer == true) {
+                              sendOtp(emailController);
+                              controller.restart();
+                              setState(() {
+                                finishTimer = false;
+                              });
+                            }
+                          },
+                        )
+                      : TextButton(
+                          child: const Text(
+                            "Resend code",
+                            style: TextStyle(
+                                fontSize: 13, color: ColorResources.green009),
+                          ),
+                          onPressed: () {
+                            print(finishTimer);
+                            if (finishTimer == true) {
+                              sendOtp(emailController);
+                              controller.restart();
+                              setState(() {
+                                finishTimer = false;
+                              });
+                            }
+                          },
+                        )
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

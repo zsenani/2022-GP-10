@@ -219,7 +219,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
   }
 
   void checkRole() {
-    if (role2 != "Physician" || role2 != "Lab specialist") {
+    if (role2 != "Physician" && role2 != "Lab specialist") {
       setState(() {
         errorRoleSelect = true;
       });
@@ -239,7 +239,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
       showAlertDialog(context);
     } else {
       Get.to(ForgotPasswordScreen(role1: role2, email: emailController.text));
-      //sendOtp(emailController.text);
+      sendOtp(emailController.text);
       finishTimer = false;
     }
   }

@@ -42,17 +42,6 @@ class SearchResultsState extends State<SearchResults> {
 
   final RoutController routController = Get.put(RoutController());
 
-  final List<Map> nearByDoctorsList = [
-    {
-      "text1": "Dr. Mahmud Nik Hasan",
-      "text2": "Atypical hemolytic uremic syndrome",
-    },
-    {
-      "text1": "Dr. Jane Cooper",
-      "text2": "Alport syndrome",
-    },
-  ];
-
   Widget HeaderWidget2() {
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -112,24 +101,9 @@ class SearchResultsState extends State<SearchResults> {
             ],
           ),
         ),
-        // Positioned(
-        //   bottom: -30,
-        //   left: 24,
-        //   right: 24,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(20),
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }
-
-  // Map<String, double> pieCH = Map.fromIterables(
-  //   pieChart.keys,
-  //   pieChart.values.map((e) => (double.tryParse(e.toString()) ?? 0.0)),
-  // );
 
   @override
   Widget build(BuildContext context) {
