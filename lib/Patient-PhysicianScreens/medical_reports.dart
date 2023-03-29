@@ -308,7 +308,6 @@ class MedicalReportsState extends State<MedicalReports> {
     return Padding(
       padding: const EdgeInsets.only(left: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: () {
@@ -332,7 +331,7 @@ class MedicalReportsState extends State<MedicalReports> {
               ),
             ),
           ),
-          const SizedBox(width: 3),
+          const SizedBox(width: 50),
           heavyText("Medical Reports", ColorResources.green009, 30),
           if (role != "patient")
             InkWell(
@@ -340,7 +339,7 @@ class MedicalReportsState extends State<MedicalReports> {
                 Get.to(HomeScreen(id: idPhysician));
               },
               child: const Padding(
-                padding: EdgeInsets.only(top: 0, left: 0),
+                padding: EdgeInsets.only(bottom: 5, left: 20),
                 child: SizedBox(
                   height: 60,
                   width: 60,

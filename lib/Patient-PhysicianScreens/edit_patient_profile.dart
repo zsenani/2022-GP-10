@@ -275,7 +275,8 @@ class _EditPatientProfile extends State<EditPatientProfile> {
   }
 
   bool validateEmail(String value) {
-    Pattern pattern = r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    Pattern pattern = r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+    //Pattern pattern = r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
     RegExp regex = new RegExp(pattern);
     if (regex.hasMatch(value) || value == "") {
       print('Valid Email');

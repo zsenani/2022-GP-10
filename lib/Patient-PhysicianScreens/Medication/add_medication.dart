@@ -1,5 +1,5 @@
+import 'dart:math';
 import 'package:dropdown_search/dropdown_search.dart';
-
 import '../../Utiils/colors.dart';
 import '../../Utiils/common_widgets.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../Utiils/text_font_family.dart';
 import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
+import '../upcomming_visit_screen.dart';
 import 'medication_list.dart';
 
 String visitId;
@@ -76,13 +77,15 @@ class _AddMedicationState extends State<AddMedication> {
               DateTime.now().day + 2),
           lastDate: DateTime(DateTime.now().year + 5));
     }
-    if (date == 'start' && picked != null && picked != SselectedDate) {
+    //if (date == 'start' && picked != null && picked != SselectedDate) {
+    if (date == 'start' && picked != null) {
       setState(() {
         selectedDate = picked;
         SselectedDate = picked;
       });
     }
-    if (date == 'end' && picked2 != null && picked2 != EselectedDate) {
+    //if (date == 'end' && picked2 != null && picked2 != EselectedDate) {
+    if (date == 'end' && picked2 != null) {
       setState(() {
         selectedDate2 = picked2;
         EselectedDate = picked2;
@@ -270,8 +273,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: StrokeAlign
-                                                                .inside))
+                                                            strokeAlign: BorderSide
+                                                                .strokeAlignInside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -279,7 +282,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: StrokeAlign.inside)),
+                                                            strokeAlign: BorderSide.strokeAlignInside)),
                                                 child: Text(
                                                   "${SselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -314,8 +317,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: StrokeAlign
-                                                                .inside))
+                                                            strokeAlign: BorderSide
+                                                                .strokeAlignInside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -323,7 +326,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: StrokeAlign.inside)),
+                                                            strokeAlign: BorderSide.strokeAlignInside)),
                                                 child: Text(
                                                   "${SselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -372,8 +375,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: StrokeAlign
-                                                                .inside))
+                                                            strokeAlign: BorderSide
+                                                                .strokeAlignInside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -381,7 +384,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: StrokeAlign.inside)),
+                                                            strokeAlign: BorderSide.strokeAlignInside)),
                                                 child: Text(
                                                   "${EselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -416,8 +419,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: StrokeAlign
-                                                                .inside))
+                                                            strokeAlign: BorderSide
+                                                                .strokeAlignInside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -425,7 +428,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: StrokeAlign.inside)),
+                                                            strokeAlign: BorderSide.strokeAlignInside)),
                                                 child: Text(
                                                   "${EselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -442,11 +445,15 @@ class _AddMedicationState extends State<AddMedication> {
                                           mediumText(
                                               "Enter a date", Colors.red, 16),
                                         if (errorDateorder == true)
-                                          mediumText("End date should be ",
-                                              Colors.red, 13),
+                                          mediumText(
+                                              "End date should be at least",
+                                              Colors.red,
+                                              13),
                                         if (errorDateorder == true)
-                                          mediumText("after the start date",
-                                              Colors.red, 13),
+                                          mediumText(
+                                              "2 days after the start date",
+                                              Colors.red,
+                                              13),
                                       ],
                                     ),
                                   ],
@@ -462,12 +469,11 @@ class _AddMedicationState extends State<AddMedication> {
                                     ControllerDescription, TextInputType.text),
                                 const SizedBox(height: 60),
                                 commonButton(() {
-                                  showAlertDialog(context);
+                                  sendReq();
                                 }, "ADD", ColorResources.green009,
                                     ColorResources.white),
                               ]),
                   ),
-                  // Spacer(),
                 ],
               ),
             )));
@@ -509,7 +515,10 @@ class _AddMedicationState extends State<AddMedication> {
       });
       return false;
     } else {
-      if (selectedDate2.isBefore(selectedDate)) {
+      print(selectedDate2.difference(selectedDate).inDays);
+      if (selectedDate2.isBefore(selectedDate) ||
+          selectedDate2.isAtSameMomentAs(selectedDate) ||
+          selectedDate2.difference(selectedDate).inDays <= 1) {
         setState(() {
           errorDateorder = true;
         });
@@ -566,7 +575,6 @@ class _AddMedicationState extends State<AddMedication> {
   int isFilled = 0;
   int isFilled2 = 0;
 
-  ////////////////////////////////////
   Medications() async {
     var visits = await conn
         .query('select idvisit from Visit where idPatient = ?', [patientId]);
@@ -576,8 +584,10 @@ class _AddMedicationState extends State<AddMedication> {
     for (var visit in visits) {
       isFilled2 = 0;
       var results = await conn.query(
-          'select medicationID from VisitMedication where visitID = ? and endDate>?',
-          [int.parse('${visit[0]}'), DateTime.now().toUtc()]);
+          'select medicationID from VisitMedication where visitID = ? ',
+
+          ///and endDate>? , DateTime.now().toUtc()
+          [int.parse('${visit[0]}')]);
       print("result");
       print(results);
 
@@ -642,7 +652,6 @@ class _AddMedicationState extends State<AddMedication> {
     String title;
     String content;
     String done;
-    Navigator.of(context).pop();
     validateStartDate(selectedDate);
     validateEndDate(selectedDate2);
     validateName(medication);
@@ -652,10 +661,11 @@ class _AddMedicationState extends State<AddMedication> {
         errorDate == false &&
         errorDate2 == false &&
         errorDateorder == false) {
-      title = "DONE!";
-      content = "The Medication Added successfully";
-      done = 'true';
+      showAlertDialog(context);
     }
+  }
+
+  showAlertDialog1(BuildContext context) {
     Widget OKButton = TextButton(
         child: const Text(
           "OK",
@@ -664,25 +674,21 @@ class _AddMedicationState extends State<AddMedication> {
           ),
         ),
         onPressed: () {
-          if (done == 'true') {
-            add();
-            Get.to(
-                MedicationList(
-                  id: patientId.toString(),
-                  vid: visitId,
-                  role1: 'UPphysician',
-                  idPHy: idPhysician,
-                ),
-                arguments: 'patientfile');
-          } else {
-            Navigator.pop(context);
-          }
+          add();
+          Get.to(
+              MedicationList(
+                id: patientId.toString(),
+                vid: visitId,
+                role1: 'UPphysician',
+                idPHy: idPhysician,
+              ),
+              arguments: 'patientfile');
         });
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(content),
+      title: const Text("DONE!"),
+      content: const Text("The Medication Added successfully"),
       actions: [OKButton],
     );
 
@@ -718,7 +724,7 @@ class _AddMedicationState extends State<AddMedication> {
         ),
       ),
       onPressed: () {
-        sendReq();
+        showAlertDialog1(context);
       },
     );
 

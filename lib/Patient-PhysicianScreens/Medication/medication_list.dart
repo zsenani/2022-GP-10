@@ -95,7 +95,6 @@ class MedicationList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 60, left: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: () {
@@ -126,7 +125,7 @@ class MedicationList extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 3),
+          const SizedBox(width: 60),
           heavyText("Medication List", ColorResources.green009, 30),
           if (role != "patient")
             InkWell(
@@ -134,7 +133,7 @@ class MedicationList extends StatelessWidget {
                 Get.to(HomeScreen(id: idPhysician));
               },
               child: Padding(
-                padding: const EdgeInsets.only(top: 0, left: 0),
+                padding: const EdgeInsets.only(bottom: 5, left: 20),
                 child: Container(
                   height: 60,
                   width: 60,

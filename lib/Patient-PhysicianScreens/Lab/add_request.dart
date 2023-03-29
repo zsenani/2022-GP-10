@@ -71,8 +71,7 @@ class _TestRequestState extends State<TestRequest> {
   Tests() async {
     visitsIds.forEach((element) async {
       results = await conn.query(
-          'select labTestID from VisitLabTest where visitID = ? and status=?',
-          [element, 'active']);
+          'select labTestID from VisitLabTest where visitID = ?', [element]);
       print(element);
       ArrayLength = await results.length;
       if (element == int.parse(visitId)) {
