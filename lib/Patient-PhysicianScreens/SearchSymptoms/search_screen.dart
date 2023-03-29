@@ -180,7 +180,7 @@ Future<http.Response> postData(vector) {
 }
 
 class SearchScreenState extends State<SearchScreen> {
-  // SearchScreen({Key? key}) : super(key: key);
+  //  SearchScreenState({Key key}) : super(key: key);
   String greating = '';
   String Id = Get.arguments;
   @override
