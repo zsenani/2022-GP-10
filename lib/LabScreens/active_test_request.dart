@@ -96,7 +96,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
       return Row(
         children: [
           const SizedBox(
-            width: 170,
+            width: 125,
           ),
           const Icon(
             Icons.circle,

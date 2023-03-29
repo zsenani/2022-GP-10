@@ -470,7 +470,10 @@ class mysqlDatabase {
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
       print(dt1);
 
-      if (dt1.compareTo(todayDate) > 0) {
+      if (dt1.compareTo(todayDate) > 0 ||
+          (dt1.year == todayDate.year &&
+              dt1.month == todayDate.month &&
+              dt1.day == todayDate.day)) {
         List<String> oneRow = [];
         oneRow.add(info[g][0]);
         oneRow.add(info[g][1]);
@@ -860,7 +863,10 @@ class mysqlDatabase {
       DateTime dt1 = DateTime.parse(dateP);
       DateTime todayDate = DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      if (dt1.compareTo(todayDate) > 0) {
+      if (dt1.compareTo(todayDate) > 0 ||
+          (dt1.year == todayDate.year &&
+              dt1.month == todayDate.month &&
+              dt1.day == todayDate.day)) {
         List<String> oneRow = [];
         oneRow.add(info[g][1]);
         oneRow.add(info[g][4]);
