@@ -38,7 +38,8 @@ class _ActiveVisitState extends State<ActiveVisit> {
     activeVisit.clear();
 
     _loading = true;
-    activeVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Up");
+    //activeVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Up");
+    activeVisit = await mysqlDatabase.PhysicianActiveVisit(idVisit);
     print("in visit");
     print(activeVisit);
     // print(activeVisit[0][0]);

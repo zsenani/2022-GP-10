@@ -262,20 +262,47 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   }
 
   void updatePatientInfo() async {
-    if (hightController.text != "null") {
-      var hight = hightController.text + ".0";
+    var hight;
+    var weight;
+    var bloodPress;
+    if (hightController.text != "null" || hightController.text != "0.0") {
+      print("hieght kkk");
+      print(hightController.text);
+      if (hightController.text.contains(".0") == false) {
+        hight = hightController.text + ".0";
+      } else {
+        hight = hightController.text;
+      }
+      print(hight);
       var pNewHight = await conn.query(
           'update Patient set  height=? where NationalID =?',
           [double.parse(hight), int.parse(patientId)]);
     }
-    if (weightController.text != "null") {
-      var weight = weightController.text + ".0";
+    if (weightController.text != "null" || weightController.text != "0.0") {
+      print("weight kkk");
+      print(weightController.text);
+      print(weightController.text.contains(".0"));
+      if (weightController.text.contains(".0") == false) {
+        weight = weightController.text + ".0";
+      } else {
+        weight = weightController.text;
+      }
+      print("kkkkdddddd");
+      print(weight);
       var pNewWeight = await conn.query(
           'update Patient set weight=? where NationalID =?',
           [double.parse(weight), int.parse(patientId)]);
     }
-    if (bloodPressController.text != "null") {
-      var bloodPress = bloodPressController.text + ".0";
+    if (bloodPressController.text != "null" ||
+        bloodPressController.text != "0.0") {
+      print("blood pres kkkk");
+      print(bloodPressController.text);
+      if (bloodPressController.text.contains(".0") == false) {
+        bloodPress = bloodPressController.text + ".0";
+      } else {
+        bloodPress = bloodPressController.text;
+      }
+      print(bloodPress);
       var newPatientInfo = await conn.query(
           'update Patient set BloodPressure=? where NationalID =?',
           [double.parse(bloodPress), int.parse(patientId)]);
@@ -300,19 +327,21 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     }
     print("**************");
     print(valueH);
-    if (!regex.hasMatch(valueH)) {
-      print('Please enter Numbers');
-      setState(() {
-        isHNull = false;
-        errorH = true;
-      });
-      return false;
-    } else {
-      print("valid Hight");
-      setState(() {
-        errorH = false;
-      });
-      return true;
+    if (isHNull == false) {
+      if (!regex.hasMatch(valueH)) {
+        print('Please enter Numbers');
+        setState(() {
+          isHNull = false;
+          errorH = true;
+        });
+        return false;
+      } else {
+        print("valid Hight");
+        setState(() {
+          errorH = false;
+        });
+        return true;
+      }
     }
   }
 
@@ -329,19 +358,21 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     }
     print("**************");
     print(valueW);
-    if (!regex.hasMatch(valueW)) {
-      print('wrong wight');
-      setState(() {
-        isWNull = false;
-        errorW = true;
-      });
-      return false;
-    } else {
-      print("valid wiegth");
-      setState(() {
-        errorW = false;
-      });
-      return true;
+    if (isWNull == false) {
+      if (!regex.hasMatch(valueW)) {
+        print('wrong wight');
+        setState(() {
+          isWNull = false;
+          errorW = true;
+        });
+        return false;
+      } else {
+        print("valid wiegth");
+        setState(() {
+          errorW = false;
+        });
+        return true;
+      }
     }
   }
 
@@ -359,19 +390,21 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     }
     print("**************");
     print(valueB);
-    if (!regex.hasMatch(valueB)) {
-      print('wrong blood pressure');
-      setState(() {
-        isPNull = false;
-        errorP = true;
-      });
-      return false;
-    } else {
-      print("valid blood pressure");
-      setState(() {
-        errorP = false;
-      });
-      return true;
+    if (isPNull == false) {
+      if (!regex.hasMatch(valueB)) {
+        print('wrong blood pressure');
+        setState(() {
+          isPNull = false;
+          errorP = true;
+        });
+        return false;
+      } else {
+        print("valid blood pressure");
+        setState(() {
+          errorP = false;
+        });
+        return true;
+      }
     }
   }
 
@@ -592,18 +625,30 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               style: TextStyle(fontSize: 15),
                             ),
                             onPressed: () {
+                              if (patientHeight != "null" &&
+                                  hightController.text.isEmpty) {
+                                hightController.text = patientHeight;
+                              }
+                              if (patientWeight != "null" &&
+                                  weightController.text.isEmpty) {
+                                weightController.text = patientWeight;
+                              }
+                              if (patientBloodP != "null" &&
+                                  bloodPressController.text.isEmpty) {
+                                bloodPressController.text = patientBloodP;
+                              }
                               validateH(hightController.text);
                               validateP(bloodPressController.text);
                               validateW(weightController.text);
                               print("*****");
                               print(errorP);
-                              if (isHNull || isWNull || isPNull) {
+                              if (isHNull && isWNull && isPNull) {
                                 print("###########");
                                 print(isHNull);
                                 print(isWNull);
                                 print(isPNull);
                                 alertUpdateError(context,
-                                    "Please make sure that you fill all the input fields");
+                                    "Please make sure that you fill the input fields");
                               } else if (errorH == false &&
                                   errorW == false &&
                                   errorP == false) {

@@ -29,7 +29,8 @@ class _PreviousVisitState extends State<PreviousVisit> {
   }
 
   Future previousVisitM(idVisit) async {
-    preVisit = await mysqlDatabase.PatientVisit(idVisit, "Pre");
+    //preVisit = await mysqlDatabase.PatientVisit(idVisit, "Pre");
+    preVisit = await mysqlDatabase.PatientPrevVisit(idVisit);
     print("in visit");
     print(preVisit.length);
     // print(preVisit[0][5]);

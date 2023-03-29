@@ -27,7 +27,8 @@ class UpCommingVisitState extends State<UpCommingVisit> {
   }
 
   Future upVisitM(idVisit) async {
-    upVisit = await mysqlDatabase.PatientVisit(idVisit, "Up");
+    //upVisit = await mysqlDatabase.PatientVisit(idVisit, "Up");
+    upVisit = await mysqlDatabase.PatientActiveVisit(idVisit);
     print("in visit");
     print(upVisit.length);
     // print(upVisit[0][5]);

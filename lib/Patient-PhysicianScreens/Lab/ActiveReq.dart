@@ -176,7 +176,7 @@ class _ActiveReqState extends State<ActiveReq> {
   Widget build(BuildContext context) {
     print("dateRange");
     print(dateRange);
-    return arraylength != 0
+    return arraylength != 0 && setRange == false
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
             body: Stack(
@@ -362,7 +362,7 @@ class _ActiveReqState extends State<ActiveReq> {
                             padding: roleHome == 'UPphysician'
                                 ? const EdgeInsets.only(
                                     left: 300, bottom: 0, right: 7)
-                                : const EdgeInsets.only(left: 350, bottom: 0),
+                                : const EdgeInsets.only(left: 340, bottom: 0),
                             child: InkWell(
                               onTap: () {
                                 _startAdd2(context);
@@ -422,72 +422,44 @@ class _ActiveReqState extends State<ActiveReq> {
               ],
             ),
           )
-        // : setRange == true && toDayListFilttered.isEmpty
-        //     ? Scaffold(
-        //         backgroundColor: ColorResources.whiteF7F,
-        //         body: Align(
-        //           alignment: Alignment.center,
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             children: [
-        //               SizedBox(
-        //                 height: 160,
-        //                 width: 160,
-        //                 child: Image.asset(
-        //                   Images.report2,
-        //                   color: ColorResources.greyA0A,
-        //                   alignment: Alignment.center,
-        //                 ),
-        //               ),
-        //               SizedBox(height: 20),
-        //               romanText(
-        //                   "There is no test request at this time you selected",
-        //                   ColorResources.grey777,
-        //                   18,
-        //                   TextAlign.center),
-        //             ],
-        //           ),
-        //         ),
-        //       )
-        : Scaffold(
-            backgroundColor: ColorResources.whiteF7F,
-            body: load
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: Get.height - 280,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 160,
-                                width: 160,
-                                child: Image.asset(
-                                  Images.report2,
-                                  color: ColorResources.greyA0A,
-                                  alignment: Alignment.center,
-                                ),
-                              ),
-                              romanText("There is no test request",
-                                  ColorResources.grey777, 18, TextAlign.center),
-                            ],
+        : setRange == true && toDayListFilttered.isEmpty
+            ? Scaffold(
+                backgroundColor: ColorResources.whiteF7F,
+                body: Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 160, left: 10),
+                        child: SizedBox(
+                          height: 160,
+                          width: 160,
+                          child: Image.asset(
+                            Images.report2,
+                            color: ColorResources.greyA0A,
+                            alignment: Alignment.center,
                           ),
                         ),
-
-                        ///////////////////////////////
-
-                        if (roleHome == 'UPphysician')
+                      ),
+                      SizedBox(height: 20),
+                      romanText(
+                          "There is no test request at \nthe date you selected",
+                          ColorResources.grey777,
+                          18,
+                          TextAlign.center),
+                      Row(
+                        children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                left: 320, bottom: 0, right: 0),
+                                left: 290, bottom: 0, right: 10, top: 190),
                             child: InkWell(
                               onTap: () {
-                                _startAdd(context);
+                                _startAdd2(context);
+                                // setState(() {
+                                //   setRange = true;
+                                // });
                               },
                               child: Container(
                                 height: 40,
@@ -501,16 +473,108 @@ class _ActiveReqState extends State<ActiveReq> {
                                   ),
                                 ),
                                 child: const Center(
-                                  child: Icon(Icons.add,
+                                  child: Icon(Icons.filter_alt,
                                       color: ColorResources.white),
                                 ),
                               ),
                             ),
-                          )
-                      ],
-                    ),
-                  )
-                : loadingPage());
+                          ),
+                          if (roleHome == 'UPphysician')
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 0, right: 0, top: 189),
+                              child: InkWell(
+                                onTap: () {
+                                  _startAdd(context);
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: ColorResources.green009,
+                                    borderRadius: BorderRadius.circular(40),
+                                    border: Border.all(
+                                      color: ColorResources.green009,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Icon(Icons.add,
+                                        color: ColorResources.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Scaffold(
+                backgroundColor: ColorResources.whiteF7F,
+                body: load
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: Get.height - 280,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 160,
+                                    width: 160,
+                                    child: Image.asset(
+                                      Images.report2,
+                                      color: ColorResources.greyA0A,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                  romanText(
+                                      "There is no test request",
+                                      ColorResources.grey777,
+                                      18,
+                                      TextAlign.center),
+                                ],
+                              ),
+                            ),
+
+                            ///////////////////////////////
+
+                            if (roleHome == 'UPphysician')
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 320, bottom: 0, right: 0),
+                                child: InkWell(
+                                  onTap: () {
+                                    _startAdd(context);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: ColorResources.green009,
+                                      borderRadius: BorderRadius.circular(40),
+                                      border: Border.all(
+                                        color: ColorResources.green009,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: const Center(
+                                      child: Icon(Icons.add,
+                                          color: ColorResources.white),
+                                    ),
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                      )
+                    : loadingPage());
   }
 
   void _startAdd(BuildContext ctx) {

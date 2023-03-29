@@ -252,8 +252,8 @@ class mysqlDatabase {
           [vid, testId, "active", update]);
       lab.forEach((element) async {
         var add = await conn.query(
-            'insert into labspecialistlabtest(idLabSpecialist, idLabTest,visitId) values (?, ?,?)',
-            [element, testId, vid]);
+            'insert into labspecialistlabtest(idLabSpecialist, idLabTest) values (?,?)',
+            [int.parse(element), testId]);
       });
     });
   }
@@ -439,8 +439,7 @@ class mysqlDatabase {
     return details;
   }
 
-  static PhysicianVisit(id, type) async {
-    List<List<String>> visitPre = [];
+  static PhysicianActiveVisit(id) async {
     List<List<String>> visitUp = [];
     List<List<String>> info = [];
 
@@ -471,40 +470,7 @@ class mysqlDatabase {
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
       print(dt1);
 
-      if (dt1.compareTo(todayDate) < 0) {
-        // (dt1.year != DateTime.now().year &&
-        // dt1.month != DateTime.now().month &&
-        // dt1.day != DateTime.now().day)
-        //print(DateTime.now());
-        List<String> oneRow = [];
-        oneRow.add(info[g][0]);
-        oneRow.add(info[g][1]);
-        // oneRow.add(info[g][2]);
-
-        var visitH = await conn.query(
-            'select name from Hospital where idhospital = ?', [info[g][3]]);
-        for (var row in visitH) {
-          oneRow.add('${row[0]}');
-        }
-
-        var visitP = await conn.query(
-            'select name,gender,DOB,height,weight,BloodPressure from Patient where NationalID = ?',
-            [info[g][4]]);
-        for (var row in visitP) {
-          oneRow.add('${row[0]}');
-          oneRow.add('${row[1]}');
-          oneRow.add('${row[2]}');
-          oneRow.add('${row[3]}');
-          oneRow.add('${row[4]}');
-          oneRow.add('${row[5]}');
-        }
-        oneRow.add(info[g][4]);
-        oneRow.add(info[g][2]); //visit date
-        print("oneRow ---------------");
-        print(oneRow);
-        visitPre.add(oneRow);
-        print(visitPre);
-      } else {
+      if (dt1.compareTo(todayDate) > 0) {
         List<String> oneRow = [];
         oneRow.add(info[g][0]);
         oneRow.add(info[g][1]);
@@ -534,15 +500,69 @@ class mysqlDatabase {
         print(visitUp);
       }
     }
-    if (type == "Pre") {
-      print("resultsPre:");
-      print(visitPre);
-      return visitPre;
-    } else if (type == "Up") {
-      print("resultsUp:");
-      print(visitUp);
-      return visitUp;
+    return visitUp;
+  }
+
+  static PhysicianPrevVisit(id) async {
+    List<List<String>> visitPre = [];
+    List<List<String>> info = [];
+
+    var phyVisit = await conn.query(
+        'select idvisit,date,time,idHospital,idPatient from Visit where idPhysician = ?',
+        [id]);
+
+    for (int g = 0; g < phyVisit.length; g++) {
+      for (var row in phyVisit) {
+        info.add([
+          '${row[0]}',
+          '${row[1]}'.substring(0, 11),
+          '${row[2]}',
+          '${row[3]}',
+          '${row[4]}' //patientId
+        ]);
+      }
+      print("info list date,idHospital,idPatient");
+      print(info);
     }
+    for (int g = 0; g < phyVisit.length; g++) {
+      var dateP = info[g][1] + "00:00:00";
+      DateTime dt1 = DateTime.parse(dateP);
+      print("todaytime");
+      DateTime todayDate = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      print(dt1);
+
+      if (dt1.compareTo(todayDate) < 0) {
+        List<String> oneRow = [];
+        oneRow.add(info[g][0]);
+        oneRow.add(info[g][1]);
+
+        var visitH = await conn.query(
+            'select name from Hospital where idhospital = ?', [info[g][3]]);
+        for (var row in visitH) {
+          oneRow.add('${row[0]}');
+        }
+
+        var visitP = await conn.query(
+            'select name,gender,DOB,height,weight,BloodPressure from Patient where NationalID = ?',
+            [info[g][4]]);
+        for (var row in visitP) {
+          oneRow.add('${row[0]}');
+          oneRow.add('${row[1]}');
+          oneRow.add('${row[2]}');
+          oneRow.add('${row[3]}');
+          oneRow.add('${row[4]}');
+          oneRow.add('${row[5]}');
+        }
+        oneRow.add(info[g][4]);
+        oneRow.add(info[g][2]); //visit date
+        print("oneRow ---------------");
+        print(oneRow);
+        visitPre.add(oneRow);
+        print(visitPre);
+      }
+    }
+    return visitPre;
   }
 
   static labSpecHomeScreen(id) async {
@@ -758,13 +778,10 @@ class mysqlDatabase {
     }
   }
 
-  static PatientVisit(id, type) async {
+  static PatientPrevVisit(id) async {
     var index = 0;
-    print("inside patient method in mysql");
-    print(id);
     var date;
     List<List<String>> resultsPre = [];
-    List<List<String>> resultsUp = [];
     var patientP = await conn.query(
         'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ?',
         [id]);
@@ -783,14 +800,7 @@ class mysqlDatabase {
           '${row[4]}'
         ]);
       }
-      print(i++);
-      print("length");
-      print(patientP.length);
-      print(info);
     }
-
-    print(info);
-
     for (int g = 0; g < patientP.length; g++) {
       var dateP = info[g][1] + "00:00:00";
       DateTime dt1 = DateTime.parse(dateP);
@@ -817,7 +827,40 @@ class mysqlDatabase {
         print(oneRow);
         resultsPre.add(oneRow);
         print(resultsPre);
-      } else {
+      }
+    }
+    return resultsPre;
+  }
+
+  static PatientActiveVisit(id) async {
+    List<List<String>> resultsUp = [];
+    var index = 0;
+    var date;
+    var patientP = await conn.query(
+        'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ?',
+        [id]);
+    List<List<String>> info = [];
+
+    print("query");
+    print(patientP);
+    int i = 1;
+    for (int g = 0; g < patientP.length; g++) {
+      for (var row in patientP) {
+        info.add([
+          '${row[0]}',
+          '${row[1]}'.substring(0, 11),
+          '${row[2]}',
+          '${row[3]}',
+          '${row[4]}'
+        ]);
+      }
+    }
+    for (int g = 0; g < patientP.length; g++) {
+      var dateP = info[g][1] + "00:00:00";
+      DateTime dt1 = DateTime.parse(dateP);
+      DateTime todayDate = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      if (dt1.compareTo(todayDate) > 0) {
         List<String> oneRow = [];
         oneRow.add(info[g][1]);
         oneRow.add(info[g][4]);
@@ -840,17 +883,7 @@ class mysqlDatabase {
         print(resultsUp);
       }
     }
-
-    print("inside mysql results:");
-    if (type == "Pre") {
-      print("resultsPre:");
-      print(resultsPre);
-      return resultsPre;
-    } else if (type == "Up") {
-      print("resultsUp:");
-      print(resultsUp);
-      return resultsUp;
-    }
+    return resultsUp;
   }
 
   static resetPassword(role, id, pass, type) async {
