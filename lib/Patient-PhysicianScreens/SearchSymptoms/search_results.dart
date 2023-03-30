@@ -1,10 +1,8 @@
 import 'package:medcore/Controller/rout_controller.dart';
 import 'package:medcore/Patient-PhysicianScreens/SearchSymptoms/search_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
-import 'package:medcore/Patient-PhysicianScreens/medical_reports.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
-import 'package:medcore/Utiils/images.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +115,7 @@ class SearchResultsState extends State<SearchResults> {
               Column(
                 children: [
                   const Text(
-                    "Predicted Diagnose :",
+                    "Predicted Diagnosis :",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
@@ -143,12 +141,12 @@ class SearchResultsState extends State<SearchResults> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 165),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
                     child: Text(
-                      "Patient's Symptoms :",
+                      "Patient’s symptoms diagnosed by $diagnosis :",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 19,
                       ),
                     ),
@@ -178,8 +176,6 @@ class SearchResultsState extends State<SearchResults> {
                       showChartValuesOutside: false,
                       decimalPlaces: 1,
                     ),
-                    // gradientList: ---To add gradient colors---
-                    // emptyColorGradient: ---Empty Color gradient---
                   ),
                   const SizedBox(
                     height: 5,
@@ -192,12 +188,12 @@ class SearchResultsState extends State<SearchResults> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 155),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 1),
                     child: Text(
-                      "Doctor's Contact Info :",
+                      "Doctors who diagnosed $diagnosis :",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 19,
                       ),
                     ),
@@ -230,7 +226,7 @@ class SearchResultsState extends State<SearchResults> {
                                     const SizedBox(height: 3),
                                     RichText(
                                       text: TextSpan(
-                                        text: "E-mail: " + results1[index][1],
+                                        text: "E-mail: ${results1[index][1]}",
                                         style: TextStyle(
                                           fontFamily:
                                               TextFontFamily.AVENIR_LT_PRO_BOOK,
@@ -242,8 +238,8 @@ class SearchResultsState extends State<SearchResults> {
                                     const SizedBox(height: 3),
                                     RichText(
                                       text: TextSpan(
-                                        text: "Phone Number: 0" +
-                                            results1[index][2],
+                                        text:
+                                            "Phone Number: 0${results1[index][2]}",
                                         style: TextStyle(
                                           fontFamily:
                                               TextFontFamily.AVENIR_LT_PRO_BOOK,

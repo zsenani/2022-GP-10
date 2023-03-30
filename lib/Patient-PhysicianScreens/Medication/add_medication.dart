@@ -273,8 +273,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: BorderSide
-                                                                .strokeAlignInside))
+                                                            strokeAlign: StrokeAlign
+                                                                .inside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -282,7 +282,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: BorderSide.strokeAlignInside)),
+                                                            strokeAlign: StrokeAlign.inside)),
                                                 child: Text(
                                                   "${SselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -317,8 +317,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: BorderSide
-                                                                .strokeAlignInside))
+                                                            strokeAlign: StrokeAlign
+                                                                .inside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -326,7 +326,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: BorderSide.strokeAlignInside)),
+                                                            strokeAlign: StrokeAlign.inside)),
                                                 child: Text(
                                                   "${SselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -375,8 +375,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: BorderSide
-                                                                .strokeAlignInside))
+                                                            strokeAlign: StrokeAlign
+                                                                .inside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -384,7 +384,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: BorderSide.strokeAlignInside)),
+                                                            strokeAlign: StrokeAlign.inside)),
                                                 child: Text(
                                                   "${EselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -419,8 +419,8 @@ class _AddMedicationState extends State<AddMedication> {
                                                             color: Colors.red
                                                                 .withOpacity(
                                                                     0.7),
-                                                            strokeAlign: BorderSide
-                                                                .strokeAlignInside))
+                                                            strokeAlign: StrokeAlign
+                                                                .inside))
                                                     : BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.circular(
@@ -428,7 +428,7 @@ class _AddMedicationState extends State<AddMedication> {
                                                         border: Border.all(
                                                             color: ColorResources.grey777
                                                                 .withOpacity(0.7),
-                                                            strokeAlign: BorderSide.strokeAlignInside)),
+                                                            strokeAlign: StrokeAlign.inside)),
                                                 child: Text(
                                                   "${EselectedDate.toLocal()}"
                                                       .split(' ')[0],
@@ -583,11 +583,11 @@ class _AddMedicationState extends State<AddMedication> {
     List<int> medIds = [];
     for (var visit in visits) {
       isFilled2 = 0;
-      var results = await conn.query(
-          'select medicationID from VisitMedication where visitID = ? ',
+      var results = await conn
+          .query('select medicationID from VisitMedication where visitID = ? ',
 
-          ///and endDate>? , DateTime.now().toUtc()
-          [int.parse('${visit[0]}')]);
+              ///and endDate>? , DateTime.now().toUtc()
+              [int.parse('${visit[0]}')]);
       print("result");
       print(results);
 

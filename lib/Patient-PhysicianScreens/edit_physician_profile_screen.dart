@@ -1,4 +1,4 @@
-//import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:medcore/Controller/gender_location_controller.dart';
 import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
@@ -239,20 +239,20 @@ class _EditPhysicianProfileScreen extends State<EditPhysicianProfileScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // CountryCodePicker(
-                //   onChanged: ((value) => number = value.toString()),
-                //   initialSelection: 'SA',
-                //   favorite: const ['+966', 'SA'],
-                //   textStyle: TextStyle(
-                //     fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                //     fontSize: 16,
-                //     color: ColorResources.greyA0A,
-                //   ),
-                //   showCountryOnly: false,
-                //   showFlag: false,
-                //   showOnlyCountryWhenClosed: false,
-                //   alignLeft: false,
-                // ),
+                CountryCodePicker(
+                  onChanged: ((value) => number = value.toString()),
+                  initialSelection: 'SA',
+                  favorite: const ['+966', 'SA'],
+                  textStyle: TextStyle(
+                    fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                    fontSize: 16,
+                    color: ColorResources.greyA0A,
+                  ),
+                  showCountryOnly: false,
+                  showFlag: false,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                ),
                 const Icon(Icons.arrow_drop_down),
               ],
             ),

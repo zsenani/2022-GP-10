@@ -8,7 +8,7 @@ import 'package:medcore/Utiils/text_font_family.dart';
 import 'package:medcore/main.dart';
 import 'package:medcore/Controller/role_location_controller.dart';
 import 'package:medcore/Controller/hospital_location_controller.dart';
-//import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import '../LabScreens/lab_home_screen.dart';
 import '../Patient-PhysicianScreens/home_screen.dart';
@@ -1748,20 +1748,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // CountryCodePicker(
-                //   onChanged: ((value) => number = value.toString()),
-                //   initialSelection: 'SA',
-                //   favorite: const ['+966', 'SA'],
-                //   textStyle: TextStyle(
-                //     fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
-                //     fontSize: 16,
-                //     color: ColorResources.greyA0A,
-                //   ),
-                //   showCountryOnly: false,
-                //   showFlag: true,
-                //   showOnlyCountryWhenClosed: false,
-                //   alignLeft: false,
-                // ),
+                CountryCodePicker(
+                  onChanged: ((value) => number = value.toString()),
+                  initialSelection: 'SA',
+                  favorite: const ['+966', 'SA'],
+                  textStyle: TextStyle(
+                    fontFamily: TextFontFamily.AVENIR_LT_PRO_BOOK,
+                    fontSize: 16,
+                    color: ColorResources.greyA0A,
+                  ),
+                  showCountryOnly: false,
+                  showFlag: true,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                ),
                 const Icon(Icons.arrow_drop_down),
               ],
             ),

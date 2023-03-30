@@ -12,7 +12,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medcore/database/mysqlDatabase.dart';
 
-var diagnosis;
+String diagnosis;
 var PhyIds = [];
 Map<String, dynamic> pieChart;
 Map<String, double> pieCH;

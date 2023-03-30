@@ -77,11 +77,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               onTap: () {
                 Navigator.of(context).pushNamed(index.routeName);
               },
-              child: Container(
+              child: const SizedBox(
                 height: 40,
                 width: 40,
-                child: const Icon(Icons.home_outlined,
-                    color: ColorResources.grey777),
+                child: Icon(Icons.home_outlined, color: ColorResources.grey777),
               ),
             ),
           ),
