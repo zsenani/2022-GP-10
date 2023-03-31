@@ -134,6 +134,8 @@ class _ActiveReqState extends State<ActiveReq> {
       print(toDayList.length);
       for (var i = 0; i < toDayList.length; i++) {
         var resDate = toDayList[i]["date"];
+        print("ddddddddddddddddd");
+        print(resDate);
         DateTime dt1 = DateTime.parse(resDate);
         print("date");
         print(dt1);
@@ -176,7 +178,7 @@ class _ActiveReqState extends State<ActiveReq> {
   Widget build(BuildContext context) {
     print("dateRange");
     print(dateRange);
-    return arraylength != 0 && setRange == false
+    return arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
             body: Stack(
@@ -610,7 +612,7 @@ class _ActiveReqState extends State<ActiveReq> {
       enddt = DateTime.parse(endDate);
       dateRange = args.value;
       _rangeCount = args.value.toString();
-      // setRange = true;
+      setRange = true;
     });
   }
 
@@ -673,6 +675,8 @@ class _ActiveReqState extends State<ActiveReq> {
                       setRange = true;
                       filter();
                     });
+                    print("setRange value::::");
+                    print(setRange);
                   }, "Save", ColorResources.orange.withOpacity(0.9),
                       ColorResources.white),
                 ],

@@ -94,9 +94,11 @@ class ForgotPasswordScreen extends StatelessWidget {
               print(email1);
 
               controller.restart();
-              // verifyOtp(mail, context);
+              verifyOtp(email1, context);
               pinPutController.clear();
-              Get.to(ChangePasswordScreen(role1: role, email: email1));
+              if (validateOTP == true) {
+                Get.to(ChangePasswordScreen(role1: role, email: email1));
+              }
             }, "Next", ColorResources.green009, ColorResources.white),
           ],
         ),

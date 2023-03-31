@@ -50,21 +50,21 @@ class PatientVisit extends StatelessWidget {
                   flex: 10,
                   child: HeaderWidget(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 1),
-                  child: InkWell(
-                    onTap: () {
-                      // Get.to(SignInScreen());
-                      showAlertDialog2(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: const Icon(Icons.logout_outlined,
-                          color: ColorResources.grey777),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 10, top: 1),
+                //   child: InkWell(
+                //     onTap: () {
+                //       // Get.to(SignInScreen());
+                //       showAlertDialog2(context);
+                //     },
+                //     child: Container(
+                //       height: 40,
+                //       width: 40,
+                //       child: const Icon(Icons.logout_outlined,
+                //           color: ColorResources.grey777),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

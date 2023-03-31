@@ -7,7 +7,6 @@ import 'package:medcore/Utiils/images.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../database/mysqlDatabase.dart';
 import 'Lab/lab_tests.dart';
 import 'Medication/medication_list.dart';
@@ -113,7 +112,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
         bloodType = '${row[2]}';
         nationalID = '${row[3]}';
         DOB = '${row[4]}'.split(' ')[0];
-        nationality = '${row[5]}'.split(' ')[1];
+        nationality = '${row[5]}';
         maritalStatus = '${row[6]}';
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));

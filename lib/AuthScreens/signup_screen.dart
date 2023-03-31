@@ -182,67 +182,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void Patient() {
     verifyOtp(emailController.text, context);
     pinPutController.clear();
-    //  if (validateOTP == true) {
-    mysqlDatabase.insertPatient(
-      nameController.text,
-      hashedPassword = new DBCrypt()
-          .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
-      "${selectedDate.toLocal()}".split(' ')[0],
-      GenderlocationController.text,
-      phoneController.text,
-      confirmEmailController.text,
-      nationalityController.text,
-      maritalStatusController.text,
-      BloodTypeController.text,
-      int.parse(IDController.text),
-    );
+    if (validateOTP == true) {
+      mysqlDatabase.insertPatient(
+        nameController.text,
+        hashedPassword = new DBCrypt()
+            .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
+        "${selectedDate.toLocal()}".split(' ')[0],
+        GenderlocationController.text,
+        phoneController.text,
+        confirmEmailController.text,
+        nationalityController.text,
+        maritalStatusController.text,
+        BloodTypeController.text,
+        int.parse(IDController.text),
+      );
 
-    Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
-    _clearAll2();
-    //   }
+      Get.to(PatientHomeScreen(id: IDController.text), arguments: 'patient');
+      _clearAll2();
+    }
   }
 
   void Physician() {
     verifyOtp(emailController.text, context);
     pinPutController.clear();
-    //if (validateOTP == true && addedHospitals == true) {
-    mysqlDatabase.insertPhysician(
-        nameController.text,
-        hashedPassword = new DBCrypt()
-            .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
-        "${selectedDate.toLocal()}".split(' ')[0],
-        GenderlocationController.text,
-        phoneController.text,
-        confirmEmailController.text,
-        nationalityController.text,
-        specializationController.text,
-        int.parse(IDController.text),
-        IDOfHospitals);
+    if (validateOTP == true && addedHospitals == true) {
+      mysqlDatabase.insertPhysician(
+          nameController.text,
+          hashedPassword = new DBCrypt()
+              .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
+          "${selectedDate.toLocal()}".split(' ')[0],
+          GenderlocationController.text,
+          phoneController.text,
+          confirmEmailController.text,
+          nationalityController.text,
+          specializationController.text,
+          int.parse(IDController.text),
+          IDOfHospitals);
 
-    Get.to(HomeScreen(id: IDController.text));
-    _clearAll();
-    // }
+      Get.to(HomeScreen(id: IDController.text));
+      _clearAll();
+    }
   }
 
   void Lab() {
     verifyOtp(emailController.text, context);
     pinPutController.clear();
-    // if (validateOTP == true) {
-    mysqlDatabase.insertLab(
-        nameController.text,
-        hashedPassword = new DBCrypt()
-            .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
-        "${selectedDate.toLocal()}".split(' ')[0],
-        GenderlocationController.text,
-        phoneController.text,
-        confirmEmailController.text,
-        nationalityController.text,
-        int.parse(IDController.text),
-        int.parse(hosID));
+    if (validateOTP == true) {
+      mysqlDatabase.insertLab(
+          nameController.text,
+          hashedPassword = new DBCrypt()
+              .hashpw(confirmPasswordController.text, new DBCrypt().gensalt()),
+          "${selectedDate.toLocal()}".split(' ')[0],
+          GenderlocationController.text,
+          phoneController.text,
+          confirmEmailController.text,
+          nationalityController.text,
+          int.parse(IDController.text),
+          int.parse(hosID));
 
-    Get.to(LabHomePage1(id: IDController.text));
-    _clearAll3();
-    // }
+      Get.to(LabHomePage1(id: IDController.text));
+      _clearAll3();
+    }
   }
 
   void _clearAll() {
@@ -1642,7 +1642,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     if (isFound == false && allValid1) {
       setState(() {
-        currentStep += 1;
+        currentStep = 1;
       });
     }
   }
@@ -1704,7 +1704,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         controller.restart();
         finishTimer = false;
         sendOtp(emailController.text);
-        currentStep += 1;
+        currentStep = 2;
       });
     }
   }

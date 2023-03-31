@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 
 var conn;
@@ -13,7 +14,17 @@ class mysqlDatabase {
         user: 'b71432b615aa7b',
         password: '4b7ac2e7',
         db: 'heroku_2c29e35e35b17ca');
-    conn = await MySqlConnection.connect(settings);
+    try {
+      conn = await MySqlConnection.connect(settings)
+          .timeout(const Duration(seconds: 900));
+    } catch (e) {
+      showDialog(
+          context: e,
+          builder: (ctx) => AlertDialog(
+                title: Text("$e"),
+                content: Text("You have raised a Alert Dialog Box"),
+              ));
+    }
   }
 
   static Future<void> insertLab(
@@ -972,9 +983,12 @@ class mysqlDatabase {
     } else if (role.compareTo('Lab specialist') == 0) {
       table = 'LabSpecialist';
     }
-    var userPassword = await conn.query(
+    var userPassword;
+
+    userPassword = await conn.query(
         'select password from ' + table + ' where nationalId=?',
         [idController]);
+
     //find user
     print('11');
     print(userPassword);

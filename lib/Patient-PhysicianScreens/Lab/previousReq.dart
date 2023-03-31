@@ -196,7 +196,7 @@ class PreviousReqState extends State<PreviousReq> {
 
   @override
   Widget build(BuildContext context) {
-    return arraylength != 0 && setRange == false
+    return arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
             body: Stack(
@@ -518,7 +518,7 @@ class PreviousReqState extends State<PreviousReq> {
       enddt = DateTime.parse(endDate);
       dateRange = args.value;
       _rangeCount = args.value.toString();
-      // setRange = true;
+      setRange = true;
     });
   }
 
