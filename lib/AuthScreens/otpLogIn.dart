@@ -18,7 +18,7 @@ class otpLogInScreen extends StatelessWidget {
       @required this.idController})
       : super(key: key);
 
-  static final formKey = GlobalKey<FormState>();
+  //static final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

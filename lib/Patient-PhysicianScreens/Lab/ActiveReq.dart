@@ -453,7 +453,7 @@ class _ActiveReqState extends State<ActiveReq> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                left: 290, bottom: 0, right: 10, top: 190),
+                                left: 290, bottom: 0, right: 10, top: 140),
                             child: InkWell(
                               onTap: () {
                                 _startAdd2(context);
@@ -482,7 +482,7 @@ class _ActiveReqState extends State<ActiveReq> {
                           if (roleHome == 'UPphysician')
                             Padding(
                               padding: const EdgeInsets.only(
-                                  bottom: 0, right: 0, top: 189),
+                                  bottom: 0, right: 0, top: 140),
                               child: InkWell(
                                 onTap: () {
                                   _startAdd(context);

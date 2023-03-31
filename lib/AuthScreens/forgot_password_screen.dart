@@ -20,7 +20,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   static const routeName = '/forgot-password-screen';
 
   final TextEditingController emailController2 = TextEditingController();
-  static final formKey = GlobalKey<FormState>();
+  //static final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

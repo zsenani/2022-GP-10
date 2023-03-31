@@ -38,7 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final TextEditingController passwordController = TextEditingController();
 
-  static final formKey = GlobalKey<FormState>();
+  //static final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
   updatePasswordStatus() {
@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       padding:
                           const EdgeInsets.only(left: 20, right: 20, top: 80),
                       child: Form(
-                        key: formKey,
+                        // key: formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

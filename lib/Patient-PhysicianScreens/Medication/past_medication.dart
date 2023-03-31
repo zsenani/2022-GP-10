@@ -249,19 +249,27 @@ class _PastMedicationState extends State<PastMedication> {
                                               glopalMedication[index]["dosage"],
                                           ColorResources.grey777,
                                           12),
+                                      const SizedBox(height: 4),
                                       if (glopalMedication[index]
-                                              ["description"] !=
-                                          null)
-                                        const SizedBox(height: 4),
-                                      if (glopalMedication[index]
-                                              ["description"] !=
-                                          null)
+                                                  ["description"] !=
+                                              null &&
+                                          glopalMedication[index]
+                                                  ["description"] !=
+                                              "")
                                         romanText(
                                             "Description: " +
                                                 glopalMedication[index]
                                                     ["description"],
                                             ColorResources.grey777,
                                             12),
+                                      if (glopalMedication[index]
+                                                  ["description"] ==
+                                              null ||
+                                          glopalMedication[index]
+                                                  ["description"] ==
+                                              "")
+                                        romanText("Description: " + "-",
+                                            ColorResources.grey777, 12),
                                       const SizedBox(height: 4),
                                       romanText(
                                           "Start date: " +

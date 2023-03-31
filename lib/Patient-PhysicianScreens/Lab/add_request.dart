@@ -151,7 +151,7 @@ class _TestRequestState extends State<TestRequest> {
     //   listItemSelected.add(ItemSelect(value: index++, label: '${lab[index]}'));
   }
 
-  static final _multiSelectKey = GlobalKey<FormFieldState>();
+  final _multiSelectKey = GlobalKey<FormFieldState>();
   final old = Get.previousRoute;
 
   Widget loadingPage() {

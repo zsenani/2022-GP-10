@@ -34,7 +34,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  static final formKey = GlobalKey<FormState>();
+  //static final formKey = GlobalKey<FormState>();
 
   final VariableController variableController = Get.put(VariableController());
 
@@ -89,7 +89,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 60),
         child: Form(
-          key: formKey,
+          //  key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  static final formKey = GlobalKey<FormState>();
+  //static final formKey = GlobalKey<FormState>();
   final VariableController variableController = Get.put(VariableController());
 
   @override
@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   padding: const EdgeInsets.only(top: 80),
                   child: Form(
-                    key: formKey,
+                    // key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -776,7 +776,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ;
   }
 
-  static final formKey1 = GlobalKey<FormState>();
+  //static final formKey1 = GlobalKey<FormState>();
 
   ScrollConfiguration SecondStep(context) {
     if (ArrayOfHospitals.isEmpty == true) Hospitals();
@@ -798,7 +798,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 Container(
                   child: Form(
-                    key: formKey1,
+                    //   key: formKey1,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

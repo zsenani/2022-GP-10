@@ -31,7 +31,7 @@ class ForgetEmail extends StatefulWidget {
 }
 
 class _ForgetEmailState extends State<ForgetEmail> {
-  static final formKey = GlobalKey<FormState>();
+  // static final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 60),
           child: Form(
-            key: formKey,
+            //  key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
