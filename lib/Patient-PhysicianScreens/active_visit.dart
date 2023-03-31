@@ -132,6 +132,8 @@ class _ActiveVisitState extends State<ActiveVisit> {
                     var visits = await conn.query(
                         'select idvisit from Visit where idPatient = ?',
                         [todayVisits[index][9]]);
+                    isFilled3 = 0;
+                    visitsIds.clear();
                     int visitsArrayLength = await visits.length;
                     for (var row2 in visits) {
                       if (isFilled3 != visitsArrayLength) {

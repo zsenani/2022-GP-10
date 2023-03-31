@@ -119,6 +119,14 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
   }
 
   void getData() async {
+    name = '';
+    gender = '';
+    bloodType = '';
+    nationalID = '';
+    DOB = '';
+    nationality = '';
+    maritalStatus = '';
+    age = 0;
     var user = await conn.query(
         'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus from Patient where nationalId=?',
         [int.parse(Id)]);

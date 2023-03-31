@@ -12,11 +12,14 @@ import '/../main.dart';
 
 String visitId;
 String Role;
+String idPhysician;
 
 class currentMedication extends StatefulWidget {
-  currentMedication({Key key, String vid, String role}) : super(key: key) {
+  currentMedication({Key key, String vid, String role, String idPHy})
+      : super(key: key) {
     visitId = vid;
     Role = role;
+    idPhysician = idPHy;
   }
   @override
   State<currentMedication> createState() => _currentMedicationState();
@@ -455,6 +458,7 @@ class _currentMedicationState extends State<currentMedication> {
     Get.to(AddMedication(
       pid: idp,
       vid: visitId,
+      idPHy: idPhysician,
     ));
   }
 }

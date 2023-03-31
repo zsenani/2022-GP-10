@@ -7,16 +7,20 @@ import 'package:get/get.dart';
 import '../../Utiils/text_font_family.dart';
 import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
+import '../home_screen.dart';
 import '../upcomming_visit_screen.dart';
 import 'medication_list.dart';
 
 String visitId;
 int patientId;
+String idPhysician;
 
 class AddMedication extends StatefulWidget {
-  AddMedication({Key key, String vid, int pid}) : super(key: key) {
+  AddMedication({Key key, String vid, int pid, String idPHy})
+      : super(key: key) {
     visitId = vid;
     patientId = pid;
+    idPhysician = idPHy;
   }
   State<AddMedication> createState() => _AddMedicationState();
 }
@@ -148,9 +152,7 @@ class _AddMedicationState extends State<AddMedication> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+                          Get.to(HomeScreen(id: idPhysician));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -583,11 +585,11 @@ class _AddMedicationState extends State<AddMedication> {
     List<int> medIds = [];
     for (var visit in visits) {
       isFilled2 = 0;
-      var results = await conn
-          .query('select medicationID from VisitMedication where visitID = ? ',
+      var results = await conn.query(
+          'select medicationID from VisitMedication where visitID = ? ',
 
-              ///and endDate>? , DateTime.now().toUtc()
-              [int.parse('${visit[0]}')]);
+          ///and endDate>? , DateTime.now().toUtc()
+          [int.parse('${visit[0]}')]);
       print("result");
       print(results);
 

@@ -72,28 +72,21 @@ class _TestRequestState extends State<TestRequest> {
     visitsIds.forEach((element) async {
       results = await conn.query(
           'select labTestID from VisitLabTest where visitID = ?', [element]);
+      print("element");
+
       print(element);
       ArrayLength = await results.length;
       if (element == int.parse(visitId)) {
         print("element");
         print(element);
         if (ArrayLength == 0) {
-          print(ArrayLength);
           setState(() {
             isFirst = true;
           });
         } else {
-          print(ArrayLength);
-
           setState(() {
             isFirst = false;
-            print("isFirst");
-
-            print(isFirst);
           });
-          print("isFirst");
-
-          print(isFirst);
         }
       }
       isFilled2 = 0;
@@ -101,7 +94,6 @@ class _TestRequestState extends State<TestRequest> {
         if (isFilled2 != ArrayLength) {
           int testNo2 = int.parse('${row2[0]}');
           testIds.add(testNo2);
-          print(testIds);
           isFilled2 = isFilled2 + 1;
         }
       }

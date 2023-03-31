@@ -77,6 +77,7 @@ class MedicationList extends StatelessWidget {
                   currentMedication(
                     vid: visitId,
                     role: role,
+                    idPHy: idPhysician,
                   ),
                   PastMedication()
                 ],
