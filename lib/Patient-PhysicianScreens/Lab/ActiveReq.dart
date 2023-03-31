@@ -178,339 +178,354 @@ class _ActiveReqState extends State<ActiveReq> {
   Widget build(BuildContext context) {
     print("dateRange");
     print(dateRange);
-    return arraylength != 0
+    return setRange == true && toDayListFilttered.isEmpty
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
-            body: Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: Align(
+              alignment: Alignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 160, left: 10),
+                    child: SizedBox(
+                      height: 160,
+                      width: 160,
+                      child: Image.asset(
+                        Images.report2,
+                        color: ColorResources.greyA0A,
+                        alignment: Alignment.center,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  romanText(
+                      "There is no test request at \nthe date you selected",
+                      ColorResources.grey777,
+                      18,
+                      TextAlign.center),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 290, bottom: 0, right: 10, top: 140),
+                        child: InkWell(
+                          onTap: () {
+                            _startAdd2(context);
+                            // setState(() {
+                            //   setRange = true;
+                            // });
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: ColorResources.green009,
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(
+                                color: ColorResources.green009,
+                                width: 1,
+                              ),
+                            ),
+                            child: const Center(
+                              child: Icon(Icons.filter_alt,
+                                  color: ColorResources.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (roleHome == 'UPphysician')
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 0, right: 0, top: 140),
+                          child: InkWell(
+                            onTap: () {
+                              _startAdd(context);
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: ColorResources.green009,
+                                borderRadius: BorderRadius.circular(40),
+                                border: Border.all(
+                                  color: ColorResources.green009,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Center(
+                                child: Icon(Icons.add,
+                                    color: ColorResources.white),
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        : arraylength != 0
+            ? Scaffold(
+                backgroundColor: ColorResources.whiteF7F,
+                body: Stack(
                   children: [
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 0),
-                          height: Get.height - 250,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 30),
-                                ScrollConfiguration(
-                                  behavior: MyBehavior(),
-                                  child: ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: setRange == false
-                                        ? arraylength
-                                        : toDayListFilttered.length,
-                                    itemBuilder: (context, index) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 16),
-                                      child: Container(
-                                        height: 90,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: ColorResources.white,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Row(
-                                            children: [
-                                              Stack(
-                                                clipBehavior: Clip.none,
-                                                alignment:
-                                                    Alignment.bottomRight,
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(top: 0),
+                              height: Get.height - 250,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 30),
+                                    ScrollConfiguration(
+                                      behavior: MyBehavior(),
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: setRange == false
+                                            ? arraylength
+                                            : toDayListFilttered.length,
+                                        itemBuilder: (context, index) =>
+                                            Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 16),
+                                          child: Container(
+                                            height: 90,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: ColorResources.white,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    backgroundColor:
-                                                        const Color.fromARGB(
-                                                            255, 255, 255, 255),
-                                                    radius: 20,
-                                                    backgroundImage: AssetImage(
-                                                      setRange == false
-                                                          ? toDayList[index]
-                                                              ["image"]
-                                                          : toDayListFilttered[
-                                                              index]["image"],
+                                                  Stack(
+                                                    clipBehavior: Clip.none,
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    children: [
+                                                      CircleAvatar(
+                                                        backgroundColor:
+                                                            const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                255,
+                                                                255,
+                                                                255),
+                                                        radius: 20,
+                                                        backgroundImage:
+                                                            AssetImage(
+                                                          setRange == false
+                                                              ? toDayList[index]
+                                                                  ["image"]
+                                                              : toDayListFilttered[
+                                                                      index]
+                                                                  ["image"],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(width: 20),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            setRange == false
+                                                                ? mediumText(
+                                                                    "Dr. " +
+                                                                        drName[index]
+                                                                            [
+                                                                            "name"],
+                                                                    ColorResources
+                                                                        .green009,
+                                                                    20)
+                                                                : mediumText(
+                                                                    "Dr. " +
+                                                                        drNameFil[index]
+                                                                            [
+                                                                            "name"],
+                                                                    ColorResources
+                                                                        .green009,
+                                                                    20),
+                                                            const SizedBox(
+                                                                height: 2),
+                                                            setRange == false
+                                                                ? romanText(
+                                                                    hospitalname[
+                                                                            index]
+                                                                        [
+                                                                        "name"],
+                                                                    ColorResources
+                                                                        .grey777,
+                                                                    12)
+                                                                : romanText(
+                                                                    hospitalnameFil[
+                                                                            index]
+                                                                        [
+                                                                        "name"],
+                                                                    ColorResources
+                                                                        .grey777,
+                                                                    12),
+                                                            const SizedBox(
+                                                                height: 4),
+                                                            setRange == false
+                                                                ? romanText(
+                                                                    toDayList[index]
+                                                                            [
+                                                                            "date"]
+                                                                        .substring(
+                                                                            0,
+                                                                            toDayList[index]["date"].indexOf(
+                                                                                ' ')),
+                                                                    ColorResources
+                                                                        .grey777,
+                                                                    12)
+                                                                : romanText(
+                                                                    toDayListFilttered[index]
+                                                                            [
+                                                                            "date"]
+                                                                        .substring(
+                                                                            0,
+                                                                            toDayListFilttered[index]["date"].indexOf(
+                                                                                ' ')),
+                                                                    ColorResources
+                                                                        .grey777,
+                                                                    12),
+                                                          ],
+                                                        ),
+                                                        Button(() {
+                                                          roleHome == 'patient'
+                                                              ? Get.to(
+                                                                  showlabResult(
+                                                                      vid: toDayList[
+                                                                              index]
+                                                                          [
+                                                                          "idvisit"],
+                                                                      id: idp
+                                                                          .toString(),
+                                                                      role:
+                                                                          'patient'),
+                                                                  arguments:
+                                                                      'active')
+                                                              : Get.to(
+                                                                  showlabResult(
+                                                                      vid: toDayList[
+                                                                              index]
+                                                                          [
+                                                                          "idvisit"],
+                                                                      id:
+                                                                          idPhysician,
+                                                                      role:
+                                                                          'physician'),
+                                                                  arguments:
+                                                                      'active');
+                                                        },
+                                                            "View",
+                                                            const Color
+                                                                    .fromRGBO(
+                                                                241,
+                                                                94,
+                                                                34,
+                                                                0.7),
+                                                            //ColorResources.green009,
+                                                            ColorResources
+                                                                .white),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              const SizedBox(width: 20),
-                                              Expanded(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        setRange == false
-                                                            ? mediumText(
-                                                                "Dr. " +
-                                                                    drName[index]
-                                                                        [
-                                                                        "name"],
-                                                                ColorResources
-                                                                    .green009,
-                                                                20)
-                                                            : mediumText(
-                                                                "Dr. " +
-                                                                    drNameFil[
-                                                                            index]
-                                                                        [
-                                                                        "name"],
-                                                                ColorResources
-                                                                    .green009,
-                                                                20),
-                                                        const SizedBox(
-                                                            height: 2),
-                                                        setRange == false
-                                                            ? romanText(
-                                                                hospitalname[
-                                                                        index]
-                                                                    ["name"],
-                                                                ColorResources
-                                                                    .grey777,
-                                                                12)
-                                                            : romanText(
-                                                                hospitalnameFil[
-                                                                        index]
-                                                                    ["name"],
-                                                                ColorResources
-                                                                    .grey777,
-                                                                12),
-                                                        const SizedBox(
-                                                            height: 4),
-                                                        setRange == false
-                                                            ? romanText(
-                                                                toDayList[index]
-                                                                        ["date"]
-                                                                    .substring(
-                                                                        0,
-                                                                        toDayList[index]["date"].indexOf(
-                                                                            ' ')),
-                                                                ColorResources
-                                                                    .grey777,
-                                                                12)
-                                                            : romanText(
-                                                                toDayListFilttered[
-                                                                            index]
-                                                                        ["date"]
-                                                                    .substring(
-                                                                        0,
-                                                                        toDayListFilttered[index]["date"].indexOf(
-                                                                            ' ')),
-                                                                ColorResources
-                                                                    .grey777,
-                                                                12),
-                                                      ],
-                                                    ),
-                                                    Button(() {
-                                                      roleHome == 'patient'
-                                                          ? Get.to(
-                                                              showlabResult(
-                                                                  vid: toDayList[
-                                                                          index]
-                                                                      [
-                                                                      "idvisit"],
-                                                                  id: idp
-                                                                      .toString(),
-                                                                  role:
-                                                                      'patient'),
-                                                              arguments:
-                                                                  'active')
-                                                          : Get.to(
-                                                              showlabResult(
-                                                                  vid: toDayList[
-                                                                          index]
-                                                                      [
-                                                                      "idvisit"],
-                                                                  id:
-                                                                      idPhysician,
-                                                                  role:
-                                                                      'physician'),
-                                                              arguments:
-                                                                  'active');
-                                                    },
-                                                        "View",
-                                                        const Color.fromRGBO(
-                                                            241, 94, 34, 0.7),
-                                                        //ColorResources.green009,
-                                                        ColorResources.white),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Row(children: [
-                          Padding(
-                            padding: roleHome == 'UPphysician'
-                                ? const EdgeInsets.only(
-                                    left: 300, bottom: 0, right: 7)
-                                : const EdgeInsets.only(left: 340, bottom: 0),
-                            child: InkWell(
-                              onTap: () {
-                                _startAdd2(context);
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.green009,
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: Border.all(
-                                    color: ColorResources.green009,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Icon(Icons.filter_alt,
-                                      color: ColorResources.white),
+                                  ],
                                 ),
                               ),
                             ),
-                          ),
-
-                          ///////////////////////////////
-
-                          if (roleHome == 'UPphysician')
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 0, right: 0),
-                              child: InkWell(
-                                onTap: () {
-                                  _startAdd(context);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: ColorResources.green009,
-                                    borderRadius: BorderRadius.circular(40),
-                                    border: Border.all(
+                            Row(children: [
+                              Padding(
+                                padding: roleHome == 'UPphysician'
+                                    ? const EdgeInsets.only(
+                                        left: 300, bottom: 0, right: 7)
+                                    : const EdgeInsets.only(
+                                        left: 340, bottom: 0),
+                                child: InkWell(
+                                  onTap: () {
+                                    _startAdd2(context);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
                                       color: ColorResources.green009,
-                                      width: 1,
+                                      borderRadius: BorderRadius.circular(40),
+                                      border: Border.all(
+                                        color: ColorResources.green009,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: const Center(
+                                      child: Icon(Icons.filter_alt,
+                                          color: ColorResources.white),
                                     ),
                                   ),
-                                  child: const Center(
-                                    child: Icon(Icons.add,
-                                        color: ColorResources.white),
-                                  ),
                                 ),
                               ),
-                            )
-                        ])
+
+                              ///////////////////////////////
+
+                              if (roleHome == 'UPphysician')
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 0, right: 0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      _startAdd(context);
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        color: ColorResources.green009,
+                                        borderRadius: BorderRadius.circular(40),
+                                        border: Border.all(
+                                          color: ColorResources.green009,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: const Center(
+                                        child: Icon(Icons.add,
+                                            color: ColorResources.white),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            ])
+                          ],
+                        ),
                       ],
                     ),
                   ],
-                ),
-              ],
-            ),
-          )
-        : setRange == true && toDayListFilttered.isEmpty
-            ? Scaffold(
-                backgroundColor: ColorResources.whiteF7F,
-                body: Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 160, left: 10),
-                        child: SizedBox(
-                          height: 160,
-                          width: 160,
-                          child: Image.asset(
-                            Images.report2,
-                            color: ColorResources.greyA0A,
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      romanText(
-                          "There is no test request at \nthe date you selected",
-                          ColorResources.grey777,
-                          18,
-                          TextAlign.center),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 290, bottom: 0, right: 10, top: 140),
-                            child: InkWell(
-                              onTap: () {
-                                _startAdd2(context);
-                                // setState(() {
-                                //   setRange = true;
-                                // });
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.green009,
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: Border.all(
-                                    color: ColorResources.green009,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Icon(Icons.filter_alt,
-                                      color: ColorResources.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          if (roleHome == 'UPphysician')
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 0, right: 0, top: 140),
-                              child: InkWell(
-                                onTap: () {
-                                  _startAdd(context);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: ColorResources.green009,
-                                    borderRadius: BorderRadius.circular(40),
-                                    border: Border.all(
-                                      color: ColorResources.green009,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: const Center(
-                                    child: Icon(Icons.add,
-                                        color: ColorResources.white),
-                                  ),
-                                ),
-                              ),
-                            )
-                        ],
-                      ),
-                    ],
-                  ),
                 ),
               )
             : Scaffold(
@@ -612,7 +627,7 @@ class _ActiveReqState extends State<ActiveReq> {
       enddt = DateTime.parse(endDate);
       dateRange = args.value;
       _rangeCount = args.value.toString();
-      setRange = true;
+      // setRange = true;
     });
   }
 
