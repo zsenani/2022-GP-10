@@ -15,11 +15,12 @@ class SearchResults extends StatefulWidget {
 }
 
 final colorList = <Color>[
+  // ColorResources.orange,
   ColorResources.lightBlue2,
-  const Color.fromRGBO(142, 209, 206, 1),
-  const Color.fromRGBO(26, 217, 194, 1),
-  const Color.fromRGBO(23, 186, 167, 1),
   ColorResources.green009,
+  const Color.fromRGBO(26, 217, 194, 1),
+  const Color.fromRGBO(142, 209, 206, 1),
+  const Color.fromRGBO(23, 186, 167, 1),
   const Color.fromRGBO(15, 126, 113, 1),
 ];
 
@@ -156,7 +157,7 @@ class SearchResultsState extends State<SearchResults> {
                     dataMap: pieCH,
                     animationDuration: const Duration(milliseconds: 800),
                     chartLegendSpacing: 20,
-                    chartRadius: MediaQuery.of(context).size.width / 2.3,
+                    chartRadius: MediaQuery.of(context).size.width / 2.5,
                     colorList: colorList,
                     initialAngleInDegree: 0,
                     chartType: ChartType.disc,
@@ -173,7 +174,7 @@ class SearchResultsState extends State<SearchResults> {
                       showChartValueBackground: true,
                       showChartValues: true,
                       showChartValuesInPercentage: true,
-                      showChartValuesOutside: false,
+                      showChartValuesOutside: true,
                       decimalPlaces: 1,
                     ),
                   ),
@@ -191,7 +192,7 @@ class SearchResultsState extends State<SearchResults> {
                   Padding(
                     padding: const EdgeInsets.only(right: 1),
                     child: Text(
-                      "Doctors who diagnosed $diagnosis :",
+                      "Physicians who diagnosed $diagnosis :",
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                         fontSize: 19,

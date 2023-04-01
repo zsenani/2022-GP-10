@@ -481,14 +481,13 @@ class SearchScreenState extends State<SearchScreen> {
                               : empty = false;
                         });
                         if (empty == false) {
+                          // loadingSearch = true;
                           onsubmit();
                         }
-
                         var data = await postData(zero);
                         log(data.body);
                         var jsonD = jsonDecode(data.body);
                         print("jsonD+++++++++++");
-
                         diagnosis = jsonD["vector"];
                         PhyIds = jsonD["physID"];
                         PhysicianInfor();
@@ -498,7 +497,8 @@ class SearchScreenState extends State<SearchScreen> {
                           pieChart.values.map(
                               (e) => (double.tryParse(e.toString()) ?? 0.0)),
                         );
-
+                        print("pieCH");
+                        print(pieCH);
                         setState(() {
                           loadingSearch = false;
                         });
