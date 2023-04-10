@@ -12,12 +12,11 @@ String labId;
 List<List<String>> ActiveTest1 = [];
 List<List<String>> activepatientList = [];
 bool _loading = true;
-bool updated1 = false;
+bool updated1;
 
 class ActiveTestReq extends StatefulWidget {
   ActiveTestReq({Key key, String id}) : super(key: key) {
     labId = id;
-    updated1 = false;
   }
   @override
   State<ActiveTestReq> createState() => _ActiveTestReqState();
@@ -40,13 +39,6 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
     print(ActiveTest1.length);
     print(ActiveTest1);
 
-    // for (int j = 0; j < ActiveTest1.length; j++) {
-    //   for (int i = 12; i < ActiveTest1[j].length; i + 5) {
-    //     if (ActiveTest1[j][i] == "yes") {
-    //       updated1 = true;
-    //     }
-    //   }
-    // }
     print("updated var");
     print(updated1);
     setState(() {
@@ -112,6 +104,14 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                 color: ColorResources.orange,
               ),
             ),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        children: [
+          SizedBox(
+            width: 125,
           ),
         ],
       );
@@ -231,8 +231,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           ),
                                           // update
 
-                                          // if (updated1 == true)
-                                          updated(index),
+                                          updated(index)
                                         ],
                                       ),
                                       const SizedBox(height: 5),
