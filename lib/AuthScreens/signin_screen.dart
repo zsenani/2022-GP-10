@@ -62,21 +62,6 @@ class _SignInScreenState extends State<SignInScreen> {
             child: const Icon(Icons.arrow_back, color: ColorResources.grey777),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(index.routeName);
-              },
-              child: const SizedBox(
-                height: 40,
-                width: 40,
-                child: Icon(Icons.home_outlined, color: ColorResources.grey777),
-              ),
-            ),
-          ),
-        ],
       ),
       body: GestureDetector(
         onTap: () {

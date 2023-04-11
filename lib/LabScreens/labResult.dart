@@ -138,11 +138,6 @@ class labResultState extends State<labResult> {
                 width: 40,
                 decoration: BoxDecoration(
                   color: ColorResources.whiteF6F,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                    width: 1,
-                  ),
                 ),
                 child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -203,12 +198,15 @@ class labResultState extends State<labResult> {
                   ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  mediumText('Test Name   ', ColorResources.white, 24),
-                  mediumText('Result', ColorResources.white, 24),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(left: 28, right: 53),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    mediumText('Test Name', ColorResources.white, 24),
+                    mediumText('Result', ColorResources.white, 24),
+                  ],
+                ),
               ),
             ),
           ),
@@ -296,14 +294,16 @@ class labResultState extends State<labResult> {
                                           },
                                         )
                                       : TextFormField(
+                                          keyboardType: TextInputType.number,
                                           controller: _controller[index],
                                           decoration: InputDecoration(
                                             //  floatingLabelStyle: TextStyle(),
 
-                                            hintText: testUnitglobal[index] !=
-                                                    'null'
-                                                ? 'In ' + testUnitglobal[index]
-                                                : 'Enter result',
+                                            hintText:
+                                                testUnitglobal[index] != 'null'
+                                                    ? '  In ' +
+                                                        testUnitglobal[index]
+                                                    : '  Enter result',
                                             border: UnderlineInputBorder(
                                               borderSide:
                                                   flagcontroller[index] == false

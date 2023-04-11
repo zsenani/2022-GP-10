@@ -44,9 +44,12 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   }
 
   searchPatientPrev(String idP) {
+    print("fffffffffffffffffffffffffffffffffffffff");
+    print(idP);
+    print(prevTest);
     for (int i = 0; i < prevTest.length; i++) {
-      print(prevTest[i][6].runtimeType);
-      if (prevTest[i][6] == idP) {
+      print(prevTest[i][5].runtimeType);
+      if (prevTest[i][5] == idP) {
         setState(() {
           prevpatientList.add(prevTest[i]);
         });
@@ -82,6 +85,12 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
         children: [
           const SizedBox(height: 3),
           TextFormField(
+            onChanged: ((value) {
+              setState(() {
+                prevpatientList.clear();
+                searchPatientPrev(idPatientprev.text);
+              });
+            }),
             controller: idPatientprev,
             cursorColor: const Color.fromRGBO(19, 156, 140, 1),
             style: TextStyle(
@@ -270,7 +279,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                                           18),
                                       const SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: ${prevpatientList[index][6]}",
+                                          "Physician: ${prevpatientList[index][6]}",
                                           ColorResources.grey777,
                                           15),
                                     ],

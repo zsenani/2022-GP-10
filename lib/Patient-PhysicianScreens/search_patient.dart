@@ -63,6 +63,15 @@ class _SearchPatientState extends State<SearchPatient> {
                 color: ColorResources.white,
               ),
               child: TextFormField(
+                onChanged: ((value) {
+                  setState(() {
+                    idPatient == null ? first = true : first = false;
+                    returnedPatient.clear();
+                    load = false;
+                  });
+
+                  searchPatientinfo(idPhysician, int.parse(idPatient.text));
+                }),
                 onFieldSubmitted: ((value) {
                   setState(() {
                     idPatient == null ? first = true : first = false;

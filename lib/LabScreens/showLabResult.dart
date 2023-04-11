@@ -120,11 +120,6 @@ class showlabResultState extends State<showlabResult> {
                 width: 40,
                 decoration: BoxDecoration(
                   color: ColorResources.whiteF6F,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                    width: 1,
-                  ),
                 ),
                 child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -200,9 +195,10 @@ class showlabResultState extends State<showlabResult> {
               ),
               // color: ColorResources.orange,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  mediumText('Test Name   ', ColorResources.white, 24),
+                  mediumText('Test Name', ColorResources.white, 24),
+                  SizedBox(width: 3),
                   mediumText('Result', ColorResources.white, 24),
                 ],
               ),

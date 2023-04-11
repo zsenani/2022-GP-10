@@ -439,7 +439,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 35),
+            padding: const EdgeInsets.only(top: 50),
             child: ListTile(
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -477,7 +477,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           ),
         ),
         Positioned(
-            bottom: 20,
+            bottom: 9,
             left: 0.5,
             right: 0.5,
             child: Container(

@@ -126,6 +126,12 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
         children: [
           const SizedBox(height: 3),
           TextFormField(
+            onChanged: ((value) {
+              setState(() {
+                activepatientList.clear();
+                searchPatientActive(idPatientactive.text);
+              });
+            }),
             controller: idPatientactive,
             cursorColor: const Color.fromRGBO(19, 156, 140, 1),
             style: TextStyle(
@@ -298,7 +304,8 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                         children: [
                                           RichText(
                                             text: TextSpan(
-                                              text: activepatientList[index][2],
+                                              text:
+                                                  "Visit ID: ${activepatientList[index][1]}",
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -307,16 +314,19 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                               ),
                                             ),
                                           ),
+                                          // update
+
+                                          updated(index)
                                         ],
                                       ),
                                       const SizedBox(height: 5),
                                       mediumText(
-                                          "Patient: ${activepatientList[index][4]}",
+                                          "Patient: ${activepatientList[index][5]}",
                                           ColorResources.grey777,
                                           18),
                                       const SizedBox(height: 5),
                                       romanText(
-                                          "Visit ID: ${activepatientList[index][1]}",
+                                          "Physician: ${activepatientList[index][7]}",
                                           ColorResources.grey777,
                                           12),
                                     ],

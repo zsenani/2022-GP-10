@@ -409,7 +409,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
             ),
           ),
           child: Padding(
-              padding: const EdgeInsets.only(top: 35),
+              padding: const EdgeInsets.only(top: 50),
               child: ListTile(
                   title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,7 +440,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                   ]))),
         ),
         Positioned(
-            bottom: 25,
+            bottom: 15,
             left: 0.5,
             right: 0.5,
             child: Container(
