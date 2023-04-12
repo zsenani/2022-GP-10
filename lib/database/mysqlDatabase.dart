@@ -14,17 +14,9 @@ class mysqlDatabase {
         user: 'b71432b615aa7b',
         password: '4b7ac2e7',
         db: 'heroku_2c29e35e35b17ca');
-    try {
-      conn = await MySqlConnection.connect(settings)
-          .timeout(const Duration(seconds: 900));
-    } catch (e) {
-      showDialog(
-          context: e,
-          builder: (ctx) => AlertDialog(
-                title: Text("$e"),
-                content: Text("You have raised a Alert Dialog Box"),
-              ));
-    }
+
+    conn = await MySqlConnection.connect(settings)
+        .timeout(const Duration(seconds: 900));
   }
 
   static Future<void> insertLab(
@@ -409,7 +401,7 @@ class mysqlDatabase {
     for (var row in visitH) {
       details.add('${row[0]}');
     }
-
+    details.add(pId);
     return details;
   }
 
@@ -446,7 +438,7 @@ class mysqlDatabase {
     for (var row in visitH) {
       details.add('${row[0]}');
     }
-
+    details.add(pId);
     return details;
   }
 

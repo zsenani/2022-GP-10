@@ -109,7 +109,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
       );
     } else {
       return Row(
-        children: [
+        children: const [
           SizedBox(
             width: 125,
           ),

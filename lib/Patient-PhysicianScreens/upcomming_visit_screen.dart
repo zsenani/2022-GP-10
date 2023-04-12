@@ -626,46 +626,60 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                       ),
                       Center(
                         child: Container(
-                          width: 100,
+                          width: 175,
                           height: 20,
                           // margin: EdgeInsets.all(25),
                           child: ElevatedButton(
                             child: const Text(
-                              'Update',
+                              'Update patient\'s info',
                               style: TextStyle(fontSize: 15),
                             ),
                             onPressed: () {
-                              if (patientHeight != "null" &&
-                                  hightController.text.isEmpty) {
-                                hightController.text = patientHeight;
-                              }
-                              if (patientWeight != "null" &&
-                                  weightController.text.isEmpty) {
-                                weightController.text = patientWeight;
-                              }
-                              if (patientBloodP != "null" &&
+                              if (hightController.text.isEmpty &&
+                                  weightController.text.isEmpty &&
                                   bloodPressController.text.isEmpty) {
-                                bloodPressController.text = patientBloodP;
-                              }
-                              validateH(hightController.text);
-                              validateP(bloodPressController.text);
-                              validateW(weightController.text);
-                              print("*****");
-                              print(errorP);
-                              if (isHNull && isWNull && isPNull) {
-                                print("###########");
-                                print(isHNull);
-                                print(isWNull);
-                                print(isPNull);
                                 alertUpdateError(context,
                                     "Please make sure that you fill the input fields");
-                              } else if (errorH == false &&
-                                  errorW == false &&
-                                  errorP == false) {
-                                alertDialogUpdate(context);
-                              } else {
-                                alertUpdateError(context,
-                                    "Please make sure that you entered digits in the fields");
+                              }
+                              if (hightController.text.isNotEmpty ||
+                                  weightController.text.isNotEmpty ||
+                                  bloodPressController.text.isNotEmpty) {
+                                if (patientHeight != "null" &&
+                                    hightController.text.isEmpty) {
+                                  hightController.text = patientHeight;
+                                }
+                                if (patientWeight != "null" &&
+                                    weightController.text.isEmpty) {
+                                  weightController.text = patientWeight;
+                                }
+                                if (patientBloodP != "null" &&
+                                    bloodPressController.text.isEmpty) {
+                                  bloodPressController.text = patientBloodP;
+                                }
+                                print(hightController.text.isNotEmpty);
+                                print(weightController.text.isNotEmpty);
+                                print(bloodPressController.text.isNotEmpty);
+
+                                validateH(hightController.text);
+                                validateP(bloodPressController.text);
+                                validateW(weightController.text);
+                                print("*****");
+                                print(errorP);
+                                if (isHNull && isWNull && isPNull) {
+                                  print("###########");
+                                  print(isHNull);
+                                  print(isWNull);
+                                  print(isPNull);
+                                  alertUpdateError(context,
+                                      "Please make sure that you fill the input fields");
+                                } else if (errorH == false &&
+                                    errorW == false &&
+                                    errorP == false) {
+                                  alertDialogUpdate(context);
+                                } else {
+                                  alertUpdateError(context,
+                                      "Please make sure that you entered digits in the fields");
+                                }
                               }
                             },
                           ),

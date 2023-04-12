@@ -549,7 +549,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                       const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("${patientInfor[3]}, $ageNow y",
+                          child: heavyText("${patientInfor[3]}, $age y",
                               ColorResources.grey777, 16)),
                       const SizedBox(height: 20),
                       Row(
