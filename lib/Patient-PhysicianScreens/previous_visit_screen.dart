@@ -124,7 +124,9 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
         maritalStatus = '${row[6]}';
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
-        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
+        if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
+          age = age - 1;
+        } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
           if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
           }
