@@ -184,7 +184,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             romanText(lDOB, ColorResources.grey777, 20),
-                            // const SizedBox(width: 10),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ),
@@ -199,8 +199,8 @@ class _LabProfilePageState extends State<LabProfilePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             romanText(
-                                '0' + lmobileNo, ColorResources.grey777, 20),
-                            // const SizedBox(width: 10),
+                                '0' + lmobileNo, ColorResources.grey777, 16),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ),
@@ -214,7 +214,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             romanText(lemail, ColorResources.grey777, 16),
-                            //const SizedBox(width: 10),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ),
@@ -228,7 +228,7 @@ class _LabProfilePageState extends State<LabProfilePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             romanText(lgender, ColorResources.grey777, 20),
-                            //const SizedBox(width: 10),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ),
@@ -242,13 +242,8 @@ class _LabProfilePageState extends State<LabProfilePage> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              width: 200,
-                              padding: EdgeInsets.only(left: 15),
-                              child:
-                                  romanText(labH, ColorResources.grey777, 14),
-                              // const SizedBox(width: 10),
-                            ),
+                            romanText(labH, ColorResources.grey777, 14),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ),

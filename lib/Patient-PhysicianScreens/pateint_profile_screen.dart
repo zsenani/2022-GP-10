@@ -86,8 +86,8 @@ class _patientProfilePage extends State<patientProfilePage> {
   }
 
   Widget loadingPage() {
-    return const Center(
-      child: CircularProgressIndicator(
+    return Center(
+      child: const CircularProgressIndicator(
         color: ColorResources.grey777,
       ),
     );

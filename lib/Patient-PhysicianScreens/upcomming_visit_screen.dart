@@ -110,9 +110,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         maritalStatus = '${row[6]}';
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
-        if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
-          age = age - 1;
-        } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
+        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
           if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
           }
@@ -626,60 +624,46 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                       ),
                       Center(
                         child: Container(
-                          width: 175,
+                          width: 100,
                           height: 20,
                           // margin: EdgeInsets.all(25),
                           child: ElevatedButton(
                             child: const Text(
-                              'Update patient\'s info',
+                              'Update',
                               style: TextStyle(fontSize: 15),
                             ),
                             onPressed: () {
-                              if (hightController.text.isEmpty &&
-                                  weightController.text.isEmpty &&
+                              if (patientHeight != "null" &&
+                                  hightController.text.isEmpty) {
+                                hightController.text = patientHeight;
+                              }
+                              if (patientWeight != "null" &&
+                                  weightController.text.isEmpty) {
+                                weightController.text = patientWeight;
+                              }
+                              if (patientBloodP != "null" &&
                                   bloodPressController.text.isEmpty) {
+                                bloodPressController.text = patientBloodP;
+                              }
+                              validateH(hightController.text);
+                              validateP(bloodPressController.text);
+                              validateW(weightController.text);
+                              print("*****");
+                              print(errorP);
+                              if (isHNull && isWNull && isPNull) {
+                                print("###########");
+                                print(isHNull);
+                                print(isWNull);
+                                print(isPNull);
                                 alertUpdateError(context,
                                     "Please make sure that you fill the input fields");
-                              }
-                              if (hightController.text.isNotEmpty ||
-                                  weightController.text.isNotEmpty ||
-                                  bloodPressController.text.isNotEmpty) {
-                                if (patientHeight != "null" &&
-                                    hightController.text.isEmpty) {
-                                  hightController.text = patientHeight;
-                                }
-                                if (patientWeight != "null" &&
-                                    weightController.text.isEmpty) {
-                                  weightController.text = patientWeight;
-                                }
-                                if (patientBloodP != "null" &&
-                                    bloodPressController.text.isEmpty) {
-                                  bloodPressController.text = patientBloodP;
-                                }
-                                print(hightController.text.isNotEmpty);
-                                print(weightController.text.isNotEmpty);
-                                print(bloodPressController.text.isNotEmpty);
-
-                                validateH(hightController.text);
-                                validateP(bloodPressController.text);
-                                validateW(weightController.text);
-                                print("*****");
-                                print(errorP);
-                                if (isHNull && isWNull && isPNull) {
-                                  print("###########");
-                                  print(isHNull);
-                                  print(isWNull);
-                                  print(isPNull);
-                                  alertUpdateError(context,
-                                      "Please make sure that you fill the input fields");
-                                } else if (errorH == false &&
-                                    errorW == false &&
-                                    errorP == false) {
-                                  alertDialogUpdate(context);
-                                } else {
-                                  alertUpdateError(context,
-                                      "Please make sure that you entered digits in the fields");
-                                }
+                              } else if (errorH == false &&
+                                  errorW == false &&
+                                  errorP == false) {
+                                alertDialogUpdate(context);
+                              } else {
+                                alertUpdateError(context,
+                                    "Please make sure that you entered digits in the fields");
                               }
                             },
                           ),

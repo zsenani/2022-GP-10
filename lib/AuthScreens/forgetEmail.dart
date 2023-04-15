@@ -60,6 +60,9 @@ class _ForgetEmailState extends State<ForgetEmail> {
                 decoration: BoxDecoration(
                   color: ColorResources.whiteF6F,
                   borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: ColorResources.greyA0A.withOpacity(0.2),
+                  ),
                 ),
                 child:
                     const Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -80,6 +83,9 @@ class _ForgetEmailState extends State<ForgetEmail> {
                   decoration: BoxDecoration(
                     color: ColorResources.whiteF6F,
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: ColorResources.greyA0A.withOpacity(0.2),
+                    ),
                   ),
                   child: const Icon(Icons.home_outlined,
                       color: ColorResources.grey777),

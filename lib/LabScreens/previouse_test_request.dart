@@ -85,6 +85,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
         children: [
           const SizedBox(height: 3),
           TextFormField(
+            keyboardType: TextInputType.number,
             onChanged: ((value) {
               setState(() {
                 prevpatientList.clear();

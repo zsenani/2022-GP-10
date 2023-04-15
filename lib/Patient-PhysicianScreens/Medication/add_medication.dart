@@ -583,25 +583,16 @@ class _AddMedicationState extends State<AddMedication> {
     int visitLength = await visits.length;
     int ArrayLength;
     List<int> medIds = [];
-    var results;
     for (var visit in visits) {
       isFilled2 = 0;
-      print('visits');
-      print('${visit[0]}');
-      print(visitId);
-      if ('${visit[0]}' == visitId) {
-        results = await conn.query(
-            'select medicationID from VisitMedication where visitID = ? ',
-            [int.parse('${visit[0]}')]);
-        print("result");
-        print(results);
-      } else {
-        results = await conn.query(
-            'select medicationID from VisitMedication where visitID = ? and endDate>?',
-            [int.parse('${visit[0]}'), DateTime.now().toUtc()]);
-        print("result");
-        print(results);
-      }
+      var results = await conn.query(
+          'select medicationID from VisitMedication where visitID = ? ',
+
+          ///and endDate>? , DateTime.now().toUtc()
+          [int.parse('${visit[0]}')]);
+      print("result");
+      print(results);
+
       print(int.parse('${visit[0]}'));
       ArrayLength = await results.length;
       if (ArrayLength != 0) {

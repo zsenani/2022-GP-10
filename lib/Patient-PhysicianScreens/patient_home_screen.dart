@@ -119,6 +119,14 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
   }
 
   void getData() async {
+    name = '';
+    gender = '';
+    bloodType = '';
+    nationalID = '';
+    DOB = '';
+    nationality = '';
+    maritalStatus = '';
+    age = 0;
     var user = await conn.query(
         'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus from Patient where nationalId=?',
         [int.parse(Id)]);
@@ -133,9 +141,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
         maritalStatus = '${row[6]}';
         //age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
-        if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
-          age = age - 1;
-        } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
+        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
           if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
           }
@@ -549,7 +555,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                       const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("${patientInfor[3]}, $age y",
+                          child: heavyText("${patientInfor[3]}, $ageNow y",
                               ColorResources.grey777, 16)),
                       const SizedBox(height: 20),
                       Row(

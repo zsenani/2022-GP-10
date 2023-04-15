@@ -153,32 +153,29 @@ class SearchResultsState extends State<SearchResults> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: PieChart(
-                      dataMap: pieCH,
-                      animationDuration: const Duration(milliseconds: 800),
-                      chartLegendSpacing: 40,
-                      chartRadius: MediaQuery.of(context).size.width / 3,
-                      colorList: colorList,
-                      initialAngleInDegree: 0,
-                      chartType: ChartType.disc,
-                      ringStrokeWidth: 32,
-                      legendOptions: const LegendOptions(
-                        showLegendsInRow: false,
-                        legendPosition: LegendPosition.right,
-                        showLegends: true,
-                        legendTextStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  PieChart(
+                    dataMap: pieCH,
+                    animationDuration: const Duration(milliseconds: 800),
+                    chartLegendSpacing: 20,
+                    chartRadius: MediaQuery.of(context).size.width / 2.5,
+                    colorList: colorList,
+                    initialAngleInDegree: 0,
+                    chartType: ChartType.disc,
+                    ringStrokeWidth: 32,
+                    legendOptions: const LegendOptions(
+                      showLegendsInRow: false,
+                      legendPosition: LegendPosition.right,
+                      showLegends: true,
+                      legendTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      chartValuesOptions: const ChartValuesOptions(
-                        showChartValueBackground: true,
-                        showChartValues: true,
-                        showChartValuesInPercentage: true,
-                        showChartValuesOutside: true,
-                        decimalPlaces: 1,
-                      ),
+                    ),
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValueBackground: true,
+                      showChartValues: true,
+                      showChartValuesInPercentage: true,
+                      showChartValuesOutside: true,
+                      decimalPlaces: 1,
                     ),
                   ),
                   const SizedBox(
@@ -193,7 +190,7 @@ class SearchResultsState extends State<SearchResults> {
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 25),
+                    padding: const EdgeInsets.only(right: 1),
                     child: Text(
                       "Physicians who diagnosed $diagnosis :",
                       textAlign: TextAlign.left,

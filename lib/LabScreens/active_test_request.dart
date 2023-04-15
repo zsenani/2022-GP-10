@@ -109,7 +109,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
       );
     } else {
       return Row(
-        children: const [
+        children: [
           SizedBox(
             width: 125,
           ),
@@ -126,6 +126,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
         children: [
           const SizedBox(height: 3),
           TextFormField(
+            keyboardType: TextInputType.number,
             onChanged: ((value) {
               setState(() {
                 activepatientList.clear();
