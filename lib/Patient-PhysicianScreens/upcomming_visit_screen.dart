@@ -33,6 +33,7 @@ bool isWNull = false;
 bool isPNull = false;
 List<int> visitsIds = [];
 int isFilled3 = 0;
+var age1 = 0;
 
 class UpCommingVisitScreen extends StatefulWidget {
   UpCommingVisitScreen(
@@ -60,6 +61,12 @@ class UpCommingVisitScreen extends StatefulWidget {
     visitDate = visitD;
     visitTime = visitT;
     visitId = vid;
+    age1 = DateTime.now().year - int.parse(patientAge.substring(0, 4));
+    if (int.parse(patientAge.substring(5, 7)) >= DateTime.now().month) {
+      if (int.parse(patientAge.substring(8, 10)) > DateTime.now().day) {
+        age1 = age1 - 1;
+      }
+    }
   }
   @override
   State<UpCommingVisitScreen> createState() => _UpCommingVisitScreenState();
@@ -477,203 +484,203 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           ),
         ),
         Positioned(
-            bottom: 9,
-            left: 0.5,
-            right: 0.5,
-            child: Container(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Container(
-                  height: 150,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    color: ColorResources.whiteF6F,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: ColorResources.grey9AA.withOpacity(0.25),
-                      width: 1,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 15),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient Name: " + patientName,
-                            ColorResources.grey777, 16),
-                      ),
-                      const SizedBox(height: 2),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("Patient ID: " + patientId,
-                            ColorResources.grey777, 16),
-                      ),
-                      const SizedBox(height: 2),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(patientGender + ", $patientDob y",
-                              ColorResources.grey777, 16)),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Image(
-                              image: AssetImage(Images.height),
-                              width: 20,
-                              height: 20),
-                          mediumText("Hieght: ", ColorResources.grey777, 12),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 9),
-                            child: SizedBox(
-                              height: 13,
-                              width: 35,
-                              child: TextField(
-                                controller: hightController,
-                                decoration: InputDecoration(
-                                  hintText: patientHeight == "null"
-                                      ? "---"
-                                      : patientHeight,
-                                  border: const UnderlineInputBorder(),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorH == false
-                                        ? const BorderSide(
-                                            color: ColorResources.grey777,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                  ),
-                                ),
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                              // romanText(patientHeight,
-                              //     ColorResources.grey777, 12, TextAlign.center),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Image(
-                            image: AssetImage(Images.weight),
-                            width: 17,
-                            height: 17,
-                          ),
-                          const SizedBox(width: 1),
-                          mediumText(" Weight: ", ColorResources.grey777, 12),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 9),
-                            child: SizedBox(
-                              height: 13,
-                              width: 30,
-                              child: TextField(
-                                controller: weightController,
-                                decoration: InputDecoration(
-                                  hintText: patientWeight == "null"
-                                      ? "---"
-                                      : patientWeight,
-                                  border: const UnderlineInputBorder(),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorW == false
-                                        ? const BorderSide(
-                                            color: ColorResources.greyA0A,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                  ),
-                                ),
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const Image(
-                            image: AssetImage(Images.pressurIcon),
-                            width: 20,
-                            height: 20,
-                          ),
-                          mediumText(
-                              " Blood pressure: ", ColorResources.grey777, 12),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 9),
-                            child: SizedBox(
-                              height: 13,
-                              width: 30,
-                              child: TextField(
-                                controller: bloodPressController,
-                                decoration: InputDecoration(
-                                  hintText: patientBloodP == "null"
-                                      ? "---"
-                                      : patientBloodP,
-                                  border: const UnderlineInputBorder(),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: errorP == false
-                                        ? const BorderSide(
-                                            color: ColorResources.grey777,
-                                            width: 1)
-                                        : const BorderSide(
-                                            color: Colors.red, width: 1),
-                                  ),
-                                ),
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                        child: Container(
-                          width: 100,
-                          height: 20,
-                          // margin: EdgeInsets.all(25),
-                          child: ElevatedButton(
-                            child: const Text(
-                              'Update',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            onPressed: () {
-                              if (patientHeight != "null" &&
-                                  hightController.text.isEmpty) {
-                                hightController.text = patientHeight;
-                              }
-                              if (patientWeight != "null" &&
-                                  weightController.text.isEmpty) {
-                                weightController.text = patientWeight;
-                              }
-                              if (patientBloodP != "null" &&
-                                  bloodPressController.text.isEmpty) {
-                                bloodPressController.text = patientBloodP;
-                              }
-                              validateH(hightController.text);
-                              validateP(bloodPressController.text);
-                              validateW(weightController.text);
-                              print("*****");
-                              print(errorP);
-                              if (isHNull && isWNull && isPNull) {
-                                print("###########");
-                                print(isHNull);
-                                print(isWNull);
-                                print(isPNull);
-                                alertUpdateError(context,
-                                    "Please make sure that you fill the input fields");
-                              } else if (errorH == false &&
-                                  errorW == false &&
-                                  errorP == false) {
-                                alertDialogUpdate(context);
-                              } else {
-                                alertUpdateError(context,
-                                    "Please make sure that you entered digits in the fields");
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+          bottom: 9,
+          left: 0.5,
+          right: 0.5,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Container(
+                height: 150,
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: ColorResources.whiteF6F,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: ColorResources.grey9AA.withOpacity(0.25),
+                    width: 1,
                   ),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      child: heavyText("Patient Name: " + patientName,
+                          ColorResources.grey777, 16),
+                    ),
+                    const SizedBox(height: 2),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      child: heavyText("Patient ID: " + patientId,
+                          ColorResources.grey777, 16),
+                    ),
+                    const SizedBox(height: 2),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("$patientGender , $age1 y",
+                            ColorResources.grey777, 16)),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Image(
+                            image: AssetImage(Images.height),
+                            width: 20,
+                            height: 20),
+                        mediumText("Hieght: ", ColorResources.grey777, 12),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 9),
+                          child: SizedBox(
+                            height: 13,
+                            width: 35,
+                            child: TextField(
+                              controller: hightController,
+                              decoration: InputDecoration(
+                                hintText: patientHeight == "null"
+                                    ? "---"
+                                    : patientHeight,
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorH == false
+                                      ? const BorderSide(
+                                          color: ColorResources.grey777,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                ),
+                              ),
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                            // romanText(patientHeight,
+                            //     ColorResources.grey777, 12, TextAlign.center),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Image(
+                          image: AssetImage(Images.weight),
+                          width: 17,
+                          height: 17,
+                        ),
+                        const SizedBox(width: 1),
+                        mediumText(" Weight: ", ColorResources.grey777, 12),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 9),
+                          child: SizedBox(
+                            height: 13,
+                            width: 30,
+                            child: TextField(
+                              controller: weightController,
+                              decoration: InputDecoration(
+                                hintText: patientWeight == "null"
+                                    ? "---"
+                                    : patientWeight,
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorW == false
+                                      ? const BorderSide(
+                                          color: ColorResources.greyA0A,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                ),
+                              ),
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Image(
+                          image: AssetImage(Images.pressurIcon),
+                          width: 20,
+                          height: 20,
+                        ),
+                        mediumText(
+                            " Blood pressure: ", ColorResources.grey777, 12),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 9),
+                          child: SizedBox(
+                            height: 13,
+                            width: 30,
+                            child: TextField(
+                              controller: bloodPressController,
+                              decoration: InputDecoration(
+                                hintText: patientBloodP == "null"
+                                    ? "---"
+                                    : patientBloodP,
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: errorP == false
+                                      ? const BorderSide(
+                                          color: ColorResources.grey777,
+                                          width: 1)
+                                      : const BorderSide(
+                                          color: Colors.red, width: 1),
+                                ),
+                              ),
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Container(
+                        width: 100,
+                        height: 20,
+                        // margin: EdgeInsets.all(25),
+                        child: ElevatedButton(
+                          child: const Text(
+                            'Update',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          onPressed: () {
+                            if (patientHeight != "null" &&
+                                hightController.text.isEmpty) {
+                              hightController.text = patientHeight;
+                            }
+                            if (patientWeight != "null" &&
+                                weightController.text.isEmpty) {
+                              weightController.text = patientWeight;
+                            }
+                            if (patientBloodP != "null" &&
+                                bloodPressController.text.isEmpty) {
+                              bloodPressController.text = patientBloodP;
+                            }
+                            validateH(hightController.text);
+                            validateP(bloodPressController.text);
+                            validateW(weightController.text);
+                            print("*****");
+                            print(errorP);
+                            if (isHNull && isWNull && isPNull) {
+                              print("###########");
+                              print(isHNull);
+                              print(isWNull);
+                              print(isPNull);
+                              alertUpdateError(context,
+                                  "Please make sure that you fill at least one of the input fields (Hight,Weight,Blood pressure)");
+                            } else if (errorH == false &&
+                                errorW == false &&
+                                errorP == false) {
+                              alertDialogUpdate(context);
+                            } else {
+                              alertUpdateError(context,
+                                  "Please make sure that you entered digits in the fields (Hight,Weight,Blood pressure)");
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ))
+            ),
+          ),
+        ),
       ],
     );
   }
