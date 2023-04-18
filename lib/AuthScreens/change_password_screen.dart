@@ -122,7 +122,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             color: ColorResources.greyA0A, width: 1)
                         : const BorderSide(color: Colors.red, width: 1),
                   ),
-                  hintText: "Enter your current password",
+                  hintText: "Enter your new password",
                   suffixIcon: IconButton(
                     onPressed: () => updatePasswordStatus("password"),
                     icon: Icon(_isVisiblePassword

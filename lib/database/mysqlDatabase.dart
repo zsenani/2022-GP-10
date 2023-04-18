@@ -508,9 +508,13 @@ class mysqlDatabase {
         }
         oneRow.add(info[g][4]);
         oneRow.add(info[g][2]); //visit date
+        oneRow.add(info[g][3]);
+        print("hospital id ''''''''");
+        print(info[g][3]);
         print("oneRow ---------------");
         print(oneRow);
         visitUp.add(oneRow);
+
         print(visitUp);
       }
     }
