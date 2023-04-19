@@ -602,6 +602,7 @@ class _ActiveReqState extends State<ActiveReq> {
         vid: visitId,
         page: 'active',
         hosname: hospName,
+        hid: hospID,
       ),
     );
   }

@@ -236,15 +236,12 @@ class mysqlDatabase {
         [dosage, des, start, end, medId, vid]);
   }
 
-  static addTest(List<String> name, vid, String update, String hosName) async {
-    var hosId = await conn
-        .query('select idhospital from hospital where name = ?', [hosName]);
-    for (var row in hosId) {
-      hosId = "${row[0]}";
-    }
-    var testId;
-    print("hosName");
-    print(hosName);
+  static addTest(List<String> name, vid, String update, int hosId) async {
+    List<dynamic> testId = [];
+    var count = 0;
+    var TestId;
+    print("hosID");
+    print(hosId);
     List<dynamic> lab = [];
     var labs = await conn.query(
         'select nationalID from labspecialist where idHospital = ?', [hosId]);
@@ -253,18 +250,49 @@ class mysqlDatabase {
     }
     print(lab);
     name.forEach((element) async {
-      testId = await conn
+      print(element);
+      TestId = await conn
           .query('select idlabTest from LabTest where name = ?', [element]);
-      for (var row in testId) {
-        testId = "${row[0]}";
+      for (var row in TestId) {
+        testId.add("${row[0]}");
+        count++;
+        print(name.length);
+        print(count);
+        print("testId");
+        print(testId);
+        if (count == name.length) {
+          addOnVisitLabTest(testId, vid, update, lab);
+        }
       }
+    });
+  }
+
+  static addOnVisitLabTest(testId, vid, update, lab) {
+    var count = 0;
+    testId.forEach((tstid) async {
+      print(testId);
       var add = await conn.query(
           'insert into VisitLabTest(visitID, labTestID, status,isUpdated) values (?, ?, ?,?)',
-          [vid, testId, "active", update]);
+          [vid, int.parse(tstid), "active", update]);
+      print("add testId in visittest");
+      print(int.parse(tstid));
+      count++;
+      print(testId.length);
+      print(count);
+      if (count == testId.length) {
+        addOnLabspecialistLabTest(testId, vid, update, lab);
+      }
+    });
+  }
+
+  static addOnLabspecialistLabTest(testId, vid, update, lab) {
+    testId.forEach((tstid) async {
       lab.forEach((element) async {
         var add = await conn.query(
             'insert into labspecialistlabtest(idLabSpecialist, idLabTest) values (?,?)',
-            [int.parse(element), testId]);
+            [int.parse(element), int.parse(tstid)]);
+        print(int.parse(tstid));
+        print(int.parse(element));
       });
     });
   }

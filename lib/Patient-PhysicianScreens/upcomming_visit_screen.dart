@@ -25,6 +25,8 @@ String hospitalName = "";
 String visitDate = "";
 String visitTime = "";
 String visitId = '';
+String HospitalID = '';
+
 bool errorH = false;
 bool errorW = false;
 bool errorP = false;
@@ -48,7 +50,8 @@ class UpCommingVisitScreen extends StatefulWidget {
       String hospitalN,
       String visitD,
       String visitT,
-      String vid})
+      String vid,
+      String HID})
       : super(key: key) {
     patientId = patientID;
     patientName = patientN;
@@ -61,6 +64,7 @@ class UpCommingVisitScreen extends StatefulWidget {
     visitDate = visitD;
     visitTime = visitT;
     visitId = vid;
+    HospitalID = HID;
     age1 = DateTime.now().year - int.parse(patientAge.substring(0, 4));
     if (int.parse(patientAge.substring(5, 7)) >= DateTime.now().month) {
       if (int.parse(patientAge.substring(8, 10)) > DateTime.now().day) {
@@ -179,7 +183,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           idPhy: physicianId,
           r: 'UPphysician',
           vid: visitId,
-          hosName: hospitalName),
+          hosName: hospitalName,
+          hosid: HospitalID),
     },
     {
       "image": Images.list,
@@ -227,9 +232,11 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                   onTap: () {
                     Get.to(
                         TestRequest(
-                            vid: visitId,
-                            pid: int.parse(patientId),
-                            hosname: hospitalName),
+                          vid: visitId,
+                          pid: int.parse(patientId),
+                          hosname: hospitalName,
+                          hid: HospitalID,
+                        ),
                         arguments: 'back2');
                   },
                   child: Container(

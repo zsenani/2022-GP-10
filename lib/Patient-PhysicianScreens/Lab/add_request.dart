@@ -14,15 +14,18 @@ String visitId;
 String Page;
 bool isFirst = true;
 int patientID;
-String hospitalName;
+//String hospitalName;
+String hospitalID;
 
 class TestRequest extends StatefulWidget {
-  TestRequest({Key key, String vid, String page, int pid, String hosname})
+  TestRequest(
+      {Key key, String vid, String page, int pid, String hosname, String hid})
       : super(key: key) {
     visitId = vid;
     Page = page;
     patientID = pid;
-    hospitalName = hosname;
+    //   hospitalName = hosname;
+    hospitalID = hid;
   }
   State<TestRequest> createState() => _TestRequestState();
 }
@@ -42,10 +45,10 @@ class _TestRequestState extends State<TestRequest> {
   void add() {
     if (allArrayLength > _tests.length) {
       mysqlDatabase.addTest(
-          selectedTest, int.parse(visitId), 'yes', hospitalName);
+          selectedTest, int.parse(visitId), 'yes', int.parse(hospitalID));
     } else {
       mysqlDatabase.addTest(
-          selectedTest, int.parse(visitId), 'no', hospitalName);
+          selectedTest, int.parse(visitId), 'no', int.parse(hospitalID));
     }
 
     selectedTest.forEach((element) {
