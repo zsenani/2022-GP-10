@@ -236,19 +236,19 @@ class mysqlDatabase {
         [dosage, des, start, end, medId, vid]);
   }
 
-  static addTest(List<String> name, vid, String update, int hosId) async {
+static addTest(List<String> name, vid, String update, int hosId) async {
     List<dynamic> testId = [];
     var count = 0;
     var TestId;
     print("hosID");
     print(hosId);
-    List<dynamic> lab = [];
-    var labs = await conn.query(
-        'select nationalID from labspecialist where idHospital = ?', [hosId]);
-    for (var row in labs) {
-      lab.add("${row[0]}");
-    }
-    print(lab);
+    // List<dynamic> lab = [];
+    // var labs = await conn.query(
+    //     'select nationalID from labspecialist where idHospital = ?', [hosId]);
+    // for (var row in labs) {
+    //   lab.add("${row[0]}");
+    // }
+    // print(lab);
     name.forEach((element) async {
       print(element);
       TestId = await conn
@@ -261,13 +261,14 @@ class mysqlDatabase {
         print("testId");
         print(testId);
         if (count == name.length) {
-          addOnVisitLabTest(testId, vid, update, lab);
+          //addOnVisitLabTest(testId, vid, update, lab);
+          addOnVisitLabTest(testId, vid, update);
         }
       }
     });
   }
 
-  static addOnVisitLabTest(testId, vid, update, lab) {
+  static addOnVisitLabTest(testId, vid, update) {
     var count = 0;
     testId.forEach((tstid) async {
       print(testId);
@@ -279,23 +280,24 @@ class mysqlDatabase {
       count++;
       print(testId.length);
       print(count);
-      if (count == testId.length) {
-        addOnLabspecialistLabTest(testId, vid, update, lab);
-      }
+      // if (count == testId.length) {
+      //   addOnLabspecialistLabTest(testId, vid, update, lab);
+      // }
     });
   }
 
-  static addOnLabspecialistLabTest(testId, vid, update, lab) {
-    testId.forEach((tstid) async {
-      lab.forEach((element) async {
-        var add = await conn.query(
-            'insert into labspecialistlabtest(idLabSpecialist, idLabTest) values (?,?)',
-            [int.parse(element), int.parse(tstid)]);
-        print(int.parse(tstid));
-        print(int.parse(element));
-      });
-    });
-  }
+  // static addOnLabspecialistLabTest(testId, vid, update, lab) {
+  //   testId.forEach((tstid) async {
+  //     lab.forEach((element) async {
+  //       var add = await conn.query(
+  //           'insert into labspecialistlabtest(idLabSpecialist, idLabTest) values (?,?)',
+  //           [int.parse(element), int.parse(tstid)]);
+  //       print(int.parse(tstid));
+  //       print(int.parse(element));
+  //     });
+  //   });
+  // }
+
 
   static editHistory(type, List<String> row, pid) async {
     var data = '';
