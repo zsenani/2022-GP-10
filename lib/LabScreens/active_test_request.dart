@@ -34,7 +34,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
     ActiveTest1.clear();
     _loading = true;
 
-    ActiveTest1 = await mysqlDatabase.labTestReq(idLabSpe, "active");
+    ActiveTest1 = await mysqlDatabase.labTestReq("active");
     print("in lab spe active home");
     print(ActiveTest1.length);
     print(ActiveTest1);
@@ -78,7 +78,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   }
 
   Widget updated(index) {
-    for (int i = 12; i < ActiveTest1[index].length; i + 5) {
+    for (int i = 11; i < ActiveTest1[index].length; i + 5) {
       if (ActiveTest1[index][i] == "yes") {
         updated1 = true;
         break;
@@ -109,7 +109,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
       );
     } else {
       return Row(
-        children: [
+        children: const [
           SizedBox(
             width: 125,
           ),
@@ -203,7 +203,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                       child: InkWell(
                         onTap: () {
                           Get.to(ActiveTestDetails(
-                            vid: ActiveTest1[index][1],
+                            vid: ActiveTest1[index][0],
                             labid: labId,
                           ));
                         },
@@ -227,7 +227,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           RichText(
                                             text: TextSpan(
                                               text:
-                                                  "Visit ID: ${ActiveTest1[index][1]}",
+                                                  "Visit ID: ${ActiveTest1[index][0]}",
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,
@@ -238,7 +238,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           ),
                                           // update
 
-                                          updated(index)
+                                          //  updated(index)
                                         ],
                                       ),
                                       const SizedBox(height: 5),
@@ -306,7 +306,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
                                           RichText(
                                             text: TextSpan(
                                               text:
-                                                  "Visit ID: ${activepatientList[index][1]}",
+                                                  "Visit ID: ${activepatientList[index][0]}",
                                               style: TextStyle(
                                                 fontFamily: TextFontFamily
                                                     .AVENIR_LT_PRO_ROMAN,

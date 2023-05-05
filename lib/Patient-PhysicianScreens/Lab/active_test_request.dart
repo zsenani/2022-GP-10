@@ -31,7 +31,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   }
 
   Future ActiveTest(idLabSpe) async {
-    ActiveTest1 = await mysqlDatabase.labTestReq(idLabSpe, "active");
+    ActiveTest1 = await mysqlDatabase.labTestReq("active");
     print("in lab spe active home");
     print(ActiveTest1.length);
     print(ActiveTest1);

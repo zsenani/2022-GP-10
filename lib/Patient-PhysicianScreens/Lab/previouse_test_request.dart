@@ -31,7 +31,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   }
 
   Future previTest(idLabSpe) async {
-    prevTest = await mysqlDatabase.labTestReq(idLabSpe, "Pre");
+    prevTest = await mysqlDatabase.labTestReq("Pre");
     print("in lab spe active home");
     print(prevTest.length);
     print(prevTest);

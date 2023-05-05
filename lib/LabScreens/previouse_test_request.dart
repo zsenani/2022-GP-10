@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/LabScreens/previose_test_details.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-
 import '../Utiils/images.dart';
 
 String labId;
@@ -33,7 +32,8 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   Future previTest(idLabSpe) async {
     prevTest.clear();
     _loading = true;
-    prevTest = await mysqlDatabase.labTestReq(idLabSpe, "Pre");
+    prevTest = await mysqlDatabase.labTestReq("Pre");
+
     print("in lab spe active home");
     print(prevTest.length);
     print(prevTest);
