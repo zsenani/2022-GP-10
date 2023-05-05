@@ -236,7 +236,7 @@ class mysqlDatabase {
         [dosage, des, start, end, medId, vid]);
   }
 
-static addTest(List<String> name, vid, String update, int hosId) async {
+  static addTest(List<String> name, vid, String update, int hosId) async {
     List<dynamic> testId = [];
     var count = 0;
     var TestId;
@@ -286,7 +286,7 @@ static addTest(List<String> name, vid, String update, int hosId) async {
     });
   }
 
-  // static addOnLabspecialistLabTest(testId, vid, update, lab) {
+  // static addOnLabspecialistLabTest(testId, lab) {
   //   testId.forEach((tstid) async {
   //     lab.forEach((element) async {
   //       var add = await conn.query(
@@ -297,7 +297,6 @@ static addTest(List<String> name, vid, String update, int hosId) async {
   //     });
   //   });
   // }
-
 
   static editHistory(type, List<String> row, pid) async {
     var data = '';
