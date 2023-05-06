@@ -80,7 +80,7 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   }
 
   Widget updated(index) {
-    for (int i = 11; i < ActiveTest1[index].length; i + 5) {
+    for (int i = 12; i < ActiveTest1[index].length; i + 5) {
       if (ActiveTest1[index][i] == "yes") {
         updated1 = true;
         break;
