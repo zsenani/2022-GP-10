@@ -360,9 +360,11 @@ class _LabHomePage2State extends State<LabHomePage2> {
                   children: [
                     ActiveTestReq(
                       id: ID,
+                      HID: hid,
                     ),
                     PreviouseTestReq(
                       id: ID,
+                      HID: hid,
                     ),
                   ],
                 ),

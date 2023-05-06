@@ -667,49 +667,34 @@ class mysqlDatabase {
     return testNU;
   }
 
-  static PrevLabTestReq() async {
-    List<String> idVisit = [];
-    List<String> distinctVisit = [];
-    List<List<String>> testReqInfo = [];
-    var labtest = await conn.query('select visitID from visitlabtest');
-    print("visit id :::::");
-
-    for (var row in labtest) {
-      idVisit.add('${row[0]}');
-    }
-    distinctVisit = idVisit.toSet().toList();
-    print(distinctVisit);
-
-    for (int i = 0; i < distinctVisit.length; i++) {
-      var tInfo = await conn.query(
-          'select labTestID,status,result,isUpdated from visitlabtest where visitID = ?',
-          [distinctVisit[i]]);
-      testReqInfo[i].add(distinctVisit[i]); //add visit id
-      for (var row in tInfo) {
-        testReqInfo[i].add('${row[0]}');
-        testReqInfo[i].add('${row[1]}');
-        testReqInfo[i].add('${row[2]}');
-        testReqInfo[i].add('${row[3]}');
-      }
-    }
-  }
-
-  static labTestReq(type) async {
+  static labTestReq(type, hosID) async {
     List<List<String>> testPre = [];
     List<List<String>> testActive = [];
     List<String> idLabTest = [];
     List<List<String>> LabTest = [];
     ////
     List<String> idVisit = [];
+    List<String> idVisit2 = [];
     List<String> distinctVisit = [];
     List<List<String>> testReqInfo = [];
-    var labtest = await conn.query('select visitID from visitlabtest');
+    var labtest = await conn.query(
+      'select visitID from visitlabtest',
+    );
+
     print("visit id :::::");
 
     for (var row in labtest) {
       idVisit.add('${row[0]}');
     }
-    distinctVisit = idVisit.toSet().toList();
+    for (int i = 0; i < idVisit.length; i++) {
+      var labtestH = await conn.query(
+          'select idvisit from visit where idHospital = ? and idvisit = ?',
+          [hosID, idVisit[i]]);
+    }
+    for (var row in labtest) {
+      idVisit2.add('${row[0]}');
+    }
+    distinctVisit = idVisit2.toSet().toList();
     print(distinctVisit);
 
     for (int i = 0; i < distinctVisit.length; i++) {
@@ -727,31 +712,6 @@ class mysqlDatabase {
         ]);
       }
     }
-
-    ///
-
-    // var labtest = await conn.query(
-    //     'select idLabTest from LabSpecialistLabTest where idLabSpecialist = ?',
-    //     [id]);
-
-    // for (var row in labtest) {
-    //   idLabTest.add('${row[0]}');
-    // }
-    // print("info id lab test");
-    // print(idLabTest);
-
-    // for (int g = 0; g < idLabTest.length; g++) {
-    //   var labVisit = await conn.query(
-    //       'select visitID,status,result,isUpdated from VisitLabTest where labTestID = ?',
-    //       [idLabTest[g]]);
-    //   for (var row in labVisit) {
-    //     LabTest.add(
-    //         [idLabTest[g], '${row[0]}', '${row[1]}', '${row[2]}', '${row[3]}']);
-    //   }
-    //   print("lab test visit statuse");
-    //print(LabTest);
-    //   print(LabTest.length);
-    // } //visitLabTest
 
     for (int g = 0; g < testReqInfo.length; g++) {
       List<String> activ = [];
