@@ -164,7 +164,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                       child: InkWell(
                         onTap: () {
                           Get.to(PreviouseTestDetails(
-                            vid: prevTest[index][1],
+                            vid: prevTest[index][0],
                             labid: labId,
                           ));
                         },
