@@ -402,13 +402,13 @@ class labResultState extends State<labResult> {
             print(idpatient);
             print(home.Id);
 
-            var add = await conn.query(
-                'insert into labspecialistlabtest(idLabSpecialist, idLabTest, Date, Time) values (?,?,?,?)',
-                [home.Id, testsIDglobal[i], currentDate, currentTime]);
             var rr = await conn.query(
                 'update Patient set bloodType=? where NationalID=?',
                 [_controller[i].text, idpatient]);
           }
+          var add = await conn.query(
+              'insert into labspecialistlabtest(idLabSpecialist, idLabTest, Date, Time) values (?,?,?,?)',
+              [home.Id, testsIDglobal[i], currentDate, currentTime]);
           var result = await conn.query(
               'update VisitLabTest set status=?, result=? where visitID =? and labTestID =?',
               ['done', _controller[i].text, visitID, testsIDglobal[i]]);
