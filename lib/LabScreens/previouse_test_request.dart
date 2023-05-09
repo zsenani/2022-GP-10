@@ -6,18 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/LabScreens/previose_test_details.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
+
 import '../Utiils/images.dart';
 
 String labId;
-String hosID;
 List<List<String>> prevTest = [];
 List<List<String>> prevpatientList = [];
 bool _loading = true;
 
 class PreviouseTestReq extends StatefulWidget {
-  PreviouseTestReq({Key key, String id, String HID}) : super(key: key) {
+  PreviouseTestReq({Key key, String id}) : super(key: key) {
     labId = id;
-    hosID = HID;
   }
   @override
   State<PreviouseTestReq> createState() => _PreviouseTestReqState();
@@ -27,15 +26,14 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   final TextEditingController idPatientprev = TextEditingController();
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      previTest(labId, hosID);
+      previTest(labId);
     });
   }
 
-  Future previTest(idLabSpe, hosID) async {
+  Future previTest(idLabSpe) async {
     prevTest.clear();
     _loading = true;
-    prevTest = await mysqlDatabase.labTestReq("Pre", hosID);
-
+    prevTest = await mysqlDatabase.labTestReq(idLabSpe, "Pre");
     print("in lab spe active home");
     print(prevTest.length);
     print(prevTest);
@@ -87,7 +85,6 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
         children: [
           const SizedBox(height: 3),
           TextFormField(
-            keyboardType: TextInputType.number,
             onChanged: ((value) {
               setState(() {
                 prevpatientList.clear();
@@ -164,7 +161,7 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
                       child: InkWell(
                         onTap: () {
                           Get.to(PreviouseTestDetails(
-                            vid: prevTest[index][0],
+                            vid: prevTest[index][1],
                             labid: labId,
                           ));
                         },

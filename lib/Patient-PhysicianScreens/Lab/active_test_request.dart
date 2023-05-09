@@ -1,4 +1,3 @@
-import 'package:medcore/AuthScreens/signup_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/Utiils/text_font_family.dart';
@@ -10,16 +9,14 @@ import '../../LabScreens/active_test_details.dart';
 import '../../Utiils/images.dart';
 
 String labId;
-String HosID;
 List<List<String>> ActiveTest1 = [];
 List<List<String>> activepatientList = [];
 bool _loading = true;
 String message = '';
 
 class ActiveTestReq extends StatefulWidget {
-  ActiveTestReq({Key key, String id, String HID}) : super(key: key) {
+  ActiveTestReq({Key key, String id}) : super(key: key) {
     labId = id;
-    hosID = HID;
   }
   @override
   State<ActiveTestReq> createState() => _ActiveTestReqState();
@@ -29,12 +26,12 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   final TextEditingController idPatientactive = TextEditingController();
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ActiveTest(labId, hosID);
+      ActiveTest(labId);
     });
   }
 
-  Future ActiveTest(idLabSpe, hosID) async {
-    ActiveTest1 = await mysqlDatabase.labTestReq("active", hosID);
+  Future ActiveTest(idLabSpe) async {
+    ActiveTest1 = await mysqlDatabase.labTestReq(idLabSpe, "active");
     print("in lab spe active home");
     print(ActiveTest1.length);
     print(ActiveTest1);

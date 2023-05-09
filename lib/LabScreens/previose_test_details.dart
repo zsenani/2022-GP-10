@@ -61,10 +61,6 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                 decoration: BoxDecoration(
                   color: ColorResources.whiteF6F,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: ColorResources.greyA0A.withOpacity(0.2),
-                    width: 1,
-                  ),
                 ),
                 child: const Center(
                   child: Icon(Icons.arrow_back, color: ColorResources.grey777),
@@ -74,20 +70,20 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
           ),
           title: mediumText("Test Request", ColorResources.grey777, 24),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10, top: 1),
-              child: InkWell(
-                onTap: () {
-                  Get.to(SignInScreen());
-                },
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  child: const Icon(Icons.logout_outlined,
-                      color: ColorResources.grey777),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(right: 10, top: 1),
+            //   child: InkWell(
+            //     onTap: () {
+            //       Get.to(SignInScreen());
+            //     },
+            //     child: Container(
+            //       height: 40,
+            //       width: 40,
+            //       child: const Icon(Icons.logout_outlined,
+            //           color: ColorResources.grey777),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         body: _loading == true ? loadingPage() : labTestinfo());
@@ -223,18 +219,19 @@ class PreviouseTestDetailsState extends State<PreviouseTestDetails> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
+                          bookText("Patient's ID   :   ",
+                              ColorResources.greyA0A, 16),
+                          mediumText(testInfo[7], ColorResources.grey777, 16),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
                           bookText("Age      :   ", ColorResources.greyA0A, 16),
                           mediumText(testInfo[3], ColorResources.grey777, 16),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      // Row(
-                      //   children: [
-                      //     bookText("Phone   :   ", ColorResources.greyA0A, 16),
-                      //     mediumText(
-                      //         "+966 5668 44776", ColorResources.grey777, 16),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ],

@@ -24,7 +24,7 @@ class TestRequest extends StatefulWidget {
     visitId = vid;
     Page = page;
     patientID = pid;
-    //   hospitalName = hosname;
+    //hospitalName = hosname;
     hospitalID = hid;
   }
   State<TestRequest> createState() => _TestRequestState();
@@ -73,11 +73,14 @@ class _TestRequestState extends State<TestRequest> {
   var allResults;
   Tests() async {
     visitsIds.forEach((element) async {
-      results = await conn.query(
-          'select labTestID from VisitLabTest where visitID = ?', [element]);
-      print("element");
-
-      print(element);
+      if (element == int.parse(visitId)) {
+        results = await conn.query(
+            'select labTestID from VisitLabTest where visitID = ?', [element]);
+      } else {
+        results = await conn.query(
+            'select labTestID from VisitLabTest where visitID = ? and status=?',
+            [element, 'active']);
+      }
       ArrayLength = await results.length;
       if (element == int.parse(visitId)) {
         print("element");

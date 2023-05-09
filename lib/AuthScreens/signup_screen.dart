@@ -1247,7 +1247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         // Row(
                         //   mainAxisSize: MainAxisSize.min,
                         //   children: [
-                        //     CountryCodePicker(
+                        //     CodePicker(
                         //       onChanged: (CountryCode countryCode) {
                         //         nationalityController.text = countryCode.name;
                         //       },

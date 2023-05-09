@@ -492,16 +492,11 @@ class SearchScreenState extends State<SearchScreen> {
                         PhyIds = jsonD["physID"];
                         PhysicianInfor();
                         pieChart = jsonD["symptomsDic"];
-                        Iterable<String> key;
-                        pieChart.keys.forEach((element) {
-                          element.toString().replaceAll("_", " ");
-                        });
                         pieCH = Map.fromIterables(
                           pieChart.keys,
                           pieChart.values.map(
                               (e) => (double.tryParse(e.toString()) ?? 0.0)),
                         );
-                        print("hhhhhhhhhtttttttt");
                         print("pieCH");
                         print(pieCH);
                         setState(() {

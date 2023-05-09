@@ -11,8 +11,6 @@ import 'package:medcore/LabScreens/previouse_test_request.dart';
 import 'package:medcore/LabScreens/lab_profile_screen.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
 
-import '../AuthScreens/signin_screen.dart';
-
 String Id;
 bool _loading = true;
 
@@ -214,39 +212,19 @@ class _LabHomePage2State extends State<LabHomePage2> {
           children: [
             Column(
               children: [
-                Row(
-                  children: [
-                    Container(
-                      padding:
-                          const EdgeInsets.only(left: 25, top: 70, bottom: 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "\n" + greeting() + ' $labName',
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                        ),
+                Container(
+                  padding: const EdgeInsets.only(left: 25, top: 70, bottom: 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "\n" + greeting() + ' $labName',
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 45, top: 90),
-                      child: InkWell(
-                        onTap: () {
-                          // Get.to(SignInScreen());
-                          showAlertDialogLog(context);
-                        },
-                        child: const SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: Icon(Icons.logout_outlined,
-                              color: Color.fromARGB(255, 86, 90, 123)),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 // padding: const EdgeInsets.only(left: 25, top: 24, right: 5),
                 Container(
@@ -360,11 +338,9 @@ class _LabHomePage2State extends State<LabHomePage2> {
                   children: [
                     ActiveTestReq(
                       id: ID,
-                      HID: hid,
                     ),
                     PreviouseTestReq(
                       id: ID,
-                      HID: hid,
                     ),
                   ],
                 ),
@@ -373,50 +349,6 @@ class _LabHomePage2State extends State<LabHomePage2> {
           ),
         ),
       ),
-    );
-  }
-
-  showAlertDialogLog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: const Text(
-        "Cancel",
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      onPressed: () => Navigator.pop(context),
-    );
-    Widget continueButton = TextButton(
-      child: const Text(
-        "Yes",
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      onPressed: () {
-        Get.to(SignInScreen(
-          role: "hospital",
-        ));
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text("Logout"),
-      content: const Text("Are you sure you want to logout?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }

@@ -1,13 +1,11 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:medcore/LabScreens/edit_profile_screen.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medcore/database/mysqlDatabase.dart';
-import 'lab_home_screen.dart' as home;
-import 'package:intl/intl.dart';
+import 'lab_home_screen.dart';
 
 String visitID;
 String LabSpID;
@@ -153,7 +151,7 @@ class labResultState extends State<labResult> {
               padding: const EdgeInsets.only(right: 10, top: 1),
               child: InkWell(
                 onTap: () {
-                  Get.to(home.LabHomePage1(
+                  Get.to(LabHomePage1(
                     id: LabSpID,
                   ));
                 },
@@ -392,28 +390,19 @@ class labResultState extends State<labResult> {
         ),
       ),
       onPressed: () async {
-        String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-        print(currentDate);
-        String currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
-        print(currentTime);
         for (int i = 0; i < testNamesGlabal.length; i++) {
           if (testNamesGlabal[i] == 'ABO') {
             print('cocococ');
             print(idpatient);
-            print(home.Id);
-
             var rr = await conn.query(
                 'update Patient set bloodType=? where NationalID=?',
                 [_controller[i].text, idpatient]);
           }
-          var add = await conn.query(
-              'insert into labspecialistlabtest(idLabSpecialist, idLabTest, Date, Time) values (?,?,?,?)',
-              [home.Id, testsIDglobal[i], currentDate, currentTime]);
           var result = await conn.query(
               'update VisitLabTest set status=?, result=? where visitID =? and labTestID =?',
               ['done', _controller[i].text, visitID, testsIDglobal[i]]);
         }
-        Get.to(home.LabHomePage1(
+        Get.to(LabHomePage1(
           id: LabSpID,
         ));
       },

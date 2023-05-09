@@ -441,7 +441,8 @@ class PreviousReqState extends State<PreviousReq> {
                                                                           .toString(),
                                                                       role:
                                                                           'patient'),
-                                                                )
+                                                                  arguments:
+                                                                      'active')
                                                               : Get.to(
                                                                   showlabResult(
                                                                       vid: toDayList[
@@ -452,7 +453,8 @@ class PreviousReqState extends State<PreviousReq> {
                                                                           idPhysician,
                                                                       role:
                                                                           'physician'),
-                                                                );
+                                                                  arguments:
+                                                                      'active');
                                                         },
                                                             "View",
                                                             const Color

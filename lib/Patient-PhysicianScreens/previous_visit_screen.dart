@@ -23,7 +23,6 @@ String patientBloodP = "";
 String hospitalName = "";
 String visitDate = "";
 String visitTime = "";
-var age1 = 0;
 
 int visitId;
 
@@ -53,12 +52,6 @@ class PreviousVisitScreen extends StatefulWidget {
     visitDate = visitD;
     visitTime = visitT;
     visitId = visitID;
-    age1 = DateTime.now().year - int.parse(patientAge.substring(0, 4));
-    if (int.parse(patientAge.substring(5, 7)) >= DateTime.now().month) {
-      if (int.parse(patientAge.substring(8, 10)) > DateTime.now().day) {
-        age1 = age1 - 1;
-      }
-    }
   }
   @override
   State<PreviousVisitScreen> createState() => _PreviousVisitScreenState();
@@ -131,7 +124,9 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
         maritalStatus = '${row[6]}';
         // age = '${row[7]}';
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
-        if (int.parse(DOB.substring(5, 7)) >= DateTime.now().month) {
+        if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
+          age = age - 1;
+        } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
           if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
             age = age - 1;
           }
@@ -483,7 +478,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                       const SizedBox(height: 2),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("$patientGender , $age1 y",
+                          child: heavyText(patientGender + ", $patientDob y",
                               ColorResources.grey777, 16)),
                       const SizedBox(height: 14),
                       Row(

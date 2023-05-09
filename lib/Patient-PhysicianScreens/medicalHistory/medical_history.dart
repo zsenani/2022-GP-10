@@ -15,37 +15,10 @@ import '../patient_home_screen.dart';
 String Id;
 bool loading = true;
 bool cancel = false;
-String mname = " ";
-String mgender = " ";
-String mbloodType = " ";
-String mnationalID = " ";
-String mDOB = " ";
-String mnationality = " ";
-String mmaritalStatus = " ";
-int mage;
 
 class MedicalHistory extends StatefulWidget {
-  MedicalHistory(
-      {Key key,
-      String id,
-      String Name,
-      String Gender,
-      String BloodType,
-      String NationalID,
-      String dob,
-      String Nationality,
-      String MaritalStatus,
-      int Age})
-      : super(key: key) {
+  MedicalHistory({Key key, String id}) : super(key: key) {
     Id = id;
-    mname = Name;
-    mgender = Gender;
-    mbloodType = BloodType;
-    mnationalID = NationalID;
-    mDOB = dob;
-    mnationality = Nationality;
-    mmaritalStatus = MaritalStatus;
-    mage = Age;
   }
 
   @override
@@ -81,7 +54,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
     for (var row in info) {
       print(Id);
       setState(() {
-        mbloodType = '${row[5]}';
+        bloodType = '${row[5]}';
         allergies = '${row[0]}';
         socialHistory = '${row[1]}';
         familyHistory = '${row[2]}';
@@ -113,10 +86,10 @@ class MedicalHistoryState extends State<MedicalHistory> {
     if (BloodController.text != "null") {
       var pNewBlood = await conn.query(
           'update Patient set bloodType=? where NationalID=?',
-          [BloodController.text, int.parse(Id)]);
+          [BloodController.text, int.parse(nationalID)]);
     }
     setState(() {
-      mbloodType = BloodController.text;
+      bloodType = BloodController.text;
       loading = false;
     });
   }
@@ -336,7 +309,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
   @override
   Widget build(BuildContext context) {
     print("bloodType");
-    print(mbloodType);
+    print(bloodType);
 
     return Scaffold(
       backgroundColor: ColorResources.whiteF6F,
@@ -448,7 +421,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("Name:   ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText(mname,
+                                            mediumText(name,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -457,7 +430,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("Age   :   ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText('${mage}',
+                                            mediumText('${age}',
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -466,7 +439,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("Nationality: ",
                                                 ColorResources.greyA0A, 15),
-                                            mediumText(mnationality + " ",
+                                            mediumText(nationality + " ",
                                                 ColorResources.grey777, 14),
                                           ],
                                         ),
@@ -475,7 +448,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("Gender :   ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText(mgender,
+                                            mediumText(gender,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -491,7 +464,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("ID : ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText(mnationalID,
+                                            mediumText(nationalID,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -500,7 +473,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("DOB: ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText(mDOB,
+                                            mediumText(DOB,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -509,7 +482,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                           children: [
                                             bookText("Marital Status: ",
                                                 ColorResources.greyA0A, 16),
-                                            mediumText(mmaritalStatus,
+                                            mediumText(maritalStatus,
                                                 ColorResources.grey777, 16),
                                           ],
                                         ),
@@ -555,12 +528,12 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                           DropDownDecoratorProps(
                                                         dropdownSearchDecoration:
                                                             InputDecoration(
-                                                          hintText: mbloodType ==
+                                                          hintText: bloodType ==
                                                                       'null' ||
-                                                                  mbloodType ==
+                                                                  bloodType ==
                                                                       ''
                                                               ? '--'
-                                                              : mbloodType,
+                                                              : bloodType,
                                                           hintStyle: const TextStyle(
                                                               color:
                                                                   ColorResources
@@ -588,18 +561,18 @@ class MedicalHistoryState extends State<MedicalHistory> {
                                                       },
                                                     ),
                                                   ),
-                                                if ((mbloodType == 'null' ||
-                                                        mbloodType == '') &&
+                                                if ((bloodType == 'null' ||
+                                                        bloodType == '') &&
                                                     role != "patient")
                                                   bookText(
                                                       '--',
                                                       ColorResources.grey777,
                                                       16),
-                                                if ((mbloodType != 'null' &&
-                                                        mbloodType != '') &&
+                                                if ((bloodType != 'null' &&
+                                                        bloodType != '') &&
                                                     role != "patient")
                                                   bookText(
-                                                      mbloodType,
+                                                      bloodType,
                                                       ColorResources.grey777,
                                                       16),
                                               ],
