@@ -658,161 +658,168 @@ class mysqlDatabase {
     return testNU;
   }
 
-  static labTestReq(id, type) async {
+  static labTestReq(type, hosID) async {
     List<List<String>> testPre = [];
     List<List<String>> testActive = [];
     List<String> idLabTest = [];
     List<List<String>> LabTest = [];
+    ////
+    List<String> idVisit = [];
+    List<String> idVisit2 = [];
+    List<String> distinctVisit = [];
+    List<List<String>> testReqInfo = [];
 
-    var labtest = await conn.query(
-        'select idLabTest from LabSpecialistLabTest where idLabSpecialist = ?',
-        [id]);
+    var labtest = await conn.query('select visitID from visitlabtest');
+    print("visit id :::::");
 
     for (var row in labtest) {
-      idLabTest.add('${row[0]}');
+      idVisit.add('${row[0]}');
     }
-    print("info id lab test");
-    print(idLabTest);
-
-    for (int g = 0; g < idLabTest.length; g++) {
-      var labVisit = await conn.query(
-          'select visitID,status,result,isUpdated from VisitLabTest where labTestID = ?',
-          [idLabTest[g]]);
-      for (var row in labVisit) {
-        LabTest.add(
-            [idLabTest[g], '${row[0]}', '${row[1]}', '${row[2]}', '${row[3]}']);
-      }
-      print("lab test visit statuse");
-      print(LabTest);
-      print(LabTest.length);
-    } //visitLabTest
-
-    for (int g = 0; g < LabTest.length; g++) {
-      List<String> activ = [];
-      List<String> prev = [];
-      if (LabTest[g][2] == "active") {
-        activ.add(LabTest[g][0]);
-        activ.add(LabTest[g][1]);
-        activ.add(LabTest[g][2]);
-        activ.add(LabTest[g][3]);
-        activ.add(LabTest[g][4]);
-        var patientid = await conn.query(
-            'select idPatient from Visit where idvisit = ?', [LabTest[g][1]]);
-        var patiId;
-        var patiN;
-        for (var row in patientid) {
-          patiId = '${row[0]}';
-        }
-        var pN = await conn
-            .query('select name from Patient where NationalID = ?', [patiId]);
-        for (var row in pN) {
-          patiN = '${row[0]}';
-        }
-        activ.add(patiN);
-        //////////cady
-        activ.add(patiId);
-        // physican id and name
-        var phyid = await conn.query(
-            'select idPhysician from Visit where idvisit = ?', [LabTest[g][1]]);
-        var phyId;
-        var phyName;
-        for (var row in phyid) {
-          phyId = '${row[0]}';
-        }
-        var phyN = await conn
-            .query('select name from Physician where NationalID = ?', [phyId]);
-        for (var row in phyN) {
-          phyName = '${row[0]}';
-        }
-        activ.add(phyName);
-
-        for (int j = g + 1; j < LabTest.length; j++) {
-          if (LabTest[g][1] == LabTest[j][1] && LabTest[j][2] == "active") {
-            activ.add(LabTest[j][0]);
-            activ.add(LabTest[j][1]);
-            activ.add(LabTest[j][2]);
-            activ.add(LabTest[j][3]);
-            activ.add(LabTest[j][4]);
-            LabTest.removeAt(j--);
-          }
-        }
-
-        print("before avtiv");
-        print(LabTest);
-        // LabTest.removeAt(g);
-        print("after avtiv");
-        print(LabTest);
-        print("activ list:");
-        print(activ);
-        testActive.add(activ);
-      } else if (LabTest[g][2] == "done") {
-        prev.add(LabTest[g][0]);
-        prev.add(LabTest[g][1]);
-        prev.add(LabTest[g][2]);
-        prev.add(LabTest[g][3]);
-        var patientid = await conn.query(
-            'select idPatient from Visit where idvisit = ?', [LabTest[g][1]]);
-        var patiId;
-        var patiN;
-        for (var row in patientid) {
-          patiId = '${row[0]}';
-        }
-        var pN = await conn
-            .query('select name from Patient where NationalID = ?', [patiId]);
-        for (var row in pN) {
-          patiN = '${row[0]}';
-        }
-        prev.add(patiN);
-        //////cady
-        prev.add(patiId);
-        // physican id and name
-        var phyid = await conn.query(
-            'select idPhysician from Visit where idvisit = ?', [LabTest[g][1]]);
-        var phyId;
-        var phyName;
-        for (var row in phyid) {
-          phyId = '${row[0]}';
-        }
-        var phyN = await conn
-            .query('select name from Physician where NationalID = ?', [phyId]);
-        for (var row in phyN) {
-          phyName = '${row[0]}';
-        }
-        prev.add(phyName);
-        for (int j = g + 1; j < LabTest.length; j++) {
-          if (LabTest[g][1] == LabTest[j][1] && LabTest[j][2] == "done") {
-            prev.add(LabTest[j][0]);
-            prev.add(LabTest[j][1]);
-            prev.add(LabTest[j][2]);
-            prev.add(LabTest[j][3]);
-            LabTest.removeAt(j--);
-          }
-        }
-
-        print("before prev");
-        print(LabTest);
-        // LabTest.removeAt(g);
-        print("after prev");
-        print(LabTest);
-        print("prev list:");
-        print(prev);
-        testPre.add(prev);
-      }
+    for (int i = 0; i < idVisit.length; i++) {
+      var labtestH = await conn.query(
+          'select idvisit from visit where idHospital = ? and idvisit = ?',
+          [hosID, idVisit[i]]);
     }
+    for (var row in labtest) {
+      idVisit2.add('${row[0]}');
+    }
+    distinctVisit = idVisit2.toSet().toList();
+    print(distinctVisit);
 
-    // testPre.add(prev);
-    print("results Pre:");
-    print(testPre);
-    // testActive.add(activ);
+    for (int i = 0; i < distinctVisit.length; i++) {
+      var tInfo = await conn.query(
+          'select labTestID,status,result,isUpdated from visitlabtest where visitID = ?',
+          [distinctVisit[i]]);
 
-    if (type == "Pre") {
-      print("resultsPre:");
+      for (var row in tInfo) {
+        testReqInfo.add([
+          distinctVisit[i],
+          '${row[0]}',
+          '${row[1]}',
+          '${row[2]}',
+          '${row[3]}'
+        ]);
+      } //visitLabTest
+
+      for (int g = 0; g < testReqInfo.length; g++) {
+        List<String> activ = [];
+        List<String> prev = [];
+        if (testReqInfo[g][2] == "active") {
+          activ.add(testReqInfo[g][0]);
+          activ.add(testReqInfo[g][1]);
+          activ.add(testReqInfo[g][2]);
+          activ.add(testReqInfo[g][3]);
+          activ.add(testReqInfo[g][4]);
+          var patientid = await conn.query(
+              'select idPatient from Visit where idvisit = ?',
+              [testReqInfo[g][0]]);
+          var patiId;
+          var patiN;
+          for (var row in patientid) {
+            patiId = '${row[0]}';
+          }
+          var pN = await conn
+              .query('select name from Patient where NationalID = ?', [patiId]);
+          for (var row in pN) {
+            patiN = '${row[0]}';
+          }
+          activ.add(patiN);
+          //////////cady
+          activ.add(patiId);
+          // physican id and name
+          var phyid = await conn.query(
+              'select idPhysician from Visit where idvisit = ?',
+              [testReqInfo[g][0]]);
+          var phyId;
+          var phyName;
+          for (var row in phyid) {
+            phyId = '${row[0]}';
+          }
+          var phyN = await conn.query(
+              'select name from Physician where NationalID = ?', [phyId]);
+          for (var row in phyN) {
+            phyName = '${row[0]}';
+          }
+          activ.add(phyName);
+
+          for (int j = g + 1; j < testReqInfo.length; j++) {
+            if (testReqInfo[g][0] == testReqInfo[j][0] &&
+                testReqInfo[j][2] == "active") {
+              activ.add(testReqInfo[j][0]);
+              activ.add(testReqInfo[j][1]);
+              activ.add(testReqInfo[j][2]);
+              activ.add(testReqInfo[j][3]);
+              activ.add(testReqInfo[j][4]);
+              testReqInfo.removeAt(j--);
+            }
+          }
+
+          print(activ);
+          testActive.add(activ);
+        } else if (testReqInfo[g][2] == "done") {
+          prev.add(testReqInfo[g][0]);
+          prev.add(testReqInfo[g][1]);
+          prev.add(testReqInfo[g][2]);
+          prev.add(testReqInfo[g][3]);
+          var patientid = await conn.query(
+              'select idPatient from Visit where idvisit = ?',
+              [testReqInfo[g][0]]);
+          var patiId;
+          var patiN;
+          for (var row in patientid) {
+            patiId = '${row[0]}';
+          }
+          var pN = await conn
+              .query('select name from Patient where NationalID = ?', [patiId]);
+          for (var row in pN) {
+            patiN = '${row[0]}';
+          }
+          prev.add(patiN);
+          //////cady
+          prev.add(patiId);
+          // physican id and name
+          var phyid = await conn.query(
+              'select idPhysician from Visit where idvisit = ?',
+              [testReqInfo[g][0]]);
+          var phyId;
+          var phyName;
+          for (var row in phyid) {
+            phyId = '${row[0]}';
+          }
+          var phyN = await conn.query(
+              'select name from Physician where NationalID = ?', [phyId]);
+          for (var row in phyN) {
+            phyName = '${row[0]}';
+          }
+          prev.add(phyName);
+          for (int j = g + 1; j < testReqInfo.length; j++) {
+            if (testReqInfo[g][0] == testReqInfo[j][0] &&
+                testReqInfo[j][2] == "done") {
+              prev.add(testReqInfo[j][0]);
+              prev.add(testReqInfo[j][1]);
+              prev.add(testReqInfo[j][2]);
+              prev.add(testReqInfo[j][3]);
+              testReqInfo.removeAt(j--);
+            }
+          }
+
+          print(prev);
+          testPre.add(prev);
+        }
+      }
+
+      print("results Pre:");
       print(testPre);
-      return testPre;
-    } else if (type == "active") {
-      print("active test:");
-      print(testActive);
-      return testActive;
+
+      if (type == "Pre") {
+        print("resultsPre:");
+        print(testPre);
+        return testPre;
+      } else if (type == "active") {
+        print("active test:");
+        print(testActive);
+        return testActive;
+      }
     }
   }
 

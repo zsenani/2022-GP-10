@@ -9,14 +9,16 @@ import 'package:medcore/database/mysqlDatabase.dart';
 import 'package:medcore/Utiils/images.dart';
 
 String labId;
+String hosID;
 List<List<String>> prevTest = [];
 List<List<String>> prevpatientList = [];
 bool _loading = true;
 String message = '';
 
 class PreviouseTestReq extends StatefulWidget {
-  PreviouseTestReq({Key key, String id}) : super(key: key) {
+  PreviouseTestReq({Key key, String id, String HID}) : super(key: key) {
     labId = id;
+    hosID = HID;
   }
   @override
   State<PreviouseTestReq> createState() => _PreviouseTestReqState();
@@ -26,12 +28,12 @@ class _PreviouseTestReqState extends State<PreviouseTestReq> {
   final TextEditingController idPatientprev = TextEditingController();
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      previTest(labId);
+      previTest(labId, hosID);
     });
   }
 
-  Future previTest(idLabSpe) async {
-    prevTest = await mysqlDatabase.labTestReq(idLabSpe, "Pre");
+  Future previTest(idLabSpe, hosID) async {
+    prevTest = await mysqlDatabase.labTestReq("Pre", hosID);
     print("in lab spe active home");
     print(prevTest.length);
     print(prevTest);

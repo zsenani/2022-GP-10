@@ -9,14 +9,16 @@ import '../../LabScreens/active_test_details.dart';
 import '../../Utiils/images.dart';
 
 String labId;
+String hosID;
 List<List<String>> ActiveTest1 = [];
 List<List<String>> activepatientList = [];
 bool _loading = true;
 String message = '';
 
 class ActiveTestReq extends StatefulWidget {
-  ActiveTestReq({Key key, String id}) : super(key: key) {
+  ActiveTestReq({Key key, String id, String HID}) : super(key: key) {
     labId = id;
+    hosID = HID;
   }
   @override
   State<ActiveTestReq> createState() => _ActiveTestReqState();
@@ -26,12 +28,12 @@ class _ActiveTestReqState extends State<ActiveTestReq> {
   final TextEditingController idPatientactive = TextEditingController();
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ActiveTest(labId);
+      ActiveTest(labId, hosID);
     });
   }
 
-  Future ActiveTest(idLabSpe) async {
-    ActiveTest1 = await mysqlDatabase.labTestReq(idLabSpe, "active");
+  Future ActiveTest(idLabSpe, hosID) async {
+    ActiveTest1 = await mysqlDatabase.labTestReq("active", hosID);
     print("in lab spe active home");
     print(ActiveTest1.length);
     print(ActiveTest1);

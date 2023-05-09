@@ -155,9 +155,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   const SizedBox(height: 5),
                   if (errorPass == true)
                     Padding(
-                      padding: const EdgeInsets.only(right: 185),
-                      child:
-                          mediumText("Enter a valid password", Colors.red, 16),
+                      padding: const EdgeInsets.only(right: 30),
+                      child: mediumText(
+                          "Password should be at least 8 characters one uppercase, lowercase characters, one digit and special character",
+                          Colors.red,
+                          15),
                     ),
                   if (errorEq == true)
                     Padding(
