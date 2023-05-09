@@ -116,6 +116,7 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       patient(Id);
     });
+        getData();
   }
 
   void getData() async {
@@ -276,10 +277,18 @@ class PatientVisitScreenState extends State<PatientVisitScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   InkWell(
                     onTap: () {
-                      getData();
+                         //getData();
                       Get.to(
                           MedicalHistory(
                             id: Id,
+                            Name: name,
+                            Gender: gender,
+                            BloodType: bloodType,
+                            NationalID: nationalID,
+                            dob: DOB,
+                            Nationality: nationality,
+                            MaritalStatus: maritalStatus,
+                            Age: age,
                             //page: 'PatientHomeScreen()',
                           ),
                           arguments: "patient");
