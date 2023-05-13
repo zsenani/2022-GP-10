@@ -38,18 +38,9 @@ class _ActiveVisitState extends State<ActiveVisit> {
     activeVisit.clear();
 
     _loading = true;
-    //activeVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Up");
     activeVisit = await mysqlDatabase.PhysicianActiveVisit(idVisit);
     print("in visit");
     print(activeVisit);
-    // print(activeVisit[0][0]);
-    for (int i = 0; i < activeVisit.length; i++) {
-      activeVisit.sort((b, a) {
-        var adate = a[i];
-        var bdate = b[i];
-        return -adate.compareTo(bdate);
-      });
-    }
 
     for (int i = 0; i < activeVisit.length; i++) {
       print("loop today list");

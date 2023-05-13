@@ -476,7 +476,7 @@ class mysqlDatabase {
     List<List<String>> info = [];
 
     var phyVisit = await conn.query(
-        'select idvisit,date,time,idHospital,idPatient from Visit where idPhysician = ?',
+        'select idvisit,date,time,idHospital,idPatient from Visit where idPhysician = ? order by date ASC',
         [id]);
 
     for (int g = 0; g < phyVisit.length; g++) {
@@ -546,7 +546,7 @@ class mysqlDatabase {
     List<List<String>> info = [];
 
     var phyVisit = await conn.query(
-        'select idvisit,date,time,idHospital,idPatient from Visit where idPhysician = ?',
+        'select idvisit,date,time,idHospital,idPatient from Visit where idPhysician = ? order by date DESC',
         [id]);
 
     for (int g = 0; g < phyVisit.length; g++) {

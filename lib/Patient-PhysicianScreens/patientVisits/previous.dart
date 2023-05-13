@@ -34,13 +34,7 @@ class _PreviousVisitState extends State<PreviousVisit> {
     print("in visit");
     print(preVisit.length);
     print(preVisit);
-    // for (int i = 0; i < preVisit.length; i++) {
-    //   preVisit.sort((a, b) {
-    //     var adate = a[i][0];
-    //     var bdate = b[i][0];
-    //     return -bdate.compareTo(adate);
-    //   });
-    // }
+
     setState(() {
       _loading = false;
     });

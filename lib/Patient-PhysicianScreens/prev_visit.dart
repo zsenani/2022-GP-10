@@ -38,14 +38,7 @@ class _PreVisitListState extends State<PreVisitList> {
     previouseVisit = await mysqlDatabase.PhysicianPrevVisit(idVisit);
     print("in visit");
     print(previouseVisit.length);
-    // print(previouseVisit[0][1]);
-    for (int i = 0; i < previouseVisit.length; i++) {
-      previouseVisit.sort((a, b) {
-        var adate = a[i];
-        var bdate = b[i];
-        return -adate.compareTo(bdate);
-      });
-    }
+
     setState(() {
       _loading = false;
     });
