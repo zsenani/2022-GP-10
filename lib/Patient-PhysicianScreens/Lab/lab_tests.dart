@@ -136,7 +136,7 @@ class _labTestsState extends State<labTests> {
                 controller: tabBarController.controller,
                 children: [
                   ActiveReq(vid: visitId, role: role),
-                  PreviousReq()
+                  PreviousReq(vid: visitId,)
                 ], // pages,
               ),
             ),
