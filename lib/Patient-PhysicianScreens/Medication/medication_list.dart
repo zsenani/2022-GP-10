@@ -90,64 +90,74 @@ class MedicationList extends StatelessWidget {
   }
 
   Widget HeaderWidget() {
-    print(
-        '##################################################################3');
+    print('#################################################################3');
     print(patientfile);
-    return Padding(
-      padding: const EdgeInsets.only(top: 60, left: 12),
-      child: Row(
-        children: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(
+          width: 10,
+        ),
+        InkWell(
+          onTap: () {
+            if (role == 'patient') {
+              Get.back();
+            } else if (patientfile == "patientfile") {
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+            } else {
+              Get.back();
+            }
+          },
+          child: const SizedBox(
+            height: 40,
+            width: 40,
+            child: Center(
+              child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+            ),
+          ),
+        ),
+        Flexible(
+          flex: 10,
+          child: HeaderName(),
+        ),
+        // const SizedBox(width: 60),
+        // heavyText("Medication List", ColorResources.green009, 30),
+        if (role != "patient")
           InkWell(
             onTap: () {
-              if (role == 'patient') {
-                Get.back();
-              } else if (patientfile == "patientfile") {
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-              } else {
-                Get.back();
-              }
+              Get.to(HomeScreen(id: idPhysician));
             },
-            child: Container(
-              height: 40,
-              width: 20,
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.white.withOpacity(0.2),
-                  width: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, left: 30, bottom: 10),
+              child: Container(
+                height: 60,
+                width: 60,
+                child: const Center(
+                  child:
+                      Icon(Icons.home_outlined, color: ColorResources.grey777),
                 ),
-              ),
-              child: const Center(
-                child: Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
             ),
           ),
-          const SizedBox(width: 60),
-          heavyText("Medication List", ColorResources.green009, 30),
-          if (role != "patient")
-            InkWell(
-              onTap: () {
-                Get.to(HomeScreen(id: idPhysician));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 5, left: 20),
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  child: const Center(
-                    child: Icon(Icons.home_outlined,
-                        color: ColorResources.grey777),
-                  ),
-                ),
-              ),
-            ),
-          if (role == "patient") const SizedBox(width: 60),
-        ],
-      ),
+        if (role == "patient") const SizedBox(width: 60),
+      ],
+    );
+  }
+
+  Widget HeaderName() {
+    return Stack(
+      children: [
+        Container(
+          height: 80,
+          width: Get.width,
+          padding: const EdgeInsets.only(top: 25, left: 50),
+          child: heavyText("Medication List", ColorResources.green009, 30),
+        ),
+      ],
     );
   }
 }

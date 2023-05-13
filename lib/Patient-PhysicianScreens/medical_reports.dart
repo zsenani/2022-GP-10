@@ -305,54 +305,82 @@ class MedicalReportsState extends State<MedicalReports> {
   }
 
   Widget HeaderWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 12),
-      child: Row(
-        children: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(
+          width: 10,
+        ),
+        InkWell(
+          onTap: () {
+            //Get.to(HomeScreen());
+            toDayList.clear();
+            Navigator.of(context).pop();
+          },
+          child: const SizedBox(
+            height: 40,
+            width: 40,
+            child: Center(
+              child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+            ),
+          ),
+          // Container(
+          //   height: 40,
+          //   width: 20,
+          //   decoration: BoxDecoration(
+          //     color: ColorResources.whiteF6F,
+          //     borderRadius: BorderRadius.circular(10),
+          //     border: Border.all(
+          //       color: ColorResources.white.withOpacity(0.2),
+          //       width: 1,
+          //     ),
+          //   ),
+          //   child: const Center(
+          //     child: Icon(Icons.arrow_back, color: ColorResources.grey777),
+          //   ),
+          // ),
+        ),
+        // const SizedBox(width: 50),
+        // heavyText("Medical Reports", ColorResources.green009, 30),
+        // SizedBox(
+        //   width: 15,
+        // ),
+        Flexible(
+          flex: 10,
+          child: HeaderName(),
+        ),
+        if (role != "patient")
           InkWell(
             onTap: () {
-              //Get.to(HomeScreen());
-              toDayList.clear();
-              Navigator.of(context).pop();
+              Get.to(HomeScreen(id: idPhysician));
             },
-            child: Container(
-              height: 40,
-              width: 20,
-              decoration: BoxDecoration(
-                color: ColorResources.whiteF6F,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: ColorResources.white.withOpacity(0.2),
-                  width: 1,
+            child: const Padding(
+              padding: EdgeInsets.only(top: 10, left: 28, bottom: 10),
+              child: SizedBox(
+                height: 60,
+                width: 60,
+                child: Center(
+                  child:
+                      Icon(Icons.home_outlined, color: ColorResources.grey777),
                 ),
-              ),
-              child: const Center(
-                child: Icon(Icons.arrow_back, color: ColorResources.grey777),
               ),
             ),
           ),
-          const SizedBox(width: 50),
-          heavyText("Medical Reports", ColorResources.green009, 30),
-          if (role != "patient")
-            InkWell(
-              onTap: () {
-                Get.to(HomeScreen(id: idPhysician));
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 20),
-                child: SizedBox(
-                  height: 60,
-                  width: 60,
-                  child: Center(
-                    child: Icon(Icons.home_outlined,
-                        color: ColorResources.grey777),
-                  ),
-                ),
-              ),
-            ),
-          if (role == "patient") const SizedBox(width: 60),
-        ],
-      ),
+        if (role == "patient") const SizedBox(width: 60),
+      ],
+    );
+  }
+
+  Widget HeaderName() {
+    return Stack(
+      children: [
+        Container(
+          height: 80,
+          width: Get.width,
+          padding: const EdgeInsets.only(top: 25, left: 43),
+          child: heavyText("Medical Reports", ColorResources.green009, 30),
+        ),
+      ],
     );
   }
 }

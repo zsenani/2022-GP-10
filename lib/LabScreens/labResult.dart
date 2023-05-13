@@ -1,4 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/services.dart';
 import 'package:medcore/Utiils/colors.dart';
 import 'package:medcore/Utiils/common_widgets.dart';
 import 'package:medcore/main.dart';
@@ -297,6 +298,10 @@ class labResultState extends State<labResult> {
                                         )
                                       : TextFormField(
                                           keyboardType: TextInputType.number,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp('[0-9]')),
+                                          ],
                                           controller: _controller[index],
                                           decoration: InputDecoration(
                                             //  floatingLabelStyle: TextStyle(),

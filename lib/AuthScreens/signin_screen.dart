@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:medcore/AuthScreens/forgetEmail.dart';
 import 'package:medcore/AuthScreens/otp.dart';
 import 'package:medcore/Controller/variable_controller.dart';
@@ -213,6 +214,10 @@ class _SignInScreenState extends State<SignInScreen> {
                             TextFormField(
                               controller: idController,
                               keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                              ],
                               decoration: InputDecoration(
                                 hintText: "Enter ID",
                                 hintStyle: TextStyle(
