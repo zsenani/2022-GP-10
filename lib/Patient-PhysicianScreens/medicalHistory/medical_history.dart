@@ -90,6 +90,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
     }
     setState(() {
       bloodType = BloodController.text;
+      BloodController.clear();
       loading = false;
     });
   }
