@@ -120,7 +120,9 @@ class _ActiveVisitState extends State<ActiveVisit> {
                       patientW: todayVisits[index][7],
                       vid: todayVisits[index][0],
                       HID: todayVisits[index][11],
+                      PhyID: physicianId,
                     ));
+
                     var visits = await conn.query(
                         'select idvisit from Visit where idPatient = ?',
                         [todayVisits[index][9]]);

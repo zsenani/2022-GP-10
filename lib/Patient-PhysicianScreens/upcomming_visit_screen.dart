@@ -2,6 +2,7 @@ import 'package:medcore/Patient-PhysicianScreens/Lab/add_request.dart';
 import 'package:medcore/Patient-PhysicianScreens/Lab/lab_tests.dart';
 import 'package:medcore/Patient-PhysicianScreens/Medication/medication_list.dart';
 import 'package:medcore/Patient-PhysicianScreens/active_visit.dart';
+import 'package:medcore/Patient-PhysicianScreens/home_screen.dart';
 import 'package:medcore/Patient-PhysicianScreens/medicalHistory/medical_history.dart';
 import 'package:medcore/Patient-PhysicianScreens/medical_reports.dart';
 import 'package:medcore/Patient-PhysicianScreens/write_diagnose.dart';
@@ -32,10 +33,12 @@ bool errorP = false;
 bool isHNull = false;
 bool isWNull = false;
 bool isPNull = false;
+bool _loading;
 List<int> visitsIds = [];
 int isFilled3 = 0;
 var age1 = 0;
 String hid;
+String pid;
 
 class UpCommingVisitScreen extends StatefulWidget {
   UpCommingVisitScreen(
@@ -51,21 +54,20 @@ class UpCommingVisitScreen extends StatefulWidget {
       String visitD,
       String visitT,
       String vid,
-      String HID})
+      String HID,
+      String PhyID})
       : super(key: key) {
     patientId = patientID;
     patientName = patientN;
     patientGender = patientG;
     patientDob = DateTime.now().year - int.parse(patientAge.substring(0, 4));
-    patientHeight = patientH;
-    patientWeight = patientW;
-    patientBloodP = patientB;
     hospitalName = hospitalN;
     visitDate = visitD;
     visitTime = visitT;
     visitId = vid;
     HospitalID = HID;
     hid = HID;
+    pid = PhyID;
     age1 = DateTime.now().year - int.parse(patientAge.substring(0, 4));
     if (int.parse(patientAge.substring(5, 7)) > DateTime.now().month) {
       age1 = age1 - 1;
@@ -98,6 +100,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   }
 
   void getData() async {
+    _loading = true;
     name = '';
     gender = '';
     bloodType = '';
@@ -107,7 +110,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
     maritalStatus = '';
     age = 0;
     var user = await conn.query(
-        'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus from Patient where nationalId=?',
+        'select name,gender,bloodType,nationalID,DOB,nationality,maritalStatus,height,weight,BloodPressure from Patient where nationalId=?',
         [int.parse(patientId)]);
     for (var row in user) {
       setState(() {
@@ -118,8 +121,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         DOB = '${row[4]}'.split(' ')[0];
         nationality = '${row[5]}';
         maritalStatus = '${row[6]}';
-        // age = '${row[7]}';
-       age = DateTime.now().year - int.parse(DOB.substring(0, 4));
+        patientHeight = '${row[7]}';
+        patientWeight = '${row[8]}';
+        patientBloodP = '${row[9]}';
+        age = DateTime.now().year - int.parse(DOB.substring(0, 4));
         if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
           age = age - 1;
         } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
@@ -129,6 +134,7 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         }
       });
     }
+    _loading = false;
 
     var info = await conn.query(
         'select allergies,socialHistory,familyHistory,surgicalHistory,medicalIllnesses from Patient where nationalId=?',
@@ -142,16 +148,14 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         medicalIllnesses = '${row[4]}';
       });
     }
-//  var visits = await conn
-//         .query('select idvisit from Visit where idPatient = ?', [patientID]);
-//     int visitsArrayLength = await visits.length;
-//     for (var row2 in visits) {
-//       if (isFilled3 != visitsArrayLength) {
-//         int visit = int.parse('${row2[0]}');
-//         visitsIds.add(visit);
-//         isFilled3 = isFilled3 + 1;
-//       }
-//     }
+  }
+
+  Widget loadingPage() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: ColorResources.grey777,
+      ),
+    );
   }
 
   String greeting() {
@@ -509,196 +513,201 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                     width: 1,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 15),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 13),
-                      child: heavyText("Patient Name: " + patientName,
-                          ColorResources.grey777, 16),
-                    ),
-                    const SizedBox(height: 2),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 13),
-                      child: heavyText("Patient ID: " + patientId,
-                          ColorResources.grey777, 16),
-                    ),
-                    const SizedBox(height: 2),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 13),
-                        child: heavyText("$patientGender , $age1 y",
-                            ColorResources.grey777, 16)),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Image(
-                            image: AssetImage(Images.height),
-                            width: 20,
-                            height: 20),
-                        mediumText("Hieght: ", ColorResources.grey777, 12),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 9),
-                          child: SizedBox(
-                            height: 13,
-                            width: 35,
-                            child: TextField(
-                              controller: hightController,
-                              decoration: InputDecoration(
-                                hintText: patientHeight == "null"
-                                    ? "---"
-                                    : patientHeight,
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: errorH == false
-                                      ? const BorderSide(
-                                          color: ColorResources.grey777,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
+                child: _loading == true
+                    ? loadingPage()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 7),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 13),
+                            child: heavyText("Patient Name: " + patientName,
+                                ColorResources.grey777, 16),
+                          ),
+                          const SizedBox(height: 4),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 13),
+                            child: heavyText("Patient ID: " + patientId,
+                                ColorResources.grey777, 16),
+                          ),
+                          const SizedBox(height: 4),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 13),
+                              child: heavyText("$patientGender , $age1 y",
+                                  ColorResources.grey777, 16)),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Image(
+                                  image: AssetImage(Images.height),
+                                  width: 20,
+                                  height: 20),
+                              mediumText(
+                                  "Hieght: ", ColorResources.grey777, 12),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: SizedBox(
+                                  height: 13,
+                                  width: 35,
+                                  child: TextField(
+                                    controller: hightController,
+                                    decoration: InputDecoration(
+                                      hintText: patientHeight == "null"
+                                          ? "---"
+                                          : patientHeight,
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: errorH == false
+                                            ? const BorderSide(
+                                                color: ColorResources.grey777,
+                                                width: 1)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 1),
+                                      ),
+                                    ),
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
+                                  // romanText(patientHeight,
+                                  //     ColorResources.grey777, 12, TextAlign.center),
                                 ),
                               ),
-                              style: const TextStyle(fontSize: 13),
-                            ),
-                            // romanText(patientHeight,
-                            //     ColorResources.grey777, 12, TextAlign.center),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Image(
-                          image: AssetImage(Images.weight),
-                          width: 17,
-                          height: 17,
-                        ),
-                        const SizedBox(width: 1),
-                        mediumText(" Weight: ", ColorResources.grey777, 12),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 9),
-                          child: SizedBox(
-                            height: 13,
-                            width: 30,
-                            child: TextField(
-                              controller: weightController,
-                              decoration: InputDecoration(
-                                hintText: patientWeight == "null"
-                                    ? "---"
-                                    : patientWeight,
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: errorW == false
-                                      ? const BorderSide(
-                                          color: ColorResources.greyA0A,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
+                              const SizedBox(width: 9),
+                              const Image(
+                                image: AssetImage(Images.weight),
+                                width: 17,
+                                height: 17,
+                              ),
+                              const SizedBox(width: 1),
+                              mediumText(
+                                  " Weight: ", ColorResources.grey777, 12),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: SizedBox(
+                                  height: 13,
+                                  width: 30,
+                                  child: TextField(
+                                    controller: weightController,
+                                    decoration: InputDecoration(
+                                      hintText: patientWeight == "null"
+                                          ? "---"
+                                          : patientWeight,
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: errorW == false
+                                            ? const BorderSide(
+                                                color: ColorResources.greyA0A,
+                                                width: 1)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 1),
+                                      ),
+                                    ),
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
                                 ),
                               ),
-                              style: const TextStyle(fontSize: 13),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Image(
-                          image: AssetImage(Images.pressurIcon),
-                          width: 20,
-                          height: 20,
-                        ),
-                        mediumText(
-                            " Blood pressure: ", ColorResources.grey777, 12),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 9),
-                          child: SizedBox(
-                            height: 13,
-                            width: 30,
-                            child: TextField(
-                              controller: bloodPressController,
-                              decoration: InputDecoration(
-                                hintText: patientBloodP == "null"
-                                    ? "---"
-                                    : patientBloodP,
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: errorP == false
-                                      ? const BorderSide(
-                                          color: ColorResources.grey777,
-                                          width: 1)
-                                      : const BorderSide(
-                                          color: Colors.red, width: 1),
+                              const SizedBox(width: 9),
+                              const Image(
+                                image: AssetImage(Images.pressurIcon),
+                                width: 20,
+                                height: 20,
+                              ),
+                              mediumText(" Blood pressure: ",
+                                  ColorResources.grey777, 12),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: SizedBox(
+                                  height: 13,
+                                  width: 35,
+                                  child: TextField(
+                                    controller: bloodPressController,
+                                    decoration: InputDecoration(
+                                      hintText: patientBloodP == "null"
+                                          ? "---"
+                                          : patientBloodP,
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: errorP == false
+                                            ? const BorderSide(
+                                                color: ColorResources.grey777,
+                                                width: 1)
+                                            : const BorderSide(
+                                                color: Colors.red, width: 1),
+                                      ),
+                                    ),
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
                                 ),
                               ),
-                              style: const TextStyle(fontSize: 13),
-                            ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: Container(
-                        width: 175,
-                        height: 20,
-                        // margin: EdgeInsets.all(25),
-                        child: ElevatedButton(
-                          child: const Text(
-                            'Update patient\'s info',
-                            style: TextStyle(fontSize: 15),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          onPressed: () {
-                            if (hightController.text.isEmpty &&
-                                weightController.text.isEmpty &&
-                                bloodPressController.text.isEmpty) {
-                              alertUpdateError(context,
-                                  "Please make sure that you fill the input fields");
-                            }
-                            if (hightController.text.isNotEmpty ||
-                                weightController.text.isNotEmpty ||
-                                bloodPressController.text.isNotEmpty) {
-                              if (patientHeight != "null" &&
-                                  hightController.text.isEmpty) {
-                                hightController.text = patientHeight;
-                              }
-                              if (patientWeight != "null" &&
-                                  weightController.text.isEmpty) {
-                                weightController.text = patientWeight;
-                              }
-                              if (patientBloodP != "null" &&
-                                  bloodPressController.text.isEmpty) {
-                                bloodPressController.text = patientBloodP;
-                              }
-                              print(hightController.text.isNotEmpty);
-                              print(weightController.text.isNotEmpty);
-                              print(bloodPressController.text.isNotEmpty);
+                          Center(
+                            child: Container(
+                              width: 175,
+                              height: 20,
+                              // margin: EdgeInsets.all(25),
+                              child: ElevatedButton(
+                                child: const Text(
+                                  'Update patient\'s info',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                onPressed: () {
+                                  if (hightController.text.isEmpty &&
+                                      weightController.text.isEmpty &&
+                                      bloodPressController.text.isEmpty) {
+                                    alertUpdateError(context,
+                                        "Please make sure that you fill the input fields");
+                                  }
+                                  if (hightController.text.isNotEmpty ||
+                                      weightController.text.isNotEmpty ||
+                                      bloodPressController.text.isNotEmpty) {
+                                    if (patientHeight != "null" &&
+                                        hightController.text.isEmpty) {
+                                      hightController.text = patientHeight;
+                                    }
+                                    if (patientWeight != "null" &&
+                                        weightController.text.isEmpty) {
+                                      weightController.text = patientWeight;
+                                    }
+                                    if (patientBloodP != "null" &&
+                                        bloodPressController.text.isEmpty) {
+                                      bloodPressController.text = patientBloodP;
+                                    }
+                                    print(hightController.text.isNotEmpty);
+                                    print(weightController.text.isNotEmpty);
+                                    print(bloodPressController.text.isNotEmpty);
 
-                              validateH(hightController.text);
-                              validateP(bloodPressController.text);
-                              validateW(weightController.text);
-                              print("*****");
-                              print(errorP);
-                              if (isHNull && isWNull && isPNull) {
-                                print("###########");
-                                print(isHNull);
-                                print(isWNull);
-                                print(isPNull);
-                                alertUpdateError(context,
-                                    "Please make sure that you fill the input fields");
-                              } else if (errorH == false &&
-                                  errorW == false &&
-                                  errorP == false) {
-                                alertDialogUpdate(context);
-                              } else {
-                                alertUpdateError(context,
-                                    "Please make sure that you entered digits in the fields");
-                              }
-                            }
-                          },
-                        ),
+                                    validateH(hightController.text);
+                                    validateP(bloodPressController.text);
+                                    validateW(weightController.text);
+                                    print("*****");
+                                    print(errorP);
+                                    if (isHNull && isWNull && isPNull) {
+                                      print("###########");
+                                      print(isHNull);
+                                      print(isWNull);
+                                      print(isPNull);
+                                      alertUpdateError(context,
+                                          "Please make sure that you fill the input fields");
+                                    } else if (errorH == false &&
+                                        errorW == false &&
+                                        errorP == false) {
+                                      alertDialogUpdate(context);
+                                    } else {
+                                      alertUpdateError(context,
+                                          "Please make sure that you entered digits in the fields");
+                                    }
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ),

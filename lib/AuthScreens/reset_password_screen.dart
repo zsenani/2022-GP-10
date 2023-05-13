@@ -213,7 +213,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   const SizedBox(height: 30),
                   commonButton(() {
                     checkEq();
-                    validateMyPass(confirmPasswordController.text);
+                    validateMyPass(newPasswordController.text);
                     checkPass();
                     // print(errorCurrentPass);
                   }, "Reset", ColorResources.green009, ColorResources.white),

@@ -34,7 +34,6 @@ class _PreVisitListState extends State<PreVisitList> {
     previouseVisit.clear();
     _loading = true;
 
-    //previouseVisit = await mysqlDatabase.PhysicianVisit(idVisit, "Pre");
     previouseVisit = await mysqlDatabase.PhysicianPrevVisit(idVisit);
     print("in visit");
     print(previouseVisit.length);

@@ -223,7 +223,7 @@ class _labHomePageState extends State<labHomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 90),
+                    padding: const EdgeInsets.only(left: 50, top: 90),
                     child: InkWell(
                       onTap: () {
                         // Get.to(SignInScreen());

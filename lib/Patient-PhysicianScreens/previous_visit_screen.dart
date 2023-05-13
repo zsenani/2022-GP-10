@@ -472,23 +472,24 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 15),
                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText("$patientGender , $age1 y",
-                              ColorResources.grey777, 16)),
-                      const SizedBox(height: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 13),
+                        child: heavyText("Patient Name: " + patientName,
+                            ColorResources.grey777, 16),
+                      ),
+                      const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 13),
                         child: heavyText("Patient ID: " + patientId,
                             ColorResources.grey777, 16),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
                           child: heavyText(patientGender + ", $patientDob y",
                               ColorResources.grey777, 16)),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
