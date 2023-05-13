@@ -11,15 +11,21 @@ import '/../Utiils/images.dart';
 import '/../main.dart';
 import 'package:flutter/material.dart';
 
+import 'add_request.dart';
+
 bool setRange = false;
 PickerDateRange dateRange;
 String startDate;
 String endDate;
 DateTime startdt;
 DateTime enddt;
+String visitId;
 
 class PreviousReq extends StatefulWidget {
   @override
+  PreviousReq({Key key, String vid}) : super(key: key) {
+    visitId = vid;
+  }
   State<PreviousReq> createState() => PreviousReqState();
 }
 
@@ -259,7 +265,7 @@ class PreviousReqState extends State<PreviousReq> {
                               bottom: 0, right: 0, top: 140),
                           child: InkWell(
                             onTap: () {
-                              _startAdd2(context);
+                              _startAdd(context);
                             },
                             child: Container(
                               height: 40,
@@ -516,7 +522,7 @@ class PreviousReqState extends State<PreviousReq> {
                                       bottom: 0, right: 0),
                                   child: InkWell(
                                     onTap: () {
-                                      _startAdd2(context);
+                                      _startAdd(context);
                                     },
                                     child: Container(
                                       height: 40,
@@ -584,7 +590,7 @@ class PreviousReqState extends State<PreviousReq> {
                                     left: 320, bottom: 0, right: 0),
                                 child: InkWell(
                                   onTap: () {
-                                    _startAdd2(context);
+                                    _startAdd(context);
                                   },
                                   child: Container(
                                     height: 40,
@@ -608,6 +614,19 @@ class PreviousReqState extends State<PreviousReq> {
                         ),
                       )
                     : loadingPage());
+  }
+
+  void _startAdd(BuildContext ctx) {
+    if (!Get.isBottomSheetOpen) print(Get.isBottomSheetOpen);
+    Get.bottomSheet(
+      TestRequest(
+        pid: idp,
+        vid: visitId,
+        page: 'pre',
+        hosname: hospName,
+        hid: hospID,
+      ),
+    );
   }
 
   void _startAdd2(BuildContext ctx) {
