@@ -53,11 +53,11 @@ class PreviousVisitScreen extends StatefulWidget {
     visitDate = visitD;
     visitTime = visitT;
     visitId = visitID;
-    age1 = DateTime.now().year - int.parse(DOB.substring(0, 4));
-    if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
+    age1 = DateTime.now().year - int.parse(patientAge.substring(0, 4));
+    if (int.parse(patientAge.substring(5, 7)) > DateTime.now().month) {
       age1 = age1 - 1;
-    } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
-      if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
+    } else if (int.parse(patientAge.substring(5, 7)) == DateTime.now().month) {
+      if (int.parse(patientAge.substring(8, 10)) > DateTime.now().day) {
         age1 = age1 - 1;
       }
     }
