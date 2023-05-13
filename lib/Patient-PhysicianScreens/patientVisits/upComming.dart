@@ -32,13 +32,13 @@ class UpCommingVisitState extends State<UpCommingVisit> {
     print("in visit");
     print(upVisit.length);
     // print(upVisit[0][5]);
-    for (int i = 0; i < upVisit.length; i++) {
-      upVisit.sort((b, a) {
-        var adate = a[i];
-        var bdate = b[i];
-        return -adate.compareTo(bdate);
-      });
-    }
+    // for (int i = 0; i < upVisit.length; i++) {
+    //   upVisit.sort((b, a) {
+    //     var adate = a[i];
+    //     var bdate = b[i];
+    //     return -adate.compareTo(bdate);
+    //   });
+    // }
 
     setState(() {
       _loading = false;

@@ -17,6 +17,7 @@ import 'patient_home_screen.dart';
 String patientId = "";
 String patientName = "";
 String patientGender = "";
+String HospitalID = '';
 var patientDob;
 String patientHeight = "";
 String patientWeight = "";
@@ -63,6 +64,7 @@ class UpCommingVisitScreen extends StatefulWidget {
     visitDate = visitD;
     visitTime = visitT;
     visitId = vid;
+    HospitalID = HID;
     hid = HID;
     age1 = DateTime.now().year - int.parse(DOB.substring(0, 4));
     if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
@@ -180,7 +182,8 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           idPhy: physicianId,
           r: 'UPphysician',
           vid: visitId,
-          hosName: hospitalName),
+          hosName: hospitalName,
+          hosid: HospitalID),
     },
     {
       "image": Images.list,
@@ -228,9 +231,11 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                   onTap: () {
                     Get.to(
                         TestRequest(
-                            vid: visitId,
-                            pid: int.parse(patientId),
-                            hosname: hospitalName),
+                          vid: visitId,
+                          pid: int.parse(patientId),
+                          hosname: hospitalName,
+                          hid: HospitalID,
+                        ),
                         arguments: 'back2');
                   },
                   child: Container(

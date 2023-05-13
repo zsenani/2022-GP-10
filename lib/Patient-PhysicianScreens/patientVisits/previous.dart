@@ -33,14 +33,14 @@ class _PreviousVisitState extends State<PreviousVisit> {
     preVisit = await mysqlDatabase.PatientPrevVisit(idVisit);
     print("in visit");
     print(preVisit.length);
-    // print(preVisit[0][5]);
-    for (int i = 0; i < preVisit.length; i++) {
-      preVisit.sort((b, a) {
-        var adate = a[i];
-        var bdate = b[i];
-        return -adate.compareTo(bdate);
-      });
-    }
+    print(preVisit);
+    // for (int i = 0; i < preVisit.length; i++) {
+    //   preVisit.sort((a, b) {
+    //     var adate = a[i][0];
+    //     var bdate = b[i][0];
+    //     return -bdate.compareTo(adate);
+    //   });
+    // }
     setState(() {
       _loading = false;
     });

@@ -828,7 +828,7 @@ class mysqlDatabase {
     var date;
     List<List<String>> resultsPre = [];
     var patientP = await conn.query(
-        'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ?',
+        'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ? order by date DESC',
         [id]);
     List<List<String>> info = [];
 
@@ -882,7 +882,7 @@ class mysqlDatabase {
     var index = 0;
     var date;
     var patientP = await conn.query(
-        'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ?',
+        'select idvisit,date,idHospital,idPhysician,Department from Visit where idPatient = ? order by date ASC',
         [id]);
     List<List<String>> info = [];
 
