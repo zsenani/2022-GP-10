@@ -194,82 +194,59 @@ class _currentMedicationState extends State<currentMedication> {
     return arraylength != 0
         ? Scaffold(
             backgroundColor: ColorResources.whiteF7F,
-            body: Column(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 30),
-                      Container(
-                        height: Get.height - 280,
-                        child: ScrollConfiguration(
-                          behavior: MyBehavior(),
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: load ? 0 : glopalMedication.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Container(
-                                //height: 122,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: ColorResources.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  Container(
+                    height: Get.height - 280,
+                    child: ScrollConfiguration(
+                      behavior: MyBehavior(),
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: load ? 0 : glopalMedication.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Container(
+                            //height: 122,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: ColorResources.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                children: [
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    alignment: Alignment.bottomRight,
                                     children: [
-                                      Stack(
-                                        clipBehavior: Clip.none,
-                                        alignment: Alignment.bottomRight,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundColor:
-                                                const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                            radius: 20,
-                                            backgroundImage: AssetImage(
-                                              toDayList[index]["image"],
-                                            ),
-                                          ),
-                                        ],
+                                      CircleAvatar(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 255, 255, 255),
+                                        radius: 20,
+                                        backgroundImage: AssetImage(
+                                          toDayList[index]["image"],
+                                        ),
                                       ),
-                                      const SizedBox(width: 20),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                    ],
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                RichText(
-                                                  text: TextSpan(
-                                                    text:
-                                                        glopalMedication[index]
-                                                            ["hospitalname"],
-                                                    style: TextStyle(
-                                                      fontFamily: TextFontFamily
-                                                          .AVENIR_LT_PRO_ROMAN,
-                                                      fontSize: 10,
-                                                      color: ColorResources
-                                                          .greyA0A,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 3),
                                             RichText(
                                               text: TextSpan(
-                                                text: "Dr. " +
-                                                    glopalMedication[index]
-                                                        ["drname"],
+                                                text: glopalMedication[index]
+                                                    ["hospitalname"],
                                                 style: TextStyle(
                                                   fontFamily: TextFontFamily
                                                       .AVENIR_LT_PRO_ROMAN,
@@ -278,80 +255,89 @@ class _currentMedicationState extends State<currentMedication> {
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(height: 5),
-                                            mediumText(
-                                                glopalMedication[index]
-                                                    ["medicationname"],
-                                                ColorResources.green009,
-                                                20),
-                                            const SizedBox(height: 4),
-                                            romanText(
-                                                "Dosage: " +
-                                                    glopalMedication[index]
-                                                        ["dosage"],
-                                                ColorResources.grey777,
-                                                12),
-                                            if (glopalMedication[index]
-                                                        ["description"] !=
-                                                    null &&
-                                                glopalMedication[index]
-                                                        ["description"] !=
-                                                    "")
-                                              romanText(
-                                                  "Description: " +
-                                                      glopalMedication[index]
-                                                          ["description"],
-                                                  ColorResources.grey777,
-                                                  12),
-                                            if (glopalMedication[index]
-                                                        ["description"] ==
-                                                    null ||
-                                                glopalMedication[index]
-                                                        ["description"] ==
-                                                    "")
-                                              romanText("Description: " + "-",
-                                                  ColorResources.grey777, 12),
-                                            const SizedBox(height: 4),
-                                            romanText(
-                                                "Start date: " +
-                                                    glopalMedication[index]
-                                                            ["startDate"]
-                                                        .substring(
-                                                            0,
-                                                            glopalMedication[
-                                                                        index][
-                                                                    "startDate"]
-                                                                .indexOf(' ')) +
-                                                    "    End date: " +
-                                                    glopalMedication[index]
-                                                            ["endDate"]
-                                                        .substring(
-                                                            0,
-                                                            glopalMedication[
-                                                                        index]
-                                                                    ["endDate"]
-                                                                .indexOf(' ')),
-                                                ColorResources.grey777,
-                                                12),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(height: 3),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: "Dr. " +
+                                                glopalMedication[index]
+                                                    ["drname"],
+                                            style: TextStyle(
+                                              fontFamily: TextFontFamily
+                                                  .AVENIR_LT_PRO_ROMAN,
+                                              fontSize: 10,
+                                              color: ColorResources.greyA0A,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        mediumText(
+                                            glopalMedication[index]
+                                                ["medicationname"],
+                                            ColorResources.green009,
+                                            20),
+                                        const SizedBox(height: 4),
+                                        romanText(
+                                            "Dosage: " +
+                                                glopalMedication[index]
+                                                    ["dosage"],
+                                            ColorResources.grey777,
+                                            12),
+                                        if (glopalMedication[index]
+                                                    ["description"] !=
+                                                null &&
+                                            glopalMedication[index]
+                                                    ["description"] !=
+                                                "")
+                                          romanText(
+                                              "Description: " +
+                                                  glopalMedication[index]
+                                                      ["description"],
+                                              ColorResources.grey777,
+                                              12),
+                                        if (glopalMedication[index]
+                                                    ["description"] ==
+                                                null ||
+                                            glopalMedication[index]
+                                                    ["description"] ==
+                                                "")
+                                          romanText("Description: " + "-",
+                                              ColorResources.grey777, 12),
+                                        const SizedBox(height: 4),
+                                        romanText(
+                                            "Start date: " +
+                                                glopalMedication[index]
+                                                        ["startDate"]
+                                                    .substring(
+                                                        0,
+                                                        glopalMedication[index]
+                                                                ["startDate"]
+                                                            .indexOf(' ')) +
+                                                "    End date: " +
+                                                glopalMedication[index]
+                                                        ["endDate"]
+                                                    .substring(
+                                                        0,
+                                                        glopalMedication[index]
+                                                                ["endDate"]
+                                                            .indexOf(' ')),
+                                            ColorResources.grey777,
+                                            12),
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      /////////////////////////////
-                    ],
+                    ),
                   ),
-                ),
-                if (Role == 'UPphysician')
-                  Flexible(
-                    flex: 2,
-                    child: InkWell(
+                  /////////////////////////////
+                  if (Role == 'UPphysician')
+                    InkWell(
                       onTap: () {
                         _startAdd(context);
                       },
@@ -377,9 +363,9 @@ class _currentMedicationState extends State<currentMedication> {
                           ),
                         ),
                       ),
-                    ),
-                  )
-              ],
+                    )
+                ],
+              ),
             ),
           )
         : Scaffold(

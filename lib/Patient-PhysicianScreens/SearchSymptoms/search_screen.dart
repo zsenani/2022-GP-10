@@ -741,7 +741,7 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               const SizedBox(width: 83),
-              heavyText("Symptoms Search", ColorResources.green, 22,
+              heavyText("Diagnostic Tool", ColorResources.green, 22,
                   TextAlign.center),
             ],
           ),

@@ -9,6 +9,7 @@ import '../../database/mysqlDatabase.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../home_screen.dart';
 import 'edit_history.dart';
 import '../patient_home_screen.dart';
 
@@ -354,9 +355,7 @@ class MedicalHistoryState extends State<MedicalHistory> {
                 if (role != "patient")
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pop();
-
-                      Navigator.of(context).pop();
+                      Get.to(HomeScreen(id: idPhysician));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 3, bottom: 0),

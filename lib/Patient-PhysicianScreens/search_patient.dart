@@ -151,6 +151,7 @@ class _SearchPatientState extends State<SearchPatient> {
   bool first = true;
   bool load = false;
   searchPatientinfo(idPhysician, idPatient) async {
+    load = false;
     List<List<String>> info = [];
     print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
     print(load);
@@ -167,6 +168,9 @@ class _SearchPatientState extends State<SearchPatient> {
     print('jjjjjjjjjjjjjjjjjj');
     print(load);
     if (phyVisit.length != 0) {
+      setState(() {
+        load = false;
+      });
       for (int g = 0; g < 1; g++) {
         for (var row in phyVisit) {
           info.add([
@@ -211,7 +215,7 @@ class _SearchPatientState extends State<SearchPatient> {
       print(oneRow);
       setState(() {
         returnedPatient = oneRow;
-        load = true;
+        // load = true;
       });
     }
 

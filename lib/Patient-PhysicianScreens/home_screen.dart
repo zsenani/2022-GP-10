@@ -354,7 +354,7 @@ class _labHomePageState extends State<labHomePage> {
                   ),
                   child: Center(
                     child:
-                        heavyText("Symptoms Search", ColorResources.white, 18),
+                        heavyText("Diagnostic Tool", ColorResources.white, 18),
                   ),
                 ),
               ),

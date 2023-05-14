@@ -93,8 +93,12 @@ class labResultState extends State<labResult> {
 
   List<bool> flagcontroller = [];
   bool isFilled = true;
+  bool isEnglish = true;
   addResult() async {
+    isEnglish = true;
     isFilled = true;
+    Pattern pattern = r'^[0-9]$';
+    RegExp regex = new RegExp(pattern);
     for (int index = 0; index < testNamesGlabal.length; index++) {
       if (_controller[index].text == '') {
         setState(() {
@@ -102,13 +106,18 @@ class labResultState extends State<labResult> {
         });
 
         isFilled = false;
+      } else if (!regex.hasMatch(_controller[index].text)) {
+        setState(() {
+          flagcontroller[index] = true;
+        });
+        isEnglish = false;
       } else {
         setState(() {
           flagcontroller[index] = false;
         });
       }
     }
-    if (isFilled) {
+    if (isFilled && isEnglish) {
       showAlertDialog(context);
       // for (int i = 0; i < testNames.length; i++) {
       //   var result = await conn.query(
@@ -213,9 +222,18 @@ class labResultState extends State<labResult> {
               ),
             ),
           ),
-          if (isFilled == false) const SizedBox(height: 15),
-          if (isFilled == false)
-            mediumText('All the fields should be filled ', Colors.red, 17),
+          if (isFilled == false || isEnglish == false)
+            const SizedBox(height: 15),
+          isFilled == false && isEnglish == false
+              ? mediumText(
+                  'All the fields should be filled in English', Colors.red, 17)
+              : isFilled == false
+                  ? mediumText(
+                      'All the fields should be filled', Colors.red, 17)
+                  : isEnglish == false
+                      ? mediumText('All the fields should be filled in English',
+                          Colors.red, 17)
+                      : const SizedBox(height: 0),
           const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
@@ -298,10 +316,6 @@ class labResultState extends State<labResult> {
                                         )
                                       : TextFormField(
                                           keyboardType: TextInputType.number,
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp('[0-9]')),
-                                          ],
                                           controller: _controller[index],
                                           decoration: InputDecoration(
                                             //  floatingLabelStyle: TextStyle(),

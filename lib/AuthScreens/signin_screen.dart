@@ -214,10 +214,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             TextFormField(
                               controller: idController,
                               keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]')),
-                              ],
                               decoration: InputDecoration(
                                 hintText: "Enter ID",
                                 hintStyle: TextStyle(

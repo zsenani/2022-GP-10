@@ -324,27 +324,7 @@ class MedicalReportsState extends State<MedicalReports> {
               child: Icon(Icons.arrow_back, color: ColorResources.grey777),
             ),
           ),
-          // Container(
-          //   height: 40,
-          //   width: 20,
-          //   decoration: BoxDecoration(
-          //     color: ColorResources.whiteF6F,
-          //     borderRadius: BorderRadius.circular(10),
-          //     border: Border.all(
-          //       color: ColorResources.white.withOpacity(0.2),
-          //       width: 1,
-          //     ),
-          //   ),
-          //   child: const Center(
-          //     child: Icon(Icons.arrow_back, color: ColorResources.grey777),
-          //   ),
-          // ),
         ),
-        // const SizedBox(width: 50),
-        // heavyText("Medical Reports", ColorResources.green009, 30),
-        // SizedBox(
-        //   width: 15,
-        // ),
         Flexible(
           flex: 10,
           child: HeaderName(),
