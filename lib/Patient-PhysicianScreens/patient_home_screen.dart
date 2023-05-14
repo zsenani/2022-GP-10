@@ -98,7 +98,7 @@ String nationalID = " ";
 String DOB = " ";
 String nationality = " ";
 String maritalStatus = " ";
-int age;
+int age = 0;
 String allergies = " ";
 String socialHistory = " ";
 String familyHistory = " ";
