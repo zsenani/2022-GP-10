@@ -487,7 +487,7 @@ class _PreviousVisitScreenState extends State<PreviousVisitScreen> {
                       const SizedBox(height: 4),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
-                          child: heavyText(patientGender + ", $patientDob y",
+                          child: heavyText(patientGender + ", $age1 y",
                               ColorResources.grey777, 16)),
                       const SizedBox(height: 20),
                       Row(

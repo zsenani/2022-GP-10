@@ -413,9 +413,18 @@ class mysqlDatabase {
     var patientInfo = await conn
         .query('select name,DOB from Patient where NationalID = ?', [pId]);
     var ageN;
+    var DOB;
     for (var row in patientInfo) {
       details.add('${row[0]}');
-      ageN = DateTime.now().year - int.parse('${row[1]}'.substring(0, 4));
+      DOB = '${row[1]}'.split(' ')[0];
+      ageN = DateTime.now().year - int.parse(DOB.substring(0, 4));
+      if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
+        ageN = ageN - 1;
+      } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
+        if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
+          ageN = ageN - 1;
+        }
+      }
       details.add(ageN.toString());
     }
     var phyinfo = await conn.query(
@@ -450,9 +459,18 @@ class mysqlDatabase {
     var patientInfo = await conn
         .query('select name,DOB from Patient where NationalID = ?', [pId]);
     var ageN;
+    var DOB;
     for (var row in patientInfo) {
       details.add('${row[0]}');
-      ageN = DateTime.now().year - int.parse('${row[1]}'.substring(0, 4));
+      DOB = '${row[1]}'.split(' ')[0];
+      ageN = DateTime.now().year - int.parse(DOB.substring(0, 4));
+      if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
+        ageN = ageN - 1;
+      } else if (int.parse(DOB.substring(5, 7)) == DateTime.now().month) {
+        if (int.parse(DOB.substring(8, 10)) > DateTime.now().day) {
+          ageN = ageN - 1;
+        }
+      }
       details.add(ageN.toString());
     }
     var phyinfo = await conn.query(

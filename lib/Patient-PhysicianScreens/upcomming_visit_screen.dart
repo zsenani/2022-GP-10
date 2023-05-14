@@ -102,6 +102,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
   void getData() async {
     _loading = true;
     name = '';
+    patientHeight = "";
+    patientWeight = "";
+    patientBloodP = "";
     gender = '';
     bloodType = '';
     nationalID = '';
@@ -124,6 +127,10 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
         patientHeight = '${row[7]}';
         patientWeight = '${row[8]}';
         patientBloodP = '${row[9]}';
+        print("hwb------------");
+        print(patientHeight);
+        print(patientWeight);
+        print(patientBloodP);
         age = DateTime.now().year - int.parse(DOB.substring(0, 4));
         if (int.parse(DOB.substring(5, 7)) > DateTime.now().month) {
           age = age - 1;
@@ -334,6 +341,9 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
           'update Patient set BloodPressure=? where NationalID =?',
           [double.parse(bloodPress), int.parse(patientId)]);
     }
+    setState(() {
+      getData();
+    });
   }
 
   bool validateH(String valueH) {
@@ -544,13 +554,12 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                   image: AssetImage(Images.height),
                                   width: 20,
                                   height: 20),
-                              mediumText(
-                                  "Hieght: ", ColorResources.grey777, 12),
+                              mediumText("Hieght:", ColorResources.grey777, 12),
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: SizedBox(
                                   height: 13,
-                                  width: 35,
+                                  width: 38,
                                   child: TextField(
                                     controller: hightController,
                                     decoration: InputDecoration(
@@ -581,12 +590,12 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                               ),
                               const SizedBox(width: 1),
                               mediumText(
-                                  " Weight: ", ColorResources.grey777, 12),
+                                  " Weight:", ColorResources.grey777, 12),
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: SizedBox(
                                   height: 13,
-                                  width: 30,
+                                  width: 38,
                                   child: TextField(
                                     controller: weightController,
                                     decoration: InputDecoration(
@@ -613,13 +622,13 @@ class _UpCommingVisitScreenState extends State<UpCommingVisitScreen> {
                                 width: 20,
                                 height: 20,
                               ),
-                              mediumText(" Blood pressure: ",
+                              mediumText("Blood pressure:",
                                   ColorResources.grey777, 12),
                               Padding(
                                 padding: const EdgeInsets.only(top: 9),
                                 child: SizedBox(
                                   height: 13,
-                                  width: 35,
+                                  width: 38,
                                   child: TextField(
                                     controller: bloodPressController,
                                     decoration: InputDecoration(
