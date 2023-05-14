@@ -35,6 +35,9 @@ class MedicationList extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 40,
+          ),
           HeaderWidget(),
           Container(
             height: 50,

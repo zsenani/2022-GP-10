@@ -265,11 +265,11 @@ class _SearchPatientState extends State<SearchPatient> {
                                   : idPatient.text == ''
                                       ? "Please enter patient national/resident ID"
                                       : returnedPatient.length == 0 &&
-                                              load == false
-                                          ? "Please wait few sec.."
+                                              load == true
+                                          ? "There is no patient with this ID or you don't have access to the patient file"
                                           : returnedPatient.length == 0 &&
-                                                  load == true
-                                              ? "There is no patient with this ID or you don't have access to the patient file"
+                                                  load == false
+                                              ? "Please wait few sec.."
                                               : '',
                               ColorResources.grey777,
                               18,

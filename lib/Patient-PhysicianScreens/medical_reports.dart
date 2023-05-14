@@ -126,7 +126,7 @@ class MedicalReportsState extends State<MedicalReports> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 60,
+                      height: 40,
                     ),
                     HeaderWidget(),
                     const SizedBox(height: 10),
@@ -264,7 +264,7 @@ class MedicalReportsState extends State<MedicalReports> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                       const SizedBox(
-                        height: 60,
+                        height: 40,
                       ),
                       HeaderWidget(),
                       const SizedBox(height: 230),
